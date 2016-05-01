@@ -15,7 +15,7 @@ The well-established [Repertory Grid Technique](https://en.wikipedia.org/wiki/Re
 Instead, we invite participants to come up with their own, dichotomous categories and ask them to classify the full Q-Set accordingly.
 The resultant logical table is summarized into a per-person measure of categorical item similarity, in turn transformed into a person-by-person correlation matrix.
 We then extract higher-level principal components (PCA) in a stepwise residual process, and calculate the respective (rotated) component scores, yielding ideal-typical, shared ways of categorizing the Q-Set.
-These categorical viewpoints are then subjected to a nested, low-level PCA to allow a substantive abduction of just what those categories might be.
+These categorical viewpoints are then subjected to a nested, low-level PCA to allow a substantive abduction of just *what* those categories might be.
 
 Using real-world data gathered for this purpose, we show that results from the suggested procedure can be meaningfully interpreted as categorical operant subjectivity.
 We also present software for the R statistics framework to run the analysis and a web-based interface to gather data.
