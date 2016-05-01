@@ -21,8 +21,3 @@ Using mass simulations and multilevel bootstrapping of actual Q data, I present 
 3. Increasing the number of people-variables, additionally retained factors can be shown to be *substantively related, more refined "sub-species"* of the fewer, coarser factors retained on a random subset of fewer people-variables. 
 
 In summary, PA is an appropriately skeptical and rigorous method for the *one falsifiable assertion* of any Q study: that operant subjectivity, is, in fact, *shared*.
-
-This is correct, but a curious standard for a science of subjectivity, where we usually prefer false-negatives (neglected, but correct results) over false-positives (retained, but incorrect results).
-Entirely compatible with the non-randomness of P and Q-set, eigenvalue-based criteria and parallel analysis do, strictly, constitute sufficient --- not merely necessary --- conditions to identify shared subjectivities.
-
-A factor retained under Horn's stringent criteria from any one, however arbitrary P set, *will* at the specified 95% likelihood *persist* through future Q studies with different participants.
