@@ -7,14 +7,14 @@ output: html_document
 
 ## Abstract
 
-Q sorts are sometimes repeated with different conditions of instructions, or at a later time, yielding a three-dimensional array of people-variables, item-cases and condition-times.
-Several procedures have been suggested to analyze such data, including target rotations, second-level factor analyses, "spiking" and joint analysis.
+Q sorts are sometimes repeated with different conditions of instructions (domains), or at a later time, yielding a three-dimensional array of people-variables, item-cases and domains or times.
+Several procedures have been suggested to analyze such data, including target rotations, second-level factor analyses, "spiking" and joint analyses.
 These are fruitful approaches, but they fall short if the researcher is interested in shared subjectivity *across* time or domains.
 Because extraction and rotation are run separately (or together) under these approaches, it can be hard, for example, to relate some "before"-factor to its "after" equivalent.
 
 Applying work by Tucker (1966) and Kroonenberg (1980), I suggest a two-dimensional generalization of Q methodology, *Q-2d*.
 Using a three-mode principal components analysis (nPCA), we can extract a *two-dimensional*, shared subjectivity across time-points or domains, as *one* integrated model.
-After appropriate rotation and other preparatory step using custom software for the R statistics package, resultant scores can be readily interpreted as factor arrays, with an additional, vertical dimension indicating the difference over time, or between domains.
+After appropriate rotation and other preparatory steps using custom software for the R statistics package, resultant scores can be readily interpreted as factor arrays, with an additional, vertical dimension indicating the difference over time, or between domains.
 
 To illustrate a Q-2d analysis, I present results from two Q studies, one repeated, and the other with several conditions of instruction.
 I discuss additional use cases, and problematize opportunities and limitations of a Q-2d procedure, especially for software and user interface design.

@@ -9,14 +9,14 @@ output: html_document
 
 Rather than a technical method, factor rotation in Q is a deeply substantive operation: it constitutes a formal definition of how operant subjectivity is to be conceptualized.
 On the one hand, judgmental rotation is rotation according to the concept space of the researcher, and is sometimes criticized as overly idiosyncratic.
-It is also unclear how abductive reasoning might inform by-hand rotations when researchers do not know participants, or how they might cognitively manage a high-dimensional space, when number of factors is great.
+It is also unclear how abductive reasoning might inform by-hand rotations when researchers do not know participants, or how they might cognitively manage a high-dimensional space, when the number of factors is great.
 Existing, orthogonal and automatic rotations, on the other hand, appear to be more rigorous and simpler to use, but force contexts in a way that may be alien to Q (e.g. simple structure).
 Additionally, all such orthogonal procedures are - by definition – highly influenced by the *frequency* of high-loading people-variables, even though the relative *incidence* of factors is decidedly *not* a concern of Q methodology.
 
 Using simulations and real-world Q datasets, I explore several new rotation methods custom-build for Q methodology:
 
 1. a procedure that *minimizes bi-polar factors*,
-2. a method that orients dimensions *along ideal-typical, or extremal, Q-sorts*,
+2. a method that orients dimensions *along ideal-typical, or extremal, Q-sorts*, and
 3. an assisted, interactive mode *combining automatic and by-hand procedures*.
 
 Associated algorithms for the R statistics package are presented, along with a user-interface for researchers.
