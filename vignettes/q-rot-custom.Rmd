@@ -1,5 +1,6 @@
 ---
-title: "Factor Rotation as Linguistic Conceptualization –- Custom Rotation Procedures for Q Methodology"
+title: Factor Rotation as Linguistic Conceptualization –- Custom Rotation Procedures
+  for Q Methodology
 author: "Maximilian Held"
 date: "30 April 2016"
 output: html_document

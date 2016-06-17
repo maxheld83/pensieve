@@ -1,8 +1,8 @@
 ---
-title: "Q-Cat: A Method and Algorithm for Categorical Operant Subjectivity"
+title: 'Q-Cat: A Method and Algorithm for Categorical Operant Subjectivity'
 author: "Verena Kasztantowicz, Maximilian Held"
 date: "30 April 2016"
-output: html_document
+output: pdf_document
 ---
 
 ## Abstract

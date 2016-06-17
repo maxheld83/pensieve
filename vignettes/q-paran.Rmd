@@ -2,7 +2,7 @@
 title: "Parallel Analysis for Q -- It Might Just Make Sense."
 author: "Maximilian Held"
 date: "30 April 2016"
-output: html_document
+output: pdf_document
 ---
 
 ## Abstract
