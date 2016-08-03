@@ -2,14 +2,18 @@ Package: pensieve
 Title: Tools for the Scientific Study of Operant Subjectivity
 Version: 0.0.0.9000
 Authors@R: person("Maximilian", "Held", email = "info@maxheld.de", role = c("aut", "cre"))
+URL: https://github.com/maxheld83/pensieve
+BugReports: https://github.com/maxheld83/pensieve/issues
 Description: Provides tools for the scientific study of human subjectivity.
 Depends:
-    R (>= 3.2.4)
+    R (>= 3.3.1)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports:
+    methods (>= 3.3.1)
 Suggests:
-    knitr,
-    rmarkdown
+    knitr (>= 1.13),
+    rmarkdown (>= 1.0)
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
