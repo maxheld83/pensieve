@@ -1,2 +1,5 @@
 ^.*\.Rproj$
+^.*\.sublime-project$x
 ^\.Rproj\.user$
+^\.travis\.yml$
+
