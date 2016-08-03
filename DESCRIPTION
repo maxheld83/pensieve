@@ -14,6 +14,7 @@ Imports:
     methods (>= 3.3.1)
 Suggests:
     knitr (>= 1.13),
-    rmarkdown (>= 1.0)
+    rmarkdown (>= 1.0),
+    testthat
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
