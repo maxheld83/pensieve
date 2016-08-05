@@ -11,11 +11,13 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
-    methods (>= 3.3.1)
+    methods (>= 3.3.1),
+    testthat (>= 1.0.2),
+    checkmate (>= 1.8.1),
+    plyr (>= 1.8.4)
 Suggests:
     knitr (>= 1.13),
     rmarkdown (>= 1.0),
-    testthat,
     covr
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
