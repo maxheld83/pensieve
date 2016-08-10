@@ -1,6 +1,7 @@
 #' @title Q-Sorts on taxation and the economy from the 2014 CiviCon Citizen Conference
 #'
-#' @description A dataset of 18 participants sorting 77 items on taxation and the economy before and after the 2014 CiviCon Citizen Conference.
+#' @description
+#' A dataset of 18 participants sorting 77 items on taxation and the economy before and after the 2014 CiviCon Citizen Conference.
 #'
 #' @format A list with 2 elements:
 #' \describe{

@@ -4,24 +4,26 @@
 \alias{diag_distro_max}
 \title{Infer maximum grid of q-sorting grid.}
 \usage{
-diag_distro_max(data)
+diag_distro_max(dataset)
 }
 \arguments{
-\item{data}{An integer matrix with item-cases as rows and people-variables as columns.}
+\item{dataset}{An integer matrix with item-cases as rows and people-variables as columns.}
 }
 \value{
 A positive integer vector of counts of length equal to cover the range of values, named by values.
 }
 \description{
-Infers the maximum q-sorting grid from observed data.
-}
-\details{
-Helper function, rarely to be used independently.
-Makes sense only when data are integers.
+Infers the maximum q-sorting grid from observed dataset.
 }
 \examples{
-diag_distro_max(data = civicon_2014$sorts[,,"before"])
+diag_distro_max(dataset = civicon_2014$sorts[,,"before"])
 # true, because study used forced Q distribution
+
+}
+\seealso{
+Other distribution diagnostic functions: \code{\link{diag_distros}},
+  \code{\link{diag_forced}},
+  \code{\link{diag_inside_grid}}, \code{\link{diag_same}}
 }
 \keyword{internal}
 

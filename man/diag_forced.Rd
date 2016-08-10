@@ -2,27 +2,40 @@
 % Please edit documentation in R/diagnostics_data.R
 \name{diag_forced}
 \alias{diag_forced}
-\alias{is_forced}
-\title{Forced distribution test}
+\title{Forced distribution test.}
 \usage{
-diag_forced(data)
+diag_forced(dataset, grid)
 }
 \arguments{
 \item{dataset}{An integer matrix with item-cases as rows and people-variables as columns.}
+
+\item{grid}{A positive integer vector of a length covering the range of values, specifying maximum allowed counts for each value.
+(in Q-parlance, the maximum column heights for the Q-sorts).}
 }
 \value{
-A logical vector of length one, \code{TRUE} when distribution is forced, else \code{FALSE}.
+A logical value of length 1, \code{TRUE} if the distribution is forced, else \code{FALSE}.
 }
 \description{
-Tests whether distribution is forced.
+Test whether all people-variables completely fill out the same grid.
 }
 \details{
-Helper function, rarely to be used independently.
-Makes sense only when data are integers.
+If all people-variables display the same value counts, respondents plausibly faced a \emph{forced} distribution, but this does not strictly speaking follow.
+It is unlikely, though conceivable, that respondents all adhered to precisely the same distribution, but \emph{could} have used other available slots.
+
+Whether, or not, a Q dataset should be considered "forced" can therefore only ascertained from a comparison with the physically available grid during the administration of the Q-sort.
+
+In the above, improbable case, the function warns the user of possible misspecification.
 }
 \examples{
-diag_forced(data = civicon_2014$sorts[,,"before"])
-# true, because study used forced Q distribution
+dataset <- civicon_2014$sorts[,,"before"]
+diag_forced(dataset = dataset,
+            grid = diag_distro_max(dataset))
+
+}
+\seealso{
+Other distribution diagnostic functions: \code{\link{diag_distro_max}},
+  \code{\link{diag_distros}},
+  \code{\link{diag_inside_grid}}, \code{\link{diag_same}}
 }
 \keyword{internal}
 
