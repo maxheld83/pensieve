@@ -2,7 +2,11 @@
 title: 'Q-Cat: A Method and Algorithm for Categorical Operant Subjectivity'
 author: "Verena Kasztantowicz, Maximilian Held"
 date: "30 April 2016"
-output: pdf_document
+output:
+  html_document: default
+bibliography: 
+  - "../../held-library/held_library.bib"
+  - "../../vk_library/verenakasztantowicz.bib"
 ---
 
 ## Abstract
@@ -21,3 +25,10 @@ Using real-world data gathered for this purpose, we show that results from the s
 We also present software for the R statistics framework to run the analysis and a web-based interface to gather data.
 
 Categorizing things can be considered a fundamental, spontaneous act of the human mind, and Q-Cat is a helpful addition to the Q-methodologists toolkit to study it.
+
+
+@Adams-2001-aa ist eine Quelle aus Max's bibtex Datei.
+
+@artemeva-fox-2010 ist eine Quelle aus Verenas bibtex Datei.
+
+## Bibliography
