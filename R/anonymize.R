@@ -145,10 +145,11 @@ anonymize <- function(real_names, lookup_file) {
                                                           size = needed_names,
                                                           replace = FALSE,
                                                           prob = good_names)
-    utils::write.csv(x = lookup,
-                     file = lookup_file,
-                     row.names = FALSE,
-                     append = FALSE)
+    utils::write.table(x = lookup,
+                       sep = ",",
+                       file = lookup_file,
+                       row.names = FALSE,
+                       append = FALSE)
   }
   return(lookup$fake_names)
 }
