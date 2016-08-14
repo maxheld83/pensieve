@@ -165,11 +165,11 @@ run_parallel <- function(dataset = NULL,
     if (!is.null(n)) {
       warning("'n' is inferred from 'dataset', entered argument is ignored.")
     }
-    n <- nrow(dataset)
+    n <- ncol(dataset)
     if (!is.null(p)) {
       warning("'p' is inferred from 'dataset', entered argument is ignored.")
     }
-    p <- ncol(dataset)
+    p <- nrow(dataset)
     if (is.null(grid)) {
       grid <- diag_distro_max(dataset)
       warning("Argument 'grid' is inferred from maximum value counts of 'dataset'.
