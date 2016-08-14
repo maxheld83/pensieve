@@ -149,13 +149,11 @@ diag_inside_grid <- function(dataset, grid) {
                 all.missing = FALSE,
                 names = "unique",
                 null.ok = FALSE)
-  expect_integer(x = grid,
-                 lower = 0,
-                 any.missing = FALSE,
-                 all.missing = FALSE,
-                 len = sum(abs(range(dataset))) + 1)
-  expect_identical(object = names(grid),
-                   expected = as.character(c(min(dataset):max(dataset))))
+  expect_integerish(x = grid,
+                    lower = 0,
+                    any.missing = FALSE,
+                    all.missing = FALSE,
+                    min.len = sum(abs(range(dataset))) + 1)
 
   # body ====
   inside_grid <- all(grid >= diag_distro_max(dataset))

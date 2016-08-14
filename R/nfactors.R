@@ -57,8 +57,8 @@ draw_rand_sort <- function(grid = NULL,  # named integer vector of grid
                 all.missing = FALSE,
                 names = "unique",
                 null.ok = FALSE)
-  expect_integer(x = grid,
-                 lower = 0)
+  expect_integerish(x = grid,
+                    lower = 0)
 
   expect_count(x = n,
                na.ok = FALSE,
