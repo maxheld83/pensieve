@@ -141,6 +141,8 @@ anonymize <- function(real_names, lookup_file) {
                    randomNames::randomNamesData$first_names_e5_g1)
     # there seems to be no easy way to do this because the whole thing is only an environment
     unused_names <- all_names[!names(all_names) %in% lookup$fake_names]
+    unused_names <- unused_names[!names(unused_names) %in% lookup$real_names]
+    # this protects against accidentally drawing a name that is also a real name
     unique_names <- unique(names(unused_names))
     strict_names <- sapply(X = unique_names, FUN = function(x) {
       test_names(x = x, type = "strict")
