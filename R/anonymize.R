@@ -91,6 +91,12 @@ anonymize <- function(real_names, lookup_file) {
                       null.ok = FALSE)
     expect_equal(object = names(file),
                  expected = c("real_names", "fake_names"))
+    for (i in file$real_names) {
+      if (i %in% file$fake_names) {
+        # cannot use expect_that here, that'll scre up the test above
+        stop(paste(i, "is a real name but also used as a fake name."))
+      }
+    }
 
     # let's check those that we have, are the fake names ok?
     expect_character(x = file$fake_names,

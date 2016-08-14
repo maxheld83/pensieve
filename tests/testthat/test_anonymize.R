@@ -25,3 +25,13 @@ test_that(desc = "appends fake names as necessary",
                    len = 4,
                    unique = TRUE)
 })
+
+test_that(desc = "errors out on real names that are also fake names",
+          code = {
+  file <- data.frame(real_names = c("Hillary", "Barack"),
+                     fake_names = c("Hillary", "John"),
+                     stringsAsFactors = FALSE)
+  write.csv(x = file, file = "test.temp.csv", row.names = FALSE)
+  expect_error(object = anonymize(real_names = c("Hillary", "Barack"),
+                                  lookup_file = "test.temp.csv"))
+})
