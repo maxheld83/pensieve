@@ -2,8 +2,14 @@
 title: Factor Rotation as Linguistic Conceptualization –- Custom Rotation Procedures
   for Q Methodology
 author: "Maximilian Held"
-date: "30 April 2016"
-output: html_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+bibliography: 
+  #- "../../vk_library/verenakasztantowicz.bib"
 ---
 
 ## Abstract

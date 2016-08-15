@@ -1,8 +1,14 @@
 ---
 title: "Parallel Analysis for Q -- It Might Just Make Sense."
 author: "Maximilian Held"
-date: "30 April 2016"
-output: pdf_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+bibliography: 
+  #- "../../vk_library/verenakasztantowicz.bib"
 ---
 
 ## Abstract

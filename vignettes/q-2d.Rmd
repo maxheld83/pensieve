@@ -1,9 +1,15 @@
 ---
-title: 'Multiple and Time-Series Q-Studies: A Two-Dimensional Generalisation of Q
-  Methodology'
+title: "Multiple and Time-Series Q-Studies: A Two-Dimensional Generalisation of Q
+  Methodology"
 author: "Maximilian Held"
-date: "30 April 2016"
-output: pdf_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+bibliography: 
+  #- "../../held-library/held_library.bib"
 ---
 
 ## Abstract

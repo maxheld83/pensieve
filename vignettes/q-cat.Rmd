@@ -1,12 +1,15 @@
 ---
 title: 'Q-Cat: A Method and Algorithm for Categorical Operant Subjectivity'
 author: "Verena Kasztantowicz, Maximilian Held"
-date: "30 April 2016"
-output:
-  html_document: default
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 bibliography: 
-  - "../../held-library/held_library.bib"
-  - "../../vk_library/verenakasztantowicz.bib"
+  #- "../../held-library/held_library.bib"
+  #- "../../vk_library/verenakasztantowicz.bib"
 ---
 
 ## Abstract
@@ -26,9 +29,35 @@ We also present software for the R statistics framework to run the analysis and 
 
 Categorizing things can be considered a fundamental, spontaneous act of the human mind, and Q-Cat is a helpful addition to the Q-methodologists toolkit to study it.
 
+```{r setup}
+library(knitr)
+library(rmarkdown)
+library(pensieve)
+install.packages(repos = NULL, type = "source", INSTALL_opts = c('--no-lock'), pkgs = c("../qmethod"))
+```
+
+```{r kill-nas}
+data(komki)
+komki$qsorts <- na.omit(komki$qsorts)
+komki$items <- komki$items[komki$items$Handle.english %in% rownames(komki$qsorts), ]
+komki$qcat$ass <- sapply(X = komki$qcat$ass, simplify = FALSE, FUN = function(x) {
+  x[rownames(x) %in% rownames(komki$qsorts), , drop = FALSE]
+})
+lapply(X = komki$qcat$ass, FUN = function(x) {is.matrix(x)})
+```
+
 
 ## Creating the Co-Occurence Matrix
 
+```{r make-cooc}
+cooc <- count_cooccur(ass = komki$qcat$ass)
+```
+
+For example, `Willy`'s co-occurence matrix looks like this:
+
+```{r show-cooc}
+kable(cooc[,,"Willy"])
+```
 
 
 
