@@ -27,6 +27,13 @@ We also present software for the R statistics framework to run the analysis and 
 Categorizing things can be considered a fundamental, spontaneous act of the human mind, and Q-Cat is a helpful addition to the Q-methodologists toolkit to study it.
 
 
+## Creating the Co-Occurence Matrix
+
+
+
+
+## Example Citations
+
 @Adams-2001-aa ist eine Quelle aus Max's bibtex Datei.
 
 @artemeva-fox-2010 ist eine Quelle aus Verenas bibtex Datei.

@@ -75,4 +75,7 @@ If your data gathering procedure produces such granular \code{NA} records, do no
 \author{
 Maximilian Held
 }
+\seealso{
+Other import: \code{\link{count_cooccur}}
+}
 
