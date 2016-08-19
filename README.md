@@ -5,4 +5,5 @@
 R package for the scientific study of human subjectivity.
 
 > *The name 'Pensieve' is a homonym of 'pensive', meaning deeply, seriously thoughtful; but it also a pun, the 'sieve' part of the word alluding to the object's function of sorting meanings from a mass of thoughts or memories.*
+
 -- [Joanne K. Rowling](https://www.pottermore.com/writing-by-jk-rowling/pensieve)
