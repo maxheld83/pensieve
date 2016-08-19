@@ -1,3 +1,5 @@
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). Please see the page "Get Started" at https://bookdown.org/ for how to compile this example.
+[![Build Status](https://travis-ci.com/maxheld83/pensieve-book.svg?token=VqJKxxUwxXFJyYyqJx7G&branch=master)](https://travis-ci.com/maxheld83/pensieve-book)
 
-You can find the preview of this example at https://bookdown.org/yihui/bookdown-demo/
+This is the extended documentation for the [pensieve](https://github.com/maxheld83/pensieve) R package for the scientific study of human subjectivity.
+
+You can find this book at: http://maxheld.de/pensieve-book/
