@@ -8,7 +8,7 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: https://github.com/maxheld83/pensieve
+github-repo: maxheld83/pensieve
 description: "Extensive documentation for the `pensieveR` R package for the scientific study of human subjectivity."
 ---
 
