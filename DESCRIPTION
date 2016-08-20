@@ -7,5 +7,5 @@ Imports:
   devtools
 Remotes:
   rstudio/bookdown,
-  maxheld83/pensieve,
+  maxheld83/pensieveR,
   maxheld83/qmethod
