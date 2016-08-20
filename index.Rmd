@@ -7,6 +7,9 @@ output:
   bookdown::tufte_html_book:
     toc: yes
     css: toc.css
+  bookdown::tufte_book2:
+    toc: yes
+    keep_tex: yes
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
