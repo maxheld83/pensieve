@@ -1,5 +1,14 @@
 # Q-Cat: Categorical Operant Subjectivity {#q-cat}
 
+```{r setup-q-cat, echo = FALSE}
+library(knitr)
+opts_knit$set(echo = FALSE,
+              cache = TRUE)
+```
+
+```{r q-pic, echo=FALSE, out.width="100%", fig.cap="Q-Sorting during the 2016 CiviCon"}
+include_graphics(path = "img/q-sorting3.jpg")
+```
 
 
 You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@Dunteman-1989].
