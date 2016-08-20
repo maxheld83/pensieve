@@ -16,10 +16,10 @@ opts_knit$set(echo = FALSE,
               dpi = 72) 
 library(devtools)
 
-#install_github(repo = "maxheld83/pensieveR")
+install_github(repo = "maxheld83/pensieveR")
 library(pensieveR)  # from github
 
-#install_github(repo = "maxheld83/qmethod")
+install_github(repo = "maxheld83/qmethod")
 library(qmethod)  # from github
 ```
 
