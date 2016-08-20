@@ -8,15 +8,28 @@ output:
 
 # Q-Cat: Categorical Operant Subjectivity {#q-cat}
 
-```{r setup-q-cat, echo = FALSE}
+```{r setup-q-cat, echo = FALSE, message=FALSE}
 library(knitr)
 opts_knit$set(echo = FALSE,
               cache = TRUE,
               fig.retina = 2,
               dpi = 72) 
+library(devtools)
+
+#install_github(repo = "maxheld83/pensieveR")
+library(pensieveR)  # from github
+
+#install_github(repo = "maxheld83/qmethod")
+library(qmethod)  # from github
 ```
 
-```{r q-pic, echo=FALSE, out.width="100%", fig.cap="Q-Sorting during the 2016 CiviCon"}
+```{r komki-test}
+data(komki)
+kable(komki$items)
+```
+
+
+```{r q-pic, echo=FALSE, out.width="100%", fig.cap="Q-Sorting during the 2016 CiviCon", dpi = 72}
 include_graphics(path = "img/q-sorting3.jpg")
 ```
 

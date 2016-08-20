@@ -3,5 +3,9 @@ Title: Does not matter.
 Version: 0.0.1
 Imports:
   bookdown,
-  tufte
-Remotes: rstudio/bookdown
+  tufte,
+  devtools
+Remotes:
+  rstudio/bookdown,
+  maxheld83/pensieve,
+  maxheld83/qmethod
