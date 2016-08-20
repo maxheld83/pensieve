@@ -1,3 +1,11 @@
+---
+title: "Q-Cat"
+author: "Maximilian Held, Verena Kasztantowicz"
+output:
+  bookdown::tufte_handout2
+  bookdown::tufte_html2
+---
+
 # Q-Cat: Categorical Operant Subjectivity {#q-cat}
 
 ```{r setup-q-cat, echo = FALSE}

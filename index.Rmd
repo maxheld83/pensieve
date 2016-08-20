@@ -1,15 +1,20 @@
 --- 
-title: "Pensieve "
+title: "Pensieve"
 author: "Maximilian Held"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: 
+  bookdown::tufte_handout2:
+    keep_tex: yes
+  bookdown::tufte_html2:
+    number_sections: no
   bookdown::tufte_html_book:
     toc: yes
     css: toc.css
   bookdown::tufte_book2:
     toc: yes
     keep_tex: yes
+link_citations: true
 documentclass: book
 bibliography: [held_library.bib, packages.bib]
 biblio-style: apalike
