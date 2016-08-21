@@ -5,6 +5,7 @@ date: "`r Sys.Date()`"
 output:
   bookdown::tufte_handout2
   bookdown::tufte_html2
+classoption: twoside,symmetric
 ---
 
 # Q-Cat: Categorical Operant Subjectivity {#q-cat}
