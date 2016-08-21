@@ -4,7 +4,13 @@ Version: 0.0.1
 Imports:
   bookdown,
   tufte,
-  devtools
+  devtools,
+  rmarkdown,
+  ggplot2,
+  reshape2,
+  plyr,
+  grid,
+  gridExtra
 Remotes:
   rstudio/bookdown,
   maxheld83/pensieveR,

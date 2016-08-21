@@ -1,6 +1,7 @@
 ---
-title: "Q-Cat"
-author: "Maximilian Held, Verena Kasztantowicz"
+title: 'Q-Cat: A Method and Algorithm for Categorical Operant Subjectivity'
+author: "Verena Kasztantowicz, Maximilian Held"
+date: "`r Sys.Date()`"
 output:
   bookdown::tufte_handout2
   bookdown::tufte_html2
@@ -8,13 +9,37 @@ output:
 
 # Q-Cat: Categorical Operant Subjectivity {#q-cat}
 
+## Abstract
+
+Q-Sorts record item positions *continuously*, distending from a neutral mid-point along some dimension. 
+However, while adhering to Stephenson's ontology and epistemology, Q methodology can also be extended to cover *categorical* operant subjectivity.
+
+We here suggest a survey method and analytical algorithm to capture such shared viewpoints of categorizing items.
+The well-established [Repertory Grid Technique](https://en.wikipedia.org/wiki/Repertory_grid) also shares some of Q's underpinnings and allows spontaneous categories, but does not lend itself (easily) to a transposed, "Q-wise" factor extraction and may not be ipsative between the items. 
+Instead, we invite participants to come up with their own, dichotomous categories and ask them to classify the full Q-Set accordingly.
+The resultant logical table is summarized into a per-person measure of categorical item similarity, in turn transformed into a person-by-person correlation matrix.
+We then extract higher-level principal components (PCA) in a stepwise residual process, and calculate the respective (rotated) component scores, yielding ideal-typical, shared ways of categorizing the Q-Set.
+These categorical viewpoints are then subjected to a nested, low-level PCA to allow a substantive abduction of just *what* those categories might be.
+
+Using real-world data gathered for this purpose, we show that results from the suggested procedure can be meaningfully interpreted as categorical operant subjectivity.
+We also present software for the R statistics framework to run the analysis.
+
+Categorizing things can be considered a fundamental, spontaneous act of the human mind, and Q-Cat is a helpful addition to the Q-methodologists toolkit to study it.
+
 ```{r setup-q-cat, echo = FALSE, message=FALSE}
 library(knitr)
 opts_knit$set(echo = FALSE,
               cache = TRUE,
               fig.retina = 2,
               dpi = 72) 
+
 library(devtools)
+library(rmarkdown)
+library(ggplot2)
+library(reshape2)
+library(plyr)
+library(grid)
+library(gridExtra)
 
 install_github(repo = "maxheld83/pensieveR")
 library(pensieveR)  # from github
@@ -23,28 +48,25 @@ install_github(repo = "maxheld83/qmethod")
 library(qmethod)  # from github
 ```
 
-```{r komki-test}
+```{r kill-nas}
 data(komki)
-kable(komki$items)
-```
 
+# kill nas
+komki$qsorts <- na.omit(komki$qsorts)
+komki$items <- komki$items[komki$items$Handle.english %in% rownames(komki$qsorts), ]
+komki$qcat$ass <- sapply(X = komki$qcat$ass, simplify = FALSE, FUN = function(x) {
+  x[rownames(x) %in% rownames(komki$qsorts), , drop = FALSE]
+})
+
+# killing jason, because a) he just didn't REALLY do the thing and b) he dominates the qcat model, which we don't like.
+komki$qsorts <- komki$qsorts[, colnames(komki$qsorts) != "Jason"]
+komki$qcat$desc <- komki$qcat$desc[, colnames(komki$qcat$desc) != "Jason"]
+komki$qcat$ass$Jason <- NULL
+```
 
 ```{r q-pic, echo=FALSE, out.width="100%", fig.cap="Q-Sorting during the 2016 CiviCon", dpi = 72}
 include_graphics(path = "img/q-sorting3.jpg")
 ```
 
+## Data Gathering
 
-You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@Dunteman-1989].
-
-Another cite [@Tucker-1966].
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
