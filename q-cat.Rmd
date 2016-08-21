@@ -9,23 +9,6 @@ output:
 
 # Q-Cat: Categorical Operant Subjectivity {#q-cat}
 
-## Abstract
-
-Q-Sorts record item positions *continuously*, distending from a neutral mid-point along some dimension. 
-However, while adhering to Stephenson's ontology and epistemology, Q methodology can also be extended to cover *categorical* operant subjectivity.
-
-We here suggest a survey method and analytical algorithm to capture such shared viewpoints of categorizing items.
-The well-established [Repertory Grid Technique](https://en.wikipedia.org/wiki/Repertory_grid) also shares some of Q's underpinnings and allows spontaneous categories, but does not lend itself (easily) to a transposed, "Q-wise" factor extraction and may not be ipsative between the items. 
-Instead, we invite participants to come up with their own, dichotomous categories and ask them to classify the full Q-Set accordingly.
-The resultant logical table is summarized into a per-person measure of categorical item similarity, in turn transformed into a person-by-person correlation matrix.
-We then extract higher-level principal components (PCA) in a stepwise residual process, and calculate the respective (rotated) component scores, yielding ideal-typical, shared ways of categorizing the Q-Set.
-These categorical viewpoints are then subjected to a nested, low-level PCA to allow a substantive abduction of just *what* those categories might be.
-
-Using real-world data gathered for this purpose, we show that results from the suggested procedure can be meaningfully interpreted as categorical operant subjectivity.
-We also present software for the R statistics framework to run the analysis.
-
-Categorizing things can be considered a fundamental, spontaneous act of the human mind, and Q-Cat is a helpful addition to the Q-methodologists toolkit to study it.
-
 ```{r setup-q-cat, echo = FALSE, message=FALSE}
 library(knitr)
 opts_knit$set(echo = FALSE,
@@ -48,7 +31,32 @@ install_github(repo = "maxheld83/qmethod")
 library(qmethod)  # from github
 ```
 
-```{r kill-nas}
+```{r q-pic, echo=FALSE, out.width="100%", fig.cap=c("Participant considers all items.", "Participant chooses two similar items, names category.", "Participant applies categories to all items.", "All items are categorized as TRUE or FALSE."), dpi = 72, fig.margin = TRUE, fig.show = "asis"}
+include_graphics(path = c("img/q-cat-stage-0.png", "img/q-cat-stage-1.png", "img/q-cat-stage-2.png", "img/q-cat-stage-3.png"))
+```
+
+> "The factors are likewise natural, representing actual *categories of thinking* that are operant with respect to the issues under consideration." 
+> 
+> -- Steven Brown [-@Brown1980, p. 70, emphasis added]
+
+## Abstract
+
+Q-Sorts record item positions *continuously*, distending from a neutral mid-point along some dimension. 
+However, while adhering to Stephenson's ontology and epistemology, Q methodology can also be extended to cover *categorical* operant subjectivity.
+
+We here suggest a survey method and analytical algorithm to capture such shared viewpoints of categorizing items.
+The well-established [Repertory Grid Technique](https://en.wikipedia.org/wiki/Repertory_grid) also shares some of Q's underpinnings and allows spontaneous categories, but does not lend itself (easily) to a transposed, "Q-wise" factor extraction and may not be ipsative between the items. 
+Instead, we invite participants to come up with their own, dichotomous categories and ask them to classify the full Q-Set accordingly.
+The resultant logical table is summarized into a per-person measure of categorical item similarity, in turn transformed into a person-by-person correlation matrix.
+We then extract higher-level principal components (PCA) in a stepwise residual process, and calculate the respective (rotated) component scores, yielding ideal-typical, shared ways of categorizing the Q-Set.
+These categorical viewpoints are then subjected to a nested, low-level PCA to allow a substantive abduction of just *what* those categories might be.
+
+Using real-world data gathered for this purpose, we show that results from the suggested procedure can be meaningfully interpreted as categorical operant subjectivity.
+We also present software for the R statistics framework to run the analysis.
+
+Categorizing things can be considered a fundamental, spontaneous act of the human mind, and Q-Cat is a helpful addition to the Q-methodologists toolkit to study it.
+
+```{r kill-nas, echo=FALSE}
 data(komki)
 
 # kill nas
@@ -64,9 +72,46 @@ komki$qcat$desc <- komki$qcat$desc[, colnames(komki$qcat$desc) != "Jason"]
 komki$qcat$ass$Jason <- NULL
 ```
 
-```{r q-pic, echo=FALSE, out.width="100%", fig.cap="Q-Sorting during the 2016 CiviCon", dpi = 72}
-include_graphics(path = "img/q-sorting3.jpg")
-```
 
-## Data Gathering
+## Data Gathering: Subjective Categorizing as *Pure Behavior*
+
+In the `Q-Cat` procedure, participants sort items according to their own, "first-person", arbitrary categories.
+<!-- TODO add citation for first-person -->
+These categories are:
+
+- **operant**, because they arise *spontaneously* as participants engage the items,
+- **inductive**, because participants describe their own, *open-ended* categories, which can be neither correct, nor incorrect,
+- **ipsatively** assigned, because categories are originally defined as *similarity* between categories.
+
+In contrast to other sorting techniques, which require a *single* set of mutually exclusive, and comprehensively exhaustive ("MECE") categories as a disjoint set vis-a-vis the items [@coxon-1999, p. 3], `Q-Cat` *encourages* overlapping *multiple* categories, each of which is merely *logically* (`TRUE`, `FALSE`) assigned to each item.
+This complicates the analysis, but avoids imposing a pre-supposed structure of categorical subjectivity on participants.
+
+<!-- make this into a parnote -->
+In a future iteration, participants will ipsatively *rank* items vis-a-vis a categorical *prototype* (chosen from the items, compare @rosch-1978), yielding *ordinal* information, requiring a separate, non-parametric analytical procedure.
+
+For our example study on categorizations of language games with children and grown-ups, this yields the following **raw data** for participant `Nhome`:
+
+
+
+## Interpretation
+
+While different in procedure and data type, `Q-Cat` shares the paradigmatic foundations of Q methodology.
+As Watts writes about Q-*Sorts*, here *too*:
+
+> "Subjectivity is not a mental entity. 
+> It does not reflect any inner experience and it has little in common with concepts like mind and consciousness." 
+>
+> -- Simon Watts [-@watts2011subjectivity, p. 40]
+
+<!-- "Operational definitions begin with concepts in search of behavior; operant definitions begin with behavior in search of concepts." [@Brown-1980, p. 28] -->
+
+<!-- This is an extension of the scientific study of human subjectivity. -->
+
+<!-- this is not about mental representation as from psych, but -->
+
+<!-- -a viewpoint is relational: an interaction between subject and world (an object, another person, an event, a concept ... ) -->
+<!-- -viewpoints are the act of observation -->
+<!-- -viewpoints are inherently meaningful -->
+
+## References
 

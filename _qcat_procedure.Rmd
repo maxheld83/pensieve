@@ -12,15 +12,6 @@ Q-Sorting is a special case of categorization in general [@coxon-1999]
 
 Do the theory of viewpoints in operant subjectivity apply as well in categorization?
 
-
--viewpoints are observed behavior, e.g. empirically observable
-
-	"Subjectivity is not a mental entity. It does not reflect any inner experience and it has little in common with concepts like mind and consciousness." [@watts-2011, p. 40]
-
--a viewpoint is relational: an interaction between subject and world (an object, another person, an event, a concept ... )
--viewpoints are the act of observation
--viewpoints are inherently meaningful
-
 	"A viewpoint does not exist within a person, but only in their current outlook or positioning relative to some aspect of their immediate environment (a circumstance perhaps, an event, or some other object of enquiry). A viewpoint exists and takes a defined form only in the moment of relationship between a subject and its object, between knower and known, observer and observed. Given this essentially relational nature, a viewpoint could never be described as belonging to a person in any enduring sense, nor could it even be made meaningful by reference to them alone." [@watts-2011, p. 40]
 
 
@@ -28,8 +19,6 @@ Do the theory of viewpoints in operant subjectivity apply as well in categorizat
 
 	"In the first place, a subjective operant, unlike a scale response, is neither right nor wrong." [@Brown-1980, p. 4]
 
-
--viewpoints are inductive
 -a viewpoint is the first-person perspective
 
 	"[...] it is of more scientific interest to know how subjects have combined items (e.g., as in Q sorting) than how subjects have responded to a set of items combined a priori by the investigator." [@Brown-1980, p. 21]
@@ -39,23 +28,10 @@ Do the theory of viewpoints in operant subjectivity apply as well in categorizat
 
 -viewpoints are "categories of thinking"
 
-	"The factors are likewise natural, representing actual categories of thinking that are operant with respect to the issues under consideration." [@Brown-1980, p. 70]
-
--viewpoints are not determined (*current viewpoint*), categories can change
-
-
-
-[@brown-mathieson-1990] Q-Sorting interpretation statements about poetry
 
 ##Theory of Categorization
 
-The Classical view (Aristotle):
 
-	"First, concepts are mentally represented as definitions. A definition provides characteristics that are a) necessary and b) jointly sufficient for membership in the category. Second, the classical view argues that every object is either in or not in the category, with no in-between cases." [@murphy-2004, p. 15]
-
-Prototype view (Rosch)
-
-no definitions but also no typicality
 
 ## Procedure
 
