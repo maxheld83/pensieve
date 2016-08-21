@@ -10,7 +10,9 @@ Imports:
   reshape2,
   plyr,
   grid,
-  gridExtra
+  gridExtra,
+  tufte,
+  xtable
 Remotes:
   rstudio/bookdown,
   maxheld83/pensieveR,

@@ -23,6 +23,10 @@ library(reshape2)
 library(plyr)
 library(grid)
 library(gridExtra)
+library(tufte)
+library(xtable)
+options(xtable.comment = FALSE)
+options(xtable.booktabs = TRUE)
 
 install_github(repo = "maxheld83/pensieveR")
 library(pensieveR)  # from github
@@ -85,11 +89,60 @@ These categories are:
 
 In contrast to other sorting techniques, which require a *single* set of mutually exclusive, and comprehensively exhaustive ("MECE") categories as a disjoint set vis-a-vis the items [@coxon-1999, p. 3], `Q-Cat` *encourages* overlapping *multiple* categories, each of which is merely *logically* (`TRUE`, `FALSE`) assigned to each item.
 This complicates the analysis, but avoids imposing a pre-supposed structure of categorical subjectivity on participants.
+^[In a future iteration, participants will ipsatively *rank* items vis-a-vis a categorical *prototype* (chosen from the items, compare @rosch-1978), yielding *ordinal* information, requiring a separate, non-parametric analytical procedure.]
 
-<!-- make this into a parnote -->
-In a future iteration, participants will ipsatively *rank* items vis-a-vis a categorical *prototype* (chosen from the items, compare @rosch-1978), yielding *ordinal* information, requiring a separate, non-parametric analytical procedure.
+For our example study on categorizations of language games with children and grown-ups, this yields a *list* of description matrices (one element for each participant, as in table \@ref(tab:desc-example)) and a three-dimensional *array* of assignment matrices (one slice for each participant, as in table \@ref(tab:ass-example)).
+^[This canonical data representation can be easily produced from conveniently entered raw data with [`pensieveR::import_qcat()`](http://pensiever.maxheld.de).]
 
-For our example study on categorizations of language games with children and grown-ups, this yields the following **raw data** for participant `Nhome`:
+```{marginfigure-language-bees}
+**Language of Bees**  
+*Bee-german: 'Summ, summ, summ.'  
+Bee-english: 'Samm, Samm, Samm.'  
+Bee-french: 'Summe, summe, summe.'   
+Bee-finnish: 'Suomi, suomi, suomi'*  
+```
+
+```{marginfigure-eating-grandpa}
+**Let's eat Grandpa**  
+*Let's eat grandpa.  
+Let's eat, grandpa.  
+Commas - They save lives!*
+```
+
+```{r julius-desc, echo = FALSE}
+# prepare some example subset
+chosen_cats <- c(A = "Tiere",
+                 L = "Aussprache",
+                 H = "Satzzeichen",
+                 G = "Reime")
+komki$qcat$desc[names(chosen_cats), "Julius"] <- c("animals", 
+                                                   "pronounciation", 
+                                                   "punctuation", 
+                                                   "rhymes")
+
+chosen_items <- c("language-of-bees", "eating-grandpa")
+
+desc_example <- data.frame(Index = which(x = LETTERS %in% names(chosen_cats)),
+                           Description = komki$qcat$desc[names(chosen_cats), "Julius"],
+                           row.names = NULL)
+
+ass_example <- data.frame(Index = which(x = LETTERS %in% names(chosen_cats)),
+                          language_of_bees = komki$qcat$ass$Julius["language-of-bees", which(x = LETTERS %in% names(chosen_cats))],
+                          eating_grandpa = komki$qcat$ass$Julius["eating-grandpa", which(x = LETTERS %in% names(chosen_cats))])
+
+```
+
+```{r desc-example, echo=FALSE}
+kable(x = desc_example,
+      row.names = FALSE,
+      caption = "Description Matrix (Subset)")
+```
+
+```{r ass-example, echo=FALSE}
+kable(x = ass_example,
+      row.names = FALSE,
+      caption = "Assignment Matrix (Subset)")
+```
 
 
 
