@@ -1,0 +1,40 @@
+% \documentclass[portrait]{a0poster}
+% \documentclass[border=0pt]{standalone}
+\documentclass[landscape]{article}
+\usepackage[a0paper,left=3cm,top=5cm,right=0cm,bottom=0cm,verbose,nohead,nofoot]{geometry}
+\usepackage{tikz}
+\usepackage{anyfontsize}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usetikzlibrary{shapes}
+\usetikzlibrary{shapes.geometric}
+\usepackage{scalefnt}
+% \usepackage{atbegshi}% http://ctan.org/pkg/atbegshi
+% \AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
+
+\begin{document}
+	\centering
+		\resizebox{!}{72.15234cm}{  %plug the height into the second one, do NOT use the first one, screws things up
+			\tikzset{
+	  		hexagone/.style={
+	    		draw, very thin,
+		    	shape=regular polygon,
+		    	regular polygon sides=6,
+		    	outer sep=0, inner sep=0,
+		    	minimum size=1cm,
+		    	rotate = 30,
+		    	label={center:#1}
+	  		}
+			}
+			{\scalefont{0.1}
+		  	\begin{tikzpicture}[rotate=30, font=\tiny]
+		    	\node[hexagone=1] at (0,0){};
+		    	\foreach \r in {1,...,4}  %this is what you change for ncircles
+		      	\foreach \t in {0,...,5}
+		        	\foreach[evaluate={\l=int(1+\r*(\r-1)*3+\r*\t+\u)}] \u in {1,...,\r}
+		          	\scoped[rotate=-\t*60]
+		            \node[hexagone=\l] at (0+.75*\u,{0.43301270189*(2*\r-\u)}){};
+		  	\end{tikzpicture}
+		  }
+	}
+\end{document}   

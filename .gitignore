@@ -4,6 +4,7 @@
 .Ruserdata
 inst/doc
 pensieve.sublime-workspace
+*.synctex.gz
 
 vignettes/q-cat.html
 vignettes/q-2d.html
@@ -11,4 +12,7 @@ vignettes/q-2d.pdf
 vignettes/q-cat.pdf
 vignettes/q-paran.pdf
 vignettes/q-rot-custom.pdf
+inst/templates/Output
 2
+
+inst/templates/hex-centered.pdf
