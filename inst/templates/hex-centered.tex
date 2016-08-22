@@ -1,7 +1,7 @@
 % \documentclass[portrait]{a0poster}
 % \documentclass[border=0pt]{standalone}
 \documentclass[landscape]{article}
-\usepackage[a0paper,left=3cm,top=5cm,right=0cm,bottom=0cm,verbose,nohead,nofoot]{geometry}
+\usepackage[a0paper,left=5cm,top=5cm,right=5cm,bottom=0cm,verbose,nohead,nofoot]{geometry}
 \usepackage{tikz}
 \usepackage{anyfontsize}
 \usepackage{rotating}
@@ -9,6 +9,7 @@
 \usetikzlibrary{shapes}
 \usetikzlibrary{shapes.geometric}
 \usepackage{scalefnt}
+% \usepackage{fancyhdr}
 
 % if there's an annoying empty first page, this will kill it
 % be careful though, if there is NO such empty first page, it somehow screws up the rest
@@ -16,6 +17,14 @@
 % \AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
 
 \begin{document}
+
+% \renewcommand{\headrulewidth}{0pt}
+% \fancyhead[L]{}
+% \fancyhead[R]{
+% 	\includegraphics[keepaspectratio, width=8cm]{Bildmarke_schwarz_02}
+% }
+% \pagestyle{fancy}
+
 	\centering
 		\resizebox{!}{72.15234cm}{  %plug the height into the second one, do NOT use the first one, screws things up
 			\tikzset{
