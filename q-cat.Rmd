@@ -28,6 +28,7 @@ library(tufte)
 library(xtable)
 options(xtable.comment = FALSE)
 options(xtable.booktabs = TRUE)
+options(scipen=999)
 
 install_github(repo = "maxheld83/pensieveR")
 library(pensieveR)  # from github
@@ -217,7 +218,7 @@ This operation appears, at first glance, similar to Repertory Grid Technique [RG
 The analysis suggested here, works quite differently - observations and variables are, in classic Q fashion, transposed.
 Whereas in RGT, open-ended *categories* are correlated over *items* as observations to reveal similarity categories, we - initially - suggest to correelate *items* over categories as observations to reveal similar items, which are, at a later stage, referred back to initially entered categories.
 
-```{r make-cora, echo=FALSE, fig.cap="One Item x Item Correlation Matrix as a Heatmap", fig.height=10, fig.width=10}
+```{r make-cora, echo=FALSE, fig.cap="Julius' Item x Item Correlation Matrix as a Heatmap", fig.height=10, fig.width=10}
 make_cora <- function(surprise) {
   cora <- sapply(X = surprise, USE.NAMES = TRUE, simplify = "array", FUN = function(x) {
     m <- cor(t(x))
@@ -232,31 +233,41 @@ library(GGally)
 ggcorr(data = cora[,,"Julius"], label = TRUE)
 ```
 
+The correlation heatmap in \@ref(fig:make-cora) is broadly informative, but too big for researchers to make sense of, simply because the item combinations are many - as they should be, for a productive analysis.
+Because item surprisal similarity is here expressed as a simple correlation matrix, we can employ a Principal Components Analysis (PCA) to reduce its dimensionality.
 
-
-```{r low-level-pca, eval = FALSE, include = FALSE}
-t(komki$qcat$ass$Azra[c("comma", "i-we"),])
-t(surprise$Azra[c("comma", "i-we"),])
-
-
-testpca <- prcomp(x = cora[,,"Azra"], retx = TRUE, center = TRUE, scale. = TRUE)
-testpca$sdev^2
+```{r julius-pca, echo=FALSE, fig.cap="Item Loadings on Julius' First Two Quartimax-Rotated Components"}
+pca_julius <- prcomp(x = t(surprise$Julius), retx = TRUE, center = TRUE, scale. = TRUE)
+# todo add a proper biplot here, does that even make sense?
 library(GPArotation)
-varimax <- unclass(Varimax(L = testpca$rotation[,1:6])$loadings)
+rotated_julius <- quartimax(L = pca_julius$rotation[,1:7])$loadings
 
-ggplot(data = as.data.frame(varimax), mapping = aes(x = PC1, y = PC2, label = rownames(testpca$rotation)))+ geom_text() #  + xlim(-1,1) + ylim(-1,1)
-sum(testpca$sdev^2)
+# now let's find the scores, so we know which were the original categories assigned here
+scores_julius <- matrix(data = NA,
+                        nrow = ncol(rotated_julius),
+                        ncol = ncol(surprise$Julius))
+for(pc in 1:ncol(rotated_julius)) {
+  scored_surprise <- surprise$Julius
+  for(item in rownames(rotated_julius)) {
+    scored_surprise[item, ] <- surprise$Julius[item, ] * rotated_julius[item, pc]
+  }
+  scores_julius[pc,] <- colSums(scored_surprise)
+}
 
-summary(cora)
-which(cora == -1, arr.ind = TRUE)
-qplot(x=item_x, y=item_y, data=melt(cora[,,"Azra"], varnames = c("item_x", "item_y")), fill=value, geom="tile")
+scores_n_desc <- data.frame(desc = komki$qcat$desc[1:17,"Julius"],
+                           scores = t(scores_julius))
+# View(scores_n_desc)
 
-head(melt(cora[,,"Azra"]))
-q.corrplot(corr.matrix = cora[,,"Azra"])
-
-
-cora[,,"Willy"]
+#rownames(rotated_julius) <- komki$items$Handle.deutsch  # comment me out unless you want german items
+ggplot(data = as.data.frame(rotated_julius[,1:2]), mapping = aes(x = PC1, y = PC2, label = rownames(rotated_julius))) + geom_text(position = position_jitter(width = 0.05))
 ```
+
+Figure \@ref(fig:julius-pca) displays the item loadings in the first two rotated principal components (out of seven with an Eigenvalue greater than one).
+These loadings can be interpreted as similarity of items in terms of their surprising category assignment; `i-we` and `but-how` *both* are surprisingly *present* on the first dimension of such similarity, while `riddle` and `idiom` are both surprisingly *absent* on the same dimension.
+Using factor *scores*, which are here ideal-typical category *assignments*, we can also relate this summary back to the original descriptions.
+A cursory inspection of the item pattern and the underlying descriptions suggests that `Julius` first rotated reflects his formal categorisations (such as punctuation), as opposed to his more substantive judgments (such as whether an item was a joke, or played with the meaning of words).
+Such *individual* level summary illustrates the logic and *should* be meaningful, in principle, though it is likely to be of limited use in real research because the underlying observations are so sparse, and uncorrected surprisal values accordingly unreliable for an individual.
+^[A proper analysis of individual level categorisations will also benefit from more specialized visualizations and may require custom rotation methods.]
 
 
 ## Interpretation
