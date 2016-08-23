@@ -269,6 +269,72 @@ A cursory inspection of the item pattern and the underlying descriptions suggest
 Such *individual* level summary illustrates the logic and *should* be meaningful, in principle, though it is likely to be of limited use in real research because the underlying observations are so sparse, and uncorrected surprisal values accordingly unreliable for an individual.
 ^[A proper analysis of individual level categorisations will also benefit from more specialized visualizations and may require custom rotation methods.]
 
+<!--
+## Reprex
+
+Based on @amoeba's suggestion, we have decided to go back to the raw, logical data and conceptualize *similarity* differently, than we did in the question; we can now use the familiar (and simple) correlation coefficients and Principal Components Analysis (PCA) to summarize the data.
+
+Instead of co-occurence *counts*, inspired by Barton's Z, we transformed the `TRUE` `FALSE` values in the logical raw data into their respective deviations from their *expected* value.
+The expected value of some (inductive, participant-defined) category to be assigned `TRUE` on some item is, simply, the total number of `TRUE`s on that category, divided by the number of items.
+We take these simple expected values as a weighted means of the outcomes, because draws of items (category assignments *on* items) are *independent*: just because you've assigned some `TRUE` already doesn't mean you can't assign it some more.
+
+The resulting *deviations* from their *expected* `TRUE` value can be interpreted as a **surprisal** value of `TRUE`ishness.
+For example, if some item has a positive value (close to 1), this means that it has been assigned `TRUE` despite that being *very* unlikely.
+We thereby weight more heavily those cells, that are less likely to occur, and thereby carry more informational value.
+We count `TRUE` as `1`, `FALSE` as `0`, and thereby conveniently get surprisal values scaled between `-1` and `1`.
+
+We can simply find an item x item correlation matrix, where we **correlate the surprisal values of some item-pair over the observed categories**, thereby, oddly, treating categories as observations.
+
+This yields an informative correlation matrix, where high values imply an item pair that was *surprisingly co-/non-assigned*, and a high negative value implies that of the pair, one item had high, the other a low surprisal value, that is, *surprising disagreement* about some item pair.
+A low value around `0` implies, appropriately, that the item pair showed no consistent pattern across the observed categories, or that many assignments were unsurprising.
+
+This correlation matrix is also still quite overwhelming, but can be easily reduced in dimensionality using PCA.
+
+Here's what we did:
+
+```{r reprex}
+Azra <- dput(komki$qcat$ass$Azra)
+# Azra has items as rownames, and (user-defined, open-eded columns as colnames), TRUE/FALSE as values
+
+# this is the expected value
+ev <- colSums(Azra) / nrow(Azra)
+
+# and here's the surprisal value
+surprise <- t(apply(X = Azra, MARGIN = 1, FUN = function(x) {x - ev}))
+
+# now we correlate across observed CATEGORIES for every item pair
+correl <- cor(t(surprise))
+
+# and plot the result
+library(ggplot2)
+library(GGally)
+ggcorr(data = correl, label = TRUE)
+
+# and we can use PCA to summarize the overwhelming corrplot
+pcares <- prcomp(x = t(surprise), retx = TRUE, center = TRUE, scale. = TRUE)
+
+pcares$sdev^2 
+# surprisingly, we may retain up to 8 factors which have eigenvalues > 1, though this may be overstated, and need a parallel analysis to be safe
+# we know that some of the underlying surprisal value correlations might just be random chance; after all, 18 observations (categories in this case, over 35 variables is weird and not very reliable)
+
+# we're not yet sure how to do this, but let's say we rotate Quartimax
+# we preliminarily opt for Quartimax, because we like items to be *on* the axes
+library(GPArotation)
+rotated_Azra <- quartimax(pcares$rotation[,1:3])$loadings
+# we just retain/rotate 3 PCs to be safe
+
+g <- ggplot(data = as.data.frame(x = rotated_Azra), mapping = aes(x = PC1, 
+                                                                  y = PC2,
+                                                                  label = rownames(rotated_Azra)))
+g + geom_text()
+```
+
+There's a bunch of things we're not sure about yet, especially how to **rotate** this result, and how to appropriately deflate it (by a parallel analysis or something like that?), but that's all details.
+
+Ps.: A fuller, though preliminary exposition with some context can be found at http://pensieve.maxheld.de/q-cat.html.
+-->
+
+
 
 ## Interpretation
 
