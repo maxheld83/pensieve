@@ -12,7 +12,8 @@ Imports:
   grid,
   gridExtra,
   tufte,
-  xtable
+  xtable,
+  GGally
 Remotes:
   rstudio/bookdown,
   maxheld83/pensieveR,

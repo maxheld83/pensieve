@@ -116,6 +116,7 @@ chosen_cats <- c(A = "Tiere",
                  L = "Aussprache",
                  H = "Satzzeichen",
                  G = "Reime")
+chosen_cat_indices <- which(x = LETTERS %in% names(chosen_cats))
 komki$qcat$desc[names(chosen_cats), "Julius"] <- c("animals", 
                                                    "pronounciation", 
                                                    "punctuation", 
@@ -123,14 +124,11 @@ komki$qcat$desc[names(chosen_cats), "Julius"] <- c("animals",
 
 chosen_items <- c("language-of-bees", "eating-grandpa")
 
-desc_example <- data.frame(Index = which(x = LETTERS %in% names(chosen_cats)),
+desc_example <- data.frame(Index = chosen_cat_indices,
                            Description = komki$qcat$desc[names(chosen_cats), "Julius"],
                            row.names = NULL)
 
-ass_example <- data.frame(Index = which(x = LETTERS %in% names(chosen_cats)),
-                          language_of_bees = komki$qcat$ass$Julius["language-of-bees", which(x = LETTERS %in% names(chosen_cats))],
-                          eating_grandpa = komki$qcat$ass$Julius["eating-grandpa", which(x = LETTERS %in% names(chosen_cats))])
-
+ass_example <- komki$qcat$ass$Julius[chosen_items, chosen_cat_indices]
 ```
 
 ```{r desc-example, echo=FALSE}
@@ -141,10 +139,124 @@ kable(x = desc_example,
 
 ```{r ass-example, echo=FALSE}
 kable(x = ass_example,
-      row.names = FALSE,
+      row.names = TRUE, 
+      col.names = as.character(c(1:ncol(ass_example))),
       caption = "Assignment Matrix (Subset)")
 ```
 
+
+## Analysis 1: Shared Categories as Surprising Similarity
+
+To analyze `Q-Cat` data, we must first render the individual categorisations comparable.
+ ^[Note that the data in canonical form *cannot* be compared between individuals. For example, `Nhome`'s first category is independently defined (by her) from the above `Julius`'s first category, and so on.]
+To do that, we first transform the binary assignments into continuous deviations from *probable* assignments.
+The probable assignment is the *expected value* $\mathbb{E}$ for some item draw, which is, intuitively, the probability-weighted ($p$) arithmetic average of outcomes $x_1$ (`TRUE`)  and $x_2$ (`FALSE`),
+
+<!-- TODO use pretty math (doesn't work with with tufte-html for now) -->
+<!-- <script type="text/x-mathjax-config"> -->
+<!-- MathJax.Hub.Config({ -->
+<!--   TeX: { equationNumbers: { autoNumber: "AMS" } } -->
+<!-- }); -->
+<!-- </script> -->
+<!-- \begin{equation} -->
+<!--   \mathbb{E}(X) = x_1 p_1 + x_2 p_2 \label{eq:ev} -->
+<!-- \end{equation} -->
+
+$$\mathbb{E}(X) = x_1 p_1 + x_2 p_2$$
+
+where $p_1$ probability of `TRUE` is simply the count of `TRUE`s $z$ divided by the number of items $y$, $p_1 = z / y$, and $p_2 = 1 - p_1$.
+We then subtract this *expected value* from the *observed* realization for some $x$, yielding
+
+$$x{'} = x - \mathbb{E}(X).$$
+
+
+
+```{r make-surprise, echo=FALSE}
+make_surprise <- function(ass) {
+  surprise <- ass  # TODO better make this object empty in future!
+  for (person in names(ass)) {
+    ev <- colSums(ass[[person]]) / nrow(ass[[person]])
+    surprise[[person]] <- t(apply(X = ass[[person]], MARGIN = 1, FUN = function(x) {x - ev}))
+  }
+  return(surprise)
+}
+surprise <- make_surprise(ass = komki$qcat$ass)
+kable(x = surprise$Julius[chosen_items, chosen_cat_indices],
+      col.names = as.character(c(1:4)),
+      caption = "Assignments as Surprisal Values (Subset)")
+```
+
+We can now express `Julius`' above assignments from table \@ref(tab:ass-example) as $x{'}$, an information-theoretical *surprisal value* [@attneave-1959].
+^[Our measure is a greatly simplified version of *Burton's $Z$*, which required *conditional* probabilities for item-pair co-occurences, because items are drawn into MECE categories *without* replacement [compare @burton-1972].]
+A high positive value, such `Julius`' value for category `1` on `language-of-bees` indicates that this assignment is *positively* surprising, given the probable assignment; it's `TRUE`"ishness" is *higher* than would be expected on average.
+The inverse holds for `Julius`' value for category `2` on `eating-grandpa`; it is *less* `TRUE`ish than would be expected, even though only slightly so.
+
+Summary statistics about the surprisal value matrices are also readily interpretable.
+For example, `Julius` has a mean surprisal value of `mean(surprise$Julius["language-of-bees", ])` for `language-of-bees`, implying that the item attracted many *more* category assignments than expected.
+Conversely, a high standard deviation, such as for `Julius`' `the-same` (`sd(surprise$Julius["the-same", ])`) suggests that the item was assigned much *more* than expected to some categories, but not to others.
+Both characteristics of category assignments are appropriately standardized away by the correlation coefficient, because a high center of, or high spread of assignments should not give extra weight to some item.
+<!-- TODO this is still a little thin, but also maybe just a footnote -->
+
+Thus standardized for the category *width*, *spread* and *center* we can now easily *correlate* the surprisal value of all item pairs, yielding a three dimensional array of items x items x people.
+^[A simpler approach, tried out earlier, would simply *count* the co-occurences of item-pairs in any set of categories, but such a procedure does not standardize for category width, and has the disadvantage of only producing a *co-occurence* matrix.]
+
+This correlation of the *surprisal values* of item pairs, observed over a (varying) number of (open-ended) categories is, oddly, neither an `R`, nor a `Q`-type analysis.
+The correlated variables are items, but the observations are *also* "variables" of sorts, namely the inductive categories described by participants.
+As will be obvious in the next step, this preliminary summary is necessary to enable a "Q-way" analysis of the categorical data available here: categorisations must *first* be made comparable accross participants, which is what the surprisal value correlation matrices as a rough indication of *categorically* assigned similarity accomplish.
+
+`Julius` slice is display in figure \@ref(fig:make-cora).
+The correlation coefficients encompass a surprising range, all the way from `-1` to `1` - even on the off-diagonal.
+Strictly speaking, the values *can* be interpreted as categorically assigned, *surprising* similarity.
+*Measured by the granularity of the present study* (i.e. the number of observed categories for some participant), an off-diagonal `1` can be taken to indicate *total* similarity.
+As with other samples, this measure entails an element of chance: `Julius`' *perfect* correlation between items `resistance` and `comma` likely does *not* indicate that `Julius` thought the two were truly *identical*.
+They just *appear* to be identical on the (limited) number categories observed, and would probably be differentiated, had they been observed on more, or different categories.
+We can, consequently, have more confidence in a surprisal correlation matrix that is based on a greater number of observation (= categories), because chance "identities" are less likely to arise, though given the intensive nature of the method, the number of observations is likely to always remain quite limited.
+When extracting the *shared* patterns of categorical similarity, it will be important to deflate resulting models by the probability of such random, likely false-positive identities through means of a custom parallel analysis or related methods [@Glorfeld-1995, @Horn-1965].
+
+This operation appears, at first glance, similar to Repertory Grid Technique [RGT, e.g. @fransella-2004], where participants also evaluate a *given* set of items (called "elements" in RGT) on some inductive, participant-defined categories (called "constructs" in RGT), though RGT employs *interval* measurements (not categorical) and cannot reveal inter-individual *differences*, because the analysis procceeds R-ways.
+The analysis suggested here, works quite differently - observations and variables are, in classic Q fashion, transposed.
+Whereas in RGT, open-ended *categories* are correlated over *items* as observations to reveal similarity categories, we - initially - suggest to correelate *items* over categories as observations to reveal similar items, which are, at a later stage, referred back to initially entered categories.
+
+```{r make-cora, echo=FALSE, fig.cap="One Item x Item Correlation Matrix as a Heatmap", fig.height=10, fig.width=10}
+make_cora <- function(surprise) {
+  cora <- sapply(X = surprise, USE.NAMES = TRUE, simplify = "array", FUN = function(x) {
+    m <- cor(t(x))
+    return(m)
+  })
+  names(dimnames(cora)) <- c("item", "item", "people")
+  return(cora)
+}
+cora <- make_cora(surprise = surprise)
+
+library(GGally)
+ggcorr(data = cora[,,"Julius"], label = TRUE)
+```
+
+
+
+```{r low-level-pca, eval = FALSE, include = FALSE}
+t(komki$qcat$ass$Azra[c("comma", "i-we"),])
+t(surprise$Azra[c("comma", "i-we"),])
+
+
+testpca <- prcomp(x = cora[,,"Azra"], retx = TRUE, center = TRUE, scale. = TRUE)
+testpca$sdev^2
+library(GPArotation)
+varimax <- unclass(Varimax(L = testpca$rotation[,1:6])$loadings)
+
+ggplot(data = as.data.frame(varimax), mapping = aes(x = PC1, y = PC2, label = rownames(testpca$rotation)))+ geom_text() #  + xlim(-1,1) + ylim(-1,1)
+sum(testpca$sdev^2)
+
+summary(cora)
+which(cora == -1, arr.ind = TRUE)
+qplot(x=item_x, y=item_y, data=melt(cora[,,"Azra"], varnames = c("item_x", "item_y")), fill=value, geom="tile")
+
+head(melt(cora[,,"Azra"]))
+q.corrplot(corr.matrix = cora[,,"Azra"])
+
+
+cora[,,"Willy"]
+```
 
 
 ## Interpretation
