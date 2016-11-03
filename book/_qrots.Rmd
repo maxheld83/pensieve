@@ -1,0 +1,100 @@
+---
+title: "qrots"
+author: "Maximilian Held"
+date: "12 February 2016"
+output: pdf_document
+---
+
+```{r preamble, message=FALSE, warning=FALSE}
+library(devtools)  # just to get the local qmethod package
+library(knitr)  # needed for output
+library(rmarkdown)  # needed for output
+library(grid)  # needed, for, well, grids and arrows
+library(gridExtra)  # needed for more grids
+library(ggplot2)  # for custom plots
+install.packages(repos = NULL, type = "source", INSTALL_opts = c('--no-lock'), pkgs = c("../qmethod"))  # notice this is the LOCAL qmethod
+library(qmethod)  # loading it
+library(psych)  # to use psych's functions directly
+library(reshape2)  # data massaging
+library(assertthat)  # testing
+```
+
+```{r setup-knitr, cache = FALSE, message=FALSE, warning=FALSE}
+he
+```
+
+```{r data-import, cache=TRUE}
+load("~/Github/qrots/raw.RData")
+```
+## Analysis
+
+```{r analysis, cache = TRUE}
+res <- NULL
+res$var <- qmethod(dataset = raw, nfactors = 4, rotation = "varimax", forced = TRUE, cor.method = "spearman", reorder = FALSE, allow.confounded = FALSE)
+res$quar <- qmethod(dataset = raw, nfactors = 4, rotation = "quartimax", forced = TRUE, cor.method = "spearman", reorder = FALSE, allow.confounded = FALSE)
+res$equa <- qmethod(dataset = raw, nfactors = 4, rotation = "equamax", forced = TRUE, cor.method = "spearman", reorder = FALSE, allow.confounded = FALSE)
+# TODO add highlights for some cases
+```
+
+
+## Loadings Plots
+
+Here are the loadings plots in this order: **varimax**, **quartimax** and **equamax**.
+
+```{r loaplots, cache = TRUE, fig.height=10, fig.width=10}
+plots <- NULL
+plots$loa <- lapply(X = res, FUN = "q.loaplot", names = FALSE, points = TRUE, alpha = 1/3, density = TRUE, grid = FALSE, rug = TRUE, quietly = TRUE, red = FALSE)
+for (i in 1:length(plots$loa$var)) {
+  do.call(what = "grid.arrange", args = c(plots$loa$var[i], plots$loa$quar[i], plots$loa$equa[i], nrow = 1))
+}
+```
+
+
+## Confounded Q-Sorts
+
+These are for the various rotations:
+
+- Varimax: **742**
+- Quartimax: **431** (as expected, smaller!)
+- Equamax: **431** (same, oddly)
+
+
+## Number of Flags
+
+The number of flagged q-sorts (with de-confounding) is actually quite similar.
+
+```{r flagging summary, cache = TRUE}
+flagsums <- lapply(X = names(res), FUN = function(x) colSums(res[[x]][["flagged"]]))
+names(flagsums) <- names(res)
+flagsums
+lapply(X = flagsums, FUN = "sum")
+```
+
+
+## Loadings Histogram
+
+Again in the order (horizontally) **varimax**, **quartimax** and **equamax**.
+
+We can see that the later factors under quartimax and equamax have quite little variance and mostly low loadings.
+
+```{r loa-histo, cache = TRUE}
+library(ggplot2)
+for (i in colnames(res$var$loa)) {
+  var <- ggplot(data = res$var$loa, mapping = aes_q(x = as.name(i))) + geom_histogram(binwidth = 0.05) + xlim(-1,1)
+  quarti <- ggplot(data = res$quar$loa, mapping = aes_q(x = as.name(i))) + geom_histogram(binwidth = 0.05) + xlim(-1,1)
+  equa <- ggplot(data = res$equa$loa, mapping = aes_q(x = as.name(i))) + geom_histogram(binwidth = 0.05) + xlim(-1,1)
+  grid.arrange(var, quarti, equa, nrow = 1)
+}
+```
+
+## Summed of Squared Loadings
+
+The variance is redistributed to the first, general factor even *before* flagging:
+
+```{r sum-squares, cache = TRUE}
+apply(X = res$var$loa, MARGIN = 2, FUN = function(x) sum(x^2))
+apply(X = res$quar$loa, MARGIN = 2, FUN = function(x) sum(x^2))
+apply(X = res$equa$loa, MARGIN = 2, FUN = function(x) sum(x^2))
+```
+
+

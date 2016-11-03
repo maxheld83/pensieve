@@ -1,0 +1,413 @@
+---
+title: 'Q-Cat: A Method and Algorithm for Categorical Operant Subjectivity'
+author: "Verena Kasztantowicz, Maximilian Held"
+date: "`r Sys.Date()`"
+output:
+  bookdown::tufte_handout2
+  bookdown::tufte_html2
+classoption: twoside,symmetric
+---
+
+# Q-Cat: Categorical Operant Subjectivity {#q-cat}
+
+```{r setup-q-cat, echo = FALSE, message=FALSE}
+library(knitr)
+opts_knit$set(echo = FALSE,
+              cache = TRUE,
+              fig.retina = 2,
+              dpi = 72) 
+
+library(devtools)
+library(rmarkdown)
+library(ggplot2)
+library(reshape2)
+library(plyr)
+library(grid)
+library(gridExtra)
+library(tufte)
+library(xtable)
+options(xtable.comment = FALSE)
+options(xtable.booktabs = TRUE)
+options(scipen=999)
+
+install_github(repo = "maxheld83/pensieveR")
+library(pensieveR)  # from github
+
+install_github(repo = "maxheld83/qmethod")
+library(qmethod)  # from github
+```
+
+```{r q-pic, echo=FALSE, out.width="100%", fig.cap=c("Participant considers all items.", "Participant chooses two similar items, names category.", "Participant applies categories to all items.", "All items are categorized as TRUE or FALSE."), dpi = 72, fig.margin = TRUE, fig.show = "asis"}
+include_graphics(path = c("img/q-cat-stage-0.png", "img/q-cat-stage-1.png", "img/q-cat-stage-2.png", "img/q-cat-stage-3.png"))
+```
+
+> "The factors are likewise natural, representing actual *categories of thinking* that are operant with respect to the issues under consideration." 
+> 
+> -- Steven Brown [-@Brown1980, p. 70, emphasis added]
+
+## Abstract
+
+Q-Sorts record item positions *continuously*, distending from a neutral mid-point along some dimension. 
+However, while adhering to Stephenson's ontology and epistemology, Q methodology can also be extended to cover *categorical* operant subjectivity.
+
+We here suggest a survey method and analytical algorithm to capture such shared viewpoints of categorizing items.
+The well-established [Repertory Grid Technique](https://en.wikipedia.org/wiki/Repertory_grid) also shares some of Q's underpinnings and allows spontaneous categories, but does not lend itself (easily) to a transposed, "Q-wise" factor extraction and may not be ipsative between the items. 
+Instead, we invite participants to come up with their own, dichotomous categories and ask them to classify the full Q-Set accordingly.
+The resultant logical table is summarized into a per-person measure of categorical item similarity, in turn transformed into a person-by-person correlation matrix.
+We then extract higher-level principal components (PCA) in a stepwise residual process, and calculate the respective (rotated) component scores, yielding ideal-typical, shared ways of categorizing the Q-Set.
+These categorical viewpoints are then subjected to a nested, low-level PCA to allow a substantive abduction of just *what* those categories might be.
+
+Using real-world data gathered for this purpose, we show that results from the suggested procedure can be meaningfully interpreted as categorical operant subjectivity.
+We also present software for the R statistics framework to run the analysis.
+
+Categorizing things can be considered a fundamental, spontaneous act of the human mind, and Q-Cat is a helpful addition to the Q-methodologists toolkit to study it.
+
+```{r kill-nas, echo=FALSE}
+data(komki)
+
+# kill nas
+komki$qsorts <- na.omit(komki$qsorts)
+komki$items <- komki$items[komki$items$Handle.english %in% rownames(komki$qsorts), ]
+komki$qcat$ass <- sapply(X = komki$qcat$ass, simplify = FALSE, FUN = function(x) {
+  x[rownames(x) %in% rownames(komki$qsorts), , drop = FALSE]
+})
+
+# killing jason, because a) he just didn't REALLY do the thing and b) he dominates the qcat model, which we don't like.
+komki$qsorts <- komki$qsorts[, colnames(komki$qsorts) != "Jason"]
+komki$qcat$desc <- komki$qcat$desc[, colnames(komki$qcat$desc) != "Jason"]
+komki$qcat$ass$Jason <- NULL
+```
+
+
+## Data Gathering: Subjective Categorizing as *Pure Behavior*
+
+In the `Q-Cat` procedure, participants sort items according to their own, "first-person", arbitrary categories.
+<!-- TODO add citation for first-person -->
+These categories are:
+
+- **operant**, because they arise *spontaneously* as participants engage the items,
+- **inductive**, because participants describe their own, *open-ended* categories, which can be neither correct, nor incorrect,
+- **ipsatively** assigned, because categories are originally defined as *similarity* between categories.
+
+In contrast to other sorting techniques, which require a *single* set of mutually exclusive, and comprehensively exhaustive ("MECE") categories as a disjoint set vis-a-vis the items [@coxon-1999, p. 3], `Q-Cat` *encourages* overlapping *multiple* categories, each of which is merely *logically* (`TRUE`, `FALSE`) assigned to each item.
+This complicates the analysis, but avoids imposing a pre-supposed structure of categorical subjectivity on participants.
+^[In a future iteration, participants will ipsatively *rank* items vis-a-vis a categorical *prototype* (chosen from the items, compare @rosch-1978), yielding *ordinal* information, requiring a separate, non-parametric analytical procedure.]
+
+For our example study on categorizations of language games with children and grown-ups, this yields a *list* of description matrices (one element for each participant, as in table \@ref(tab:desc-example)) and a three-dimensional *array* of assignment matrices (one slice for each participant, as in table \@ref(tab:ass-example)).
+^[This canonical data representation can be easily produced from conveniently entered raw data with [`pensieveR::import_qcat()`](http://pensiever.maxheld.de).]
+
+```{marginfigure-language-bees}
+**Language of Bees**  
+*Bee-german: 'Summ, summ, summ.'  
+Bee-english: 'Samm, Samm, Samm.'  
+Bee-french: 'Summe, summe, summe.'   
+Bee-finnish: 'Suomi, suomi, suomi'*  
+```
+
+```{marginfigure-eating-grandpa}
+**Let's eat Grandpa**  
+*Let's eat grandpa.  
+Let's eat, grandpa.  
+Commas - They save lives!*
+```
+
+```{r julius-desc, echo = FALSE}
+# prepare some example subset
+chosen_cats <- c(A = "Tiere",
+                 L = "Aussprache",
+                 H = "Satzzeichen",
+                 G = "Reime")
+chosen_cat_indices <- which(x = LETTERS %in% names(chosen_cats))
+komki$qcat$desc[names(chosen_cats), "Julius"] <- c("animals", 
+                                                   "pronounciation", 
+                                                   "punctuation", 
+                                                   "rhymes")
+
+chosen_items <- c("language-of-bees", "eating-grandpa")
+
+desc_example <- data.frame(Index = chosen_cat_indices,
+                           Description = komki$qcat$desc[names(chosen_cats), "Julius"],
+                           row.names = NULL)
+
+ass_example <- komki$qcat$ass$Julius[chosen_items, chosen_cat_indices]
+```
+
+```{r desc-example, echo=FALSE}
+kable(x = desc_example,
+      row.names = FALSE,
+      caption = "Description Matrix (Subset)")
+```
+
+```{r ass-example, echo=FALSE}
+kable(x = ass_example,
+      row.names = TRUE, 
+      col.names = as.character(c(1:ncol(ass_example))),
+      caption = "Assignment Matrix (Subset)")
+```
+
+
+## Analysis 1: Shared Categories as Surprising Similarity
+
+To analyze `Q-Cat` data, we must first render the individual categorisations comparable.
+ ^[Note that the data in canonical form *cannot* be compared between individuals. For example, `Nhome`'s first category is independently defined (by her) from the above `Julius`'s first category, and so on.]
+To do that, we first transform the binary assignments into continuous deviations from *probable* assignments.
+The probable assignment is the *expected value* $\mathbb{E}$ for some item draw, which is, intuitively, the probability-weighted ($p$) arithmetic average of outcomes $x_1$ (`TRUE`)  and $x_2$ (`FALSE`),
+
+<!-- TODO use pretty math (doesn't work with with tufte-html for now) -->
+<!-- <script type="text/x-mathjax-config"> -->
+<!-- MathJax.Hub.Config({ -->
+<!--   TeX: { equationNumbers: { autoNumber: "AMS" } } -->
+<!-- }); -->
+<!-- </script> -->
+<!-- \begin{equation} -->
+<!--   \mathbb{E}(X) = x_1 p_1 + x_2 p_2 \label{eq:ev} -->
+<!-- \end{equation} -->
+
+$$\mathbb{E}(X) = x_1 p_1 + x_2 p_2$$
+
+where $p_1$ probability of `TRUE` is simply the count of `TRUE`s $z$ divided by the number of items $y$, $p_1 = z / y$, and $p_2 = 1 - p_1$.
+We then subtract this *expected value* from the *observed* realization for some $x$, yielding
+
+$$x{'} = x - \mathbb{E}(X).$$
+
+
+
+```{r make-surprise, echo=FALSE}
+make_surprise <- function(ass) {
+  surprise <- ass  # TODO better make this object empty in future!
+  for (person in names(ass)) {
+    ev <- colSums(ass[[person]]) / nrow(ass[[person]])
+    surprise[[person]] <- t(apply(X = ass[[person]], MARGIN = 1, FUN = function(x) {x - ev}))
+  }
+  return(surprise)
+}
+surprise <- make_surprise(ass = komki$qcat$ass)
+kable(x = surprise$Julius[chosen_items, chosen_cat_indices],
+      col.names = as.character(c(1:4)),
+      caption = "Assignments as Surprisal Values (Subset)")
+```
+
+We can now express `Julius`' above assignments from table \@ref(tab:ass-example) as $x{'}$, an information-theoretical *surprisal value* [@attneave-1959].
+^[Our measure is a greatly simplified version of *Burton's $Z$*, which required *conditional* probabilities for item-pair co-occurences, because items are drawn into MECE categories *without* replacement [compare @burton-1972].]
+A high positive value, such `Julius`' value for category `1` on `language-of-bees` indicates that this assignment is *positively* surprising, given the probable assignment; it's `TRUE`"ishness" is *higher* than would be expected on average.
+The inverse holds for `Julius`' value for category `2` on `eating-grandpa`; it is *less* `TRUE`ish than would be expected, even though only slightly so.
+
+Summary statistics about the surprisal value matrices are also readily interpretable.
+For example, `Julius` has a mean surprisal value of `mean(surprise$Julius["language-of-bees", ])` for `language-of-bees`, implying that the item attracted many *more* category assignments than expected.
+Conversely, a high standard deviation, such as for `Julius`' `the-same` (`sd(surprise$Julius["the-same", ])`) suggests that the item was assigned much *more* than expected to some categories, but not to others.
+Both characteristics of category assignments are appropriately standardized away by the correlation coefficient, because a high center of, or high spread of assignments should not give extra weight to some item.
+<!-- TODO this is still a little thin, but also maybe just a footnote -->
+
+Thus standardized for the category *width*, *spread* and *center* we can now easily *correlate* the surprisal value of all item pairs, yielding a three dimensional array of items x items x people.
+^[A simpler approach, tried out earlier, would simply *count* the co-occurences of item-pairs in any set of categories, but such a procedure does not standardize for category width, and has the disadvantage of only producing a *co-occurence* matrix.]
+
+This correlation of the *surprisal values* of item pairs, observed over a (varying) number of (open-ended) categories is, oddly, neither an `R`, nor a `Q`-type analysis.
+The correlated variables are items, but the observations are *also* "variables" of sorts, namely the inductive categories described by participants.
+As will be obvious in the next step, this preliminary summary is necessary to enable a "Q-way" analysis of the categorical data available here: categorisations must *first* be made comparable accross participants, which is what the surprisal value correlation matrices as a rough indication of *categorically* assigned similarity accomplish.
+
+`Julius` slice is display in figure \@ref(fig:make-cora).
+The correlation coefficients encompass a surprising range, all the way from `-1` to `1` - even on the off-diagonal.
+Strictly speaking, the values *can* be interpreted as categorically assigned, *surprising* similarity.
+*Measured by the granularity of the present study* (i.e. the number of observed categories for some participant), an off-diagonal `1` can be taken to indicate *total* similarity.
+As with other samples, this measure entails an element of chance: `Julius`' *perfect* correlation between items `resistance` and `comma` likely does *not* indicate that `Julius` thought the two were truly *identical*.
+They just *appear* to be identical on the (limited) number categories observed, and would probably be differentiated, had they been observed on more, or different categories.
+We can, consequently, have more confidence in a surprisal correlation matrix that is based on a greater number of observation (= categories), because chance "identities" are less likely to arise, though given the intensive nature of the method, the number of observations is likely to always remain quite limited.
+When extracting the *shared* patterns of categorical similarity, it will be important to deflate resulting models by the probability of such random, likely false-positive identities through means of a custom parallel analysis or related methods [@Glorfeld-1995, @Horn-1965].
+
+This operation appears, at first glance, similar to Repertory Grid Technique [RGT, e.g. @fransella-2004], where participants also evaluate a *given* set of items (called "elements" in RGT) on some inductive, participant-defined categories (called "constructs" in RGT), though RGT employs *interval* measurements (not categorical) and cannot reveal inter-individual *differences*, because the analysis procceeds R-ways.
+The analysis suggested here, works quite differently - observations and variables are, in classic Q fashion, transposed.
+Whereas in RGT, open-ended *categories* are correlated over *items* as observations to reveal similarity categories, we - initially - suggest to correelate *items* over categories as observations to reveal similar items, which are, at a later stage, referred back to initially entered categories.
+
+```{r make-cora, echo=FALSE, fig.cap="Julius' Item x Item Correlation Matrix as a Heatmap", fig.height=10, fig.width=10}
+make_cora <- function(surprise) {
+  cora <- sapply(X = surprise, USE.NAMES = TRUE, simplify = "array", FUN = function(x) {
+    m <- cor(t(x))
+    return(m)
+  })
+  names(dimnames(cora)) <- c("item", "item", "people")
+  return(cora)
+}
+cora <- make_cora(surprise = surprise)
+
+library(GGally)
+ggcorr(data = cora[,,"Julius"], label = TRUE)
+```
+
+The correlation heatmap in \@ref(fig:make-cora) is broadly informative, but too big for researchers to make sense of, simply because the item combinations are many - as they should be, for a productive analysis.
+Because item surprisal similarity is here expressed as a simple correlation matrix, we can employ a Principal Components Analysis (PCA) to reduce its dimensionality.
+
+```{r julius-pca, echo=FALSE, fig.cap="Item Loadings on Julius' First Two Quartimax-Rotated Components"}
+pca_julius <- prcomp(x = t(surprise$Julius), retx = TRUE, center = TRUE, scale. = TRUE)
+# todo add a proper biplot here, does that even make sense?
+library(GPArotation)
+rotated_julius <- quartimax(L = pca_julius$rotation[,1:7])$loadings
+
+# now let's find the scores, so we know which were the original categories assigned here
+scores_julius <- matrix(data = NA,
+                        nrow = ncol(rotated_julius),
+                        ncol = ncol(surprise$Julius))
+for(pc in 1:ncol(rotated_julius)) {
+  scored_surprise <- surprise$Julius
+  for(item in rownames(rotated_julius)) {
+    scored_surprise[item, ] <- surprise$Julius[item, ] * rotated_julius[item, pc]
+  }
+  scores_julius[pc,] <- colSums(scored_surprise)
+}
+
+scores_n_desc <- data.frame(desc = komki$qcat$desc[1:17,"Julius"],
+                           scores = t(scores_julius))
+# View(scores_n_desc)
+
+#rownames(rotated_julius) <- komki$items$Handle.deutsch  # comment me out unless you want german items
+ggplot(data = as.data.frame(rotated_julius[,1:2]), mapping = aes(x = PC1, y = PC2, label = rownames(rotated_julius))) + geom_text(position = position_jitter(width = 0.05))
+```
+
+Figure \@ref(fig:julius-pca) displays the item loadings in the first two rotated principal components (out of seven with an Eigenvalue greater than one).
+These loadings can be interpreted as similarity of items in terms of their surprising category assignment; `i-we` and `but-how` *both* are surprisingly *present* on the first dimension of such similarity, while `riddle` and `idiom` are both surprisingly *absent* on the same dimension.
+Using factor *scores*, which are here ideal-typical category *assignments*, we can also relate this summary back to the original descriptions.
+A cursory inspection of the item pattern and the underlying descriptions suggests that `Julius` first rotated reflects his formal categorisations (such as punctuation), as opposed to his more substantive judgments (such as whether an item was a joke, or played with the meaning of words).
+Such *individual* level summary illustrates the logic and *should* be meaningful, in principle, though it is likely to be of limited use in real research because the underlying observations are so sparse, and uncorrected surprisal values accordingly unreliable for an individual.
+^[A proper analysis of individual level categorisations will also benefit from more specialized visualizations and may require custom rotation methods.]
+
+
+## Analysis 2: Ideal Types of Ideal Types
+
+We now have an array $\underline{X}$ of order
+
+$$J \times J \times K$$
+
+or, in this context,
+
+$$Items \times Items \times People$$,
+
+where cells cells are Pearson's correlation coefficients, each across some observations of some item pair.
+(See [this related answer](http://stats.stackexchange.com/questions/230479/how-to-reduce-the-dimensionality-of-a-similarity-matrix-of-categorical-co-occur/231333#231333) on why this correlation matrix is the only comparable data we have; we can't go back to raw*er* data.)
+
+Since *both* the number of people *and* the number of item-pairs are too large to make sense of the data, we need to reduce the dimensionality.
+Specifically, we want to reduce the people to *fewer* ideal types, and then describe these ideal type's *ideal types* of co-occuring items, potentially yielding of shared, categorical subjectivities of participants.
+
+Since we are looking for a simple dimensionality reduction (not a causal or latent variable model), the n-mode generalisations of PCA, Candecomp/Parafac [PC, @carrol-chang-1970 and independently @harshman-1970] and the more involved Tucker procedures [@tucker-1966] apply here.
+
+
+
+```{r npca, eval=FALSE, include=FALSE}
+# there is candecomp == parafac (CP decomp) and Tucker3 == Multilineal SVD (+ Kroonenberg extensions)
+# candecomp/parafac is notgreat, because it requires the *same* number of components for each mode
+
+# cp vs tucker image from t M. Alex O. Vasilescu via 
+
+#install.packages("multiway")
+#install.packages("FactoMineR")
+# install.packages("PTAk")
+#install.packages("ThreeWay") # <- let's go with this
+# library(ThreeWay)
+
+# Candecomp/Parafac ====
+cp_res <- CP(data = cora,
+               laba = dimnames(cora)[[1]],
+               labb = dimnames(cora)[[2]],
+               labc = dimnames(cora)[[3]])
+save("cp_res", file = "cp_res.Rdata")
+
+cp_res <- load(file = "cp_res.Rdata")
+cp_res
+ggpairs(data = cp_res$A)
+x11()
+ggpairs(data = cp_res$C)
+
+# i actually want here the lower and upper tri to be different, one for items one for people but that doesn't work bc of some label bs
+# lower_tri_plot <- function(data, mapping, ...) {
+#   ggplot(data = data, mapping = mapping) + geom_text()
+# }
+
+dev.next()
+x11()
+library(ggrepel)
+
+for(i in ncol())
+ggplot(data = as.data.frame(cp_res$A[,c(5,6)]), mapping = aes(x = Comp.5, y = Comp.6, label = rownames(cp_res$A))) + geom_point() + geom_label_repel()
+
+rownames(cp_res$A) <- komki$items$Handle.deutsch
+
+item_plots <- NULL
+for(i in 1:ncol(cp_res$A)) {
+  for(p in 1:ncol(cp_res$A)) {
+    ggsave(filename = paste0("item-",i,"-",p,"-german.pdf"),
+           plot = ggplot(data = as.data.frame(cp_res$A[,c(i,p)]), mapping = aes_string(x = paste0("Comp.", i), y = paste0("Comp.", p), label = "rownames(cp_res$A)")) + geom_point() + geom_label_repel(),
+           width = 7,
+           height = 7,
+           units = "in")
+  }
+}
+item_plots[[1]][[4]]
+
+ggplot(data = as.data.frame(cp_res$C[,c(1,2)]), mapping = aes(x = Comp.1, y = Comp.2, label = rownames(cp_res$C))) + geom_point() + geom_text_repel()
+
+
+ggpairs(data = cp_res$A, mapping = aes(label = rownames(cp_res$A)), lower = list(continuous = lower_tri_plot))
+install.packages("ggrepel")
+
+cp_res$A
+cp_res$C
+library(ggplot2)
+library(GGally)
+ggpairs(upper = )
+help(ggpairs)
+plotmatrix(plotdata)
+
+all(abs(round(x = cp_res$A, digits = 1)) == abs(round(x = cp_res$B, digits = 1)))
+
+cp_res$A
+
+# tucker ====
+tucker_res <- T3(data = cora,
+                      laba = dimnames(cora)[[1]],
+                      labb = dimnames(cora)[[2]],
+                      labc = dimnames(cora)[[3]])
+save(tucker_res, file = "tucker_res.Rdata")
+
+tucker_res$core
+
+ggpairs(tucker_res$A)
+dev.off()
+x11()
+
+# some post prcessing as per gioardini kiers page 8
+# TODO THIS STUFF FAILS
+# tucker_res$A <- tucker_res$A %*% tucker_res$core
+# tucker_res$core <- solve(tucker_res$core) %*% tucker_res$core
+
+all(round(tucker_res$A, digits = 1) == round(tucker_res$B, digits = 1))
+```
+
+
+## Open issues
+
+- rotation?
+- pre-proccessing (centering, scaling)
+- post-processing (normalizing)
+- robustness and Bayesian critique (parallel analysis)
+
+
+## Interpretation
+
+While different in procedure and data type, `Q-Cat` shares the paradigmatic foundations of Q methodology.
+As Watts writes about Q-*Sorts*, here *too*:
+
+> "Subjectivity is not a mental entity. 
+> It does not reflect any inner experience and it has little in common with concepts like mind and consciousness." 
+>
+> -- Simon Watts [-@watts2011subjectivity, p. 40]
+
+<!-- "Operational definitions begin with concepts in search of behavior; operant definitions begin with behavior in search of concepts." [@Brown-1980, p. 28] -->
+
+<!-- This is an extension of the scientific study of human subjectivity. -->
+
+<!-- this is not about mental representation as from psych, but -->
+
+<!-- -a viewpoint is relational: an interaction between subject and world (an object, another person, an event, a concept ... ) -->
+<!-- -viewpoints are the act of observation -->
+<!-- -viewpoints are inherently meaningful -->
+
+## References
+

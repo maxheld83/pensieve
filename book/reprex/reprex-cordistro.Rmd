@@ -1,0 +1,67 @@
+---
+title: "reprex-perarson-distro"
+author: "Maximilian Held"
+date: "22 January 2016"
+output: html_document
+---
+
+I want to compare *observed* bivariate (Pearson's $\rho$ and Spearman's $\rho$) correlations coefficients with what would be expected from random data.
+
+Assume that we measure, say, 36, cases across *very* many variables (1000).
+(I know this is odd, it's called [Q methodology](https://en.wikipedia.org/wiki/Q_methodology).
+Assume further that *each of the variables* is (strictly) normally distributed  *across the cases*.
+(Again, very odd, but true because people as *people-variables* rank order *item-cases* under a normal distribution.)
+
+So, *if people sorted randomly*, we should get:
+
+```{r dataset}
+m <- sapply(X = 1:1000, FUN = function(x) rnorm(36))
+```
+
+Now -- because this is Q methodology -- we correlate *all people-variables*:
+
+```{r cor}
+cors <- cor(x = m, method = "pearson")
+```
+
+Then we try to plot that, and superimpose the *distribution* of Pearson's correlation coefficient in random data, which should actually be quite close to the observed correlations in our fake data:
+
+```{r plot}
+library(ggplot2)
+cor.data <- cors[upper.tri(cors, diag = FALSE)]  # we're only interested in one of the off-diagonals, otherwise there'd be duplicates
+cor.data <- as.data.frame(cor.data)  # that's how ggplot likes it
+summary(cor.data)
+str(cor.data)
+colnames(cor.data) <- "pearson"
+pearson.p <- function(r, n) {
+  pofr <- ((1-r^2)^((n-4)/2))/beta(a = 1/2, b = (n-2)/2)
+  return(pofr)
+}
+g <- NULL
+g <- ggplot(data = cor.data, mapping = aes(x = pearson))
+g <- g + xlim(-1,1)  # actual limits of pearsons r
+g <- g + geom_histogram(mapping = aes(y = ..density..))
+g <- g + stat_function(fun = pearson.p, colour = "red", args = list(n = nrow(m)))  # distro as per http://stats.stackexchange.com/questions/191937/what-is-the-distribution-of-sample-correlation-coefficients-between-two-uncorrel?noredirect=1#comment365877_191937
+g
+```
+
+I remember (vaguely) that the t-distribution is relevant in this context, but I can't wrap my head around how to parametrize it properly.
+In particular, are the degrees of freedom given by the number of correlations (1000^2/2-500), or the number of observations on which these correlations are based (36)?
+
+Either way, the superimposed curve in the above is clearly wrong.
+
+I'm also confused because, the probability distribution of Pearson's r would need to be bounded (there are *no* values beyond (-) 1) -- but the t-distribution is *not* bounded.
+
+Which distribution describes Pearson's r in this case?
+
+---
+
+Bonus:
+
+The above data are actually idealized: in my real Q-study, people-variables actually have very few columns under a normal distribution to sort their item-cases into, like so:
+
+In effect, people-variables are actually *rank-ordering* item-cases, so Pearson's is not applicable.
+As a rough-and-dirty fix, I've opted for Spearman's rho, instead.
+Is the probability distribution the same for Spearman's rho?
+
+
