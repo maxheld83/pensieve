@@ -14,7 +14,9 @@ Imports:
   tufte,
   xtable,
   GGally,
-  GPArotation
+  GPArotation,
+  ThreeWay,
+  ggrepel
 Remotes:
   rstudio/bookdown,
   maxheld83/pensieveR,

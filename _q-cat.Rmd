@@ -270,6 +270,125 @@ Such *individual* level summary illustrates the logic and *should* be meaningful
 ^[A proper analysis of individual level categorisations will also benefit from more specialized visualizations and may require custom rotation methods.]
 
 
+## Analysis 2: Ideal Types of Ideal Types
+
+We now have an array $\underline{X}$ of order
+
+$$J \times J \times K$$
+
+or, in this context,
+
+$$Items \times Items \times People$$,
+
+where cells cells are Pearson's correlation coefficients, each across some observations of some item pair.
+(See [this related answer](http://stats.stackexchange.com/questions/230479/how-to-reduce-the-dimensionality-of-a-similarity-matrix-of-categorical-co-occur/231333#231333) on why this correlation matrix is the only comparable data we have; we can't go back to raw*er* data.)
+
+Since *both* the number of people *and* the number of item-pairs are too large to make sense of the data, we need to reduce the dimensionality.
+Specifically, we want to reduce the people to *fewer* ideal types, and then describe these ideal type's *ideal types* of co-occuring items, potentially yielding of shared, categorical subjectivities of participants.
+
+Since we are looking for a simple dimensionality reduction (not a causal or latent variable model), the n-mode generalisations of PCA, Candecomp/Parafac [PC, @carrol-chang-1970 and independently @harshman-1970] and the more involved Tucker procedures [@tucker-1966] apply here.
+
+
+
+```{r npca, eval=FALSE, include=FALSE}
+# there is candecomp == parafac (CP decomp) and Tucker3 == Multilineal SVD (+ Kroonenberg extensions)
+# candecomp/parafac is notgreat, because it requires the *same* number of components for each mode
+
+# cp vs tucker image from t M. Alex O. Vasilescu via 
+
+#install.packages("multiway")
+#install.packages("FactoMineR")
+# install.packages("PTAk")
+#install.packages("ThreeWay") # <- let's go with this
+# library(ThreeWay)
+
+# Candecomp/Parafac ====
+cp_res <- CP(data = cora,
+               laba = dimnames(cora)[[1]],
+               labb = dimnames(cora)[[2]],
+               labc = dimnames(cora)[[3]])
+save("cp_res", file = "cp_res.Rdata")
+
+cp_res <- load(file = "cp_res.Rdata")
+cp_res
+ggpairs(data = cp_res$A)
+x11()
+ggpairs(data = cp_res$C)
+
+# i actually want here the lower and upper tri to be different, one for items one for people but that doesn't work bc of some label bs
+# lower_tri_plot <- function(data, mapping, ...) {
+#   ggplot(data = data, mapping = mapping) + geom_text()
+# }
+
+dev.next()
+x11()
+library(ggrepel)
+
+for(i in ncol())
+ggplot(data = as.data.frame(cp_res$A[,c(5,6)]), mapping = aes(x = Comp.5, y = Comp.6, label = rownames(cp_res$A))) + geom_point() + geom_label_repel()
+
+rownames(cp_res$A) <- komki$items$Handle.deutsch
+
+item_plots <- NULL
+for(i in 1:ncol(cp_res$A)) {
+  for(p in 1:ncol(cp_res$A)) {
+    ggsave(filename = paste0("item-",i,"-",p,"-german.pdf"),
+           plot = ggplot(data = as.data.frame(cp_res$A[,c(i,p)]), mapping = aes_string(x = paste0("Comp.", i), y = paste0("Comp.", p), label = "rownames(cp_res$A)")) + geom_point() + geom_label_repel(),
+           width = 7,
+           height = 7,
+           units = "in")
+  }
+}
+item_plots[[1]][[4]]
+
+ggplot(data = as.data.frame(cp_res$C[,c(1,2)]), mapping = aes(x = Comp.1, y = Comp.2, label = rownames(cp_res$C))) + geom_point() + geom_text_repel()
+
+
+ggpairs(data = cp_res$A, mapping = aes(label = rownames(cp_res$A)), lower = list(continuous = lower_tri_plot))
+install.packages("ggrepel")
+
+cp_res$A
+cp_res$C
+library(ggplot2)
+library(GGally)
+ggpairs(upper = )
+help(ggpairs)
+plotmatrix(plotdata)
+
+all(abs(round(x = cp_res$A, digits = 1)) == abs(round(x = cp_res$B, digits = 1)))
+
+cp_res$A
+
+# tucker ====
+tucker_res <- T3(data = cora,
+                      laba = dimnames(cora)[[1]],
+                      labb = dimnames(cora)[[2]],
+                      labc = dimnames(cora)[[3]])
+save(tucker_res, file = "tucker_res.Rdata")
+
+tucker_res$core
+
+ggpairs(tucker_res$A)
+dev.off()
+x11()
+
+# some post prcessing as per gioardini kiers page 8
+# TODO THIS STUFF FAILS
+# tucker_res$A <- tucker_res$A %*% tucker_res$core
+# tucker_res$core <- solve(tucker_res$core) %*% tucker_res$core
+
+all(round(tucker_res$A, digits = 1) == round(tucker_res$B, digits = 1))
+```
+
+
+## Open issues
+
+- rotation?
+- pre-proccessing (centering, scaling)
+- post-processing (normalizing)
+- robustness and Bayesian critique (parallel analysis)
+
+
 ## Interpretation
 
 While different in procedure and data type, `Q-Cat` shares the paradigmatic foundations of Q methodology.
