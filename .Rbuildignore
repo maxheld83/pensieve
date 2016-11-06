@@ -2,8 +2,10 @@
 ^.*\.sublime-project$
 ^\.Rproj\.user$
 ^\.travis\.yml$
-
 ^appveyor\.yml$
 ^codecov\.yml$
 ^LICENSE\.md$
 ^data-raw$
+book$
+^CONTRIBUTING\.md$
+.*/rsconnect

@@ -1,9 +1,18 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-sudo: false
 cache: packages
-notifications:
-  email: false
+
+before_script:
+  - chmod +x ./book/_build.sh
+  - chmod +x ./book/_deploy.sh
+
+script:
+  - ./book/_build.sh
+  - ./book/_deploy.sh
+
 after_success:
   - Rscript -e 'covr::codecov()'
+
+notifications:
+  email: false

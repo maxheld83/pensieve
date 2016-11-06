@@ -16,7 +16,7 @@ output:
     keep_tex: yes
 link_citations: true
 documentclass: book
-bibliography: [held_library.bib, packages.bib]
+bibliography: [held_library.bib]
 biblio-style: apalike
 link-citations: yes
 github-repo: maxheld83/pensieve

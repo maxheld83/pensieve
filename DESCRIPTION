@@ -1,9 +1,9 @@
-Package: pensieveR
+Package: pensieve
 Title: Tools for the Scientific Study of Operant Subjectivity
 Version: 0.0.0.9001
 Authors@R: person("Maximilian", "Held", email = "info@maxheld.de", role = c("aut", "cre"))
-URL: https://github.com/maxheld83/pensieveR
-BugReports: https://github.com/maxheld83/pensieveR/issues
+URL: https://github.com/maxheld83/pensieve
+BugReports: https://github.com/maxheld83/pensieve/issues
 Description: Provides tools for the scientific study of human subjectivity.
 Depends:
     R (>= 3.3.1)
@@ -21,6 +21,21 @@ Suggests:
     knitr (>= 1.13),
     rmarkdown (>= 1.0),
     covr (>= 2.2.0),
-    randomNames (>= 0.1)
+    randomNames (>= 0.1),
+    bookdown,
+    tufte,
+    devtools,
+    ggplot2,
+    reshape2,
+    plyr,
+    grid,
+    servr,
+    gridExtra,
+    tufte,
+    xtable,
+    GGally,
+    GPArotation,
+    ThreeWay,
+    ggrepel
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
