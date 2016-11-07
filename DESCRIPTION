@@ -7,7 +7,7 @@ BugReports: https://github.com/maxheld83/pensieve/issues
 Description: Provides tools for the scientific study of human subjectivity.
 Depends:
     R (>= 3.3.1)
-License: GPL-3
+License: AGPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
@@ -23,15 +23,12 @@ Suggests:
     covr (>= 2.2.0),
     randomNames (>= 0.1),
     bookdown,
-    tufte,
     devtools,
     ggplot2,
     reshape2,
-    plyr,
     grid,
     servr,
     gridExtra,
-    tufte,
     xtable,
     GGally,
     GPArotation,

@@ -1,17 +1,24 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-cache: packages
+sudo: FALSE
+cache:
+  packages: yes
+  directories:
+    - $HOME/bin
+
 warnings_are_errors: false
-sudo: false
 
 before_script:
+  - R CMD INSTALL .
+  - cd book
   - chmod +x ./book/_build.sh
   - chmod +x ./book/_deploy.sh
 
 script:
   - ./book/_build.sh
   - ./book/_deploy.sh
+  - cd ../..
 
 after_success:
   - Rscript -e 'covr::codecov()'
