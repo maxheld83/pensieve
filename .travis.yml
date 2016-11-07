@@ -6,6 +6,7 @@ cache:
   packages: yes
   directories:
     - $HOME/bin
+    - $TRAVIS_BUILD_DIR/book/_bookdown_files
 
 warnings_are_errors: true
 

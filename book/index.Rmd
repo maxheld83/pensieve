@@ -29,3 +29,10 @@ This is a very early draft, and is not ready for prime-time, let alone citation.
 
 This is the *documentation* (in lieu of vignettes).
 To find the package, go to http://pensieve.maxheld.de.
+
+```{r plottest, cache=TRUE}
+testobject <- 1
+library(ggplot2)
+p <- ggplot(data = mpg, aes(class, hwy))
+p + geom_boxplot()
+```

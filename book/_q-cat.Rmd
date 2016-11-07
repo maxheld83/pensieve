@@ -1,13 +1,3 @@
----
-title: 'Q-Cat: A Method and Algorithm for Categorical Operant Subjectivity'
-author: "Verena Kasztantowicz, Maximilian Held"
-date: "`r Sys.Date()`"
-output:
-  bookdown::tufte_handout2
-  bookdown::tufte_html2
-classoption: twoside,symmetric
----
-
 # Q-Cat: Categorical Operant Subjectivity {#q-cat}
 
 ```{r setup-q-cat, echo = FALSE, message=FALSE}
@@ -29,9 +19,6 @@ library(xtable)
 options(xtable.comment = FALSE)
 options(xtable.booktabs = TRUE)
 options(scipen=999)
-
-install_github(repo = "maxheld83/pensieve")
-library(pensieve)  # from github
 
 install_github(repo = "maxheld83/qmethod")
 library(qmethod)  # from github
