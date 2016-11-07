@@ -13,7 +13,7 @@ before_script:
   - R CMD INSTALL .
 
 script:
-  - R CMD CHECK .
+  - R CMD check .
 
 after_success:
   - Rscript -e 'covr::codecov()'
