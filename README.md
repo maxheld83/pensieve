@@ -1,5 +1,5 @@
-[![Travis CI Build Status](https://travis-ci.org/maxheld83/pensieve.svg?branch=master)](https://travis-ci.org/maxheld83/pensieve)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/maxheld83/pensieve?branch=master&svg=true)](https://ci.appveyor.com/project/maxheld83/pensieve)
+[![Travis CI Build Status (Package + Book)](https://travis-ci.org/maxheld83/pensieve.svg?branch=master)](https://travis-ci.org/maxheld83/pensieve)
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/9ip5xkw34mkfcewu/branch/master?svg=true)](https://ci.appveyor.com/project/maxheld83/pensieve/branch/master)
 [![Coverage Status](https://img.shields.io/codecov/c/github/maxheld83/pensieve/master.svg)](https://codecov.io/github/maxheld83/pensieve?branch=master)
 
 R package for the scientific study of human subjectivity.
