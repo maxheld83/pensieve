@@ -11,9 +11,7 @@ warnings_are_errors: true
 
 before_script:
   - R CMD INSTALL .
-  - cd book
-  - "[ ! -z \"$BUILD_ALL\" ] && make all || make gitbook"
-  - cd ../..
+  - Rscript book/_render.R
 
 # here comes the R CMD check (part of the script by default)
 
