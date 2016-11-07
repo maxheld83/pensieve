@@ -9,8 +9,14 @@ cache:
 
 warnings_are_errors: true
 
-script:
-  - pwd
+# in here, by default R is built and checked
+
+# now we build the gitbook, by using before_deploy b/c that would cause an error out
+before_deploy:
+  - R script -e 'setwd(dir = "book/")'
+  - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
+  - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book')"
+  - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::epub_book')"
 
 after_success:
   - Rscript -e 'covr::codecov()'
