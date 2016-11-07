@@ -11,14 +11,9 @@ warnings_are_errors: false
 
 before_script:
   - R CMD INSTALL .
-  - cd book
-  - chmod +x _build.sh
-  - chmod +x _deploy.sh
 
 script:
-  - _build.sh
-  - _deploy.sh
-  - cd ../..
+  - R CMD CHECK .
 
 after_success:
   - Rscript -e 'covr::codecov()'
