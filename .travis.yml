@@ -1,6 +1,6 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+language: r
 sudo: FALSE
 cache:
   packages: yes
@@ -11,10 +11,7 @@ warnings_are_errors: true
 
 before_script:
   - R CMD INSTALL .
-  - Rscript -e 'setwd(dir = "book/")'
-  - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
-  - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book')"
-  - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::epub_book')"
+  - Rscript -e 'setwd(dir = "book/")' -e "render_book(input = "index.Rmd", output_format = c("gitbook", "pdf_book", "epub_book"), output_dir = "../_book")"
 
 after_success:
   - Rscript -e 'covr::codecov()'
