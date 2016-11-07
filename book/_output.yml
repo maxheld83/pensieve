@@ -1,9 +1,3 @@
-bookdown::pdf_book:
-  includes:
-    in_header: preamble.tex
-  latex_engine: xelatex
-  citation_package: natbib
-bookdown::epub_book: default
 bookdown::gitbook:
   css: style.css
   config:
@@ -15,3 +9,9 @@ bookdown::gitbook:
     edit:
       link: https://github.com/maxheld83/pensieve/edit/master/%s
     download: ["pdf", "epub"]
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: xelatex
+  citation_package: natbib
+bookdown::epub_book: default

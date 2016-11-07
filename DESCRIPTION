@@ -22,17 +22,8 @@ Suggests:
     rmarkdown (>= 1.0),
     covr (>= 2.2.0),
     randomNames (>= 0.1),
-    bookdown,
-    devtools,
-    ggplot2,
-    reshape2,
-    grid,
-    servr,
-    gridExtra,
-    xtable,
-    GGally,
-    GPArotation,
-    ThreeWay,
-    ggrepel
+    bookdown (>= 0.1),
+    devtools (>= 1.12.0),
+    ggplot2 (>= 2.1.0)
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
