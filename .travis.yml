@@ -17,6 +17,7 @@ before_script:
 
 after_success:
   - Rscript -e 'covr::codecov()'
+  - book/_deploy.sh
 
 notifications:
   email: false
