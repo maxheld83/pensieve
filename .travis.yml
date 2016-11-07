@@ -9,10 +9,8 @@ cache:
 
 warnings_are_errors: true
 
-script:
-  - ./travis-tool.sh run_tests
-
-before_deploy:
+before_script:
+  - R CMD Install .
   - R script -e 'setwd(dir = "book/")'
   - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
   - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book')"
