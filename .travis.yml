@@ -7,13 +7,7 @@ cache:
   directories:
     - $HOME/bin
 
-warnings_are_errors: false
-
-before_script:
-  - R CMD INSTALL .
-
-script:
-  - R CMD check .
+warnings_are_errors: true
 
 after_success:
   - Rscript -e 'covr::codecov()'
