@@ -9,6 +9,9 @@ cache:
 
 warnings_are_errors: true
 
+script:
+  - pwd
+
 after_success:
   - Rscript -e 'covr::codecov()'
 
