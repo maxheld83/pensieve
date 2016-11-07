@@ -11,7 +11,7 @@ warnings_are_errors: true
 
 before_script:
   - R CMD INSTALL .
-  - R script -e 'setwd(dir = "book/")'
+  - Rscript -e 'setwd(dir = "book/")'
   - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
   - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book')"
   - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::epub_book')"
