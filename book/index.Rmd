@@ -29,6 +29,3 @@ This is a very early draft, and is not ready for prime-time, let alone citation.
 
 This is the *documentation* (in lieu of vignettes).
 To find the package, go to http://pensieve.maxheld.de.
-Yeah, I know, the names are similar.
-
-This is a test edit

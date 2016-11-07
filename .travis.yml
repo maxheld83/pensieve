@@ -12,12 +12,12 @@ warnings_are_errors: false
 before_script:
   - R CMD INSTALL .
   - cd book
-  - chmod +x ./book/_build.sh
-  - chmod +x ./book/_deploy.sh
+  - chmod +x _build.sh
+  - chmod +x _deploy.sh
 
 script:
-  - ./book/_build.sh
-  - ./book/_deploy.sh
+  - _build.sh
+  - _deploy.sh
   - cd ../..
 
 after_success:
