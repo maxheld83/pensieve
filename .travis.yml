@@ -9,9 +9,9 @@ cache:
 
 warnings_are_errors: true
 
-# in here, by default R is built and checked
+script:
+  - ./travis-tool.sh run_tests
 
-# now we build the gitbook, by using before_deploy b/c that would cause an error out
 before_deploy:
   - R script -e 'setwd(dir = "book/")'
   - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
