@@ -1,5 +1,5 @@
-#' pensieveR.
+#' pensieve.
 #'
-#' @name pensieveR
+#' @name pensieve
 #' @docType package
 NULL

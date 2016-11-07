@@ -30,8 +30,8 @@ options(xtable.comment = FALSE)
 options(xtable.booktabs = TRUE)
 options(scipen=999)
 
-install_github(repo = "maxheld83/pensieveR")
-library(pensieveR)  # from github
+install_github(repo = "maxheld83/pensieve")
+library(pensieve)  # from github
 
 install_github(repo = "maxheld83/qmethod")
 library(qmethod)  # from github
@@ -94,7 +94,7 @@ This complicates the analysis, but avoids imposing a pre-supposed structure of c
 ^[In a future iteration, participants will ipsatively *rank* items vis-a-vis a categorical *prototype* (chosen from the items, compare @rosch-1978), yielding *ordinal* information, requiring a separate, non-parametric analytical procedure.]
 
 For our example study on categorizations of language games with children and grown-ups, this yields a *list* of description matrices (one element for each participant, as in table \@ref(tab:desc-example)) and a three-dimensional *array* of assignment matrices (one slice for each participant, as in table \@ref(tab:ass-example)).
-^[This canonical data representation can be easily produced from conveniently entered raw data with [`pensieveR::import_qcat()`](http://pensiever.maxheld.de).]
+^[This canonical data representation can be easily produced from conveniently entered raw data with [`pensieve::import_qcat()`](http://pensieve.maxheld.de).]
 
 ```{marginfigure-language-bees}
 **Language of Bees**  

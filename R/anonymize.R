@@ -50,8 +50,8 @@
 #' anonymize(real_names = c("Hillary", "Barack", "George"),
 #'           lookup_file = system.file("extdata",
 #'                                     "example_name_lookup.csv",
-#'                                     package = "pensieveR"))
-#' # system.file call only necessary for example, shipped with pensieveR
+#'                                     package = "pensieve"))
+#' # system.file call only necessary for example, shipped with pensieve
 #' # just as an example, never store lookup file with raw data
 #' # see `notes` for details
 #'

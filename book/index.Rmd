@@ -20,7 +20,7 @@ bibliography: [held_library.bib]
 biblio-style: apalike
 link-citations: yes
 github-repo: maxheld83/pensieve
-description: "Extensive documentation for the `pensieveR` R package for the scientific study of human subjectivity."
+description: "Extensive documentation for the `pensieve` R package for the scientific study of human subjectivity."
 ---
 
 # Notes
@@ -28,7 +28,7 @@ description: "Extensive documentation for the `pensieveR` R package for the scie
 This is a very early draft, and is not ready for prime-time, let alone citation.
 
 This is the *documentation* (in lieu of vignettes).
-To find the package, go to http://pensieveR.maxheld.de.
+To find the package, go to http://pensieve.maxheld.de.
 Yeah, I know, the names are similar.
 
 This is a test edit

@@ -4,14 +4,14 @@ test_that(desc = "works with komki csvs",
           code = {
   desc <- read.csv(file = system.file("extdata",
                                       "import_example/q_cat/komki/cat_desc.csv",
-                                      package = "pensieveR"),
+                                      package = "pensieve"),
                    header = TRUE,
                    stringsAsFactors = FALSE,
                    row.names = 1)
   desc <- as.matrix(desc)
   ass <- read.csv(file = system.file("extdata",
                                      "import_example/q_cat/komki/cat_ass.csv",
-                                     package = "pensieveR"),
+                                     package = "pensieve"),
                   header = TRUE,
                   stringsAsFactors = FALSE,
                   row.names = 1)

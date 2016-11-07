@@ -5,7 +5,7 @@ test_that(desc = "works with example",
   fake_names <- anonymize(real_names = c("Hillary", "Barack", "George"),
                           lookup_file = system.file("extdata",
                                                     "example_name_lookup.csv",
-                                                    package = "pensieveR"))
+                                                    package = "pensieve"))
   expect_character(x = fake_names,
                    any.missing = FALSE,
                    all.missing = FALSE,
@@ -18,7 +18,7 @@ test_that(desc = "appends fake names as necessary",
   fake_names <- anonymize(real_names = c("Hillary", "Barack", "George", "Marylin"),
                           lookup_file = system.file("extdata",
                                                     "example_name_lookup.csv",
-                                                    package = "pensieveR"))
+                                                    package = "pensieve"))
   expect_character(x = fake_names,
                    any.missing = FALSE,
                    all.missing = FALSE,
