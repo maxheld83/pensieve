@@ -23,7 +23,7 @@ The diagonal is replaced with the \emph{maximum number of categories} for that p
 Maximilian Held
 }
 \seealso{
-Other import: \code{\link{check_qItems}},
-  \code{\link{import_qcat}}
+Other import: \code{\link{import_qcat}},
+  \code{\link{qItems}}
 }
 

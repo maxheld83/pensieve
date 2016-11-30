@@ -2,8 +2,6 @@
 #'
 #' @export
 #'
-#' @rdname check_qItems
-#'
 #' @description Checks and makes qItems from concourse, q-set and optional lookup table.
 #'
 #' @param q_set A character vector of item handles.
@@ -30,9 +28,20 @@
 #'
 #' @family import
 #'
-#' @keywords items, concourse, lookup
-#'
-#'
+
+qItems <- function(q_set, concourse = NULL, lookup = NULL) {
+  # check first
+  # TODO replace this with appropriate expect_ function, once those are operational
+  res <- check_qItems(q_set = q_set, concourse = concourse, lookup = lookup)
+  if (!isTRUE(res)) {
+    stop(res)
+  }
+
+  structure(list(q_set = q_set, concourse = concourse, lookup = lookup), class = "qItems")
+}
+
+#' @export
+#' @rdname qItems
 
 check_qItems <- function(q_set, concourse = NULL, lookup = NULL) {
 
@@ -112,11 +121,11 @@ check_qItems <- function(q_set, concourse = NULL, lookup = NULL) {
 # #' @export
 # #' @rdname assert_qItems
 # assert_qItems <- makeAssertionFunction(check.fun = check_qItems)
-#
+
 # #' @export
 # #' @rdname test_qItems
 # test_qItems <- makeTestFunction(check.fun = check_qItems)
-#
+
 # #' @export
 # #' @rdname expect_qItems
 # expect_qItems <- makeExpectationFunction(check.fun = check_qItems)
