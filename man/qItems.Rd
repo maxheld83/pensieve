@@ -35,8 +35,4 @@ The basis of a Q study is a concourse of possible items, from which \emph{some} 
 Q-Set and concourse are sometimes accompanied by manual lookup table, though automatic procedures are recommended.
 These three objects are here tested for internal consistency, and combined into the canonical \code{qItems} S3 object.
 }
-\seealso{
-Other import: \code{\link{count_cooccur}},
-  \code{\link{import_qcat}}
-}
 

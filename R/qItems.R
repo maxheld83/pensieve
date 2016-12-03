@@ -26,9 +26,7 @@
 #' @return
 #' A character vector of item handles, all as unique and valid R names.
 #'
-#' @family import
-#'
-
+#' @family import helpers
 qItems <- function(q_set, concourse = NULL, lookup = NULL) {
   # check first
   # TODO replace this with appropriate expect_ function, once those are operational
@@ -41,8 +39,16 @@ qItems <- function(q_set, concourse = NULL, lookup = NULL) {
 }
 
 #' @export
-#' @rdname qItems
+#' @rdname check
+check.qItems <- function(x) {
+  assert_list(x = x, len = 3, names = "strict")
+  assert_subset(x = names(x), choices = c("q_set", "concourse", "lookup"))
+  return(check_qItems(q_set = x$q_set))
+}
 
+
+#' @export
+#' @rdname qItems
 check_qItems <- function(q_set, concourse = NULL, lookup = NULL) {
 
   # Input validation ====
@@ -118,17 +124,21 @@ check_qItems <- function(q_set, concourse = NULL, lookup = NULL) {
   }
 }
 
+
 # #' @export
 # #' @rdname assert_qItems
 # assert_qItems <- makeAssertionFunction(check.fun = check_qItems)
+
 
 # #' @export
 # #' @rdname test_qItems
 # test_qItems <- makeTestFunction(check.fun = check_qItems)
 
+
 # #' @export
 # #' @rdname expect_qItems
 # expect_qItems <- makeExpectationFunction(check.fun = check_qItems)
+
 
 # #' @importFrom lettercase make_names
 # #' @name make_names

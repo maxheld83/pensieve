@@ -76,7 +76,6 @@ If your data gathering procedure produces such granular \code{NA} records, do no
 Maximilian Held
 }
 \seealso{
-Other import: \code{\link{count_cooccur}},
-  \code{\link{qItems}}
+Other import: \code{\link{count_cooccur}}
 }
 
