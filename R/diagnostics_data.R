@@ -18,10 +18,10 @@
 #' An integer matrix with people-variables as rows, values as columns and counts in cells.
 #'
 #' @examples
-#' diag_distros(dataset = civicon_2014$sorts[,,"before"])
+#' diag_distros(dataset = civicon_2014$qData$sorts[,,"before"])
 #' # results are all the same, because study used forced Q distribution
 #'
-#' @family distribution diagnostic functions
+#' @family distribution helpers
 
 diag_distros <- count_distros <- function(dataset) {
 
@@ -65,10 +65,10 @@ diag_distros <- count_distros <- function(dataset) {
 #' For more information, see \code{\link{diag_forced}}.
 #'
 #' @examples
-#' diag_same(dataset = civicon_2014$sorts[,,"before"])
+#' diag_same(dataset = civicon_2014$qData$sorts[,,"before"])
 #' # true, because study used forced Q distribution
 #'
-#' @family distribution diagnostic functions
+#' @family distribution helpers
 
 diag_same <- is_same <- function(dataset) {
 
@@ -100,10 +100,10 @@ diag_same <- is_same <- function(dataset) {
 #' @return A positive integer vector of counts of length equal to cover the range of values, named by values.
 #'
 #' @examples
-#' diag_distro_max(dataset = civicon_2014$sorts[,,"before"])
+#' diag_distro_max(dataset = civicon_2014$qData$sorts[,,"before"])
 #' # true, because study used forced Q distribution
 #'
-#' @family distribution diagnostic functions
+#' @family distribution helpers
 
 diag_distro_max <- function(dataset) {
 
@@ -133,12 +133,12 @@ diag_distro_max <- function(dataset) {
 #' @return A logical vector of length 1, \code{TRUE} if all people-variables fall inside the grid, else \code{FALSE}.
 #'
 #' @examples
-#' dataset <- civicon_2014$sorts[,,"before"]
+#' dataset <- civicon_2014$qData$sorts[,,"before"]
 #' diag_inside_grid(dataset = dataset,
 #'                  grid = diag_distro_max(dataset))
 #' # circularly true!
 #'
-#' @family distribution diagnostic functions
+#' @family distribution helpers
 
 diag_inside_grid <- function(dataset, grid) {
   # input validation ====
@@ -187,7 +187,7 @@ diag_inside_grid <- function(dataset, grid) {
 #' @return A logical value of length 1, \code{TRUE} if the distribution is forced, else \code{FALSE}.
 #'
 #' @examples
-#' dataset <- civicon_2014$sorts[,,"before"]
+#' dataset <- civicon_2014$qData$sorts[,,"before"]
 #' diag_forced(dataset = dataset,
 #'             grid = diag_distro_max(dataset))
 #'

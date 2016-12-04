@@ -16,13 +16,12 @@ A positive integer vector of counts of length equal to cover the range of values
 Infers the maximum q-sorting grid from observed dataset.
 }
 \examples{
-diag_distro_max(dataset = civicon_2014$sorts[,,"before"])
+diag_distro_max(dataset = civicon_2014$qData$sorts[,,"before"])
 # true, because study used forced Q distribution
 
 }
 \seealso{
-Other distribution diagnostic functions: \code{\link{diag_distros}},
-  \code{\link{diag_forced}},
+Other distribution helpers: \code{\link{diag_distros}},
   \code{\link{diag_inside_grid}}, \code{\link{diag_same}}
 }
 \keyword{internal}

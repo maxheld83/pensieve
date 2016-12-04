@@ -14,7 +14,7 @@ assert_qItems(q_set, concourse = NULL, lookup = NULL,
   var.name = vname(q_set))
 }
 \arguments{
-\item{q_set}{A character vector of item handles.
+\item{q_set}{\code{[character]} Item handles.
 Handles must be unique and valid R names.
 Handles must be a subset of \code{concourse}.}
 
@@ -44,6 +44,7 @@ Q-Set and concourse are sometimes accompanied by manual lookup table, though aut
 These three objects are here tested for internal consistency, and combined into the canonical \code{qItems} S3 object.
 }
 \seealso{
-Other import helpers: \code{\link{check}}
+Other import helpers: \code{\link{anonymize}},
+  \code{\link{check}}
 }
 

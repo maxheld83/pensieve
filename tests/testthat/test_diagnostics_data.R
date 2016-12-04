@@ -3,7 +3,7 @@ context("Distribution diagnostics")
 test_that(desc = "work with civicon_2014",
           code = {
   data("civicon_2014")
-  dataset <- civicon_2014$sorts[,,"before"]
+  dataset <- civicon_2014$qData$sorts[,,"before"]
   res <- diag_distros(dataset = dataset)
   expect_matrix(x = res,
                 mode = "integer",

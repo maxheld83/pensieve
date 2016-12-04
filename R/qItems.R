@@ -4,7 +4,7 @@
 #'
 #' @description Checks and makes qItems from concourse, q-set and optional lookup table.
 #'
-#' @param q_set A character vector of item handles.
+#' @param q_set \code{[character]} Item handles.
 #' Handles must be unique and valid R names.
 #' Handles must be a subset of \code{concourse}.
 #'
@@ -27,6 +27,7 @@
 #' A character vector of item handles, all as unique and valid R names.
 #'
 #' @family import helpers
+#' @family validation helpers
 qItems <- function(q_set, concourse = NULL, lookup = NULL) {
   # check first
   # TODO replace this with appropriate expect_ function, once those are operational

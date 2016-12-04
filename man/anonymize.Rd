@@ -56,10 +56,10 @@ anonymize(real_names = c("Hillary", "Barack", "George"),
 # system.file call only necessary for example, shipped with pensieve
 # just as an example, never store lookup file with raw data
 # see `notes` for details
-
 }
-\author{
-Maximilian Held
+\seealso{
+Other import helpers: \code{\link{check}},
+  \code{\link{qItems}}
 }
 \keyword{internal}
 

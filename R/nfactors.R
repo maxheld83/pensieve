@@ -145,7 +145,7 @@ draw_rand_sort <- function(grid = NULL,  # named integer vector of grid
 #' @return A numerical vector of length \code{cutoff}, with Eigenvalues for consecutive Principal Components.
 #'
 #' @examples
-#' dataset <- civicon_2014$sorts[,,"before"]
+#' dataset <- civicon_2014$qData$sorts[,,"before"]
 #' run_parallel(dataset = dataset,  # parameters are inferred
 #'              runs = 10, # way too few, just to make this fast
 #'              centile = .95)  # default

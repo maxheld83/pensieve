@@ -44,7 +44,7 @@
 #' A character vector of fake names, same length as \code{real_names}.
 #' Also writes a lookup table to disk at location \code{lookup_file}, if it does not exist already.
 #'
-#' @family helpers
+#' @family import helpers
 #'
 #' @examples
 #' anonymize(real_names = c("Hillary", "Barack", "George"),
@@ -54,9 +54,6 @@
 #' # system.file call only necessary for example, shipped with pensieve
 #' # just as an example, never store lookup file with raw data
 #' # see `notes` for details
-#'
-#' @author Maximilian Held
-#'
 
 anonymize <- function(real_names, lookup_file) {
   # Input validation ====

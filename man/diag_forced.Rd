@@ -27,15 +27,10 @@ Whether, or not, a Q dataset should be considered "forced" can therefore only as
 In the above, improbable case, the function warns the user of possible misspecification.
 }
 \examples{
-dataset <- civicon_2014$sorts[,,"before"]
+dataset <- civicon_2014$qData$sorts[,,"before"]
 diag_forced(dataset = dataset,
             grid = diag_distro_max(dataset))
 
-}
-\seealso{
-Other distribution diagnostic functions: \code{\link{diag_distro_max}},
-  \code{\link{diag_distros}},
-  \code{\link{diag_inside_grid}}, \code{\link{diag_same}}
 }
 \keyword{internal}
 

@@ -16,6 +16,7 @@ check(x)
 Use \code{check} to validate S3 classed objects from this package.
 }
 \seealso{
-Other import helpers: \code{\link{qItems}}
+Other import helpers: \code{\link{anonymize}},
+  \code{\link{qItems}}
 }
 

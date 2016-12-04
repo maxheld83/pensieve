@@ -42,7 +42,7 @@ test_that(desc = "works with some forced distribution data",
 test_that(desc = "works with civicon_2014",
           code = {
   data("civicon_2014")
-  dataset <- civicon_2014$sorts[,,"before"]
+  dataset <- civicon_2014$qData$sorts[,,"before"]
   res <- run_parallel(dataset = dataset,
                       centile = .95,
                       runs = 10,

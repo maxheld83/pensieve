@@ -19,16 +19,15 @@ A logical vector of length 1, \code{TRUE} if all people-variables fall inside th
 Test whether the value counts of all people-variables fall inside the grid.
 }
 \examples{
-dataset <- civicon_2014$sorts[,,"before"]
+dataset <- civicon_2014$qData$sorts[,,"before"]
 diag_inside_grid(dataset = dataset,
                  grid = diag_distro_max(dataset))
 # circularly true!
 
 }
 \seealso{
-Other distribution diagnostic functions: \code{\link{diag_distro_max}},
-  \code{\link{diag_distros}}, \code{\link{diag_forced}},
-  \code{\link{diag_same}}
+Other distribution helpers: \code{\link{diag_distro_max}},
+  \code{\link{diag_distros}}, \code{\link{diag_same}}
 }
 \keyword{internal}
 

@@ -22,13 +22,13 @@ Hypothetically, if unlikely, some people-variables might follow exactly the same
 For more information, see \code{\link{diag_forced}}.
 }
 \examples{
-diag_same(dataset = civicon_2014$sorts[,,"before"])
+diag_same(dataset = civicon_2014$qData$sorts[,,"before"])
 # true, because study used forced Q distribution
 
 }
 \seealso{
-Other distribution diagnostic functions: \code{\link{diag_distro_max}},
-  \code{\link{diag_distros}}, \code{\link{diag_forced}},
+Other distribution helpers: \code{\link{diag_distro_max}},
+  \code{\link{diag_distros}},
   \code{\link{diag_inside_grid}}
 }
 \keyword{internal}

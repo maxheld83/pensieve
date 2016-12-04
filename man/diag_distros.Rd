@@ -18,13 +18,12 @@ An integer matrix with people-variables as rows, values as columns and counts in
 Counts the number of times an item-case is assigned to each value, yields Q distribution for each people-variable.
 }
 \examples{
-diag_distros(dataset = civicon_2014$sorts[,,"before"])
+diag_distros(dataset = civicon_2014$qData$sorts[,,"before"])
 # results are all the same, because study used forced Q distribution
 
 }
 \seealso{
-Other distribution diagnostic functions: \code{\link{diag_distro_max}},
-  \code{\link{diag_forced}},
+Other distribution helpers: \code{\link{diag_distro_max}},
   \code{\link{diag_inside_grid}}, \code{\link{diag_same}}
 }
 \keyword{internal}

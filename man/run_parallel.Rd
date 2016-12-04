@@ -57,7 +57,7 @@ However, some of the results presented here are meaningful \emph{only} in a PCA-
 If you would like to add support for other extraction techniques, comment or contribute \href{https://github.com/maxheld83/pensieve/issues/145}{to issue 145 the development repository}.
 }
 \examples{
-dataset <- civicon_2014$sorts[,,"before"]
+dataset <- civicon_2014$qData$sorts[,,"before"]
 run_parallel(dataset = dataset,  # parameters are inferred
              runs = 10, # way too few, just to make this fast
              centile = .95)  # default
