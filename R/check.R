@@ -1,7 +1,9 @@
-#' @title check: validate S3 classes
-#' @description Validate S3 classes from pensieve package
+#' @title Validate S3 classes from this package.
+#' @description Use \code{check} to validate S3 classed objects from this package.
 #' @export
-#' @param x class object created by respective \code{make_} function.
+#' @param x [any] class object created by respective \code{make_} function.
+#' @family import helpers
+#' @family validation functions
 check <- function(x) {
   UseMethod("check")
 }

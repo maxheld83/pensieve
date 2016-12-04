@@ -35,7 +35,8 @@ qItems <- function(q_set, concourse = NULL, lookup = NULL) {
     stop(res)
   }
 
-  structure(list(q_set = q_set, concourse = concourse, lookup = lookup), class = "qItems")
+  structure(list(q_set = q_set, concourse = concourse, lookup = lookup),
+            class = "qItems")
 }
 
 #' @export
@@ -48,7 +49,9 @@ check.qItems <- function(x) {
 
 
 #' @export
+#'
 #' @rdname qItems
+#'
 check_qItems <- function(q_set, concourse = NULL, lookup = NULL) {
 
   # Input validation ====
@@ -125,9 +128,13 @@ check_qItems <- function(q_set, concourse = NULL, lookup = NULL) {
 }
 
 
-# #' @export
-# #' @rdname assert_qItems
-# assert_qItems <- makeAssertionFunction(check.fun = check_qItems)
+#' @export
+#' @rdname qItems
+#' @inheritParams checkmate::makeAssertion
+assert_qItems <- function(q_set, concourse = NULL, lookup = NULL, var.name = vname(q_set)) {
+  res <- check_qItems(q_set = q_set, concourse = concourse, lookup = lookup)
+  makeAssertion(x = q_set, res = res, var.name = var.name, collection = NULL)
+}
 
 
 # #' @export

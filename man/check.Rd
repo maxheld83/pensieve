@@ -3,16 +3,19 @@
 \name{check}
 \alias{check}
 \alias{check.qItems}
-\title{check: validate S3 classes}
+\title{Validate S3 classes from this package.}
 \usage{
 check(x)
 
 \method{check}{qItems}(x)
 }
 \arguments{
-\item{x}{class object created by respective \code{make_} function.}
+\item{x}{[any] class object created by respective \code{make_} function.}
 }
 \description{
-Validate S3 classes from pensieve package
+Use \code{check} to validate S3 classed objects from this package.
+}
+\seealso{
+Other import helpers: \code{\link{qItems}}
 }
 

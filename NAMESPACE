@@ -2,6 +2,7 @@
 
 S3method(check,qItems)
 export(anonymize)
+export(assert_qItems)
 export(check)
 export(check_qItems)
 export(count_cooccur)
