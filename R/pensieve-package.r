@@ -2,4 +2,4 @@
 #'
 #' @name pensieve
 #' @docType package
-NULL
+"_PACKAGE"
