@@ -58,8 +58,8 @@ anonymize(real_names = c("Hillary", "Barack", "George"),
 # see `notes` for details
 }
 \seealso{
-Other import helpers: \code{\link{check}},
-  \code{\link{qItems}}
+Other import helpers: \code{\link{QItems}},
+  \code{\link{check}}
 }
 \keyword{internal}
 

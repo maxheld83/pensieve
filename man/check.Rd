@@ -2,30 +2,57 @@
 % Please edit documentation in R/check.R, R/qItems.R
 \name{check}
 \alias{assert}
+\alias{assert.default}
 \alias{check}
-\alias{check.qItems}
+\alias{check.QItems}
 \alias{expect}
+\alias{expect.default}
 \alias{test}
+\alias{test.default}
 \title{Validate S3 classes from this package.}
 \usage{
 check(x)
 
-expect(x)
-
 test(x)
 
-assert(x)
+\method{test}{default}(x)
 
-\method{check}{qItems}(x)
+expect(x, info = NULL, label = vname(x))
+
+\method{expect}{default}(x, info = NULL, label = vname(x))
+
+assert(x, collection = NULL, var.name = vname(x))
+
+\method{assert}{default}(x, collection = NULL, var.name = vname(x))
+
+\method{check}{QItems}(x)
 }
 \arguments{
-\item{x}{class object created by respective \code{make_} function.}
+\item{x}{class object created by respective constructor function.}
+
+\item{info}{[\code{character(1)}]\cr
+See \code{\link[testthat]{expect_that}}}
+
+\item{label}{[\code{character(1)}]\cr
+See \code{\link[testthat]{expect_that}}}
+
+\item{collection}{[\code{\link{AssertCollection}}]\cr
+If an \code{\link{AssertCollection}} is provided, the error message is stored
+in it. If \code{NULL}, an exception is raised if \code{res} is not
+\code{TRUE}.}
+
+\item{var.name}{[\code{character(1)}]\cr
+The custom name for \code{x} as passed to any \code{assert*} function.
+Defaults to a heuristic name lookup.}
 }
 \description{
 Use \code{check}, \code{test}, \code{assert} and \code{expect} to validate S3 classed objects from this package.
 }
+\examples{
+check(civicon_2014$QItems)
+}
 \seealso{
-Other import helpers: \code{\link{anonymize}},
-  \code{\link{qItems}}
+Other import helpers: \code{\link{QItems}},
+  \code{\link{anonymize}}
 }
 
