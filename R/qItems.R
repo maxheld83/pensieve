@@ -128,7 +128,7 @@ check.QItems <- function(x) {
 
     # CONSISTENCY lookup and q_set
     res$q_set_vs_lookup <- check_subset(x = q_set,
-                                        choices = unclass(lookup[,1]),
+                                        choices = as.vector(x = lookup[[1]]),
                                         empty.ok = FALSE)
   }
 
