@@ -82,7 +82,8 @@ anonymize <- function(real_names, lookup_file) {
   if (file.exists(lookup_file)) {  # then we fill in what we can
     file <- utils::read.csv(file = lookup_file,
                             header = TRUE,
-                            stringsAsFactors = FALSE)
+                            stringsAsFactors = FALSE,
+                            colClasses = c("character", "character"))
     # df ok?
     expect_data_frame(x = file,
                       types = c("character", "character"),

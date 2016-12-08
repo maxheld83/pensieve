@@ -48,7 +48,9 @@ badobject <- QItems(q_set = NA, validate = FALSE)  # Don't do this at home
 
 }
 \seealso{
-Other import helpers: \code{\link{anonymize}},
-  \code{\link{check.QItems}}
+Other import helpers: \code{\link{QData}},
+  \code{\link{anonymize}}, \code{\link{check.QData}}
+
+Other validation helpers: \code{\link{QData}}
 }
 

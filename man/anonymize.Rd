@@ -60,11 +60,11 @@ anonymize(real_names = c("Hillary", "Barack", "George"),
 # see `notes` for details
 }
 \seealso{
-Other import helpers: \code{\link{QItems}},
-  \code{\link{check.QItems}}
+Other import helpers: \code{\link{QData}},
+  \code{\link{QItems}}, \code{\link{check.QData}}
 
-Other import helpers: \code{\link{QItems}},
-  \code{\link{check.QItems}}
+Other import helpers: \code{\link{QData}},
+  \code{\link{QItems}}, \code{\link{check.QData}}
 }
 \keyword{internal}
 
