@@ -8,3 +8,4 @@
 book$
 ^CONTRIBUTING\.md$
 .*/rsconnect
+.httr-oauth
