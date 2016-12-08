@@ -2,14 +2,18 @@
 #'
 #' @export
 #'
-#' @description Replace real names with random names to anonymize data.
+#' @description Create random names and/or replace real names with random names to anonymize data.
 #'
-#' @param real_names A character vector with unique names.
+#' @param real_names A vector with unique names.
+#' If there are no known real names, provide vector of unique integers instead.
 #'
 #' @param lookup_file A character vector of length one as the file to write the lookup table to, or read the lookup table from.
 #' See `details` for more, `notes` for caveats.
+#' File should not be published to preserve the identity of participants.
 #'
 #' @keywords internal
+#'
+#' @family import helpers
 #'
 #' @details
 #' It is sometimes helpful in Q analyses to be able to refer to people-variables by a unique name, though real names often cannot be used in publications to protect participant's data.
@@ -57,11 +61,11 @@
 
 anonymize <- function(real_names, lookup_file) {
   # Input validation ====
-  expect_character(x = real_names,
-                   any.missing = FALSE,
-                   all.missing = FALSE,
-                   null.ok = FALSE,
-                   unique = TRUE)
+  expect_vector(x = real_names,
+                any.missing = FALSE,
+                all.missing = FALSE,
+                null.ok = TRUE,
+                unique = TRUE)
   expect_string(x = lookup_file,
                 na.ok = FALSE,
                 null.ok = FALSE)
@@ -90,7 +94,7 @@ anonymize <- function(real_names, lookup_file) {
                  expected = c("real_names", "fake_names"))
     for (i in file$real_names) {
       if (i %in% file$fake_names) {
-        # cannot use expect_that here, that'll scre up the test above
+        # cannot use expect_that here, that'll screw up the test above
         stop(paste(i, "is a real name but also used as a fake name."))
       }
     }
@@ -121,40 +125,15 @@ anonymize <- function(real_names, lookup_file) {
   }
 
   needed_names <- sum(is.na(lookup$fake_names))
-  if (needed_names > 0) {
-    if (!requireNamespace("randomNames", quietly = TRUE)) {  # because this package is only in suggest
-      stop("Package `randomNames` needed for this function to create random names. Please install it.",
-           call. = FALSE)
-    }
-    all_names <- c(randomNames::randomNamesData$first_names_e1_g0,
-                   randomNames::randomNamesData$first_names_e1_g1,
-                   randomNames::randomNamesData$first_names_e2_g0,
-                   randomNames::randomNamesData$first_names_e2_g1,
-                   randomNames::randomNamesData$first_names_e3_g0,
-                   randomNames::randomNamesData$first_names_e3_g1,
-                   randomNames::randomNamesData$first_names_e4_g0,
-                   randomNames::randomNamesData$first_names_e4_g1,
-                   randomNames::randomNamesData$first_names_e5_g0,
-                   randomNames::randomNamesData$first_names_e5_g1)
-    # there seems to be no easy way to do this because the whole thing is only an environment
-    unused_names <- all_names[!names(all_names) %in% lookup$fake_names]
-    unused_names <- unused_names[!names(unused_names) %in% lookup$real_names]
-    # this protects against accidentally drawing a name that is also a real name
-    unique_names <- unique(names(unused_names))
-    strict_names <- sapply(X = unique_names, FUN = function(x) {
-      test_names(x = x, type = "strict")
-    })
-    good_names <- all_names[unique_names[strict_names]]
 
-    lookup$fake_names[is.na(lookup$fake_names)] <- sample(x = names(good_names),
-                                                          size = needed_names,
-                                                          replace = FALSE,
-                                                          prob = good_names)
-    utils::write.table(x = lookup,
-                       sep = ",",
-                       file = lookup_file,
-                       row.names = FALSE,
-                       append = FALSE)
-  }
+  lookup$fake_names[is.na(lookup$fake_names)] <- sample(x = names(good_names),
+                                                        size = needed_names,
+                                                        replace = FALSE,
+                                                        prob = good_names)
+  utils::write.table(x = lookup,
+                     sep = ",",
+                     file = lookup_file,
+                     row.names = FALSE,
+                     append = FALSE)
   return(lookup$fake_names)
 }

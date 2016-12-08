@@ -8,3 +8,5 @@ _book
 book/_bookdown_files
 
 *.log
+
+.httr-oauth

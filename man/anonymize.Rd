@@ -7,17 +7,19 @@
 anonymize(real_names, lookup_file)
 }
 \arguments{
-\item{real_names}{A character vector with unique names.}
+\item{real_names}{A vector with unique names.
+If there are no known real names, provide vector of unique integers instead.}
 
 \item{lookup_file}{A character vector of length one as the file to write the lookup table to, or read the lookup table from.
-See `details` for more, `notes` for caveats.}
+See `details` for more, `notes` for caveats.
+File should not be published to preserve the identity of participants.}
 }
 \value{
 A character vector of fake names, same length as \code{real_names}.
 Also writes a lookup table to disk at location \code{lookup_file}, if it does not exist already.
 }
 \description{
-Replace real names with random names to anonymize data.
+Create random names and/or replace real names with random names to anonymize data.
 }
 \details{
 It is sometimes helpful in Q analyses to be able to refer to people-variables by a unique name, though real names often cannot be used in publications to protect participant's data.
@@ -59,7 +61,10 @@ anonymize(real_names = c("Hillary", "Barack", "George"),
 }
 \seealso{
 Other import helpers: \code{\link{QItems}},
-  \code{\link{check}}
+  \code{\link{check.QItems}}
+
+Other import helpers: \code{\link{QItems}},
+  \code{\link{check.QItems}}
 }
 \keyword{internal}
 
