@@ -4,53 +4,23 @@
 \alias{QItems}
 \title{Check and make QItems.}
 \usage{
-QItems(q_set, concourse = NULL, lookup = NULL, validate = TRUE)
+QItems(items, validate = TRUE)
 }
 \arguments{
-\item{q_set}{A character vector of item handles.
-Handles must be unique and valid R names.
-Handles must be a subset of \code{concourse}.}
-
-\item{concourse}{A character matrix of full items, with named rows as item handles and named columns as languages.
-Defaults to \code{NULL}, in which case full items are not provided.
+\item{items}{A character matrix of full items, with named rows as item handles and named columns as languages.
+Cells can be \code{NA} when full items are not available.
 Full items must be unique by columns.}
-
-\item{lookup}{A data frame or tibble of manually defined item IDs with the first column as item handles.
-Can have several columns of alternative item IDs.
-Item IDs must be unique by columns.
-All item handles from \code{q_set} must be defined.
-Defaults to \code{NULL}, in which case items are automatically identified (recommended).}
 
 \item{validate}{A logical flag, indicating whether the object will be validated.
 Defaults to \code{TRUE}.}
 }
 \description{
-Checks and makes QItems from concourse, q-set and optional lookup table.
-}
-\details{
-The basis of a Q study is a concourse of possible items, from which \emph{some} items are sampled into the Q-Set.
-Q-Set and concourse are sometimes accompanied by a manual lookup table, though automatic procedures are recommended.
-These three objects are here tested for internal consistency, and combined into the canonical \code{QItems} S3 object.
-}
-\examples{
-QItems(q_set = civicon_2014$QItems$q_set,
-       concourse = civicon_2014$QItems$concourse,
-       lookup = civicon_2014$QItems$lookup,
-       validate = TRUE)  # strongly recommended
-QItems(q_set = c("sta1", "sta2"))  # also works with minimal information
-
-# can also be checked, expected, tested, asserted
-check(civicon_2014$QItems)
-
-# gives informative error messages when validation fails
-badobject <- QItems(q_set = NA, validate = FALSE)  # Don't do this at home
-\dontrun{check(badobject)}  # fails because q_set cannot be only NAs
-
+Checks and makes QItems.
 }
 \seealso{
-Other import helpers: \code{\link{QData}},
-  \code{\link{anonymize}}, \code{\link{check.QData}}
+Other import helpers: \code{\link{QPreSorts}},
+  \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
 
-Other validation helpers: \code{\link{QData}}
+Other validation helpers: \code{\link{QPreSorts}}
 }
 

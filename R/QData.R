@@ -1,16 +1,13 @@
-#' @title Check and make QData.
+#' @title Check and make QPreSorts
 #'
 #' @export
 #'
-#' @description Checks and makes QData
+#' @description Checks and makes QPreSorts
 #'
 #' @param presorts An integer matrix, with named rows as item handles, named columns as participant names and cells as presorts.
 #' \code{-1L} for `negative`, \code{0L} for `neutral` and \code{1L} for `positive`.
 #'
 #' @inheritParams QItems
-#'
-#' @details
-#' All data gathered during a Q study.
 #'
 #' @note
 #' \code{presorts} are stored as \code{integer()} because R does not allow factor matrices.
@@ -19,42 +16,35 @@
 #' @family import helpers
 #' @family validation helpers
 
-QData <- function(presorts = NULL, validate = TRUE) {
-  x <- structure(list(presorts = presorts),
-                 class = "QData")
+QPreSorts <- function(presorts, validate = TRUE) {
+  assert_flag(x = validate,
+              na.ok = FALSE,
+              null.ok = FALSE)
+
+  class(presorts) <- "QPreSorts"
 
   # validation first
   if (validate) {
-    expect(x)
+    assert(presorts)
   }
-
-  return(x)
+  return(presorts)
 }
 
 #' @export
 #' @rdname check
-check.QData <- function(x) {
-  # Input validation ====
+check.QPreSorts <- function(x) {
   res <- NULL  # appease R
 
-  # check names
-  res$list <- check_list(x = x, names = "strict", len = 1)
-  res$names <- check_subset(x = names(x), choices = c("presorts"))
+  res$matrix <- check_matrix(x = x,
+                             mode = "integer",
+                             any.missing = TRUE,
+                             all.missing = FALSE,
+                             row.names = "strict",
+                             col.names = "strict")
+  res$range <- check_integer(x = x,
+                             any.missing = TRUE,
+                             lower = -2,
+                             upper = 2)
 
-  presorts <- x$presorts # makes below code easier to read
-
-  # check presorts
-  res$presorts <- check_matrix(x = presorts,
-                               mode = "integer",
-                               any.missing = TRUE,
-                               all.missing = FALSE,
-                               null.ok = TRUE)
-  # return ====
-  # preliminary step is necessary b/c res is list and may contain logical AND character strings
-  all_res <- sapply(X = res, FUN = function(x) {isTRUE(x)})  # now this is always a logical vector
-  if (all(all_res)) {
-    return(TRUE)  # everyone is happy!
-  } else {
-    return(res[!all_res][[1]])  # let's just take the first error, one at a time
-  }
+  return(report_checks(res = res, info = "QPreSorts"))
 }
