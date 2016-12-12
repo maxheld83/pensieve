@@ -2,8 +2,10 @@
 
 S3method(check,QItems)
 S3method(check,QPreSorts)
+S3method(check,QSorts)
 export(QItems)
 export(QPreSorts)
+export(QSorts)
 export(anonymize)
 export(check)
 export(count_cooccur)

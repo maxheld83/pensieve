@@ -19,8 +19,10 @@ Checks and makes QItems.
 }
 \seealso{
 Other import helpers: \code{\link{QPreSorts}},
-  \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
+  \code{\link{QSorts}}, \code{\link{anonymize}},
+  \code{\link{check.QPreSorts}}
 
-Other validation helpers: \code{\link{QPreSorts}}
+Other validation helpers: \code{\link{QPreSorts}},
+  \code{\link{QSorts}}
 }
 

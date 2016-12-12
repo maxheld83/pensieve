@@ -6,6 +6,7 @@
 \alias{check}
 \alias{check.QItems}
 \alias{check.QPreSorts}
+\alias{check.QSorts}
 \alias{expect}
 \alias{expect.default}
 \alias{test}
@@ -13,6 +14,8 @@
 \title{Validate S3 classes from this package.}
 \usage{
 \method{check}{QPreSorts}(x)
+
+\method{check}{QSorts}(x)
 
 \method{check}{QItems}(x)
 
@@ -55,6 +58,7 @@ Use \code{check}, \code{test}, \code{assert} and \code{expect} to validate S3 cl
 }
 \seealso{
 Other import helpers: \code{\link{QItems}},
-  \code{\link{QPreSorts}}, \code{\link{anonymize}}
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{anonymize}}
 }
 
