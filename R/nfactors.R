@@ -58,6 +58,7 @@ draw_rand_sort <- function(grid = NULL,  # named integer vector of grid
                 names = "unique",
                 null.ok = FALSE)
   expect_integerish(x = grid,
+                    min.len = 1,
                     lower = 0)
 
   expect_count(x = n,
@@ -178,7 +179,7 @@ run_parallel <- function(dataset = NULL,
   }
 
   # is dataset inside grid?
-  if (!is.null(grid)) {
+  if (!is.null(grid) & !is.null(dataset)) {
     expect_true(object = diag_inside_grid(dataset = dataset, grid = grid),
                 info = "Maximum counts of dataset are not inside grid.")
     # this also takes care of grid and dataset validation

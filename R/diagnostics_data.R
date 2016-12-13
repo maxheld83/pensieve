@@ -153,7 +153,8 @@ diag_inside_grid <- function(dataset, grid) {
                     lower = 0,
                     any.missing = FALSE,
                     all.missing = FALSE,
-                    min.len = sum(abs(range(dataset))) + 1)
+                    min.len = sum(abs(range(dataset))) + 1,
+                    null.ok = TRUE)
 
   # body ====
   inside_grid <- all(grid >= diag_distro_max(dataset))
