@@ -22,10 +22,10 @@ Pre-sorting piles are, of course, \emph{categorical} information and should be t
 }
 \seealso{
 Other import helpers: \code{\link{QItems}},
-  \code{\link{QSorts}}, \code{\link{anonymize}},
-  \code{\link{check.QPreSorts}}
+  \code{\link{QPeopleFeatures}}, \code{\link{QSorts}},
+  \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
 
 Other validation helpers: \code{\link{QItems}},
-  \code{\link{QSorts}}
+  \code{\link{QPeopleFeatures}}, \code{\link{QSorts}}
 }
 

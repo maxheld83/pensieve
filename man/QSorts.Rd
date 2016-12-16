@@ -18,10 +18,10 @@ Checks and makes QSorts
 }
 \seealso{
 Other import helpers: \code{\link{QItems}},
-  \code{\link{QPreSorts}}, \code{\link{anonymize}},
-  \code{\link{check.QPreSorts}}
+  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
+  \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
 
 Other validation helpers: \code{\link{QItems}},
-  \code{\link{QPreSorts}}
+  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}}
 }
 

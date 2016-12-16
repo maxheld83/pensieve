@@ -18,11 +18,11 @@ Defaults to \code{TRUE}.}
 Checks and makes QItems.
 }
 \seealso{
-Other import helpers: \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{anonymize}},
-  \code{\link{check.QPreSorts}}
+Other import helpers: \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
 
-Other validation helpers: \code{\link{QPreSorts}},
-  \code{\link{QSorts}}
+Other validation helpers: \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}}
 }
 

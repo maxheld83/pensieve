@@ -1,10 +1,13 @@
+# QPreSorts ====
+
 #' @title Check and make QPreSorts
 #'
 #' @export
 #'
 #' @description Checks and makes QPreSorts
 #'
-#' @param presorts An integer matrix, with named rows as item handles, named columns as participant names and cells as presorts.
+#' @param presorts
+#' An integer matrix, with named rows as item handles, named columns as participant names and cells as presorts.
 #' \code{-1L} for `negative`, \code{0L} for `neutral` and \code{1L} for `positive`.
 #'
 #' @inheritParams QItems
@@ -49,6 +52,8 @@ check.QPreSorts <- function(x) {
   return(report_checks(res = res, info = "QPreSorts"))
 }
 
+
+# QSorts ====
 
 #' @title Check and make QSorts
 #'
@@ -95,4 +100,48 @@ check.QSorts <- function(x) {
   }
 
   return(report_checks(res = res, info = "QSorts"))
+}
+
+
+# QPeopleFeatures ====
+
+#' @title Check and make QPeopleFeatures
+#'
+#' @export
+#'
+#' @description Checks and makes QPeopleFeatures, a tibble with arbitrary additional information on the participating people-variables.
+#'
+#' @param p_feat
+#' A tibble, with one row per participant.
+#' First column must be the participant names, same as the rownames from \code{\link{QSorts}}.
+#'
+#' @inheritParams QItems
+#'
+#' @family import helpers
+#' @family validation helpers
+QPeopleFeatures <- function(p_feat, validate = TRUE) {
+  assert_flag(x = validate,
+              na.ok = FALSE,
+              null.ok = FALSE)
+
+  class(p_feat) <- append(class(p_feat), "QPeopleFeatures")
+
+  if (validate) {
+    assert(p_feat)
+  }
+  return(p_feat)
+}
+
+
+#' @export
+#' @rdname check
+check.QPeopleFeatures <- function(x) {
+  res <- NULL
+
+  res$tibble <- check_tibble(x = x,
+                             types = c("logical", "integer", "integerish", "double", "numeric", "character", "factor"),
+                             any.missing = TRUE,
+                             all.missing = FALSE,
+                             col.names = "strict")
+  return(report_checks(res = res, info = "QPeopleFeatures"))
 }

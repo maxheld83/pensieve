@@ -61,12 +61,12 @@ anonymize(real_names = c("Hillary", "Barack", "George"),
 }
 \seealso{
 Other import helpers: \code{\link{QItems}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}},
-  \code{\link{check.QPreSorts}}
+  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{check.QPreSorts}}
 
 Other import helpers: \code{\link{QItems}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}},
-  \code{\link{check.QPreSorts}}
+  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{check.QPreSorts}}
 }
 \keyword{internal}
 
