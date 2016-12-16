@@ -75,7 +75,9 @@ check.QCorr <- function(x) {
 #'
 #' @param x numerical matrix with correlation coefficients or object of class \code{QCorr}, as created by \code{\link{correlate}}.
 #'
-#' @param quietly Logical flag, indicating whether a summary plot should be printed.
+#' @param iplot Logical flag, indicating whether an interactive version of the plot should be returned.
+#' Suiteable for HTML output (via \code{\link[rmarkdown]{render}} and friends) and the RStudio IDE.
+#' Defaults to \code{NULL}, in which case the appropriate setting is inferred from the runtime environment.
 #'
 #' @param ... other parameters to be passed through to plotting functions.
 #'
@@ -85,9 +87,9 @@ check.QCorr <- function(x) {
 #'
 #' @family correlation functions
 #' @family plotting functions
-plot.QCorr <- function(x, quietly = FALSE, ...) {
+plot.QCorr <- function(x, iplot = NULL, ...) {
   # Input validation ====
-  assert_flag(x = quietly,
+  assert_flag(x = iplot,
               na.ok = FALSE,
               null.ok = FALSE)
 
@@ -128,11 +130,14 @@ plot.QCorr <- function(x, quietly = FALSE, ...) {
   g <- g + geom_text()
   g <- g + theme(axis.title = element_blank())  # kill axis labels
   g <- g + theme(axis.text.x = element_text(angle = 90, hjust = 1))  # rotate x axis labels
-  g
 
-  # Return ===
-  if (!quietly) {
-    print(g)
+
+  # Make interactive ====
+  if (is.null(iplot)) {
+    iplot <- is_iplot()
   }
-  return(invisible(g))
+  if (iplot) {
+    g <- plotly::ggplotly(p = g)
+  }
+  return(g)
 }

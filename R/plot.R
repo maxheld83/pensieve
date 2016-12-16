@@ -3,4 +3,15 @@
 #' @import ggplot2
 NULL
 
-# import/export plot generic ====
+# detect whether runtime is suitable for interactive plot ====
+is_iplot <- function() {
+  if (isTRUE(interactive() & Sys.getenv("RSTUDIO") == 1)) {
+    iplot <- TRUE
+  } else if (isTRUE(knitr::opts_knit$get("rmarkdown.pandoc.to") == "html")) {
+    iplot <- TRUE
+  } else {
+    iplot <- FALSE
+  }
+  return(iplot)
+}
+
