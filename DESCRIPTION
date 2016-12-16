@@ -18,13 +18,15 @@ Imports:
     utils (>= 3.3.1),
     stats (>= 3.3.1),
     lettercase (>= 0.13.1),
+    ggplot2 (>= 2.2.0),
+    reshape2 (>= 1.4.2),
+    graphics (>= 3.3.2),
     paran
 Suggests:
     knitr (>= 1.13),
     rmarkdown (>= 1.0),
     covr (>= 2.2.0),
     bookdown (>= 0.1),
-    devtools (>= 1.12.0),
-    ggplot2 (>= 2.1.0)
+    devtools (>= 1.12.0)
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

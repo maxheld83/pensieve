@@ -8,5 +8,3 @@ capitalize <- function(x) {
         sep = "",
         collapse = " ")
 }
-
-
