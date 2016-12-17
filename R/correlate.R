@@ -91,7 +91,7 @@ plot.QCorr <- function(x, iplot = NULL, ...) {
   # Input validation ====
   assert_flag(x = iplot,
               na.ok = FALSE,
-              null.ok = FALSE)
+              null.ok = TRUE)
 
   class(x) <- append(class(x),
                 "QCorr")
