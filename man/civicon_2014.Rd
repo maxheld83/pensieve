@@ -7,11 +7,15 @@
 \format{A list with 3 elements:
 \describe{
   \item{qItems}{the Q items, as a list of class \code{qItems},}
-  \item{qData}{the Q data, as a list with 1 element, sorts, as an array of 3 dimensions,
+  \item{qData}{the Q data, as a list with 1 element,
     \describe{
-      \item{items}{with item-handles as dimension names,}
-      \item{people}{with anonymized participant names as dimension names,}
-      \item{conditions}{with \code{before} and \code{after} as dimension names.}
+      \item{sorts}{the Q sorts, as an array of 3 dimensions,
+        \describe{
+          \item{items}{with item-handles as dimension names,}
+          \item{people}{with anonymized participant names as dimension names,}
+         \item{conditions}{with `before` and `after` as dimension names.}
+        }
+      }
     }
   }
   \item{grid}{the Q grid}
