@@ -20,7 +20,7 @@ Imports:
     lettercase (>= 0.13.1),
     ggplot2 (>= 2.2.0),
     reshape2 (>= 1.4.2),
-    graphics (>= 3.3.2),
+    graphics (>= 3.3.1),
     plotly (>= 4.5.6),
     ggrepel (>= 0.6.5),
     paran
