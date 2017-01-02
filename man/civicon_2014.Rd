@@ -12,7 +12,7 @@
       \describe{
         \item{items}{with item-handles as dimension names,}
         \item{people}{with anonymized participant names as dimension names,}
-        \item{conditions}{with `before` and `after` as dimension names.}
+        \item{conditions}{with \code{before} and \code{after} as dimension names.}
       }
     }
   }
