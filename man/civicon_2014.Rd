@@ -5,7 +5,17 @@
 \alias{civicon_2014}
 \title{Q-Sorts on taxation and the economy from the 2014 CiviCon Citizen Conference}
 \format{A list with 3 elements:
-test}
+\describe{
+  \item{qItems}{the Q items, as a list of class \code{qItems},}
+  \item{qData}{the Q data, as a list with 1 element, sorts, as an array of 3 dimensions,
+    \describe{
+      \item{items}{with item-handles as dimension names,}
+      \item{people}{with anonymized participant names as dimension names,}
+      \item{conditions}{with \code{before} and \code{after} as dimension names.}
+    }
+  }
+  \item{grid}{the Q grid}
+}}
 \source{
 \url{http://www.maxheld.de/schumpermas/}
 }
