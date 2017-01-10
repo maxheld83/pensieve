@@ -29,14 +29,3 @@ This is a very early draft, and is not ready for prime-time, let alone citation.
 
 This is the *documentation* (in lieu of vignettes).
 To find the package, go to http://pensieve.maxheld.de.
-
-
-## Annotated Bibliography
-
-- @stephenson-1935: "Gründungsnotiz" der Q-Methode, in dem Stephenson sehr knapp vorschlägt, man könne doch die – damals neue – Faktoranalyse einfach mal mit einer transponierten Datentabelle, also Leute als Leute-Variablen, und items als Item-Cases benutzen.
-- @Brown1980: Die aktuelle, aber arg orthodoxe Q-Bibel; darin wird unter anderem die heute meist praktizierten Analysenschritte expliziert (Centroid extraction, by-hand rotation, flagging ...). 
-  Der methodologische und ideengeschichtliche Teil scheint mir weiter wichtig und brilliant – die Statistik ist heute schwer haltbar und stellenweise unbelegt.
-- @Kampen-Tamas-2014: Jüngste, extrem kritische Auseinandersetzung
-
-
-# Bibliography

@@ -1,2 +1,3 @@
 book_filename: "Pensieve"
 chapter_name: "Chapter "
+rmd_files: ["index.Rmd", "measurement.Rmd", "references.Rmd"]
