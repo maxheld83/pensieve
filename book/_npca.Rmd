@@ -1,0 +1,15 @@
+---
+title: "_npca.Rmd"
+author: "Maximilian Held"
+date: "1/10/2017"
+output: html_document
+---
+
+
+<!-- great argument from stephenson against latent variable model in factor analysis can be found where he rails against R methodology (this is from Watts Stenner 11): -->
+<!-- > it (the R methodological factor) only considered "measuring any individual for those differences which enter onto a factor" (Stephenson 1936b: 205) -->
+
+<!-- in watts stenner 14: -->
+<!-- > "There are, he says, 'possibly millions of *types*', which Q methodological factors might capture, 'common that is to several or many persons, but not necessarily to all' (Stephenson 1963b: 209). The non-universitylita of these types would ensure, in marked contrast to the R technique, that the factors obtained 'in correlating persons ... will be numerous and broad' (Burt and Stephenson, 1939: 274)." -->
+<!-- This seems pretty much impossible, unlikely, at least with limited number sof factors -->
+<!-- also consider whether R and Q are in PCA not exactly the same, just with loas and scores exchanged; perhaps all that Q PCA does differently, is to rotate on the people-loas, instead of the item scores; one might, however, wonder, whether we should not also rotate on the item-scores. Perhaps, indeed, rotating on the item-scores, and whether that makes a difference vis a vis rotating on the loas could be a finding in itself. Rotating on the scores would mean, for example, that we would want some items to be at the poles. -->
