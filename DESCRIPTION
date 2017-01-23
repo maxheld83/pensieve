@@ -1,6 +1,6 @@
 Package: pensieve
 Title: Tools for the Scientific Study of Operant Subjectivity
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: person("Maximilian", "Held", email = "info@maxheld.de", role = c("aut", "cre"))
 URL: https://github.com/maxheld83/pensieve
 BugReports: https://github.com/maxheld83/pensieve/issues
