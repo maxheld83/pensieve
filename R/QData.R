@@ -24,7 +24,7 @@ QPreSorts <- function(presorts, validate = TRUE) {
               na.ok = FALSE,
               null.ok = FALSE)
 
-  class(presorts) <- "QPreSorts"
+  class(presorts) <- append(class(presorts), "QPreSorts")
 
   # validation first
   if (validate) {

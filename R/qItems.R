@@ -19,7 +19,7 @@ QItems <- function(items, validate = TRUE) {
               na.ok = FALSE,
               null.ok = FALSE)
 
-  class(items) <- "QItems"
+  class(items) <- append(class(items), "QItems")
 
   # validation first
   if (validate) {
