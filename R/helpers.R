@@ -8,3 +8,12 @@ capitalize <- function(x) {
         sep = "",
         collapse = " ")
 }
+
+# helper to append, and only if class not already in there
+# this is to avoid duplicate classes, which is just confusing
+classify_clever <- function(x, classname) {
+  if (!inherits(x = x, what = classname)) {
+    class(x) <- append(classname, class(x))
+  }
+  return(x)
+}

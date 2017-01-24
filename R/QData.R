@@ -73,7 +73,7 @@ QSorts <- function(qsorts, validate = TRUE) {
               na.ok = FALSE,
               null.ok = FALSE)
 
-  class(qsorts) <- "QSorts"
+  qsorts <- classify_clever(x = qsorts, classname = "QSorts")
 
   if (validate) {
     assert(qsorts)
@@ -124,7 +124,7 @@ QPeopleFeatures <- function(p_feat, validate = TRUE) {
               na.ok = FALSE,
               null.ok = FALSE)
 
-  class(p_feat) <- append(class(p_feat), "QPeopleFeatures")
+  p_feat <- classify_clever(x = p_feat, classname = "QPeopleFeatures")
 
   if (validate) {
     assert(p_feat)

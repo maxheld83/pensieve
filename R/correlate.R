@@ -34,9 +34,8 @@ correlate <- QCorr <- function(sorts, algorithm = "spearman", use = "pairwise.co
   cormatrix <- stats::cor(x = sorts, use = use, method = algorithm)
 
   # assign classes
-  class(cormatrix) <- c(class(cormatrix),  # use whichever it already has, just in case
-                        "QCorr",  # q specific stuff
-                        paste0("QCorr", capitalize(algorithm)))  # method specific stuff
+  cormatrix <- classify_clever(x = cormatrix, classname = "QCorr") # q specific stuff
+  cormatrix <- classify_clever(x = cormatrix, classname = paste0("QCorr", capitalize(algorithm))) # method specific stuff
 
   # return ====
   return(cormatrix)

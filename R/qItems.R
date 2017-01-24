@@ -19,7 +19,7 @@ QItems <- function(items, validate = TRUE) {
               na.ok = FALSE,
               null.ok = FALSE)
 
-  class(items) <- append(class(items), "QItems")
+  items <- classify_clever(x = items, classname = "QItems")
 
   # validation first
   if (validate) {
