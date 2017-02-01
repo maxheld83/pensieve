@@ -1,0 +1,273 @@
+---
+layout: post
+title: Loadings-based Factor-Retention Criteria and Some (New) Alternatives
+published: true
+categories:
+- blog
+- research
+lang: en
+comments: true
+tags:
+- statistics
+- qmethod
+- Q Methodology
+- rstats
+bibliography: ../../held-library/held_library.bib
+---
+
+<section id="table-of-contents" class="toc">
+  <header>
+    <h3>Contents</h3>
+  </header>
+<div id="drawer" markdown="1">
+*  Auto generated table of contents
+{:toc}
+</div>
+</section><!-- /#table-of-contents -->
+
+
+## [TL;DR](http://en.wikipedia.org/wiki/TL;DR)
+
+It seems to me that while q-specific, Humphrey's rule and the >2 sig. factor rule are problematic to decide on the number of retained factors, because they depend on loadings, which are available only later in the procedure and dependent on the rotation method. 
+Instead, I suggest an additional q-specific approach, based on changes in communalities and residual correlation matrices between factor models in question.
+
+<!--more-->
+
+## Original Post
+
+This suggestion was originally posted to the [qmethod](http://www.lsoft.com/SCRIPTS/WL.EXE?SL1=Q-METHOD&H=LISTSERV.KENT.EDU) on June 15, 2015.
+To read the entire conversation, go [here](https://listserv.kent.edu/cgi-bin/wa.exe?A2=ind1506&L=q-method&P=R3553&1=q-method&9=A&J=on&d=No+Match%3BMatch%3BMatches&z=4).
+{: .notice}
+
+This suggestion is implemented as a function `q.nfactors()` the R package [qmethod](https://cran.r-project.org/web/packages/qmethod/index.html), created by [Aiora Zabala](http://people.ds.cam.ac.uk/az296/).
+{: .notice}
+
+<div markdown="0"><a href="https://github.com/aiorazabala/qmethod" class="btn">check out qmethod on github</a></div>
+
+I'm trying to figure out the various criteria for the number of factors (principal components, to be precise) to be retained. 
+In addition to established mainstream criteria (Catell's scree plot (1966), Kaiser (1960) and Gutmann (1954) of EV > 1 and --- my favorite --- Horn's (1965) parallel analysis), there seem to be some criteria specific (?) to Q, including:
+<!-- In addition to established mainstream criteria (Catell (1966)'s scree plot, Kaiser-1960 and @Gutmann-1954's of EV > 1 and --- my favorite --- @Horn-1965's parallel analysis), there seem to be some criteria specific (?) to Q, including: -->
+
+- whether there are **>= 2 "significant" factor loadings**, as per Brown (1980: 222-223), also described in Watts (2012: 107) and 
+- **Humphrey's rule** (Fruchter 1654: 79-80): whether the  crossproduct of the two highest loadings exceeds twice the standard error (ibid.).
+<!-- - whether there are **>= 2 "significant" factor loadings**, as per @Brown1980 [222-223], also described in @Watts2012 [107] and 
+- **Humphrey's rule** [@Fruchter-1954, 79-80]: whether crossproduct of the two highest loadings exceeds twice the standard error (ibid.). -->
+
+I understand (and agree) that in addition to such statistical criteria, there are also the abductive concerns of whether, and how, we can "make sense" of operant subjectivity. 
+
+What confuses me about the Q-specific criteria (two significant loadings, Humphrey's rule), is their position in *the decision sequence* of exploratory factor analysis. 
+Both criteria depend on the relative distribution of *loadings*, which, in turn, *depend on the rotation*, which, in turn, depends on *the number of factors extracted*.
+
+It seems to me that the rotation result depends on the number of factors extracted. 
+This is clearly the case for automatic rotation procedures, and I wonder whether it also holds for judgemental rotation. 
+I would imagine that no matter how one looks for a (simple) structure, the dimensionality will be quite important.
+
+I worry that the above loadings-based criteria involve some circular reasoning, from which I am having a hard time to escape: to know the number of factors, I need to know the (rotated) loadings, to know the rotated loadings, I need to know the number of factors. 
+Notice also that mainstream exploratory factor analysis books, even if they mention Q, prescribe a decision sequence in which the number of factors is decided before the rotation (Thompson 2004: 27).
+<!-- [@Thompson-2004, 27]. -->
+
+Practically, how do people proceed around this conundrum?
+Where did I go wrong?
+
+I also want to suggest two alternative / additional criteria, that might be especially relevant to Q methodology.
+
+
+### (Precipitous Drops in) Communality (h2) Plot
+
+It seems that one of the important concerns of a Q analysis is that, if at all possible, all expressed Q sorts are at least *somewhat* reflected in the final factor interpretation. 
+It's undesirable to have some people's viewpoints not captured by any given model at *all* (as would be expressed by very low h2 communalities, or the sum of squared loadings across the rows of a loadings matrix).
+A related concern is that in Q, participants (as variables), are emphatically *not* random sampled, and eigenvalues are therefore of limited use (as @Brown1980: 233 notes). 
+In Q, we are *not* less interested in a factor because it is shared by fewer people. 
+This is something that any eigenvalue-based criteria, and especially parallel analysis, do not consider.
+
+Contra indications from eigenvalue-based criteria, Q researchers might have *reasons* to retain *another* factor (or component), especially if dropping them would precipitously reduce the communality of a subset of participants. 
+Because Q researchers sometimes know their participants *and* can abductively reason whether resultant viewpoints are plausible, they might, on occasion, *know* that even if a marginal PC does not make the parallel analysis threshold, that the PC in question is still worth retaining, because it is not, in fact, random.
+Notice that because communalities are (squared) row sums, they *do not vary* depending on the rotation.
+
+Let me illustrate this train of thought with a concrete example from my [keyneson](https://github.com/maxheld83/keyneson) using a [new `q.nfactors`](https://github.com/aiorazabala/qmethod/issues/148) function for `qmethod`.
+
+```{r setup, cache = FALSE, include = FALSE, eval=TRUE}
+# this may be shorted dramatically by just pointing to the schumpermas copy once data is read in from dataverse
+library(servr)
+library(devtools)
+library(knitr)
+#opts_knit$set(root.dir = normalizePath(getwd()))  # what does this do?
+#options(digits=2)
+install.packages(repos = NULL, type = "source", INSTALL_opts = c('--no-lock'), pkgs = c("/Users/Max/github/schumpermas/qmethod"))
+library(qmethod)
+opts_chunk$set(fig.retina = 2, fig.width = 10, fig.height = 10)
+q_distribution <- as.integer(c(  # set up distribution
+  "-7" = 1,  # these names are crap, they don't really work, maybe rather make this a matrix if you really want names
+  "-6" = 1,
+  "-5" = 2,
+  "-4" = 4,
+  "-3" = 6,
+  "-2" = 9,
+  "-1" = 10,
+  "0" = 11,
+   "1" = 10,
+   "2" = 9,
+   "3" = 6,
+   "4" = 4,
+   "5" = 2,
+   "6" = 1,
+   "7" = 1
+))
+q_concourse <- import.q.concourse(  # import concourse
+  q.concourse.dir = "/Users/Max/github/schumpermas/keyneson/keyneson-sample/keyneson-concourse/",
+  languages = c("english", "german")
+)
+q_sampling_structure <- read.csv(  # read in sampling structure
+  file = "/Users/Max/github/schumpermas/keyneson/keyneson-sample/sampling-structure.csv"
+)
+q_set <- build.q.set(
+  q.concourse = q_concourse,
+  q.sample = q_sampling_structure$handle,
+  q.distribution = q_distribution
+)
+q_sorts <- import.q.sorts(
+  q.sorts.dir = "/Users/Max/github/schumpermas/keyneson/qsorts/",
+  q.set = q_set,
+  q.distribution = q_distribution,
+  conditions = c("before","after"),
+  manual.lookup = as.matrix(
+    read.csv(
+      "/Users/Max/github/schumpermas/keyneson/keyneson-sample/keyneson-concourse/ids.csv",
+      row.names=2
+    )
+  )
+)
+q_sorts <- q_sorts[ , !colnames(q_sorts) == "Wolfgang", ]  # delete researcher
+q_sorts <- q_sorts[ , !colnames(q_sorts) == "Uwe", ]  # left conference for personal reasons
+```
+
+Consider first, that according to parallel analysis, I should retain only *two* factors (principal components, actually): only the adjusted Eigenvalues of the first two factors are above 1.
+
+```{r parallel, cache=TRUE, echo=TRUE, results = "hide"}
+nfac <- q.nfactors(dataset = q_sorts[,,"before"], cor.method = "spearman", quietly = TRUE)
+plot(nfac$screeplot)
+```
+
+However, on closer inspection, three people's communalities drop quite dramatically *between extracting 2 or 3 PCs*, effectively making a 2-factor solution utterly irrelevant for them. 
+I happen to know that these three women, `Susanne`, `Sabine` and `Helga`, share a) sociodemographic variables to some extent and b) might well really share some common viewpoint (I talked to them at length).
+This is less so for the change between a *3 and 4 component solution*: the changes in communality are not as precipitous here, and the people who gain most, `Helga` and `Ingrid`, do not strike me as obviously sharing a viewpoint. 
+Maybe then, adding a 4th component *would* move me into the realm of random factors.
+
+```{r compplot, cache = TRUE, echo = TRUE}
+plot(nfac$commplot)
+# communalities over number of factors retained
+knitr::kable(x = t(nfac$communalities[c(2,3,4),]), digits = 2)
+```
+
+
+### Residual Correlations
+
+The question of what is still to be gained by any additional factor, can, of course, be more systematically investigated using the residual correlation matrix.
+To illustrate, lets look at the residuals of the 2- and 3- factor solution, respectively:
+
+```{r resplot, cache = TRUE, echo = TRUE}
+plot(nfac$residuals.plots[[2]])
+plot(nfac$residuals.plots[[3]])
+```
+
+And in tabular form, for the Q-sorts in question:
+
+```{r residuals, cache = TRUE, echo = TRUE}
+# 2 factors
+knitr::kable(x = nfac$residuals[c("Susanne", "Sabine", "Helga"), c("Susanne", "Sabine", "Helga"), 2], digits = 2)
+# 3 factors
+knitr::kable(x = nfac$residuals[c("Susanne", "Sabine", "Helga"), c("Susanne", "Sabine", "Helga"), 3], digits = 2)
+```
+
+The correlations at this stage aren't huge, and neither is the change, but there might be something happening.
+In addition, there is of course Bartlett's test (1950, 1951) to check whether an given residual correlation matrix is an identity matrix (the test says, surprisingly, that up to 5 factors can be extracted (also included in the above plot).
+
+```{r Bartlett}
+nfac$Bartlett
+```
+
+
+### Summary
+
+I hope the above (messy) data serve to illustrate the *alternative* Q-specific standard for the number of factors to be retained: to look at *what might be gained* in terms of communalities, and residual correlations between the two factor models in question, and then to use judgment about whether observed pattern (in this case, supposedly Susanne, Sabine and Helga) make sense.
+
+I'd be grateful for any feedback on this matter.
+
+I hope, as always, the question and suggestions aren't stupid (that happens).
+
+---
+
+## Update (August 20th, 2015)
+
+I am, again, humbled by the erudition and grateful for the intellectual generosity shown on this list –-- especially to a relative newcomer to the method as myself.
+It's almost a shame that these discussions happen in the relative obscurity of an email list, and not in OS or another journal. 
+(I am considering writing up an article on the question of factor retention in Q, though I am not yet sure what, if anything, genuinely original I might have to say).
+
+Its been a while, since I launched this thread on my dissatisfaction with (supposedly) Q-orthodox criteria for factor retention, and suggested some communalities-based alternatives. 
+I apologize for the late reply, and hope that some people may still find it valuable and/or are interested in carrying this forward.
+
+First, some corrections and concessions:
+
+- [Peter Schmolck](http://schmolck.userweb.mwn.de) (PS) pointed out that the residual correlations in my original email were unusually high. 
+  The tabled results appear to be reproducible, but the associated residual correlation matrix plot was, in fact, incorrect (because of [this bug](https://github.com/aiorazabala/qmethod/issues/219), now fixed). 
+  Apologies for my oversight.
+- PS also alerted me to a more fundamental (partial?) flaw in my reasoning: just because (for example), two Q-sorts may share an increase in communality from, say, a 2-factor to a 3-factor solution, *does not imply that they will also load on such a third factor after rotation* (though they might). 
+  So, rather then presuming some shared subjectivity between Q-sorts with parallel increases in communality, that would have to be validated and argued based on the final rotated solution (potentially re-introducing the kind of "circularity" I claimed to avoid). 
+  The other, albeit entirely speculative, reason --- shared socio-economic indicators and such like --- remains. 
+  I'll [add this caveat](https://github.com/aiorazabala/qmethod/issues/222) in my writing on the matter, and in my draft documentation to the relevant plotting functions in `qmethod`.
+- [Steven Brown](http://www2.kent.edu/news/media/experts/~sbrown/) pointed out that I somewhat misrepresented his 1980 writing: he did *not* recommend Humphrey's rule (nor any other "statistical" criterion) for Q, but instead suggested to preliminary retain 7 factors right away [Brown-1980, 223]. 
+  
+  > Note that in Brown (1980, pp. 222-223), Humphrey’s rule and other criteria were simply part of a statistical inventory that was then set aside in favor of extracting more factors than in the final analysis were expected to be significant, the non-statistical “magic number 7” being adopted. 
+  
+  Apologies for my error.
+- [Bob Braswell](http://ag.org/top/missionary_directory/world/world.cfm?Display=Yes&churchdetail=AGFM3247) (BB), in the first of his stimulating series of emails, clarified that *both* Eigenvalue- as well as communality-based criteria are vulnerable to sampling, and may thus be inadequate for Q, which frequently carries no presumption of randomly sampled participants (as *person-variables*!). 
+  
+  > But in exactly the same way, communality scores are also an artifact of the nonrandom sampling of persons. 
+  > Like eigenvalues, the communalities depend on the size and homogeneity of the person sample.
+  
+  My original argument failed to note this implication, and I'll [fix that](https://github.com/aiorazabala/qmethod/issues/223). 
+  I disagree with BB's seeming conclusion that both Eigenvalues and communalities are relatively meaningless in Q (see below).
+- In his second installment, BB correctly dissects my misuse of "circular reasoning". 
+  Going from factor retention to rotated loadings, back to factor retention and so forth may be *iterative*, but need not be fallacious. 
+  
+  > Yet not everything that turns in on itself is a circle and there is a great difference between circular reasoning, as mentioned by MH, and iterative methods of successive approximation.
+  
+  Apologies for my rhetorical hyperbole. 
+  A better way to express my concern might have been (lack of) *reproducibility* (strong form: that some other researcher, using the same data and accepting similar priors, will arrive at similar conclusions, weak form: that some other researcher may track and criticise all steps taken in some research project). 
+  This, in turn, may be considered alien to Q methodology (Steven Brown recently cited Gigerenzer's (1987) critique of such a "fight against [a researcher's] subjectivity"), and may, moreover, imply uninspected claims to generalizability. 
+  I am aware of these tensions, but see no need to abandon such (conventional) criteria entirely.
+
+In light of these welcome (and needed) corrections, let me try and clarify a justification for the suggested communality-based criteria.
+
+Inspecting the relative increases of certain Q sorts and respective residual correlations as more factors are retained is, emphatically, *not* a criterion to definitively decide on the number of factors to be retained.
+I hope my suggestion was not misunderstood that way.
+
+Rather, I would suggest that systematically inspecting residual correlations and the changes in communalities can serve a *heuristic* purpose, applicable *strictly at the margin* between two factor models (say, two or three retained factors, as in the above).
+In such a scenario, apparent parallel movements between *substantively* "significant" Q-sorters (say, because they share socio-economic criteria, or are suspected (see above) to share a subjectivity), may guide a researchers *discretionary* decision between two such marginal models, *especially* if other criteria are unsatisfactory, inadequate or inconclusive.
+In this way, communalities and residual correlation matrices require very much the same kind of iterative abduction otherwise characteristic for Q methodology.
+
+I do remain troubled by what Peter Schmolck has aptly called "critique of randomness" (better in German: Zufallskritik) (what might otherwise be known as significance testing) and haunted by experiences as that relayed by Simon Watts, where truly random data was abductively interpreted by accident.
+In the context of my research, the issue is whether, and to what extent, quite complicated items on taxation and economics were actually *meaningful* to participants (if they weren't, there could hardly be shared subjectivity).
+I am yet unconvinced by the arguments against such statistical tests, especially parallel analysis and bootstrapping, and hope to write something coherent on that issue soon.
+
+
+## References
+
+- Brown, Steven R. 1980. *Political Subjectivity: Applications of Q
+Methodology in Political Science*. Yale Univ Pr.
+- Catell, Raymond B. 1966. “The Scree Test for the Number of Factors.”
+*Multivariate Behavioral Research* 1 (2).
+- Fruchter, Benjamin A. 1954. *Introduction to Factor Analysis*.
+Princeton, N.J.: Van Nost Reinhold.
+- Gutmann, Louis. 1954. “An Outline of Some New Methodology for Social
+Research.” *The Public Opinion Quarterly* 18 (4): 395–404.
+- Horn, John L. 1965. “A Rationale and Test for the Number of Factors in
+Factor Analysis.” *Psychometrica* 30 (2).
+- Kaiser, Henry F. 1960. “The Application of Electronic Computers to
+Factor Analysis.” *Educational and Psychological Measurement* 20 (1):
+141–51.
+- Thompson, Bruce. 2004. *Exploratory and Confirmatory Factor Analysis -
+Understanding Concepts and Applications*. Washington, D.C.: American
+Psychological Association.
+- Watts, Simon, and Paul Stenner. 2012. *Doing Q Methodological Research:
+Theory, Method & Interpretation*. Thousand Oaks, CA: Sage Publications.
