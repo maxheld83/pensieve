@@ -51,6 +51,27 @@ check.QItems <- function(x) {
 }
 
 
+#' @title Print Q items
+#'
+#' @description Prints Q items in a form convenient for the runtime, or for documents.
+#'
+#' @param x a character matrix with full item wording of class \code{QItems}, as created by \code{\link{QItems}}.
+#'
+#' @param iprint Logical flag, indicating whether an interactive version of the plot should be returned.
+#' Suiteable for HTML output (via \code{\link[rmarkdown]{render}} and friends) and the RStudio IDE.
+#' Defaults to \code{NULL}, in which case the appropriate setting is inferred from the runtime environment.
+#'
+#' @param ... other parameters to be passed through to printing functions.
+#'
+#' @return Prints a properly formatted character string.
+#'
+#' @export
+#'
+#' @family printing functions
+print.QItems <- function(x, iprint = NULL, ...) {
+
+}
+
 # helper: check QLookup
 check_QLookup <- check_lookup <- function(x){
   res <- NULL
