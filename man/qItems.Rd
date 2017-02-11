@@ -25,4 +25,3 @@ Other import helpers: \code{\link{QPeopleFeatures}},
 Other validation helpers: \code{\link{QPeopleFeatures}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}}
 }
-

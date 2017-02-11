@@ -21,4 +21,3 @@ A dataset of 53 participants, sorting and categorizing 35-41 items.
 Part of Verena Kasztantowicz's dissertation at Humboldt University of Berlin, Germany.
 }
 \keyword{datasets}
-

@@ -30,4 +30,3 @@ civicon_2014
 A dataset of 18 participants sorting 77 items on taxation and the economy before and after the 2014 CiviCon Citizen Conference.
 }
 \keyword{datasets}
-

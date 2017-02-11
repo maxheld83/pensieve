@@ -25,4 +25,3 @@ Other distribution helpers: \code{\link{diag_distros}},
   \code{\link{diag_inside_grid}}, \code{\link{diag_same}}
 }
 \keyword{internal}
-

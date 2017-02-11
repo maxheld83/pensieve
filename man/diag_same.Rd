@@ -32,4 +32,3 @@ Other distribution helpers: \code{\link{diag_distro_max}},
   \code{\link{diag_inside_grid}}
 }
 \keyword{internal}
-

@@ -24,4 +24,3 @@ Other import helpers: \code{\link{QItems}},
 Other validation helpers: \code{\link{QItems}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}}
 }
-

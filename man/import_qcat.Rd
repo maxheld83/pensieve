@@ -72,10 +72,9 @@ The more complicated cases, where a participant did not consider all items in th
 Such more granular \code{NA} records can, however, be recorded in the canonical data representation, where the respective cell of the items x category logical matrix would be \code{NA}.
 If your data gathering procedure produces such granular \code{NA} records, do not use this convenience function.
 }
-\author{
-Maximilian Held
-}
 \seealso{
 Other import: \code{\link{count_cooccur}}
 }
-
+\author{
+Maximilian Held
+}

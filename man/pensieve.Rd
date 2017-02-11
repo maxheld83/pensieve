@@ -4,8 +4,20 @@
 \name{pensieve}
 \alias{pensieve}
 \alias{pensieve-package}
+\alias{pensieve-package}
 \title{pensieve.}
 \description{
 pensieve.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/maxheld83/pensieve}
+  \item Report bugs at \url{https://github.com/maxheld83/pensieve/issues}
+}
 
+}
+\author{
+\strong{Maintainer}: Maximilian Held \email{info@maxheld.de}
+
+}

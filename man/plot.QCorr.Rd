@@ -24,4 +24,3 @@ Produces a heatmap from a given correlation matrix.
 \seealso{
 Other correlation functions: \code{\link{correlate}}
 }
-

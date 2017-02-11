@@ -69,4 +69,3 @@ Other import helpers: \code{\link{QItems}},
   \code{\link{QSorts}}, \code{\link{check.QPreSorts}}
 }
 \keyword{internal}
-

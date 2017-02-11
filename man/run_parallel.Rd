@@ -63,9 +63,6 @@ run_parallel(dataset = dataset,  # parameters are inferred
              centile = .95)  # default
 # results are all the same, because study used forced Q distribution
 }
-\author{
-Maximilian Held
-}
 \references{
 \itemize{
    \item Glorfeld, L. W. 1995: \emph{An Improvement on Horn-s Parallel Analysis Methodology for Selecting the Correct Number of Factors to Retain}, Educational and Psychological Measurement. 55(3): 377-393.
@@ -75,5 +72,7 @@ Maximilian Held
 \seealso{
 Other parallel-analysis: \code{\link{draw_rand_sort}}
 }
+\author{
+Maximilian Held
+}
 \keyword{internal}
-
