@@ -41,7 +41,6 @@ correlate <- QCorr <- function(sorts, algorithm = "spearman", use = "pairwise.co
   return(cormatrix)
 }
 
-
 #' @export
 #' @rdname check
 check.QCorr <- function(x) {
@@ -74,7 +73,7 @@ check.QCorr <- function(x) {
 #'
 #' @param x numerical matrix with correlation coefficients or object of class \code{QCorr}, as created by \code{\link{correlate}}.
 #'
-#' @param iplot Logical flag, indicating whether an interactive version of the plot should be returned.
+#' @param use_js Logical flag, indicating whether an interactive, javascript-based version of the plot should be returned.
 #' Suiteable for HTML output (via \code{\link[rmarkdown]{render}} and friends) and the RStudio IDE.
 #' Defaults to \code{NULL}, in which case the appropriate setting is inferred from the runtime environment.
 #'
@@ -86,14 +85,13 @@ check.QCorr <- function(x) {
 #'
 #' @family correlation functions
 #' @family plotting functions
-plot.QCorr <- function(x, iplot = NULL, ...) {
+plot.QCorr <- function(x, use_js = NULL, ...) {
   # Input validation ====
-  assert_flag(x = iplot,
+  assert_flag(x = use_js,
               na.ok = FALSE,
               null.ok = TRUE)
 
-  class(x) <- append(class(x),
-                "QCorr")
+  x <- classify_clever(x = x, classname = "QCorr")  # gotta make sure it IS QCorr in the first place
   assert(x)
 
   # Data preparation ====
@@ -132,10 +130,10 @@ plot.QCorr <- function(x, iplot = NULL, ...) {
 
 
   # Make interactive ====
-  if (is.null(iplot)) {
-    iplot <- is_iplot()
+  if (is.null(use_js)) {
+    use_js <- is_use_js()
   }
-  if (iplot) {
+  if (use_js) {
     g <- plotly::ggplotly(p = g)
   }
   return(g)

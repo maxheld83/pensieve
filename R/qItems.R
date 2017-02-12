@@ -51,25 +51,41 @@ check.QItems <- function(x) {
 }
 
 
-#' @title Print Q items
+#' @title Custom print method for knitr
 #'
-#' @description Prints Q items in a form convenient for the runtime, or for documents.
+#' @description Provides custom print method for knitr.
+#' Can also be invoked manually to open interactive outputs in RStudio.
 #'
 #' @param x a character matrix with full item wording of class \code{QItems}, as created by \code{\link{QItems}}.
 #'
-#' @param iprint Logical flag, indicating whether an interactive version of the plot should be returned.
-#' Suiteable for HTML output (via \code{\link[rmarkdown]{render}} and friends) and the RStudio IDE.
-#' Defaults to \code{NULL}, in which case the appropriate setting is inferred from the runtime environment.
+#' @inheritParams plot.QCorr
 #'
-#' @param ... other parameters to be passed through to printing functions.
-#'
-#' @return Prints a properly formatted character string.
+#' @inheritParams knitr::knit_print
 #'
 #' @export
 #'
-#' @family printing functions
-print.QItems <- function(x, iprint = NULL, ...) {
+#' @family knitr output functions
+knit_print.QItems <- function(x, use_js = NULL, ...) {
+  # Input validation ====
+  assert_flag(x = use_js,
+              na.ok = FALSE,
+              null.ok = TRUE)
 
+  x <- classify_clever(x = x, classname = "QItems")  # gotta make sure it IS QItems in the first place
+  assert(x)
+
+  # Preliminaries ====
+  if (is.null(use_js)) {
+    use_js <- is_use_js()
+  }
+
+  # JS method ====
+  if (use_js) {  # interactive
+  DT::datatable(data = as.data.frame(x),
+                options = list(searchHighlight = TRUE))
+  } else {
+    print(x)
+  }
 }
 
 # helper: check QLookup

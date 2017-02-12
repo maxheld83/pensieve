@@ -17,3 +17,21 @@ classify_clever <- function(x, classname) {
   }
   return(x)
 }
+
+
+# detect whether runtime is suitable for interactive stuff (HTML or RStudio) ====
+is_rstudio <- function() {
+  isTRUE(interactive() & Sys.getenv("RSTUDIO") == 1)
+}
+is_html <- function() {
+  isTRUE(knitr::opts_knit$get("rmarkdown.pandoc.to") == "html")
+}
+is_use_js <- function() {
+  isTRUE(is_rstudio() | is_html())
+}
+
+
+# import frequently used packages ====
+# this is so we don't need :: whenever calling one of those
+#' @import ggplot2
+NULL

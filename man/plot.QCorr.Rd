@@ -4,12 +4,12 @@
 \alias{plot.QCorr}
 \title{Plot Q correlations.}
 \usage{
-\method{plot}{QCorr}(x, iplot = NULL, ...)
+\method{plot}{QCorr}(x, use_js = NULL, ...)
 }
 \arguments{
 \item{x}{numerical matrix with correlation coefficients or object of class \code{QCorr}, as created by \code{\link{correlate}}.}
 
-\item{iplot}{Logical flag, indicating whether an interactive version of the plot should be returned.
+\item{use_js}{Logical flag, indicating whether an interactive, javascript-based version of the plot should be returned.
 Suiteable for HTML output (via \code{\link[rmarkdown]{render}} and friends) and the RStudio IDE.
 Defaults to \code{NULL}, in which case the appropriate setting is inferred from the runtime environment.}
 
