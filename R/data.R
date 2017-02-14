@@ -5,8 +5,8 @@
 #'
 #' @format A list with 3 elements:
 #' \describe{
-#'   \item{qItems}{the Q items, as a list of class \code{qItems},}
-#'   \item{qData}{the Q data, as a list with 1 element,
+#'   \item{QConcourse}{the Q items, as a list of class \code{QConcourse},}
+#'   \item{QData}{the Q data, as a list with 1 element,
 #'     \describe{
 #'       \item{sorts}{the Q sorts, as an array of 3 dimensions,
 #'         \describe{

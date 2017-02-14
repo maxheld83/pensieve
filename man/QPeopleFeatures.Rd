@@ -17,10 +17,10 @@ Defaults to \code{TRUE}.}
 Checks and makes QPeopleFeatures, a tibble with arbitrary additional information on the participating people-variables.
 }
 \seealso{
-Other import helpers: \code{\link{QItems}},
+Other import helpers: \code{\link{QConcourse}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
 
-Other validation helpers: \code{\link{QItems}},
+Other validation helpers: \code{\link{QConcourse}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}}
 }

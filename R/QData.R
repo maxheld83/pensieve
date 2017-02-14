@@ -10,7 +10,7 @@
 #' An integer matrix, with named rows as item handles, named columns as participant names and cells as presorts.
 #' \code{-1L} for `negative`, \code{0L} for `neutral` and \code{1L} for `positive`.
 #'
-#' @inheritParams QItems
+#' @inheritParams QConcourse
 #'
 #' @note
 #' \code{presorts} are stored as \code{integer()} because R does not allow factor matrices.
@@ -64,7 +64,7 @@ check.QPreSorts <- function(x) {
 #' @param qsorts An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
 #' Dimensions must be named.
 #'
-#' @inheritParams QItems
+#' @inheritParams QConcourse
 #'
 #' @family import helpers
 #' @family validation helpers
@@ -115,7 +115,7 @@ check.QSorts <- function(x) {
 #' A tibble, with one row per participant.
 #' First column must be the participant names, same as the rownames from \code{\link{QSorts}}.
 #'
-#' @inheritParams QItems
+#' @inheritParams QConcourse
 #'
 #' @family import helpers
 #' @family validation helpers

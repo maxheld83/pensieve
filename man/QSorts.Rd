@@ -17,10 +17,10 @@ Defaults to \code{TRUE}.}
 Checks and makes QSorts
 }
 \seealso{
-Other import helpers: \code{\link{QItems}},
+Other import helpers: \code{\link{QConcourse}},
   \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
   \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
 
-Other validation helpers: \code{\link{QItems}},
+Other validation helpers: \code{\link{QConcourse}},
   \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}}
 }

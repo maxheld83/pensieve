@@ -21,10 +21,10 @@ Checks and makes QPreSorts
 Pre-sorting piles are, of course, \emph{categorical} information and should be treated as such.
 }
 \seealso{
-Other import helpers: \code{\link{QItems}},
+Other import helpers: \code{\link{QConcourse}},
   \code{\link{QPeopleFeatures}}, \code{\link{QSorts}},
   \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
 
-Other validation helpers: \code{\link{QItems}},
+Other validation helpers: \code{\link{QConcourse}},
   \code{\link{QPeopleFeatures}}, \code{\link{QSorts}}
 }

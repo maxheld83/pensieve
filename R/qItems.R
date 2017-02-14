@@ -1,8 +1,8 @@
-#' @title Check and make QItems.
+#' @title Check and make QConcourse
 #'
 #' @export
 #'
-#' @description Checks and makes QItems.
+#' @description Checks and makes QConcourse
 #'
 #' @param items A character matrix of full items, with named rows as item handles and named columns as languages.
 #' Cells can be \code{NA} when full items are not available.
@@ -14,12 +14,12 @@
 #' @family import helpers
 #' @family validation helpers
 #'
-QItems <- function(items, validate = TRUE) {
+QConcourse <- function(items, validate = TRUE) {
   assert_flag(x = validate,
               na.ok = FALSE,
               null.ok = FALSE)
 
-  items <- classify_clever(x = items, classname = "QItems")
+  items <- classify_clever(x = items, classname = "QConcourse")
 
   # validation first
   if (validate) {
@@ -30,7 +30,7 @@ QItems <- function(items, validate = TRUE) {
 
 #' @export
 #' @rdname check
-check.QItems <- function(x) {
+check.QConcourse <- function(x) {
   res <- NULL
 
   res$matrix <- check_matrix(x = x,
@@ -47,7 +47,7 @@ check.QItems <- function(x) {
   # conceivable, though unlikely, that items are same in two languages
   res$unique_by_column <- check_unique_in_column(x = x)
 
-  return(report_checks(res = res, info = "QItems"))
+  return(report_checks(res = res, info = "QConcourse"))
 }
 
 
@@ -56,7 +56,7 @@ check.QItems <- function(x) {
 #' @description Provides custom print method for knitr.
 #' Can also be invoked manually to open interactive outputs in RStudio.
 #'
-#' @param x a character matrix with full item wording of class \code{QItems}, as created by \code{\link{QItems}}.
+#' @param x a character matrix with full item wording of class \code{QConcourse}, as created by \code{\link{QConcourse}}.
 #'
 #' @inheritParams plot.QCorr
 #'
@@ -65,13 +65,13 @@ check.QItems <- function(x) {
 #' @export
 #'
 #' @family knitr output functions
-knit_print.QItems <- function(x, use_js = NULL, ...) {
+knit_print.QConcourse <- function(x, use_js = NULL, ...) {
   # Input validation ====
   assert_flag(x = use_js,
               na.ok = FALSE,
               null.ok = TRUE)
 
-  x <- classify_clever(x = x, classname = "QItems")  # gotta make sure it IS QItems in the first place
+  x <- classify_clever(x = x, classname = "QConcourse")  # gotta make sure it IS QItems in the first place
   assert(x)
 
   # Preliminaries ====
