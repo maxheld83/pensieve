@@ -8,7 +8,7 @@ QPreSorts(presorts, validate = TRUE)
 }
 \arguments{
 \item{presorts}{An integer matrix, with named rows as item handles, named columns as participant names and cells as presorts.
-\code{-1L} for `negative`, \code{0L} for `neutral` and \code{1L} for `positive`.}
+\code{-1L} for \code{negative}, \code{0L} for \code{neutral} and \code{1L} for \code{positive}.}
 
 \item{validate}{A logical flag, indicating whether the object will be validated.
 Defaults to \code{TRUE}.}
@@ -18,7 +18,7 @@ Checks and makes QPreSorts
 }
 \note{
 \code{presorts} are stored as \code{integer()} because R does not allow factor matrices.
-Pre-sorting piles are, of course, \emph{categorical} information and should be treated as such.
+Pre-sorting piles are, of course, \code{categorical} information and should be treated as such.
 }
 \seealso{
 Other import helpers: \code{\link{QConcourse}},

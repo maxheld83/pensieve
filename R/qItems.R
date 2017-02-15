@@ -1,3 +1,14 @@
+# QItems ====
+# this ties it all together in a list, checks for consistency
+
+# QItemSample ====
+# logical vector about the inclusion/exclusion of items
+# make this a function which *actually* samples
+
+# QItemStrata ====
+# logical array of n dimensions, items as rows, arbitrary dimensions,
+
+# QConcourse ====
 #' @title Check and make QConcourse
 #'
 #' @export
@@ -5,11 +16,11 @@
 #' @description Checks and makes QConcourse
 #'
 #' @param items A character matrix of full items, with named rows as item handles and named columns as languages.
-#' Cells can be \code{NA} when full items are not available.
+#' Cells can be `NA` when full items are not available.
 #' Full items must be unique by columns.
 #'
 #' @param validate A logical flag, indicating whether the object will be validated.
-#' Defaults to \code{TRUE}.
+#' Defaults to `TRUE`.
 #'
 #' @family import helpers
 #' @family validation helpers
@@ -50,13 +61,12 @@ check.QConcourse <- function(x) {
   return(report_checks(res = res, info = "QConcourse"))
 }
 
-
 #' @title Custom print method for knitr
 #'
 #' @description Provides custom print method for knitr.
 #' Can also be invoked manually to open interactive outputs in RStudio.
 #'
-#' @param x a character matrix with full item wording of class \code{QConcourse}, as created by \code{\link{QConcourse}}.
+#' @param x a character matrix with full item wording of class [`QConcourse`][QConcourse], as created by [QConcourse()].
 #'
 #' @inheritParams plot.QCorr
 #'
@@ -88,6 +98,12 @@ knit_print.QConcourse <- function(x, use_js = NULL, ...) {
   }
 }
 
+
+# QItemFeatures ====
+# WIDE dataframe with arbitrary features of the items, one row per item
+
+
+# Drafts and Helpers ====
 # helper: check QLookup
 check_QLookup <- check_lookup <- function(x){
   res <- NULL

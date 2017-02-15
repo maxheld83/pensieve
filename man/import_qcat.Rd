@@ -9,12 +9,12 @@ import_qcat(desc, ass)
 \arguments{
 \item{desc}{A character matrix with columns as participants, rows as categories, and \strong{category descriptions} in cells.
 Rows and columns be named.
-See `details`.}
+See \code{details}.}
 
 \item{ass}{A character matrix with columns as participants, rows as items, and category assignments as character vectors of length 1 in cells.
 Assignments must be the same subset of \code{LETTERS} as the column names in \code{desc}.
 Rows and columns must be named.
-See `details`.}
+See \code{details}.}
 }
 \value{
 A list of logical matrices, one for each participant.
@@ -27,7 +27,7 @@ Imports category descriptions and assignments from convenient, but messy format.
 \details{
 The open-ended categorizations in the Q-cat procedure \emph{cannot} be compared between participants, because each participants defines her own categories.
 \strong{The canonical representation of Q-cat data} is therefore a \emph{list} of logical matrices, one for each participant.
-The rows in these logical matrices are the items, the columns are the category, and cells are either \code{TRUE}, \code{FALSE} or \code{NA}. \emph{indices} for that participant
+The rows in these logical matrices are the items, the columns are the category, and cells are either \code{TRUE}, \code{FALSE} or \code{NA} \emph{indeces} for that participant
 Crucially, because the categories cannot be compared between participants, the logical matrices must not have column names.
 The logical category assignments are linked to the respective category descriptions by their indeces only.
 
@@ -35,35 +35,33 @@ This canonical representation is not very convenient for \strong{data entry}.
 This function transforms conveniently entered, but messy Q-cat data into their canonical representation.
 
 Q-cat data are easily entered as two separate spreadsheets.
-\describe{
- \item{Category Descriptions.}{
-   (\code{desc}) A character matrix of open-ended category descriptions.
-   Notice category description in one row have \emph{nothing in common} other than their \emph{indices}:
-   For example, the category descriptions in a row named \code{"B"} are all by different participants, and may refer to entirely different aspects.
-   They are only conveniently entered in a table, and all share the fact that they were the \emph{second} description provided.
+\itemize{
+\item \strong{Category Descriptions.}
+(\code{desc}) A character matrix of open-ended category descriptions.
+Notice category description in one row have \emph{nothing in common} other than their \emph{indices}:
+For example, the category descriptions in a row named \code{'B'} are all by different participants, and may refer to entirely different aspects.
+They are only conveniently entered in a table, and all share the fact that they were the \emph{second} description provided.
 
-   When some category identifier has not been used, the value in the cell should be \code{NA}.
+When some category identifier has not been used, the value in the cell should be \code{NA}.
 
-   Rows \emph{must} be named by a subset of \code{LETTERS} to conveniently enter, and identify them from \code{ass}.
-   The row names are arbitrary identifiers, and will be removed from the canonical form.
+Rows \emph{must} be named by a subset of \code{LETTERS} to conveniently enter, and identify them from \code{ass}.
+The row names are arbitrary identifiers, and will be removed from the canonical form.
 
-   Columns \emph{must} be named as participants.
- }
- \item{Category Assignments.}{
-   (\code{ass}) A character matrix of category assignments.
-   Each cell includes a character string with the category identifiers which that participant assigned to the given item.
-   Categories are identified by a subset from \code{LETTERS}, same as in \code{desc}.
-   For example, if some participant assigned her (self-described) categories `A`, `D` and `Z` to some item, the cell for that item and participant would read \code{"A, D, Z"}.
-   Order and punctuation are ignored.
+Columns \emph{must} be named as participants.
+\item \strong{Category Assignments}
+(\code{ass}) A character matrix of category assignments.
+Each cell includes a character string with the category identifiers which that participant assigned to the given item.
+Categories are identified by a subset from \code{LETTERS}, same as in \code{desc}.
+For example, if some participant assigned her (self-described) categories \code{A}, \code{D} and \code{Z} to some item, the cell for that item and participant would read \code{"A, D, Z"}.
+Order and punctuation are ignored.
 
-   When \emph{no} category was assigned to some item, an empty character string should be in the cell \code{""}.
-   See `note`.
- }
+When \emph{no} category was assigned to some item, an empty character string should be in the cell \code{""}.
+See \code{note}.
 }
 
 When categories are described, but never assigned, they are \code{FALSE} on all items in the logical matrix.
 When categories are assigned, but never described, they are \code{TRUE} in the respective logical matrix entries and their description is \code{NA}.
-See `note` for more granular treatment of \code{NA}s.
+See \code{note} for more granular treatment of \code{NA}s.
 }
 \note{
 Notice that when entered in this convenient way, \emph{there can only be a limited set of \code{NA} values}.

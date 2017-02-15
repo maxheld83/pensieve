@@ -57,12 +57,12 @@ diag_distros <- count_distros <- function(dataset) {
 #' @inheritParams diag_distros
 #'
 #' @return
-#' A logical vector of length one, \code{TRUE} when value counts are the same for all people-variables, else \code{FALSE}.
+#' A logical vector of length one, `TRUE` when value counts are the same for all people-variables, else `FALSE`.
 #'
 #' @note
-#' Q data that displays the same value counts for all people-variables is likely to stem from a \emph{forced} distribution, where respondents \emph{had} to fill in all physically available slots in the grid, but this need not be so.
+#' Q data that displays the same value counts for all people-variables is likely to stem from a *forced* distribution, where respondents *had* to fill in all physically available slots in the grid, but this need not be so.
 #' Hypothetically, if unlikely, some people-variables might follow exactly the same distributions, even though they had more slots available.
-#' For more information, see \code{\link{diag_forced}}.
+#' For more information, see [diag_forced()].
 #'
 #' @examples
 #' diag_same(dataset = civicon_2014$qData$sorts[,,"before"])
@@ -130,7 +130,7 @@ diag_distro_max <- function(dataset) {
 #'
 #' @inheritParams diag_distros
 #'
-#' @return A logical vector of length 1, \code{TRUE} if all people-variables fall inside the grid, else \code{FALSE}.
+#' @return A logical vector of length 1, `TRUE` if all people-variables fall inside the grid, else `FALSE`.
 #'
 #' @examples
 #' dataset <- civicon_2014$qData$sorts[,,"before"]
@@ -178,14 +178,14 @@ diag_inside_grid <- function(dataset, grid) {
 #' @inheritParams diag_distros
 #'
 #' @details
-#' If all people-variables display the same value counts, respondents plausibly faced a \emph{forced} distribution, but this does not strictly speaking follow.
-#' It is unlikely, though conceivable, that respondents all adhered to precisely the same distribution, but \emph{could} have used other available slots.
+#' If all people-variables display the same value counts, respondents plausibly faced a *forced* distribution, but this does not strictly speaking follow.
+#' It is unlikely, though conceivable, that respondents all adhered to precisely the same distribution, but *could* have used other available slots.
 #'
 #' Whether, or not, a Q dataset should be considered "forced" can therefore only ascertained from a comparison with the physically available grid during the administration of the Q-sort.
 #'
 #' In the above, improbable case, the function warns the user of possible misspecification.
 #'
-#' @return A logical value of length 1, \code{TRUE} if the distribution is forced, else \code{FALSE}.
+#' @return A logical value of length 1, `TRUE` if the distribution is forced, else `FALSE`.
 #'
 #' @examples
 #' dataset <- civicon_2014$qData$sorts[,,"before"]

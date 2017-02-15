@@ -9,16 +9,16 @@ run_parallel(dataset = NULL, centile = 0.95, runs = 5000, cutoff = NULL,
 }
 \arguments{
 \item{dataset}{An integer matrix with item-cases as rows and people-variables as columns.
-Defaults to \code{NULL}, in which case parameters must be passed to \code{\link{draw_rand_sort}} using \code{...}.}
+Defaults to \code{NULL}, in which case parameters must be passed to \code{draw_rand_sort()} using \code{...}.}
 
 \item{centile}{A positive numerical vector of length 1, as the percentile of random eigenvalues to return.
-Defaults to the conventional significance threshold of \code{.95}}
+Defaults to the conventional significance threshold of \code{.95}.}
 
 \item{runs}{A positive integer vector of length 1, as the number of random data to draw, defaults to \code{5000}.
 Lower number will reduce computational cost, but results may be less reliable.}
 
 \item{cutoff}{A positive integer vector of length 1, as the maximum number of Principal Components to extract from random data.
-Defaults to \code{NULL}, in which case the minimum of \code{n} and \code{p} are used, because there can be no more Principal Components than there are item-cases \emph{or} people-variables in a dataset.
+Defaults to \code{NULL}, in which case the minimum of \code{n} and \code{p} are used, because there can be no more Principal Components than there are item-cases \code{or} people-variables in a dataset.
 Manually specifying a lower number may reduce the computational cost.}
 
 \item{grid}{A positive integer vector of a length covering the range of values, specifying maximum allowed frequencies for each value.
@@ -37,7 +37,7 @@ A numerical vector of length \code{cutoff}, with Eigenvalues for consecutive Pri
 Extract eigenvalues from randomly generated data, parametrized as original data.
 }
 \details{
-Implements Horn's (1965) parallel analysis as a guide to inform factor retention, with appropriate parametrization for Q-sort data (via \code{\link{draw_rand_sort}}).
+Implements Horn's (1965) parallel analysis as a guide to inform factor retention, with appropriate parametrization for Q-sort data (via \code{\link[=draw_rand_sort]{draw_rand_sort()}}).
 
 Random data can include spurious correlations and spurious factors by mere chance.
 This problem might affect Q studies, too: people might produce similar Q sorts not because they share viewpoints, but just out of random chance.
@@ -46,15 +46,14 @@ Parallel analysis tests this assertion by extracting (spurious) principal compon
 The analysis returns the random eigenvalues at the specified \code{centile} over all of the specified random \code{runs}.
 This result can be interpreted as a necessary Eigenvalue threshold for some \emph{observed} principal component to be considered non-spurious, with the specified centile as the confidence (or significance level).
 
-In summary, parallel analysis suggests the number of factors in the data that are unlikely to be products of random chance at some significance level(\code{centile}).
+In summary, parallel analysis suggests the number of factors in the data that are unlikely to be products of random chance at some significance level \code{centile}.
 
-For more details, consider the related \code{\link[paran]{paran}}.
+For more details, consider the related \link[paran:paran]{paran::paran}.
 }
 \note{
 This function is currently based on principal components analysis (PCA) as a ``factor'' extraction technique.
 Thompson (2004: 30ff) and others seem to suggest that such PCA-based criteria can be used as rough indications for how many factors to extract with other exploratory techniques.
 However, some of the results presented here are meaningful \emph{only} in a PCA-context, and dependent functions are sometimes called with PCA-related options.
-If you would like to add support for other extraction techniques, comment or contribute \href{https://github.com/maxheld83/pensieve/issues/145}{to issue 145 the development repository}.
 }
 \examples{
 dataset <- civicon_2014$qData$sorts[,,"before"]
@@ -65,8 +64,8 @@ run_parallel(dataset = dataset,  # parameters are inferred
 }
 \references{
 \itemize{
-   \item Glorfeld, L. W. 1995: \emph{An Improvement on Horn-s Parallel Analysis Methodology for Selecting the Correct Number of Factors to Retain}, Educational and Psychological Measurement. 55(3): 377-393.
-   \item Horn, J. L. (1965): \emph{A rationale and a test for the number of factors in factor analysis}, Psychometrika. 30: 179-185.
+\item Glorfeld, L. W. 1995: \emph{An Improvement on Horn-s Parallel Analysis Methodology for Selecting the Correct Number of Factors to Retain}, Educational and Psychological Measurement. 55(3): 377-393.
+\item Horn, J. L. (1965): \emph{A rationale and a test for the number of factors in factor analysis}, Psychometrika. 30: 179-185.
 }
 }
 \seealso{

@@ -60,7 +60,7 @@ The custom name for \code{x} as passed to any \code{assert*} function.
 Defaults to a heuristic name lookup.}
 }
 \description{
-Use \code{check}, \code{test}, \code{assert} and \code{expect} to validate S3 classed objects from this package.
+Use \code{check()}, \code{test()}, \code{assert()} and \code{expect()} to validate S3 classed objects from this package.
 }
 \seealso{
 Other import helpers: \code{\link{QConcourse}},

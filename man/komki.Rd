@@ -4,12 +4,7 @@
 \name{komki}
 \alias{komki}
 \title{Q-Sorts and Q-Categorisations on language games}
-\format{A list with 3 elements:
-\describe{
-  \item{items}{a dataframe with german and english handles,}
-  \item{qsorts}{a matrix with items as rows, participants as columns and Q-sorts in cells.}
-  \item{qcat}{Q categorisation in its canonical form.}
-}}
+\format{A list with 3 elements:}
 \source{
 \url{https://www.erziehungswissenschaften.hu-berlin.de/de/institut/mitarbeiter/1688111}
 }

@@ -11,7 +11,7 @@ correlate(sorts, algorithm = "spearman", use = "pairwise.complete.obs")
 \item{sorts}{an integer matrix with item-cases as named rows, people-variables as named columns and item positions in cells.
 Higher-dimensionality objects fom \code{\link{QSorts}} must be subset.}
 
-\item{algorithm}{choice from \code{'pearson'}, \code{'spearman'} or \code{'kendall'}, passed on to \code{\link[stats]{cor}}.
+\item{algorithm}{choice from \code{'pearson'}, \code{'spearman'} or \code{'kendall'}, passed on to \code{\link[stats:cor]{stats::cor()}}.
 Defaults to \code{'spearman'}.}
 
 \item{use}{an optional character string giving a
@@ -21,7 +21,7 @@ Defaults to \code{'spearman'}.}
     \code{"na.or.complete"}, or \code{"pairwise.complete.obs"}.}
 }
 \value{
-A numerical matrix of class \code{QCorr}.
+A numerical matrix of class \code{\link{QCorr}}.
 }
 \description{
 Correlate Q Sorts.

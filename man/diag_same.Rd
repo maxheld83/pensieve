@@ -19,7 +19,7 @@ Tests whether the value counts are the same for every people-variable.
 \note{
 Q data that displays the same value counts for all people-variables is likely to stem from a \emph{forced} distribution, where respondents \emph{had} to fill in all physically available slots in the grid, but this need not be so.
 Hypothetically, if unlikely, some people-variables might follow exactly the same distributions, even though they had more slots available.
-For more information, see \code{\link{diag_forced}}.
+For more information, see \code{\link[=diag_forced]{diag_forced()}}.
 }
 \examples{
 diag_same(dataset = civicon_2014$qData$sorts[,,"before"])

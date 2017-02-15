@@ -7,14 +7,14 @@
 #' @description Correlate Q Sorts.
 #'
 #' @param sorts an integer matrix with item-cases as named rows, people-variables as named columns and item positions in cells.
-#' Higher-dimensionality objects fom \code{\link{QSorts}} must be subset.
+#' Higher-dimensionality objects fom [`QSorts`][QSorts] must be subset.
 #'
-#' @param algorithm choice from \code{'pearson'}, \code{'spearman'} or \code{'kendall'}, passed on to \code{\link[stats]{cor}}.
-#' Defaults to \code{'spearman'}.
+#' @param algorithm choice from `'pearson'`, `'spearman'` or `'kendall'`, passed on to [stats::cor()].
+#' Defaults to `'spearman'`.
 #'
 #' @inheritParams stats::cor
 #'
-#' @return A numerical matrix of class \code{QCorr}.
+#' @return A numerical matrix of class [`QCorr`][QCorr].
 #'
 #' @family analysis functions
 #' @family correlation functions
@@ -71,15 +71,15 @@ check.QCorr <- function(x) {
 #'
 #' @description Produces a heatmap from a given correlation matrix.
 #'
-#' @param x numerical matrix with correlation coefficients or object of class \code{QCorr}, as created by \code{\link{correlate}}.
+#' @param x numerical matrix with correlation coefficients or object of class [`QCorr`][QCorr], as created by [correlate()].
 #'
 #' @param use_js Logical flag, indicating whether an interactive, javascript-based version of the plot should be returned.
-#' Suiteable for HTML output (via \code{\link[rmarkdown]{render}} and friends) and the RStudio IDE.
-#' Defaults to \code{NULL}, in which case the appropriate setting is inferred from the runtime environment.
+#' Suiteable for HTML output (via [rmarkdown::render()] and friends) and the RStudio IDE.
+#' Defaults to `NULL`, in which case the appropriate setting is inferred at runtime.
 #'
 #' @param ... other parameters to be passed through to plotting functions.
 #'
-#' @return Returns a plot of the correlation matrix as a list of class \code{ggplot}.
+#' @return Returns a plot of the correlation matrix as a list of class [`ggplot`][ggplot].
 #'
 #' @export
 #'

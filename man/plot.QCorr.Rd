@@ -7,16 +7,16 @@
 \method{plot}{QCorr}(x, use_js = NULL, ...)
 }
 \arguments{
-\item{x}{numerical matrix with correlation coefficients or object of class \code{QCorr}, as created by \code{\link{correlate}}.}
+\item{x}{numerical matrix with correlation coefficients or object of class \code{\link{QCorr}}, as created by \code{\link[=correlate]{correlate()}}.}
 
 \item{use_js}{Logical flag, indicating whether an interactive, javascript-based version of the plot should be returned.
-Suiteable for HTML output (via \code{\link[rmarkdown]{render}} and friends) and the RStudio IDE.
-Defaults to \code{NULL}, in which case the appropriate setting is inferred from the runtime environment.}
+Suiteable for HTML output (via \code{\link[rmarkdown:render]{rmarkdown::render()}} and friends) and the RStudio IDE.
+Defaults to \code{NULL}, in which case the appropriate setting is inferred at runtime.}
 
 \item{...}{other parameters to be passed through to plotting functions.}
 }
 \value{
-Returns a plot of the correlation matrix as a list of class \code{ggplot}.
+Returns a plot of the correlation matrix as a list of class \code{\link{ggplot}}.
 }
 \description{
 Produces a heatmap from a given correlation matrix.

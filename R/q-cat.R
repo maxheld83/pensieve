@@ -11,7 +11,7 @@
 #' An integer array with items as rows and columns, participants as third dimension and cells as co-occurence counts.
 #'
 #' @details
-#' The diagonal is replaced with the \emph{maximum number of categories} for that person, to standardize the entire table.
+#' The diagonal is replaced with the *maximum number of categories* for that person, to standardize the entire table.
 #'
 #' @family import
 #'

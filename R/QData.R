@@ -8,13 +8,13 @@
 #'
 #' @param presorts
 #' An integer matrix, with named rows as item handles, named columns as participant names and cells as presorts.
-#' \code{-1L} for `negative`, \code{0L} for `neutral` and \code{1L} for `positive`.
+#' `-1L` for `negative`, `0L` for `neutral` and `1L` for `positive`.
 #'
 #' @inheritParams QConcourse
 #'
 #' @note
-#' \code{presorts} are stored as \code{integer()} because R does not allow factor matrices.
-#' Pre-sorting piles are, of course, \emph{categorical} information and should be treated as such.
+#' `presorts` are stored as `integer()` because R does not allow factor matrices.
+#' Pre-sorting piles are, of course, `categorical` information and should be treated as such.
 #'
 #' @family import helpers
 #' @family validation helpers
@@ -113,7 +113,7 @@ check.QSorts <- function(x) {
 #'
 #' @param p_feat
 #' A tibble, with one row per participant.
-#' First column must be the participant names, same as the rownames from \code{\link{QSorts}}.
+#' First column must be the participant names, same as the rownames from [`QSorts`][QSorts].
 #'
 #' @inheritParams QConcourse
 #'

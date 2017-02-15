@@ -8,7 +8,7 @@
 #' If there are no known real names, provide vector of unique integers instead.
 #'
 #' @param lookup_file A character vector of length one as the file to write the lookup table to, or read the lookup table from.
-#' See `details` for more, `notes` for caveats.
+#' See **details** for more, **notes** for caveats.
 #' File should not be published to preserve the identity of participants.
 #'
 #' @keywords internal
@@ -18,35 +18,32 @@
 #' @details
 #' It is sometimes helpful in Q analyses to be able to refer to people-variables by a unique name, though real names often cannot be used in publications to protect participant's data.
 #'
-#' This function looks up \code{real_names} in the \code{lookup_file} and returns the respective fake names.
+#' This function looks up `real_names` in the `lookup_file` and returns the respective fake names.
 #'
-#' The \code{lookup_file} must always be a \code{*.csv}-file with two columns of character vectors, named `real_names` and `fake_names`.
+#' The `lookup_file` must always be a `*.csv`-file with two columns of character vectors, named `real_names` and `fake_names`.
 #'
-#' If the specified \code{lookup_file} does not exist, new random `fake_names` are sampled from \pkg{randomNames}, and written to disc as the specified file.
+#' If the specified `lookup_file` does not exist, new random `fake_names` are sampled from `randomNames`, and written to disc as the specified file.
 #' Generated `fake_names` are unique and can be used as R variable names.
 #'
-#' If the \code{lookup_file} does not include all \code{real_names}, it is likewise appended with new `fake_names`.
+#' If the `lookup_file` does not include all `real_names`, it is likewise appended with new `fake_names`.
 #' All entries must be unique and valid R variable names.
-#' The rows in the \code{lookup_file} can be in an arbitrary order, and can also include entries that are never used.
+#' The rows in the `lookup_file` can be in an arbitrary order, and can also include entries that are never used.
 #'
-#' By providing a \code{lookup_file} users (or participants) can choose their own `fake_names`, though this may not protect personal data well.
-#' In particular, storing socio-demographic data of participants as custom `fake_names` (such as, for example \code{"m_us_31"}) is not advised, because such data may be easily breached and downstream functions expect socio-demographic data in a different format.
+#' By providing a `lookup_file` users (or participants) can choose their own `fake_names`, though this may not protect personal data well.
+#' In particular, storing socio-demographic data of participants as custom `fake_names` (such as, for example `"m_us_31"`) is not advised, because such data may be easily breached and downstream functions expect socio-demographic data in a different format.
 #'
 #' @note
-#' \strong{
-#'   Despite its name, this function \emph{does not magically anonymize data}, but merely replaces names with randomly drawn fake names.
-#'   It is your responsibility to protect your participants' data.
-#'   If you are unsure, or do not understand the below caveats, \emph{do not rely on this function}.
-#'   \enumerate{
-#'     \item The lookup table with real and fake names must be stored in a safe place, ideally \emph{encrypted} and \emph{not together with the raw data or results}.
-#'     \item Your data may still be deanonymized if it includes other personal information and/or few participants.
-#'     \item Make sure no `real names` are included in your command history, caches or other R objects and scripts.
-#'   }
-#' }
+#' **Despite its name, this function *does not magically anonymize data*, but merely replaces names with randomly drawn fake names.
+#' It is your responsibility to protect your participants' data.
+#' If you are unsure, or do not understand the below caveats, *do not rely on this function*.**
+#'
+#' 1. The lookup table with real and fake names must be stored in a safe place, ideally *encrypted* and *not together with the raw data or results*.
+#' 2. Your data may still be deanonymized if it includes other personal information and/or few participants.
+#' 3. Make sure no `real names` are included in your command history, caches or other R objects and scripts.
 #'
 #' @return
-#' A character vector of fake names, same length as \code{real_names}.
-#' Also writes a lookup table to disk at location \code{lookup_file}, if it does not exist already.
+#' A character vector of fake names, same length as `real_names`.
+#' Also writes a lookup table to disk at location `lookup_file`, if it does not exist already.
 #'
 #' @family import helpers
 #'

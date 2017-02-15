@@ -25,24 +25,21 @@ Draw one random Q-sort dataset, parametrized as original data.
 \details{
 This function draws a \emph{random} dataset, parametrized as some real or hypothetical \emph{observed} dataset from a Q study.
 
-Q data has some peculiarities that must be implemented to draw comparable random datasets, and that are not addressed in existing packages implementing parallel analysis (such as \code{\link[paran]{paran}}):
-\describe{
-  \item{Integers.}{
-     The simulated data include only integers.
-   }
-  \item{Draws without replacement.}{
-     Because two items cannot occupy the same position in a Q-sort, random data must be drawn \emph{without replacement} from the grid of available item positions (slots).
-  }
-  \item{Forced or free distribution.}{
-     Depending on whether the observed data resulted from a forced or free distribution, random data must be drawn from the appropriate available item positions (slots).
-  }
+Q data has some peculiarities that must be implemented to draw comparable random datasets, and that are not addressed in existing packages implementing parallel analysis (such as \code{\link[paran:paran]{paran::paran()}}):
+\itemize{
+\item \strong{Integers.}
+The simulated data include only integers.
+\item \strong{Draws without replacement.}
+Because two items cannot occupy the same position in a Q-sort, random data must be drawn \emph{without replacement} from the grid of available item positions (slots).
+\item \strong{Forced or free distribution.}
+Depending on whether the observed data resulted from a forced or free distribution, random data must be drawn from the appropriate available item positions (slots).
 }
 
-Helper function for \code{\link{run_parallel}}.
+Helper function for \code{\link[=run_parallel]{run_parallel()}}.
 }
 \note{
 Notice that in the case of a free distribution, there are \emph{no} assumptions on the distributional shape (such as uni-modal, bimodal etc.).
-Random data for a free distribution are therefore drawn from an (on average over all people-variables) \emph{rectangular} distribution \emph{over the available slots}, as a \emph{neutral} distributional shape.
+Random data for a free distribution are therefore drawn from an (on average over all people-variables) \emph{rectangular} distribution \emph{over all available slots}, as a \emph{neutral} distributional shape.
 A more sophisticated parallel analysis may first infer some observed distribution parameters and then draw random data accordingly as per \href{https://github.com/maxheld83/pensieve/issues/146}{issue 146 on the development repo}.
 }
 \seealso{

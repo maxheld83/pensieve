@@ -1,5 +1,5 @@
 #' @title Validate S3 classes from this package.
-#' @description Use \code{check}, \code{test}, \code{assert} and \code{expect} to validate S3 classed objects from this package.
+#' @description Use `check()`, `test()`, `assert()` and `expect()` to validate S3 classed objects from this package.
 #' @export
 #' @param x class object created by respective constructor function.
 #' @inheritParams checkmate::makeAssertion
