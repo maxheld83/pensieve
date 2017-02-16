@@ -59,11 +59,13 @@ anonymize(real_names = c("Hillary", "Barack", "George"),
 }
 \seealso{
 Other import helpers: \code{\link{QConcourse}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{check.QPreSorts}}
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{check.QPreSorts}}
 
 Other import helpers: \code{\link{QConcourse}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{check.QPreSorts}}
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{check.QPreSorts}}
 }
 \keyword{internal}

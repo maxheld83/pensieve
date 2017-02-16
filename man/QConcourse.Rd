@@ -12,16 +12,18 @@ Cells can be \code{NA} when full items are not available.
 Full items must be unique by columns.}
 
 \item{validate}{A logical flag, indicating whether the object will be validated.
-Defaults to \code{TRUE}.}
+Defaults to `TRUE`.}
 }
 \description{
 Checks and makes QConcourse
 }
 \seealso{
-Other import helpers: \code{\link{QPeopleFeatures}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}},
-  \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
+Other validation helpers: \code{\link{QItemStrata}},
+  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}
 
-Other validation helpers: \code{\link{QPeopleFeatures}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}}
+Other import helpers: \code{\link{QItemStrata}},
+  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{anonymize}},
+  \code{\link{check.QPreSorts}}
 }

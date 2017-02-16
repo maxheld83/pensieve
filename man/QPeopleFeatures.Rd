@@ -11,16 +11,18 @@ QPeopleFeatures(p_feat, validate = TRUE)
 First column must be the participant names, same as the rownames from \code{\link{QSorts}}.}
 
 \item{validate}{A logical flag, indicating whether the object will be validated.
-Defaults to \code{TRUE}.}
+Defaults to `TRUE`.}
 }
 \description{
 Checks and makes QPeopleFeatures, a tibble with arbitrary additional information on the participating people-variables.
 }
 \seealso{
-Other import helpers: \code{\link{QConcourse}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}},
-  \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
-
 Other validation helpers: \code{\link{QConcourse}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}}
+  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}
+
+Other import helpers: \code{\link{QConcourse}},
+  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{anonymize}},
+  \code{\link{check.QPreSorts}}
 }

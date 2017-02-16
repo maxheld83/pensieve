@@ -2,11 +2,13 @@
 
 S3method(check,QConcourse)
 S3method(check,QCorr)
+S3method(check,QItemStrata)
 S3method(check,QPeopleFeatures)
 S3method(check,QPreSorts)
 S3method(check,QSorts)
 S3method(plot,QCorr)
 export(QConcourse)
+export(QItemStrata)
 export(QPeopleFeatures)
 export(QPreSorts)
 export(QSorts)

@@ -7,6 +7,43 @@
 
 # QItemStrata ====
 # logical array of n dimensions, items as rows, arbitrary dimensions,
+#' @title Check and make QItemStrata
+#'
+#' @export
+#'
+#' @description Checks and makes QItemStrata, the item sampling structure
+#'
+#' @param strata A logical array of arbitrary dimensions, with first dimension (rows) as item handles, and higher dimensions as orthogonal sampling strata.
+#' Rownames must be a subset of the rownames from [QConcourse].
+#'
+#' @template validate
+#'
+#' @family import helpers
+QItemStrata <- function(strata, validate = TRUE) {
+  assert_flag(x = validate,
+              na.ok = FALSE,
+              null.ok = FALSE)
+
+  strata <- classify_clever(x = strata, classname = "QItemStrata")
+
+  if (validate) {
+    assert(strata)
+  }
+  return(strata)
+}
+
+#' @export
+#' @rdname check
+check.QItemStrata <- function(x) {
+  res <- NULL
+  res$array <- check_array(x = x,
+                           mode = "logical",
+                           any.missing = FALSE,
+                           min.d = 1,
+                           null.ok = FALSE)
+  res <- c(res, check_named_array(x = x))  # via external helper
+  return(report_checks(res = res, info = "QItemStrata"))
+}
 
 # QConcourse ====
 #' @title Check and make QConcourse
@@ -19,11 +56,9 @@
 #' Cells can be `NA` when full items are not available.
 #' Full items must be unique by columns.
 #'
-#' @param validate A logical flag, indicating whether the object will be validated.
-#' Defaults to `TRUE`.
+#' @template validate
 #'
 #' @family import helpers
-#' @family validation helpers
 #'
 QConcourse <- function(items, validate = TRUE) {
   assert_flag(x = validate,
@@ -32,7 +67,6 @@ QConcourse <- function(items, validate = TRUE) {
 
   items <- classify_clever(x = items, classname = "QConcourse")
 
-  # validation first
   if (validate) {
     assert(items)
   }

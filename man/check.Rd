@@ -4,6 +4,7 @@
 \alias{check.QPreSorts}
 \alias{check.QSorts}
 \alias{check.QPeopleFeatures}
+\alias{check.QItemStrata}
 \alias{check.QConcourse}
 \alias{check}
 \alias{test}
@@ -20,6 +21,8 @@
 \method{check}{QSorts}(x)
 
 \method{check}{QPeopleFeatures}(x)
+
+\method{check}{QItemStrata}(x)
 
 \method{check}{QConcourse}(x)
 
@@ -64,6 +67,7 @@ Use \code{check()}, \code{test()}, \code{assert()} and \code{expect()} to valida
 }
 \seealso{
 Other import helpers: \code{\link{QConcourse}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{anonymize}}
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{anonymize}}
 }

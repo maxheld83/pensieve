@@ -11,16 +11,18 @@ QSorts(qsorts, validate = TRUE)
 Dimensions must be named.}
 
 \item{validate}{A logical flag, indicating whether the object will be validated.
-Defaults to \code{TRUE}.}
+Defaults to `TRUE`.}
 }
 \description{
 Checks and makes QSorts
 }
 \seealso{
-Other import helpers: \code{\link{QConcourse}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
-  \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
-
 Other validation helpers: \code{\link{QConcourse}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}}
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}
+
+Other import helpers: \code{\link{QConcourse}},
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{anonymize}},
+  \code{\link{check.QPreSorts}}
 }

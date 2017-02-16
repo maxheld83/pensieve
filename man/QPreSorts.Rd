@@ -11,7 +11,7 @@ QPreSorts(presorts, validate = TRUE)
 \code{-1L} for \code{negative}, \code{0L} for \code{neutral} and \code{1L} for \code{positive}.}
 
 \item{validate}{A logical flag, indicating whether the object will be validated.
-Defaults to \code{TRUE}.}
+Defaults to `TRUE`.}
 }
 \description{
 Checks and makes QPreSorts
@@ -21,10 +21,12 @@ Checks and makes QPreSorts
 Pre-sorting piles are, of course, \code{categorical} information and should be treated as such.
 }
 \seealso{
-Other import helpers: \code{\link{QConcourse}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QSorts}},
-  \code{\link{anonymize}}, \code{\link{check.QPreSorts}}
-
 Other validation helpers: \code{\link{QConcourse}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QSorts}}
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QSorts}}
+
+Other import helpers: \code{\link{QConcourse}},
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QSorts}}, \code{\link{anonymize}},
+  \code{\link{check.QPreSorts}}
 }

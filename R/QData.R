@@ -10,14 +10,13 @@
 #' An integer matrix, with named rows as item handles, named columns as participant names and cells as presorts.
 #' `-1L` for `negative`, `0L` for `neutral` and `1L` for `positive`.
 #'
-#' @inheritParams QConcourse
+#' @template validate
 #'
 #' @note
 #' `presorts` are stored as `integer()` because R does not allow factor matrices.
 #' Pre-sorting piles are, of course, `categorical` information and should be treated as such.
 #'
 #' @family import helpers
-#' @family validation helpers
 
 QPreSorts <- function(presorts, validate = TRUE) {
   assert_flag(x = validate,
@@ -64,10 +63,9 @@ check.QPreSorts <- function(x) {
 #' @param qsorts An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
 #' Dimensions must be named.
 #'
-#' @inheritParams QConcourse
+#' @template validate
 #'
 #' @family import helpers
-#' @family validation helpers
 QSorts <- function(qsorts, validate = TRUE) {
   assert_flag(x = validate,
               na.ok = FALSE,
@@ -92,12 +90,7 @@ check.QSorts <- function(x) {
                            any.missing = TRUE,
                            min.d = 2,
                            null.ok = FALSE)
-  res$names_dimnames <- check_named(x = dimnames(x),
-                                    type = "strict")
-  for (i in length(dim(x))) {
-    res[[paste0("names_dim_", i)]] <- check_names(x = dimnames(x)[[i]],
-                                                  type = "strict")
-  }
+  res <- c(res, check_named_array(x = x))  # via external helper
 
   return(report_checks(res = res, info = "QSorts"))
 }
@@ -115,10 +108,9 @@ check.QSorts <- function(x) {
 #' A tibble, with one row per participant.
 #' First column must be the participant names, same as the rownames from [`QSorts`][QSorts].
 #'
-#' @inheritParams QConcourse
+#' @template validate
 #'
 #' @family import helpers
-#' @family validation helpers
 QPeopleFeatures <- function(p_feat, validate = TRUE) {
   assert_flag(x = validate,
               na.ok = FALSE,

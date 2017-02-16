@@ -132,3 +132,20 @@ expect_unique_in_column <- makeExpectationFunction(check.fun = check_unique_in_c
 #   # here be dragons
 #   return(paste(vname(x), "must be shorter than", vname(y)))  # etc.
 # }
+
+
+# helper: check whether some array is all named ====
+check_named_array <- function(x) {
+  res <- NULL
+
+  # this checks whether the dimnames are named!
+  res$names_dimnames <- check_named(x = dimnames(x),
+                                    type = "strict")
+
+  # AND whether the dims are named
+  for (i in length(dim(x))) {
+    res[[paste0("names_dim_", i)]] <- check_names(x = dimnames(x)[[i]],
+                                                  type = "strict")
+  }
+  return(res)
+}
