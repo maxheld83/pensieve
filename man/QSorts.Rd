@@ -4,10 +4,10 @@
 \alias{QSorts}
 \title{Check and make QSorts}
 \usage{
-QSorts(qsorts, validate = TRUE)
+QSorts(sorts, validate = TRUE)
 }
 \arguments{
-\item{qsorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
+\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
 Dimensions must be named.}
 
 \item{validate}{A logical flag, indicating whether the object will be validated.
@@ -18,8 +18,8 @@ Checks and makes QSorts
 }
 \seealso{
 Other validation helpers: \code{\link{QConcourse}},
-  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
-  \code{\link{QPreSorts}}
+  \code{\link{QCors}}, \code{\link{QItemStrata}},
+  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}}
 
 Other import helpers: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},

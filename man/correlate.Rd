@@ -2,17 +2,18 @@
 % Please edit documentation in R/correlate.R
 \name{correlate}
 \alias{correlate}
-\alias{QCorr}
 \title{Correlate Q Sorts.}
 \usage{
-correlate(sorts, algorithm = "spearman", use = "pairwise.complete.obs")
+correlate(sorts, method = "pearson", use = "pairwise.complete.obs")
 }
 \arguments{
-\item{sorts}{an integer matrix with item-cases as named rows, people-variables as named columns and item positions in cells.
-Higher-dimensionality objects fom \code{\link{QSorts}} must be subset.}
+\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
+Dimensions must be named.}
 
-\item{algorithm}{choice from \code{'pearson'}, \code{'spearman'} or \code{'kendall'}, passed on to \code{\link[stats:cor]{stats::cor()}}.
-Defaults to \code{'spearman'}.}
+\item{method}{a character string indicating which correlation
+    coefficient (or covariance) is to be computed.  One of
+    \code{"pearson"} (default), \code{"kendall"}, or \code{"spearman"}:
+    can be abbreviated.}
 
 \item{use}{an optional character string giving a
     method for computing covariances in the presence
@@ -21,7 +22,8 @@ Defaults to \code{'spearman'}.}
     \code{"na.or.complete"}, or \code{"pairwise.complete.obs"}.}
 }
 \value{
-A numerical matrix of class \code{\link{QCorr}}.
+A numerical matrix with people-variables as rows and columns, correlation coefficients in cells.
+Class \code{\link{QCors}}.
 }
 \description{
 Correlate Q Sorts.
@@ -31,5 +33,6 @@ correlate(sorts = civicon_2014$qData$sorts[,,"before"])
 
 }
 \seealso{
-Other correlation functions: \code{\link{plot.QCorr}}
+Other correlation functions: \code{\link{QCors}},
+  \code{\link{plot.QCors}}
 }

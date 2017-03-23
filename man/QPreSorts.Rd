@@ -22,8 +22,8 @@ Pre-sorting piles are, of course, \code{categorical} information and should be t
 }
 \seealso{
 Other validation helpers: \code{\link{QConcourse}},
-  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
-  \code{\link{QSorts}}
+  \code{\link{QCors}}, \code{\link{QItemStrata}},
+  \code{\link{QPeopleFeatures}}, \code{\link{QSorts}}
 
 Other import helpers: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},

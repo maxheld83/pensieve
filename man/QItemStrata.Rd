@@ -18,8 +18,8 @@ Checks and makes QItemStrata, the item sampling structure
 }
 \seealso{
 Other validation helpers: \code{\link{QConcourse}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}
+  \code{\link{QCors}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}}
 
 Other import helpers: \code{\link{QConcourse}},
   \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},

@@ -1,49 +1,29 @@
-#' @title Correlate Q Sorts.
+# CLASS CONSTRUCTION ====
+#' @title Check and make Q correlations.
 #'
-#' @aliases QCorr
+#' @description Check and make Q correlations.
 #'
 #' @export
 #'
-#' @description Correlate Q Sorts.
+#' @param cors A numerical matrix with correlations.
 #'
-#' @param sorts an integer matrix with item-cases as named rows, people-variables as named columns and item positions in cells.
-#' Higher-dimensionality objects fom [`QSorts`][QSorts] must be subset.
+#' @template validate
 #'
-#' @param algorithm choice from `'pearson'`, `'spearman'` or `'kendall'`, passed on to [stats::cor()].
-#' Defaults to `'spearman'`.
+#' @return
+#' A numerical matrix with people-variables as rows and columns, correlation coefficients in cells.
+#' Class [`QCors`][QCors].
 #'
-#' @inheritParams stats::cor
-#'
-#' @return A numerical matrix of class [`QCorr`][QCorr].
-#'
-#' @family analysis functions
 #' @family correlation functions
-#'
-#' @examples
-#' correlate(sorts = civicon_2014$qData$sorts[,,"before"])
-#'
-correlate <- QCorr <- function(sorts, algorithm = "spearman", use = "pairwise.complete.obs") {
-  # input validation ====
-  assert_choice(x = algorithm,
-                choices = c("spearman", "kendall", "pearson"))
-  assert_choice(x = use,
-                choices = c("everything", "all.obs", "complete.obs", "na.or.complete", "pairwise.complete.obs"))
-  sorts <- QSorts(qsorts = sorts, validate = TRUE)  # assigns class and validates whether ok
-
-  # run correlations ====
-  cormatrix <- stats::cor(x = sorts, use = use, method = algorithm)
-
-  # assign classes
-  cormatrix <- classify_clever(x = cormatrix, classname = "QCorr") # q specific stuff
-  cormatrix <- classify_clever(x = cormatrix, classname = paste0("QCorr", capitalize(algorithm))) # method specific stuff
-
-  # return ====
-  return(cormatrix)
+QCors <- function(cors, validate = TRUE) {
+  # assign class
+  cors <- classify_clever(x = cors, classname = "QCors")
+  assert_class2(x = cors, validate = validate)
+  return(cors)
 }
 
 #' @export
 #' @rdname check
-check.QCorr <- function(x) {
+check.QCors <- function(x) {
   res <- NULL
 
   res$matrix <- check_matrix(x = x,
@@ -56,43 +36,80 @@ check.QCorr <- function(x) {
                              finite = TRUE,
                              any.missing = TRUE,
                              all.missing = FALSE,
-                             lower = -1,
-                             upper = 1)
-
+                             lower = -1L,
+                             upper = 1L)
   res$diag <- check_integerish(x = diag(x),
-                               lower = 1,
-                               upper = 1)
+                               any.missing = FALSE,
+                               all.missing = FALSE,
+                               lower = 1L - sqrt(.Machine$double.eps),
+                               upper = 1L + sqrt(.Machine$double.eps))  # just some double/integer roundind errors
 
-  return(report_checks(res = res, info = "QCorr"))
+  return(report_checks(res = res, info = "QCors"))
 }
 
+#' @title Correlate Q Sorts.
+#'
+#' @description Correlate Q Sorts.
+#'
+#' @export
+#'
+#' @inherit QSorts params
+#'
+#' @inherit stats::cor params
+#'
+#' @inherit QCors return
+#'
+#' @family analysis functions
+#' @family correlation functions
+#'
+#' @examples
+#' correlate(sorts = civicon_2014$qData$sorts[,,"before"])
+#'
+correlate <- function(sorts, method = "pearson", use = "pairwise.complete.obs") {
+  # input validation ====
+  assert_choice(x = method,
+                choices = c("spearman", "kendall", "pearson"))
+  assert_choice(x = use,
+                choices = c("everything", "all.obs", "complete.obs", "na.or.complete", "pairwise.complete.obs"))
+  sorts <- QSorts(sorts = sorts, validate = TRUE)  # assigns class and validates whether ok
+
+  # for now, this only deals with 2d objects, so we have to test that too
+  # in general, sorts can be n-dim
+  assert_matrix(x = sorts,
+                mode = "integerish",
+                any.missing = TRUE,
+                all.missing = TRUE)
+
+  # run correlations ====
+  cors <- stats::cor(x = sorts, use = use, method = method)
+
+  # assign classes
+  cors <- QCors(cors = cors, validate = TRUE)
+  cors <- classify_clever(x = cors, classname = paste0("QCors", capitalize(method))) # method specific stuff
+
+  # return ====
+  return(cors)
+}
 
 #' @title Plot Q correlations.
 #'
 #' @description Produces a heatmap from a given correlation matrix.
 #'
-#' @param x numerical matrix with correlation coefficients or object of class [`QCorr`][QCorr], as created by [correlate()].
+#' @param x An object of class [`QCors`][QCors].
 #'
-#' @param use_js Logical flag, indicating whether an interactive, javascript-based version of the plot should be returned.
-#' Suiteable for HTML output (via [rmarkdown::render()] and friends) and the RStudio IDE.
-#' Defaults to `NULL`, in which case the appropriate setting is inferred at runtime.
+#' @inherit QCors params
 #'
-#' @param ... other parameters to be passed through to plotting functions.
-#'
-#' @return Returns a plot of the correlation matrix as a list of class [`ggplot`][ggplot].
-#'
-#' @export
+#' @template plot
 #'
 #' @family correlation functions
-#' @family plotting functions
-plot.QCorr <- function(x, use_js = NULL, ...) {
+
+plot.QCors <- function(x, use_js = NULL) {
   # Input validation ====
   assert_flag(x = use_js,
               na.ok = FALSE,
               null.ok = TRUE)
 
-  x <- classify_clever(x = x, classname = "QCorr")  # gotta make sure it IS QCorr in the first place
-  assert(x)
+  x <- QCors(cors = x, validate = TRUE)  # make and validate QCorr first
 
   # Data preparation ====
   m <- reshape2::melt(data = x, value.name = "Correlation", varnames = c("x", "y"))

@@ -18,6 +18,16 @@ classify_clever <- function(x, classname) {
   return(x)
 }
 
+# helper function to deal with validation stuff in class construction ====
+assert_class2 <- function(x, validate) {
+  assert_flag(x = validate,
+              na.ok = FALSE,
+              null.ok = FALSE)
+  if (validate) {
+    assert(x)
+  }
+}
+
 
 # detect whether runtime is suitable for interactive stuff (HTML or RStudio) ====
 is_rstudio <- function() {

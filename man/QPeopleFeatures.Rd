@@ -18,8 +18,8 @@ Checks and makes QPeopleFeatures, a tibble with arbitrary additional information
 }
 \seealso{
 Other validation helpers: \code{\link{QConcourse}},
-  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}
+  \code{\link{QCors}}, \code{\link{QItemStrata}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}}
 
 Other import helpers: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPreSorts}},

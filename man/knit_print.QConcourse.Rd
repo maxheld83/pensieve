@@ -9,13 +9,17 @@ knit_print.QConcourse(x, use_js = NULL, ...)
 \arguments{
 \item{x}{a character matrix with full item wording of class \code{\link{QConcourse}}, as created by \code{\link[=QConcourse]{QConcourse()}}.}
 
-\item{use_js}{Logical flag, indicating whether an interactive, javascript-based version of the plot should be returned.
-Suiteable for HTML output (via \code{\link[rmarkdown:render]{rmarkdown::render()}} and friends) and the RStudio IDE.
-Defaults to \code{NULL}, in which case the appropriate setting is inferred at runtime.}
+\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
+Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
 
-\item{...}{other parameters to be passed through to plotting functions.}
+\item{...}{additional arguments passed to the S3 method (currently ignored,
+except two optional arguments \code{options} and \code{inline}; see
+the references below)}
 }
 \description{
 Provides custom print method for knitr.
 Can also be invoked manually to open interactive outputs in RStudio.
+}
+\seealso{
+Other printing functions: \code{\link{plot.QCors}}
 }

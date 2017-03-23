@@ -26,9 +26,8 @@ QItemStrata <- function(strata, validate = TRUE) {
 
   strata <- classify_clever(x = strata, classname = "QItemStrata")
 
-  if (validate) {
-    assert(strata)
-  }
+  assert_class2(x = strata, validate = validate)
+
   return(strata)
 }
 
@@ -48,11 +47,11 @@ check.QItemStrata <- function(x) {
 # QConcourse ====
 #' @title Check and make QConcourse
 #'
+#' @description Check and make QConcourse
+#'
 #' @export
 #'
-#' @description Checks and makes QConcourse
-#'
-#' @param items A character matrix of full items, with named rows as item handles and named columns as languages.
+#' @param concourse A character matrix of full items, with named rows as item handles and named columns as languages.
 #' Cells can be `NA` when full items are not available.
 #' Full items must be unique by columns.
 #'
@@ -60,17 +59,16 @@ check.QItemStrata <- function(x) {
 #'
 #' @family import helpers
 #'
-QConcourse <- function(items, validate = TRUE) {
+QConcourse <- function(concourse, validate = TRUE) {
   assert_flag(x = validate,
               na.ok = FALSE,
               null.ok = FALSE)
 
-  items <- classify_clever(x = items, classname = "QConcourse")
+  concourse <- classify_clever(x = concourse, classname = "QConcourse")
 
-  if (validate) {
-    assert(items)
-  }
-  return(items)
+  assert_class2(x = concourse, validate = validate)
+
+  return(concourse)
 }
 
 #' @export
@@ -102,7 +100,7 @@ check.QConcourse <- function(x) {
 #'
 #' @param x a character matrix with full item wording of class [`QConcourse`][QConcourse], as created by [QConcourse()].
 #'
-#' @inheritParams plot.QCorr
+#' @template plot
 #'
 #' @inheritParams knitr::knit_print
 #'

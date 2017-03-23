@@ -19,16 +19,8 @@
 #' @family import helpers
 
 QPreSorts <- function(presorts, validate = TRUE) {
-  assert_flag(x = validate,
-              na.ok = FALSE,
-              null.ok = FALSE)
-
-  class(presorts) <- append(class(presorts), "QPreSorts")
-
-  # validation first
-  if (validate) {
-    assert(presorts)
-  }
+  presorts <- classify_clever(x = presorts, classname = "QPreSorts")
+  assert_class2(x = presorts, validate = validate)
   return(presorts)
 }
 
@@ -60,25 +52,18 @@ check.QPreSorts <- function(x) {
 #'
 #' @description Checks and makes QSorts
 #'
-#' @param qsorts An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
+#' @param sorts
+#' An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
 #' Dimensions must be named.
 #'
 #' @template validate
 #'
 #' @family import helpers
-QSorts <- function(qsorts, validate = TRUE) {
-  assert_flag(x = validate,
-              na.ok = FALSE,
-              null.ok = FALSE)
-
-  qsorts <- classify_clever(x = qsorts, classname = "QSorts")
-
-  if (validate) {
-    assert(qsorts)
-  }
-  return(qsorts)
+QSorts <- function(sorts, validate = TRUE) {
+  sorts <- classify_clever(x = sorts, classname = "QSorts")
+  assert_class2(x = sorts, validate = validate)
+  return(sorts)
 }
-
 
 #' @export
 #' @rdname check

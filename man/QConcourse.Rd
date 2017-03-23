@@ -4,10 +4,10 @@
 \alias{QConcourse}
 \title{Check and make QConcourse}
 \usage{
-QConcourse(items, validate = TRUE)
+QConcourse(concourse, validate = TRUE)
 }
 \arguments{
-\item{items}{A character matrix of full items, with named rows as item handles and named columns as languages.
+\item{concourse}{A character matrix of full items, with named rows as item handles and named columns as languages.
 Cells can be \code{NA} when full items are not available.
 Full items must be unique by columns.}
 
@@ -15,12 +15,12 @@ Full items must be unique by columns.}
 Defaults to `TRUE`.}
 }
 \description{
-Checks and makes QConcourse
+Check and make QConcourse
 }
 \seealso{
-Other validation helpers: \code{\link{QItemStrata}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}
+Other validation helpers: \code{\link{QCors}},
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}}
 
 Other import helpers: \code{\link{QItemStrata}},
   \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},

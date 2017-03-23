@@ -13,7 +13,7 @@
 \alias{expect.default}
 \alias{assert}
 \alias{assert.default}
-\alias{check.QCorr}
+\alias{check.QCors}
 \title{Validate S3 classes from this package.}
 \usage{
 \method{check}{QPreSorts}(x)
@@ -42,7 +42,7 @@ assert(x, collection = NULL, var.name = NULL)
 \method{assert}{default}(x, collection = NULL, var.name = paste(class(x),
   "S3 class"))
 
-\method{check}{QCorr}(x)
+\method{check}{QCors}(x)
 }
 \arguments{
 \item{x}{class object created by respective constructor function.}
