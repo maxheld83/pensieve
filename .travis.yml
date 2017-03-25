@@ -2,6 +2,7 @@
 
 language: r
 sudo: FALSE
+dist: trusty
 cache:
   packages: yes
   directories:
@@ -12,12 +13,12 @@ warnings_are_errors: true
 
 before_script:
   - R CMD INSTALL .
-  - Rscript -e "render_site2(output_format = "all")"
 
 # here comes the R CMD check (part of the script by default)
 
 after_success:
   - Rscript -e 'covr::codecov()'
+  - Rscript -e "render_site2(output_format = "all")"
   - book/_deploy.sh
 
 notifications:

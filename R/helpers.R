@@ -53,7 +53,7 @@ render_site2 <- function(wd = "book/", output_format = "bookdown::gitbook", ...)
   setwd(wd)
   rmarkdown::render_site(output_format = output_format)
   setwd("..")
-  if (interactive()) {
+  if (is_rstudio()) {
     rstudioapi::viewer("book/_book/index.html")
   }
 }
