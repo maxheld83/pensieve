@@ -45,3 +45,15 @@ is_use_js <- function() {
 # this is so we don't need :: whenever calling one of those
 #' @import ggplot2
 NULL
+
+
+# helper function to quickly build book ====
+# helpful because this is a package, so it's not easy to build the book
+render_site2 <- function(wd = "book/", output_format = "bookdown::gitbook", ...) {
+  setwd(wd)
+  rmarkdown::render_site(output_format = output_format)
+  setwd("..")
+  if (interactive()) {
+    rstudioapi::viewer("book/_book/index.html")
+  }
+}

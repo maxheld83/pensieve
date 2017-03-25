@@ -10,3 +10,4 @@ book$
 .*/rsconnect
 .httr-oauth
 ^man-roxygen$
+setup.R

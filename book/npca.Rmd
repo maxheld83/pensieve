@@ -1,11 +1,3 @@
----
-title: "_npca.Rmd"
-author: "Maximilian Held"
-date: "1/10/2017"
-output: html_document
----
-
-
 <!-- great argument from stephenson against latent variable model in factor analysis can be found where he rails against R methodology (this is from Watts Stenner 11): -->
 <!-- > it (the R methodological factor) only considered "measuring any individual for those differences which enter onto a factor" (Stephenson 1936b: 205) -->
 

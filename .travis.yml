@@ -12,7 +12,7 @@ warnings_are_errors: true
 
 before_script:
   - R CMD INSTALL .
-  - Rscript book/_render.R
+  - Rscript -e "render_site2(output_format = "all")"
 
 # here comes the R CMD check (part of the script by default)
 

@@ -10,6 +10,7 @@ git config --global user.name "Maximilian Held"
 
 git clone -b gh-pages https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git book-output
 cd book-output
+git rm -rf *
 cp -r ../_book/* ./
 git add --all *
 git commit -m"update homepage (travis build ${TRAVIS_BUILD_NUMBER})"

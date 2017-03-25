@@ -1,29 +1,20 @@
 --- 
 title: "Pensieve"
+description: "Extensive documentation for the `pensieve` R package for the scientific study of human subjectivity."
 author: "Maximilian Held"
 date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
-output: 
-  bookdown::tufte_handout2:
-    keep_tex: yes
-  bookdown::tufte_html2:
-    number_sections: no
-  bookdown::tufte_html_book:
-    toc: yes
-    css: toc.css
-  bookdown::tufte_book2:
-    toc: yes
-    keep_tex: yes
-link_citations: true
-documentclass: book
+biblatex: yes
 bibliography: [held_library.bib]
-biblio-style: apalike
+biblio-style: authoryear
+documentclass: book
+geometry: margin=4.5cm
 link-citations: yes
 github-repo: maxheld83/pensieve
-description: "Extensive documentation for the `pensieve` R package for the scientific study of human subjectivity."
+site: bookdown::bookdown_site
+always_allow_html: yes
 ---
 
-# Notes
+# About {-}
 
 This is a very early draft, and is not ready for prime-time, let alone citation.
 

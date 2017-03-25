@@ -10,3 +10,5 @@ book/_bookdown_files
 *.log
 
 .httr-oauth
+
+book/Pensieve.run.xml
