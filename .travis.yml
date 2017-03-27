@@ -13,9 +13,7 @@ warnings_are_errors: true
 
 before_script:
   - R CMD INSTALL .
-  - Rscript -e "pensieve:::render_site2(output_format = "bookdown::gitbook")"
-  - Rscript -e "pensieve:::render_site2(output_format = "bookdown::pdf_book")"
-  - Rscript -e "pensieve:::render_site2(output_format = "bookdown::epub_book")"
+  - Rscript -e "pensieve:::render_site2()"
 
 # here comes the R CMD check (part of the script by default)
 

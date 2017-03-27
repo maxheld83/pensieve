@@ -51,9 +51,13 @@ NULL
 # helpful because this is a package, so it's not easy to build the book
 render_site2 <- function(wd = "book/", output_format = "bookdown::gitbook", ...) {
   setwd(wd)
-  rmarkdown::render_site(output_format = output_format)
-  setwd("..")
   if (is_rstudio()) {
+    rmarkdown::render_site(output_format = output_format)
     rstudioapi::viewer("book/_book/index.html")
+  } else {
+    bookdown::render_book(input = 'index.Rmd', output_format = 'bookdown::gitbook', output_dir = '../_book')
+    bookdown::render_book(input = 'index.Rmd', output_format = 'bookdown::pdf_book', output_dir = '../_book')
+    bookdown::render_book(input = 'index.Rmd', output_format = 'bookdown::epub_book', output_dir = '../_book')
   }
+  setwd("..")
 }
