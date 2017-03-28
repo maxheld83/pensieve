@@ -173,7 +173,7 @@ run_parallel <- function(dataset = NULL,
 
   # is dataset inside grid?
   if (!is.null(grid) & !is.null(dataset)) {
-    expect_true(object = diag_inside_grid(dataset = dataset, grid = grid),
+    expect_true(object = diag_inside_grid(sorts = dataset, grid = grid),
                 info = "Maximum counts of dataset are not inside grid.")
     # this also takes care of grid and dataset validation
   }

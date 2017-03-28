@@ -4,10 +4,11 @@
 \alias{diag_distro_max}
 \title{Infer maximum grid of q-sorting grid.}
 \usage{
-diag_distro_max(dataset)
+diag_distro_max(sorts)
 }
 \arguments{
-\item{dataset}{An integer matrix with item-cases as rows and people-variables as columns.}
+\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
+Dimensions must be named.}
 }
 \value{
 A positive integer vector of counts of length equal to cover the range of values, named by values.
@@ -16,7 +17,7 @@ A positive integer vector of counts of length equal to cover the range of values
 Infers the maximum q-sorting grid from observed dataset.
 }
 \examples{
-diag_distro_max(dataset = civicon_2014$qData$sorts[,,"before"])
+diag_distro_max(sorts = civicon_2014$qData$sorts[,,"before"])
 # true, because study used forced Q distribution
 
 }

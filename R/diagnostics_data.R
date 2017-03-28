@@ -11,32 +11,31 @@
 #'
 #' @keywords internal
 #'
-#' @param dataset
-#' An integer matrix with item-cases as rows and people-variables as columns.
+#' @inherit QSorts params
 #'
 #' @return
 #' An integer matrix with people-variables as rows, values as columns and counts in cells.
 #'
 #' @examples
-#' diag_distros(dataset = civicon_2014$qData$sorts[,,"before"])
+#' diag_distros(sorts = civicon_2014$qData$sorts[,,"before"])
 #' # results are all the same, because study used forced Q distribution
 #'
 #' @family distribution helpers
 
-diag_distros <- count_distros <- function(dataset) {
+diag_distros <- count_distros <- function(sorts) {
 
   # Input validation ====
-  assert_matrix(x = dataset,
+  assert_matrix(x = sorts,
                 mode = "integer",
                 all.missing = FALSE,
                 # notice that we do not, per se, expect named matrices
                 null.ok = FALSE)
 
   # Body ====
-  all_distros <- t(apply(X = dataset,
+  all_distros <- t(apply(X = sorts,
                        MARGIN = 2,
                        FUN = function(x) {
-                         table(factor(x = x, levels = min(dataset):max(dataset)))
+                         table(factor(x = x, levels = min(sorts):max(sorts)))
                        }))
                        # factor hack-fix makes sure 0 counts are included, and results are of same dim so they can be returned as matrix
   names(dimnames(all_distros)) <- c("people", "values")
@@ -54,7 +53,7 @@ diag_distros <- count_distros <- function(dataset) {
 #'
 #' @keywords internal
 #'
-#' @inheritParams diag_distros
+#' @inherit QSorts params
 #'
 #' @return
 #' A logical vector of length one, `TRUE` when value counts are the same for all people-variables, else `FALSE`.
@@ -65,21 +64,21 @@ diag_distros <- count_distros <- function(dataset) {
 #' For more information, see [diag_forced()].
 #'
 #' @examples
-#' diag_same(dataset = civicon_2014$qData$sorts[,,"before"])
+#' diag_same(sorts = civicon_2014$qData$sorts[,,"before"])
 #' # true, because study used forced Q distribution
 #'
 #' @family distribution helpers
 
-diag_same <- is_same <- function(dataset) {
+diag_same <- is_same <- function(sorts) {
 
   # Input validation ====
   # not necessary, done inside count_distros
 
   # Body ====
-  distros <- count_distros(dataset = dataset)  # find distro for each participant
+  distros <- count_distros(sorts = sorts)  # find distro for each participant
   oneunique <- nrow(unique(distros)) == 1  # test whether all distros are the same
   if (oneunique) {
-    same <- all(rowSums(distros) == nrow(dataset))
+    same <- all(rowSums(distros) == nrow(sorts))
   } else {
     same <- FALSE
   }
@@ -95,23 +94,23 @@ diag_same <- is_same <- function(dataset) {
 #'
 #' @keywords internal
 #'
-#' @inheritParams diag_distros
+#' @inherit QSorts params
 #'
 #' @return A positive integer vector of counts of length equal to cover the range of values, named by values.
 #'
 #' @examples
-#' diag_distro_max(dataset = civicon_2014$qData$sorts[,,"before"])
+#' diag_distro_max(sorts = civicon_2014$qData$sorts[,,"before"])
 #' # true, because study used forced Q distribution
 #'
 #' @family distribution helpers
 
-diag_distro_max <- function(dataset) {
+diag_distro_max <- function(sorts) {
 
   # Input validation ====
   # not necessary, done inside count_distros
 
   # body ====
-  all_distros <- diag_distros(dataset)
+  all_distros <- diag_distros(sorts)
   max_distros <- apply(X = all_distros, MARGIN = 2, FUN = function(x) max(x))
   return(max_distros)
 }
@@ -128,19 +127,19 @@ diag_distro_max <- function(dataset) {
 #' @param grid A positive integer vector of a length covering the range of values, specifying maximum allowed counts for each value.
 #' (in Q-parlance, the maximum column heights for the Q-sorts).
 #'
-#' @inheritParams diag_distros
+#' @inherit QSorts params
 #'
 #' @return A logical vector of length 1, `TRUE` if all people-variables fall inside the grid, else `FALSE`.
 #'
 #' @examples
-#' dataset <- civicon_2014$qData$sorts[,,"before"]
-#' diag_inside_grid(dataset = dataset,
-#'                  grid = diag_distro_max(dataset))
+#' sorts <- civicon_2014$qData$sorts[,,"before"]
+#' diag_inside_grid(sorts = sorts,
+#'                  grid = diag_distro_max(sorts))
 #' # circularly true!
 #'
 #' @family distribution helpers
 
-diag_inside_grid <- function(dataset, grid) {
+diag_inside_grid <- function(sorts, grid) {
   # input validation ====
   # not necessary for dataset, done inside class (at some point)
   expect_vector(x = grid,
@@ -153,11 +152,11 @@ diag_inside_grid <- function(dataset, grid) {
                     lower = 0,
                     any.missing = FALSE,
                     all.missing = FALSE,
-                    min.len = sum(abs(range(dataset))) + 1,
+                    min.len = sum(abs(range(sorts))) + 1,
                     null.ok = TRUE)
 
   # body ====
-  inside_grid <- all(grid >= diag_distro_max(dataset))
+  inside_grid <- all(grid >= diag_distro_max(sorts))
   return(inside_grid)
 }
 
@@ -175,7 +174,7 @@ diag_inside_grid <- function(dataset, grid) {
 #' A positive integer vector of a length covering the range of values, specifying maximum allowed counts for each value.
 #' (in Q-parlance, the maximum column heights for the Q-sorts).
 #'
-#' @inheritParams diag_distros
+#' @inherit QSorts params
 #'
 #' @details
 #' If all people-variables display the same value counts, respondents plausibly faced a *forced* distribution, but this does not strictly speaking follow.
@@ -188,25 +187,25 @@ diag_inside_grid <- function(dataset, grid) {
 #' @return A logical value of length 1, `TRUE` if the distribution is forced, else `FALSE`.
 #'
 #' @examples
-#' dataset <- civicon_2014$qData$sorts[,,"before"]
-#' diag_forced(dataset = dataset,
-#'             grid = diag_distro_max(dataset))
+#' sorts <- civicon_2014$qData$sorts[,,"before"]
+#' diag_forced(sorts = sorts,
+#'             grid = diag_distro_max(sorts))
 #'
 #' @family distribution diagnostic functions
 
-diag_forced <- function(dataset, grid) {
+diag_forced <- function(sorts, grid) {
 
   # input validation ====
-  expect_true(object = diag_inside_grid(dataset = dataset, grid = grid))
+  expect_true(object = diag_inside_grid(sorts = sorts, grid = grid))
   # this takes care of all other input validation downstream
 
   # body ====
-  distros <- diag_distros(dataset = dataset)
+  distros <- diag_distros(sorts = sorts)
 
   forced <- all(t(distros) == grid)
 
   # take care of very special case where all distros are same, but apparently not forced
-  if (!forced & diag_same(dataset)) {
+  if (!forced & diag_same(sorts)) {
     warning("All people-variables have the same value counts, but argument grid indicates a forced distribution.
             Make sure this is correct.")
   }

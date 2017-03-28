@@ -6,10 +6,11 @@
 \alias{count_distros}
 \title{Count distribution of same values per people-variable.}
 \usage{
-diag_distros(dataset)
+diag_distros(sorts)
 }
 \arguments{
-\item{dataset}{An integer matrix with item-cases as rows and people-variables as columns.}
+\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
+Dimensions must be named.}
 }
 \value{
 An integer matrix with people-variables as rows, values as columns and counts in cells.
@@ -18,7 +19,7 @@ An integer matrix with people-variables as rows, values as columns and counts in
 Counts the number of times an item-case is assigned to each value, yields Q distribution for each people-variable.
 }
 \examples{
-diag_distros(dataset = civicon_2014$qData$sorts[,,"before"])
+diag_distros(sorts = civicon_2014$qData$sorts[,,"before"])
 # results are all the same, because study used forced Q distribution
 
 }

@@ -14,7 +14,6 @@
 #' @description Checks and makes QItemStrata, the item sampling structure
 #'
 #' @param strata A logical array of arbitrary dimensions, with first dimension (rows) as item handles, and higher dimensions as orthogonal sampling strata.
-#' Rownames must be a subset of the rownames from [QConcourse].
 #'
 #' @template validate
 #'

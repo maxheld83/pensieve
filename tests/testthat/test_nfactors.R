@@ -15,7 +15,7 @@ test_that(desc = "works with some free distribution data",
                 nrows = p,
                 ncols = n,
                 null.ok = FALSE)
-  expect_true(object = diag_inside_grid(dataset = res, grid = grid),
+  expect_true(object = diag_inside_grid(sorts = res, grid = grid),
               info = "Random data inside grid")
 })
 
@@ -34,7 +34,7 @@ test_that(desc = "works with some forced distribution data",
                 nrows = p,
                 ncols = n,
                 null.ok = FALSE)
-  expect_true(object = diag_inside_grid(dataset = res, grid = grid),
+  expect_true(object = diag_inside_grid(sorts = res, grid = grid),
               info = "Random data inside grid"
   )
 })
@@ -46,7 +46,7 @@ test_that(desc = "works with civicon_2014",
   res <- run_parallel(dataset = dataset,
                       centile = .95,
                       runs = 10,
-                      grid = diag_distro_max(dataset = dataset))
+                      grid = diag_distro_max(sorts = dataset))
   expect_vector(x = res,
                 strict = TRUE,
                 any.missing = FALSE,

@@ -4,10 +4,11 @@
 \alias{diag_forced}
 \title{Forced distribution test.}
 \usage{
-diag_forced(dataset, grid)
+diag_forced(sorts, grid)
 }
 \arguments{
-\item{dataset}{An integer matrix with item-cases as rows and people-variables as columns.}
+\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
+Dimensions must be named.}
 
 \item{grid}{A positive integer vector of a length covering the range of values, specifying maximum allowed counts for each value.
 (in Q-parlance, the maximum column heights for the Q-sorts).}
@@ -27,9 +28,9 @@ Whether, or not, a Q dataset should be considered "forced" can therefore only as
 In the above, improbable case, the function warns the user of possible misspecification.
 }
 \examples{
-dataset <- civicon_2014$qData$sorts[,,"before"]
-diag_forced(dataset = dataset,
-            grid = diag_distro_max(dataset))
+sorts <- civicon_2014$qData$sorts[,,"before"]
+diag_forced(sorts = sorts,
+            grid = diag_distro_max(sorts))
 
 }
 \keyword{internal}

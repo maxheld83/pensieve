@@ -43,7 +43,6 @@ assert.default <- function(x, collection = NULL, var.name = paste(class(x), "S3 
   return(makeAssertion(x = x, res = res, var.name = var.name, collection = collection))
 }
 
-
 # helper: report first error in results, used inside custom checks
 report_checks <- function(res, info = NULL) {
   checks <- sapply(X = res, FUN = function(x) {
@@ -74,9 +73,9 @@ check_nna_row <- function(x) {
   }
   return(res)
 }
-expect_nna_row <- makeExpectationFunction(check.fun = check_nna_row)
-test_nna_row <- makeTestFunction(check.fun = check_nna_row)
-assert_nna_row <- makeAssertionFunction(check.fun = check_nna_row)
+expect_nna_row <- checkmate::makeExpectationFunction(check.fun = check_nna_row)
+test_nna_row <- checkmate::makeTestFunction(check.fun = check_nna_row)
+assert_nna_row <- checkmate::makeAssertionFunction(check.fun = check_nna_row)
 
 
 # helper: check unique by column ===
@@ -90,9 +89,9 @@ check_unique_in_column <- function(x) {
     return(TRUE)
   }
 }
-assert_unique_in_column <- makeAssertionFunction(check.fun = check_unique_in_column)
-test_unique_in_column <- makeTestFunction(check.fun = check_unique_in_column)
-expect_unique_in_column <- makeExpectationFunction(check.fun = check_unique_in_column)
+assert_unique_in_column <- checkmate::makeAssertionFunction(check.fun = check_unique_in_column)
+test_unique_in_column <- checkmate::makeTestFunction(check.fun = check_unique_in_column)
+expect_unique_in_column <- checkmate::makeExpectationFunction(check.fun = check_unique_in_column)
 
 
 # helper: check whether a is subset of b ===

@@ -103,9 +103,8 @@ QPeopleFeatures <- function(p_feat, validate = TRUE) {
 
   p_feat <- classify_clever(x = p_feat, classname = "QPeopleFeatures")
 
-  if (validate) {
-    assert(p_feat)
-  }
+  assert_class2(x = p_feat, validate = validate)
+
   return(p_feat)
 }
 

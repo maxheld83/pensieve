@@ -4,10 +4,11 @@
 \alias{diag_inside_grid}
 \title{Grid test.}
 \usage{
-diag_inside_grid(dataset, grid)
+diag_inside_grid(sorts, grid)
 }
 \arguments{
-\item{dataset}{An integer matrix with item-cases as rows and people-variables as columns.}
+\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
+Dimensions must be named.}
 
 \item{grid}{A positive integer vector of a length covering the range of values, specifying maximum allowed counts for each value.
 (in Q-parlance, the maximum column heights for the Q-sorts).}
@@ -19,9 +20,9 @@ A logical vector of length 1, \code{TRUE} if all people-variables fall inside th
 Test whether the value counts of all people-variables fall inside the grid.
 }
 \examples{
-dataset <- civicon_2014$qData$sorts[,,"before"]
-diag_inside_grid(dataset = dataset,
-                 grid = diag_distro_max(dataset))
+sorts <- civicon_2014$qData$sorts[,,"before"]
+diag_inside_grid(sorts = sorts,
+                 grid = diag_distro_max(sorts))
 # circularly true!
 
 }

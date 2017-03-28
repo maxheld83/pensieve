@@ -5,10 +5,11 @@
 \alias{is_same}
 \title{Same distribution test.}
 \usage{
-diag_same(dataset)
+diag_same(sorts)
 }
 \arguments{
-\item{dataset}{An integer matrix with item-cases as rows and people-variables as columns.}
+\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
+Dimensions must be named.}
 }
 \value{
 A logical vector of length one, \code{TRUE} when value counts are the same for all people-variables, else \code{FALSE}.
@@ -22,7 +23,7 @@ Hypothetically, if unlikely, some people-variables might follow exactly the same
 For more information, see \code{\link[=diag_forced]{diag_forced()}}.
 }
 \examples{
-diag_same(dataset = civicon_2014$qData$sorts[,,"before"])
+diag_same(sorts = civicon_2014$qData$sorts[,,"before"])
 # true, because study used forced Q distribution
 
 }
