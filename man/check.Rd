@@ -67,4 +67,7 @@ Other import helpers: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{anonymize}}
+
+Other validation functions: \code{\link{correlate}},
+  \code{\link{extract}}
 }

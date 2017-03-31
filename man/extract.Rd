@@ -2,9 +2,15 @@
 % Please edit documentation in R/extraction.R
 \name{extract}
 \alias{extract}
+\alias{QLoas}
+\alias{check.QLoas}
 \title{Dimensionality reduction.}
 \usage{
 extract(cors, nfactors, fa_type = "pca")
+
+QLoas(loas, validate = TRUE)
+
+\method{check}{QLoas}(x)
 }
 \arguments{
 \item{cors}{A numerical matrix with correlations.}
@@ -14,15 +20,43 @@ Must be smaller than the number of observations (here: items) on which \code{cor
 
 \item{fa_type}{String giving the type of factor analysis performed.
 Currently only \code{"pca"} for principal components analysis (PCA) is allowed.}
+
+\item{loas}{A numerical matrix with loadings.}
+
+\item{validate}{A logical flag, indicating whether the object will be validated on construction.
+Defaults to `TRUE`.}
+
+\item{x}{class object created by respective constructor function.}
 }
 \description{
 Wraps Principal Components Analysis (PCA) to extract component loadings.
+
+Construct S3 class.
+
+Check S3 class.
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{check}: validation
+}}
+
 \examples{
 # this just runs the calculations, but also classes and validates the results
 cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])  # preliminary step
 loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")
+# this just assigns the class, without validation (not recommended)
+loas <- QLoas(loas = loas, validate = FALSE)
+# this validates the class
+check(loas)
 }
 \seealso{
 Other analysis functions: \code{\link{correlate}}
+
+Other S3 classes from `pensieve`: \code{\link{QConcourse}},
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{correlate}}
+
+Other validation functions: \code{\link{check}},
+  \code{\link{correlate}}
 }

@@ -1,5 +1,5 @@
 # CALCULATION ====
-#' Dimensionality reduction.
+#' @title Dimensionality reduction.
 #'
 #' @description Wraps Principal Components Analysis (PCA) to extract component loadings.
 #'
@@ -39,58 +39,50 @@ extract <- function(cors, nfactors, fa_type = "pca") {
   return(loas)
 }
 
+# CLASS CONSTRUCTION ====
+#' @rdname extract
+#'
+#' @export
+#'
+#' @template construct
+#'
+#' @param loas A numerical matrix with loadings.
+#'
+#' @examples
+#' # this just assigns the class, without validation (not recommended)
+#' loas <- QLoas(loas = loas, validate = FALSE)
+QLoas <- function(loas, validate = TRUE) {
+  # assign class
+  loas <- classify_clever(x = loas, classname = "QLoas")
+  assert_class2(x = loas, validate = validate)
+  return(loas)
+}
 
-#' CLASS CONSTRUCTION ====
-#' #' @title Check and make Q Loadings.
-#' #'
-#' #' @export
-#' #'
-#' #' @description Checks and makes Q Loadings.
-#' #'
-#' #' @param qloa A numerical matrix with people-variables as rows, q factors as columns and loadings in cells.
-#' #' Loadings must be between `-1` and `1`.
-#' #'
-#' #' @template construct
-#' #'
-#' #' @family
-#' QLoa <- function(loa, validate = TRUE) {
-#'   return(NULL)
-#' }
+
+#' @describeIn extract validation
 #'
-#' #' @export
-#' #' @rdname check
-#' check.QLoa <- function(x) {
-#'   res <- NULL
+#' @export
 #'
-#'   res$matrix <- check_matrix(x = x,
-#'                              mode = "numeric")
-#' }
+#' @template check
 #'
-#' # WRAPPER ====
-#' #' @title Extract Q Factors.
-#' #'
-#' #' @aliases QLoa
-#' #'
-#' #' @export
-#' #'
-#' #' @description Extract Q Factors.
-#' #'
-#' #' @inherit Qsorts qsorts
-#' #'
-#' #' @param nfactors A single integer, specifying how many factors should be extracted.
-#' #'
-#' #' @param corr A numerical matrix of class [`QCorr`][QCorr], or which can be thus coerced.
-#' #' Defaults to `NULL`, in which case correlation matrix is calculated via [`correlate`][correlate].
-#' #'
-#' #' @return A numerical matrix of class [`QLoa`][QLoa].
-#' #'
-#' #' @family extraction functions
-#' #'
-#' #' @examples
-#' #' # 1+1  # still missing
-#'
-#' extract <- function(qsorts, nfactors, corr = NULL) {
-#'   return(2)
-#' }
-#'
-#' # PCA ====
+#' @examples
+#' # this validates the class
+#' check(loas)
+check.QLoas <- function(x) {
+  res <- NULL
+
+  res$matrix <- check_matrix(x = x,
+                             mode = "numeric",
+                             any.missing = TRUE,
+                             all.missing = FALSE,
+                             row.names = "strict",
+                             col.names = "strict")
+  res$range <- check_numeric(x = x,
+                             finite = TRUE,
+                             any.missing = TRUE,
+                             all.missing = FALSE,
+                             lower = -1L,
+                             upper = 1L)
+
+  return(report_checks(res = res, info = "QLoas"))
+}

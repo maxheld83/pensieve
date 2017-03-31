@@ -56,9 +56,9 @@ Wraps \code{stats::cor} to calculate correlation coefficients.
 
 Construct S3 class.
 
-Check QCors class.
+Check S3 class.
 
-Plot Qcors class.
+Plot S3 class.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -86,7 +86,11 @@ Other analysis functions: \code{\link{extract}}
 
 Other S3 classes from `pensieve`: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}}
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{extract}}
+
+Other validation functions: \code{\link{check}},
+  \code{\link{extract}}
 
 Other plotting functions: \code{\link{knit_print.QConcourse}}
 }

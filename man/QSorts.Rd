@@ -21,7 +21,8 @@ Construct S3 class.
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
-  \code{\link{QPreSorts}}, \code{\link{correlate}}
+  \code{\link{QPreSorts}}, \code{\link{correlate}},
+  \code{\link{extract}}
 
 Other import helpers: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},

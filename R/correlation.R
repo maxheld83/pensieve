@@ -1,5 +1,5 @@
 # CALCULATION ====
-#' Correlate Q Sorts.
+#' @title Correlate Q Sorts.
 #'
 #' @description Wraps `stats::cor` to calculate correlation coefficients.
 #'
@@ -50,13 +50,13 @@ correlate <- function(sorts, method = "spearman", use = "pairwise.complete.obs")
 
 
 # CLASS CONSTRUCTION ====
-#' @param cors A numerical matrix with correlations.
-#'
-#' @template construct
+#' @rdname correlate
 #'
 #' @export
 #'
-#' @rdname correlate
+#' @template construct
+#'
+#' @param cors A numerical matrix with correlations.
 #'
 #' @examples
 #' # this just assigns the class, without validation (not recommended)
@@ -68,13 +68,12 @@ QCors <- function(cors, validate = TRUE) {
   return(cors)
 }
 
-#' @description Check QCors class.
-#'
-#' @inheritParams check
+
+#' @describeIn correlate validation
 #'
 #' @export
 #'
-#' @describeIn correlate validation
+#' @template check
 #'
 #' @examples
 #' # this validates the class
@@ -107,7 +106,9 @@ check.QCors <- function(x) {
 # PLOTTING ====
 #' @describeIn correlate plotting
 #'
-#' @description Plot Qcors class.
+#' @export
+#'
+#' @template plot
 #'
 #' @param type
 #' Character string, must be
@@ -121,14 +122,6 @@ check.QCors <- function(x) {
 #' Integer scalar, giving the number of observations (here: items), on which the correlations are based.
 #' Defaults to `NULL`.
 #' If given, `type = density` includes a density estimate for Pearson's $r$ in random data.
-#'
-#' @param ...
-#' Arguments passed onto other methods.
-#' Not currently used.
-#'
-#' @export
-#'
-#' @template plot
 #'
 #' @examples
 #' # makes a heatmap

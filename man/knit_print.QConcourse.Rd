@@ -12,13 +12,14 @@ knit_print.QConcourse(x, use_js = NULL, ...)
 \item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
 Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
 
-\item{...}{additional arguments passed to the S3 method (currently ignored,
-except two optional arguments \code{options} and \code{inline}; see
-the references below)}
+\item{...}{Arguments passed onto other methods.
+Not currently used.}
 }
 \description{
 Provides custom print method for knitr.
 Can also be invoked manually to open interactive outputs in RStudio.
+
+Plot S3 class.
 }
 \seealso{
 Other plotting functions: \code{\link{correlate}}
