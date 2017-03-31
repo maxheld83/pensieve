@@ -75,8 +75,7 @@ check.QLoas <- function(x) {
                              mode = "numeric",
                              any.missing = TRUE,
                              all.missing = FALSE,
-                             row.names = "strict",
-                             col.names = "strict")
+                             row.names = "strict")
   res$range <- check_numeric(x = x,
                              finite = TRUE,
                              any.missing = TRUE,
@@ -86,3 +85,4 @@ check.QLoas <- function(x) {
 
   return(report_checks(res = res, info = "QLoas"))
 }
+
