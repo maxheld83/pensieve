@@ -1,5 +1,5 @@
 #' @title Validate S3 classes from this package.
-#' @description Use `check()`, `test()`, `assert()` and `expect()` to validate S3 classed objects from this package.
+#' @description Use `check()`, `test()`, `assert()` and `expect()` to validate  classed objects from this package.
 #' @export
 #' @param x class object created by respective constructor function.
 #' @inheritParams checkmate::makeAssertion
@@ -11,6 +11,7 @@ check <- function(x) {
 }
 
 #' @rdname check
+#' @export
 test <- function(x) {
   UseMethod("test")
 }
@@ -22,6 +23,7 @@ test.default <- function(x) {
 }
 
 #' @rdname check
+#' @export
 expect <- function(x, info = NULL, label = NULL) {
   UseMethod("expect")
 }
@@ -33,6 +35,7 @@ expect.default <- function(x, info = NULL, label = paste(class(x), "S3 class")) 
 }
 
 #' @rdname check
+#' @export
 assert <- function(x, collection = NULL, var.name = NULL) {
   UseMethod("assert")
 }

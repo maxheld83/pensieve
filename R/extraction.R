@@ -8,7 +8,7 @@
 #' #' @param qloa A numerical matrix with people-variables as rows, q factors as columns and loadings in cells.
 #' #' Loadings must be between `-1` and `1`.
 #' #'
-#' #' @template validate
+#' #' @template construct
 #' #'
 #' #' @family
 #' QLoa <- function(loa, validate = TRUE) {

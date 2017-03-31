@@ -10,16 +10,18 @@ QSorts(sorts, validate = TRUE)
 \item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
 Dimensions must be named.}
 
-\item{validate}{A logical flag, indicating whether the object will be validated.
+\item{validate}{A logical flag, indicating whether the object will be validated on construction.
 Defaults to `TRUE`.}
 }
 \description{
 Checks and makes QSorts
+
+Construct S3 class.
 }
 \seealso{
-Other validation helpers: \code{\link{QConcourse}},
-  \code{\link{QCors}}, \code{\link{QItemStrata}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}}
+Other S3 classes from `pensieve`: \code{\link{QConcourse}},
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{correlate}}
 
 Other import helpers: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},

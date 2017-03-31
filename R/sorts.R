@@ -10,7 +10,7 @@
 #' An integer matrix, with named rows as item handles, named columns as participant names and cells as presorts.
 #' `-1L` for `negative`, `0L` for `neutral` and `1L` for `positive`.
 #'
-#' @template validate
+#' @template construct
 #'
 #' @note
 #' `presorts` are stored as `integer()` because R does not allow factor matrices.
@@ -56,7 +56,7 @@ check.QPreSorts <- function(x) {
 #' An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
 #' Dimensions must be named.
 #'
-#' @template validate
+#' @template construct
 #'
 #' @family import helpers
 QSorts <- function(sorts, validate = TRUE) {
@@ -93,7 +93,7 @@ check.QSorts <- function(x) {
 #' A tibble, with one row per participant.
 #' First column must be the participant names, same as the rownames from [`QSorts`][QSorts].
 #'
-#' @template validate
+#' @template construct
 #'
 #' @family import helpers
 QPeopleFeatures <- function(p_feat, validate = TRUE) {

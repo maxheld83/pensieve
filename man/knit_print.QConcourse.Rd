@@ -21,5 +21,5 @@ Provides custom print method for knitr.
 Can also be invoked manually to open interactive outputs in RStudio.
 }
 \seealso{
-Other printing functions: \code{\link{plot.QCors}}
+Other plotting functions: \code{\link{correlate}}
 }

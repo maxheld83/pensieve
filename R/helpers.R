@@ -44,6 +44,8 @@ is_use_js <- function() {
 # import frequently used packages ====
 # this is so we don't need :: whenever calling one of those
 #' @import ggplot2
+#' @import checkmate
+#' @import testthat
 NULL
 
 

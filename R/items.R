@@ -15,7 +15,7 @@
 #'
 #' @param strata A logical array of arbitrary dimensions, with first dimension (rows) as item handles, and higher dimensions as orthogonal sampling strata.
 #'
-#' @template validate
+#' @template construct
 #'
 #' @family import helpers
 QItemStrata <- function(strata, validate = TRUE) {
@@ -54,7 +54,7 @@ check.QItemStrata <- function(x) {
 #' Cells can be `NA` when full items are not available.
 #' Full items must be unique by columns.
 #'
-#' @template validate
+#' @template construct
 #'
 #' @family import helpers
 #'

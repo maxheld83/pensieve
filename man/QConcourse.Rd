@@ -11,16 +11,18 @@ QConcourse(concourse, validate = TRUE)
 Cells can be \code{NA} when full items are not available.
 Full items must be unique by columns.}
 
-\item{validate}{A logical flag, indicating whether the object will be validated.
+\item{validate}{A logical flag, indicating whether the object will be validated on construction.
 Defaults to `TRUE`.}
 }
 \description{
 Check and make QConcourse
+
+Construct S3 class.
 }
 \seealso{
-Other validation helpers: \code{\link{QCors}},
-  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}}
+Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
+  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{correlate}}
 
 Other import helpers: \code{\link{QItemStrata}},
   \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},

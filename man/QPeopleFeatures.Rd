@@ -10,16 +10,18 @@ QPeopleFeatures(p_feat, validate = TRUE)
 \item{p_feat}{A tibble, with one row per participant.
 First column must be the participant names, same as the rownames from \code{\link{QSorts}}.}
 
-\item{validate}{A logical flag, indicating whether the object will be validated.
+\item{validate}{A logical flag, indicating whether the object will be validated on construction.
 Defaults to `TRUE`.}
 }
 \description{
 Checks and makes QPeopleFeatures, a tibble with arbitrary additional information on the participating people-variables.
+
+Construct S3 class.
 }
 \seealso{
-Other validation helpers: \code{\link{QConcourse}},
-  \code{\link{QCors}}, \code{\link{QItemStrata}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}}
+Other S3 classes from `pensieve`: \code{\link{QConcourse}},
+  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{correlate}}
 
 Other import helpers: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPreSorts}},

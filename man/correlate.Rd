@@ -2,37 +2,89 @@
 % Please edit documentation in R/correlation.R
 \name{correlate}
 \alias{correlate}
+\alias{QCors}
+\alias{check.QCors}
+\alias{plot.QCors}
 \title{Correlate Q Sorts.}
 \usage{
-correlate(sorts, method = "pearson", use = "pairwise.complete.obs")
+correlate(sorts, method = "spearman", use = "pairwise.complete.obs")
+
+QCors(cors, validate = TRUE)
+
+\method{check}{QCors}(x)
+
+\method{plot}{QCors}(x, use_js = NULL, type = NULL, n_obs = NULL, ...)
 }
 \arguments{
 \item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
 Dimensions must be named.}
 
-\item{method}{a character string indicating which correlation
-    coefficient (or covariance) is to be computed.  One of
-    \code{"pearson"} (default), \code{"kendall"}, or \code{"spearman"}:
-    can be abbreviated.}
+\item{method}{A character string indicating which correlation coeffocient to use.
+Must be \code{"pearson"}, \code{"kendall"} or \code{"spearman"} (recommended default).}
 
-\item{use}{an optional character string giving a
-    method for computing covariances in the presence
-    of missing values.  This must be (an abbreviation of) one of the strings
-    \code{"everything"}, \code{"all.obs"}, \code{"complete.obs"},
-    \code{"na.or.complete"}, or \code{"pairwise.complete.obs"}.}
+\item{use}{A character string giving a method for computing covariances in the presence of missing data.
+Must be \code{"everything"}, \code{"all.obs"},, \code{"complete.obs"}, \code{"na.or.complete"} or \code{"pairwise.complete.obs"} (recommended default).
+For more information, see \code{\link[stats:cor]{stats::cor()}}}
+
+\item{cors}{A numerical matrix with correlations.}
+
+\item{validate}{A logical flag, indicating whether the object will be validated on construction.
+Defaults to `TRUE`.}
+
+\item{x}{class object created by respective constructor function.}
+
+\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
+Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
+
+\item{type}{Character string, must be
+\itemize{
+\item \code{heatmap} (suitable for small to medium-sized correlation matrices) or
+\item \code{density} (suitable for medium and large correlation matrices).
 }
-\value{
-A numerical matrix with people-variables as rows and columns, correlation coefficients in cells.
-Class \code{\link{QCors}}.
+
+Defaults to \code{NULL}, in which case the appropriate plot is inferred from the size.}
+
+\item{n_obs}{Integer scalar, giving the number of observations (here: items), on which the correlations are based.
+Defaults to \code{NULL}.
+If given, \code{type = density} includes a density estimate for Pearson's $r$ in random data.}
+
+\item{...}{Arguments passed onto other methods.
+Not currently used.}
 }
 \description{
-Correlate Q Sorts.
+Wraps \code{stats::cor} to calculate correlation coefficients.
+
+Construct S3 class.
+
+Check QCors class.
+
+Plot Qcors class.
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{check}: validation
+
+\item \code{plot}: plotting
+}}
+
 \examples{
-correlate(sorts = civicon_2014$qData$sorts[,,"before"])
+# this just runs the calculations, but also classes and validates the results
+cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])
+# this just assigns the class, without validation (not recommended)
+cors <- QCors(cors = cors, validate = FALSE)
+# this validates the class
+check(cors)
+# makes a heatmap
+plot(x = cors, use_js = NULL, type = "heatmap", n_obs = NULL)
+
+# makes density estimate
+plot(x = cors, use_js = NULL, type = "density", n_obs = nrow(civicon_2014$qData$sorts[,,"before"]))
 
 }
 \seealso{
-Other correlation functions: \code{\link{QCors}},
-  \code{\link{plot.QCors}}
+Other S3 classes from `pensieve`: \code{\link{QConcourse}},
+  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}}
+
+Other plotting functions: \code{\link{knit_print.QConcourse}}
 }

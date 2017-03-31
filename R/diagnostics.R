@@ -2,8 +2,6 @@
 #'
 #' @export
 #'
-#' @import checkmate testthat
-#'
 #' @description
 #' Counts the number of times an item-case is assigned to each value, yields Q distribution for each people-variable.
 #'
