@@ -16,7 +16,6 @@
 #' Must be `"everything"`, `"all.obs"`,, `"complete.obs"`, `"na.or.complete"` or `"pairwise.complete.obs"` (recommended default).
 #' For more information, see [stats::cor()]
 #'
-#'
 #' @family analysis functions
 #' @family correlation functions
 #'
