@@ -108,17 +108,10 @@ check.QConcourse <- function(x) {
 #' @family knitr output functions
 knit_print.QConcourse <- function(x, use_js = NULL, ...) {
   # Input validation ====
-  assert_flag(x = use_js,
-              na.ok = FALSE,
-              null.ok = TRUE)
+  use_js <- assert_n_infer_use_js(use_js = use_js)
 
   x <- classify_clever(x = x, classname = "QConcourse")  # gotta make sure it IS QItems in the first place
   assert(x)
-
-  # Preliminaries ====
-  if (is.null(use_js)) {
-    use_js <- is_use_js()
-  }
 
   # JS method ====
   if (use_js) {  # interactive

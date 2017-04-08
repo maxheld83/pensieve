@@ -4,6 +4,7 @@
 \alias{extract}
 \alias{QLoas}
 \alias{check.QLoas}
+\alias{plot.QLoas}
 \title{Dimensionality reduction.}
 \usage{
 extract(cors, nfactors, fa_type = "pca")
@@ -11,6 +12,9 @@ extract(cors, nfactors, fa_type = "pca")
 QLoas(loas, validate = TRUE)
 
 \method{check}{QLoas}(x)
+
+\method{plot}{QLoas}(x, summarize = NULL, by = "people", r2 = FALSE,
+  use_js = NULL, ...)
 }
 \arguments{
 \item{cors}{A numerical matrix with correlations.}
@@ -27,6 +31,27 @@ Currently only \code{"pca"} for principal components analysis (PCA) is allowed.}
 Defaults to `TRUE`.}
 
 \item{x}{class object created by respective constructor function.}
+
+\item{summarize}{A logical flag, indicating whether the object should be summarized before plotting.
+If \code{TRUE}, a plot with a density estimate of individual data points is returned, suitable for medium to large objects (numbers of people-variables).
+If \code{FALSE}, a plot with individual data points is returned, suitable for small to medium-sized objects (numbers of people-variables).
+
+Defaults to \code{NULL}, in which case the appropriate plot is inferred from the size.}
+
+\item{by}{A character string indicating by which dimension to plot.
+Must be \code{"people"} or \code{"both"}.
+Display by \code{"factor"} is not currently available.}
+
+\item{r2}{Logical flag, indicating whether the \emph{squared} loadings should be plotted.
+If \code{FALSE}, loadings are plotted, interpretable as correlations of people-variables with factors.
+If \code{TRUE}, squared loadings are plotted, interpretable as the share of explained variance.
+Defaults to \code{FALSE}.}
+
+\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
+Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
+
+\item{...}{Arguments passed onto other methods.
+Not currently used.}
 }
 \description{
 Wraps Principal Components Analysis (PCA) to extract component loadings.
@@ -34,10 +59,14 @@ Wraps Principal Components Analysis (PCA) to extract component loadings.
 Construct S3 class.
 
 Check S3 class.
+
+Plot S3 class.
 }
 \section{Methods (by generic)}{
 \itemize{
 \item \code{check}: validation
+
+\item \code{plot}: plotting
 }}
 
 \examples{
@@ -48,6 +77,10 @@ loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")
 loas <- QLoas(loas = loas, validate = FALSE)
 # this validates the class
 check(loas)
+# makes a barchart
+plot(x = loas, use_js = NULL, by = "people")
+plot(x = loas, use_js = NULL, by = "both")
+
 }
 \seealso{
 Other analysis functions: \code{\link{correlate}}
@@ -59,4 +92,7 @@ Other S3 classes from `pensieve`: \code{\link{QConcourse}},
 
 Other validation functions: \code{\link{check}},
   \code{\link{correlate}}
+
+Other plotting functions: \code{\link{correlate}},
+  \code{\link{knit_print.QConcourse}}
 }

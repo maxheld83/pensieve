@@ -41,6 +41,36 @@ is_use_js <- function() {
 }
 
 
+# assert and infer helpers ====
+
+assert_n_infer_use_js <- function(use_js) {
+  checkmate::assert_flag(x = use_js,
+                         na.ok = FALSE,
+                         null.ok = TRUE)
+  if (is.null(use_js)) {
+    use_js <- is_use_js()
+  }
+  return(use_js)
+}
+
+assert_n_infer_summarize <- function(summarize, x) {
+  checkmate::assert_flag(x = summarize,
+                         na.ok = FALSE,
+                         null.ok = TRUE)
+  if (is.null(summarize)) {
+    # notice that this could be made into a generic with s3 methods, then we could have specific cutoffs for each kind of object. Just sayin.
+    p_number <- nrow(x)
+    if (p_number <= 50) {
+      summarize <- FALSE
+    } else {
+      summarize <- TRUE
+    }
+  }
+  return(summarize)
+}
+
+
+
 # import frequently used packages ====
 # this is so we don't need :: whenever calling one of those
 #' @import ggplot2

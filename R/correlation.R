@@ -110,18 +110,17 @@ check.QCors <- function(x) {
 #'
 #' @template plot
 #'
-#' @param type
-#' Character string, must be
-#'
-#' - `heatmap` (suitable for small to medium-sized correlation matrices) or
-#' - `density` (suitable for medium and large correlation matrices).
-#'
-#' Defaults to `NULL`, in which case the appropriate plot is inferred from the size.
-#'
 #' @param n_obs
 #' Integer scalar, giving the number of observations (here: items), on which the correlations are based.
 #' Defaults to `NULL`.
 #' If given, `type = density` includes a density estimate for Pearson's $r$ in random data.
+#'
+#' @param summarize
+#' A logical flag, indicating whether the object should be summarized before plotting.
+#' If `TRUE`, a plot with a density estimate of individual data points is returned, suitable for medium to large objects (numbers of people-variables).
+#' If `FALSE`, a plot with individual data points is returned, suitable for small to medium-sized objects (numbers of people-variables).
+#'
+#' Defaults to `NULL`, in which case the appropriate plot is inferred from the size.
 #'
 #' @examples
 #' # makes a heatmap
@@ -130,37 +129,18 @@ check.QCors <- function(x) {
 #' # makes density estimate
 #' plot(x = cors, use_js = NULL, type = "density", n_obs = nrow(civicon_2014$qData$sorts[,,"before"]))
 #'
-plot.QCors <- function(x, use_js = NULL, type = NULL, n_obs = NULL, ...) {
+plot.QCors <- function(x, summarize = NULL, n_obs = NULL, use_js = NULL, ...) {
   # Input validation ====
   cors <- QCors(cors = x, validate = TRUE)  # make and validate QCors first
 
-  # let's assert and infer use_js
-  checkmate::assert_flag(x = use_js,
-                         na.ok = FALSE,
-                         null.ok = TRUE)
-  if (is.null(use_js)) {
-    use_js <- is_use_js()
-  }
+  use_js <- assert_n_infer_use_js(use_js = use_js)
 
-  # now let's assert and infer p_size
-  checkmate::assert_string(x = type,
-                           na.ok = FALSE,
-                           null.ok = TRUE)
-  if (is.null(type)) {
-    p_number <- ncol(x)
-    if (p_number <= 50) {
-      type <- "heatmap"
-    } else if (p_number > 50) {
-      type <- "density"
-    }
-  }
-  checkmate::assert_choice(x = type,
-                           choices = c("heatmap", "density"))
+  summarize <- assert_n_infer_summarize(summarize = summarize, x = x)
 
   # check n_obs
   assert_scalar(x = n_obs,
                 na.ok = FALSE,
-                null.ok = TRUE,)
+                null.ok = TRUE)
   assert_integerish(x = n_obs,
                     len = 1,
                     null.ok = TRUE)
@@ -178,16 +158,26 @@ plot.QCors <- function(x, use_js = NULL, type = NULL, n_obs = NULL, ...) {
   }
   # let's set a good legend
   correlation_title <- if (is.null(method)) {
-    paste0("Correlation \n Coefficient")
+    paste0("Correlation Coefficient")
   } else {
-    paste0(method, "'s ", "\n Correlation \n Coefficient")
+    paste0(method, "'s ", "Correlation Coefficient")
   }
 
   # Plotting ====
-  g <- switch(EXPR = type,
-              heatmap = plot_heatmap(color_matrix = cors, color_title = correlation_title),
-              density = plot_density(cors = cors, n_obs = n_obs))
+  if (summarize) {
+    upper <- unclass(cors)[upper.tri(unclass(cors))]
+    df <- reshape2::melt(data = upper)
 
+    if (!is.null(n_obs)) {  # only add this curve, if it n_items is known
+      g <- plot_density(df = df, x = c("Correlation Coefficient" = "value"))
+      g <- g + stat_function(fun = pearson_p, mapping = aes(linetype = "Random Data (Pearson's)"), args = list(n = n_obs))
+      g <- g + scale_linetype_manual(values = c("Observed Data" = "solid",
+                                                "Random Data (Pearson's)" = "dashed"),
+                                     name = "Density Estimate in")
+    }
+  } else {
+    g <- plot_heatmap(color_matrix = cors, color_title = correlation_title)
+  }
 
   # make interactive ====
   if (use_js) {

@@ -13,7 +13,8 @@ QCors(cors, validate = TRUE)
 
 \method{check}{QCors}(x)
 
-\method{plot}{QCors}(x, use_js = NULL, type = NULL, n_obs = NULL, ...)
+\method{plot}{QCors}(x, summarize = NULL, n_obs = NULL, use_js = NULL,
+  ...)
 }
 \arguments{
 \item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
@@ -33,20 +34,18 @@ Defaults to `TRUE`.}
 
 \item{x}{class object created by respective constructor function.}
 
-\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
-Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
-
-\item{type}{Character string, must be
-\itemize{
-\item \code{heatmap} (suitable for small to medium-sized correlation matrices) or
-\item \code{density} (suitable for medium and large correlation matrices).
-}
+\item{summarize}{A logical flag, indicating whether the object should be summarized before plotting.
+If \code{TRUE}, a plot with a density estimate of individual data points is returned, suitable for medium to large objects (numbers of people-variables).
+If \code{FALSE}, a plot with individual data points is returned, suitable for small to medium-sized objects (numbers of people-variables).
 
 Defaults to \code{NULL}, in which case the appropriate plot is inferred from the size.}
 
 \item{n_obs}{Integer scalar, giving the number of observations (here: items), on which the correlations are based.
 Defaults to \code{NULL}.
 If given, \code{type = density} includes a density estimate for Pearson's $r$ in random data.}
+
+\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
+Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
 
 \item{...}{Arguments passed onto other methods.
 Not currently used.}
@@ -92,5 +91,6 @@ Other S3 classes from `pensieve`: \code{\link{QConcourse}},
 Other validation functions: \code{\link{check}},
   \code{\link{extract}}
 
-Other plotting functions: \code{\link{knit_print.QConcourse}}
+Other plotting functions: \code{\link{extract}},
+  \code{\link{knit_print.QConcourse}}
 }
