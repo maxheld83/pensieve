@@ -22,6 +22,6 @@ Can also be invoked manually to open interactive outputs in RStudio.
 Plot S3 class.
 }
 \seealso{
-Other plotting functions: \code{\link{correlate}},
-  \code{\link{extract}}
+Other plotting functions: \code{\link{QSorts}},
+  \code{\link{correlate}}, \code{\link{extract}}
 }

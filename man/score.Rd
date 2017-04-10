@@ -56,6 +56,7 @@ Other S3 classes from `pensieve`: \code{\link{QConcourse}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}}
 
-Other validation functions: \code{\link{check}},
-  \code{\link{correlate}}, \code{\link{extract}}
+Other validation functions: \code{\link{QSorts}},
+  \code{\link{check}}, \code{\link{correlate}},
+  \code{\link{extract}}
 }

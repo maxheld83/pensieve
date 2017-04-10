@@ -2,9 +2,15 @@
 % Please edit documentation in R/sorts.R
 \name{QSorts}
 \alias{QSorts}
+\alias{check.QSorts}
+\alias{plot.QSorts}
 \title{Check and make QSorts}
 \usage{
 QSorts(sorts, validate = TRUE)
+
+\method{check}{QSorts}(x)
+
+\method{plot}{QSorts}(x, column = 1, use_js = NULL, ...)
 }
 \arguments{
 \item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
@@ -12,11 +18,38 @@ Dimensions must be named.}
 
 \item{validate}{A logical flag, indicating whether the object will be validated on construction.
 Defaults to `TRUE`.}
+
+\item{x}{class object created by respective constructor function.}
+
+\item{column}{Positive integer scalar, giving the column of the QSorts object to plot.
+Defaults to \code{1}, in which case the first column is plotted.}
+
+\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
+Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
+
+\item{...}{Arguments passed onto other methods.
+Not currently used.}
 }
 \description{
 Checks and makes QSorts
 
 Construct S3 class.
+
+Check S3 class.
+
+Plot S3 class.
+}
+\section{Methods (by generic)}{
+\itemize{
+\item \code{check}: validation
+
+\item \code{plot}: plotting
+}}
+
+\examples{
+sorts <- civicon_2014$qData$sorts[,,"before"]
+sorts <- QSorts(sorts = sorts, validate = FALSE)
+check(x = sorts)
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QConcourse}},
@@ -28,4 +61,12 @@ Other import helpers: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
   \code{\link{QPreSorts}}, \code{\link{anonymize}},
   \code{\link{check}}
+
+Other validation functions: \code{\link{check}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{score}}
+
+Other plotting functions: \code{\link{correlate}},
+  \code{\link{extract}},
+  \code{\link{knit_print.QConcourse}}
 }

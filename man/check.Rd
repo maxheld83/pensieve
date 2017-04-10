@@ -11,7 +11,6 @@
 \alias{check.QItemStrata}
 \alias{check.QConcourse}
 \alias{check.QPreSorts}
-\alias{check.QSorts}
 \alias{check.QPeopleFeatures}
 \title{Validate S3 classes from this package.}
 \usage{
@@ -36,8 +35,6 @@ assert(x, collection = NULL, var.name = NULL)
 \method{check}{QConcourse}(x)
 
 \method{check}{QPreSorts}(x)
-
-\method{check}{QSorts}(x)
 
 \method{check}{QPeopleFeatures}(x)
 }
@@ -68,6 +65,7 @@ Other import helpers: \code{\link{QConcourse}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{anonymize}}
 
-Other validation functions: \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{score}}
+Other validation functions: \code{\link{QSorts}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{score}}
 }

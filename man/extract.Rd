@@ -91,9 +91,11 @@ Other S3 classes from `pensieve`: \code{\link{QConcourse}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{score}}
 
-Other validation functions: \code{\link{check}},
-  \code{\link{correlate}}, \code{\link{score}}
+Other validation functions: \code{\link{QSorts}},
+  \code{\link{check}}, \code{\link{correlate}},
+  \code{\link{score}}
 
-Other plotting functions: \code{\link{correlate}},
+Other plotting functions: \code{\link{QSorts}},
+  \code{\link{correlate}},
   \code{\link{knit_print.QConcourse}}
 }

@@ -45,7 +45,6 @@ check.QPreSorts <- function(x) {
 
 
 # QSorts ====
-
 #' @title Check and make QSorts
 #'
 #' @export
@@ -65,8 +64,16 @@ QSorts <- function(sorts, validate = TRUE) {
   return(sorts)
 }
 
+#' @describeIn QSorts validation
+#'
 #' @export
-#' @rdname check
+#'
+#' @template check
+#'
+#' @examples
+#' sorts <- civicon_2014$qData$sorts[,,"before"]
+#' sorts <- QSorts(sorts = sorts, validate = FALSE)
+#' check(x = sorts)
 check.QSorts <- function(x) {
   res <- NULL
 
@@ -78,6 +85,41 @@ check.QSorts <- function(x) {
   res <- c(res, check_named_array(x = x))  # via external helper
 
   return(report_checks(res = res, info = "QSorts"))
+}
+
+# PLOTTING ====
+#' @describeIn QSorts plotting
+#'
+#' @export
+#'
+#' @template plot
+#'
+#' @inheritParams QSorts
+#'
+#' @param column
+#' Positive integer scalar, giving the column of the QSorts object to plot.
+#' Defaults to `1`, in which case the first column is plotted.
+#'
+plot.QSorts <- function(x, column = 1, use_js = NULL, ...) {
+  # Init (for testing) ====
+  # x <- sorts
+  # column <- 1
+  # use_js <- NULL
+
+  # Input validation ====
+  sorts <- QSorts(sorts = x, validate = TRUE)
+  sort <- sorts[,column]
+
+  use_js <- assert_n_infer_use_js(use_js = use_js)
+
+  # Plotting ====
+  g <- NULL
+
+  # make interactive ====
+  if (use_js) {
+    g <- plotly::ggplotly(p = g)
+  }
+  return(g)
 }
 
 
