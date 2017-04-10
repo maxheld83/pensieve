@@ -13,15 +13,21 @@
 #' @family scoring functions
 #'
 #' @examples
-#' cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])  # preparatory step
+#' sorts <- civicon_2014$qData$sorts[,,"before"]  # preparatory step
+#' cors <- correlate(sorts = sorts)  # preparatory step
 #' loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")  # preparatory step
-#' scores <- score(loas = loas, sorts = civicon_2014$qData$sorts[,,"before"])
+#' scores <- score(loas = loas, sorts = sorts)
 score <- function(loas, sorts) {
   # Input validation ====
+  loas <- QLoas(loas = loas, validate = TRUE)
+  sorts <- QSorts(sorts = sorts, validate = TRUE)
 
   # Calculation ====
-  scores <- matrix(1,1)
+  scores <- matrix(c(1,1), c(2,2))
+  rownames(scores) <- c("foo", "bar")
 
+  # Return ====
+  scores <- QScores(scores = scores, validate = TRUE)
   return(scores)
 }
 

@@ -38,9 +38,10 @@ Check S3 class.
 }}
 
 \examples{
-cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])  # preparatory step
+sorts <- civicon_2014$qData$sorts[,,"before"]  # preparatory step
+cors <- correlate(sorts = sorts)  # preparatory step
 loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")  # preparatory step
-scores <- score(loas = loas, sorts = civicon_2014$qData$sorts[,,"before"])
+scores <- score(loas = loas, sorts = sorts)
 # this just assigns the class, without validation (not recommended)
 scores <- QScores(scores = scores, validate = FALSE)
 # this validates the class
