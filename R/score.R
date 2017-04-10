@@ -23,8 +23,16 @@ score <- function(loas, sorts) {
   sorts <- QSorts(sorts = sorts, validate = TRUE)
 
   # Calculation ====
-  scores <- matrix(c(1,1), c(2,2))
-  rownames(scores) <- c("foo", "bar")
+  scores <- apply(X = loas, MARGIN = 2, FUN = function(x) {
+    allweighted <- sweep(x = sorts, MARGIN = 2, STATS = x, FUN = "*")
+    scores <- apply(X = allweighted, MARGIN = 1, FUN = function(x) {
+      mean(x, na.rm = TRUE)
+    })
+    scores <- scale(scores)
+    return(scores)
+  })
+  colnames(scores) <- colnames(loas)
+  rownames(scores) <- rownames(sorts)
 
   # Return ====
   scores <- QScores(scores = scores, validate = TRUE)
@@ -67,7 +75,7 @@ check.QScores <- function(x) {
                              mode = "numeric",
                              any.missing = TRUE,
                              all.missing = FALSE,
-                             row.names = "strict")
+                             row.names = "unique")
   #TODO this needs more, such as the range of the raw data etc.
 
   return(report_checks(res = res, info = "QScores"))
