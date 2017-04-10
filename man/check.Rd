@@ -69,5 +69,5 @@ Other import helpers: \code{\link{QConcourse}},
   \code{\link{anonymize}}
 
 Other validation functions: \code{\link{correlate}},
-  \code{\link{extract}}
+  \code{\link{extract}}, \code{\link{score}}
 }

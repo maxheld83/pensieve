@@ -83,15 +83,16 @@ plot(x = loas, use_js = NULL, by = "both")
 
 }
 \seealso{
-Other analysis functions: \code{\link{correlate}}
+Other analysis functions: \code{\link{correlate}},
+  \code{\link{score}}
 
 Other S3 classes from `pensieve`: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
-  \code{\link{correlate}}
+  \code{\link{correlate}}, \code{\link{score}}
 
 Other validation functions: \code{\link{check}},
-  \code{\link{correlate}}
+  \code{\link{correlate}}, \code{\link{score}}
 
 Other plotting functions: \code{\link{correlate}},
   \code{\link{knit_print.QConcourse}}
