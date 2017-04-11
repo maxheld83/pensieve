@@ -100,6 +100,9 @@ check.QSorts <- function(x) {
 #' Positive integer scalar, giving the column of the QSorts object to plot.
 #' Defaults to `1`, in which case the first column is plotted.
 #'
+#' @examples
+#' plot(x = sorts)
+
 plot.QSorts <- function(x, column = 1, use_js = NULL, ...) {
   # Init (for testing) ====
   # x <- sorts
@@ -108,20 +111,54 @@ plot.QSorts <- function(x, column = 1, use_js = NULL, ...) {
 
   # Input validation ====
   sorts <- QSorts(sorts = x, validate = TRUE)
-  sort <- sorts[,column]
-
   use_js <- assert_n_infer_use_js(use_js = use_js)
 
-  # Plotting ====
-  g <- NULL
+  # Data Prep ====
+  sort <- sorts[,column]
 
-  # make interactive ====
+  # Plotting ====
+  g <- plot.QSort(x = sort, type = "grid", use_js = use_js)
+  return(g)
+}
+
+
+plot.QSort <- function(x, type = "grid", use_js = NULL) {
+  # Initialisation (for testing ) =====
+  # x <- sorts[,1]
+
+  # Input validation ====
+  # TODO validate x
+  assert_choice(x = type, choices = c("grid", "brickwall", "hex"))
+  use_js <- assert_n_infer_use_js(use_js = use_js)
+
+  # Data prep ====
+  xy <- spread_over_y(x = x)
+  xy <- as.data.frame(xy)
+  xy$item <- rownames(xy)
+
+  # plotting ====
+  y <- x <- item <- NULL  # hack to appease R cmd check
+  g <- NULL
+  g <- ggplot(data = xy, mapping = aes(x = y, y = x, label = item, fill = "1", color = "2"))
+  # g <- g + geom_raster(fill = "red")
+  g <- g + geom_tile()
+  g <- g + geom_text()
+  g <- g + scale_fill_manual(values = c("white"))
+  g <- g + scale_color_manual(values = c("black"))
+
   if (use_js) {
-    g <- plotly::ggplotly(p = g)
+    g <- plotly::ggplotly(g)
   }
   return(g)
 }
 
+spread_over_y <- function(x) {
+  x_range <- max(x) - min(x)
+  y_rep <- round(length(x)/x_range + 1)
+  y_vals <- rep(c(min(x):max(x)), y_rep)[1:length(x)]
+  bothdims <- cbind(x, y = y_vals)
+  return(bothdims)
+}
 
 # QPeopleFeatures ====
 
@@ -163,3 +200,4 @@ check.QPeopleFeatures <- function(x) {
                              col.names = "strict")
   return(report_checks(res = res, info = "QPeopleFeatures"))
 }
+packageVersion('plotly')

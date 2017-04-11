@@ -2,5 +2,6 @@ book_filename: "Pensieve"
 chapter_name: "Chapter "
 rmd_files: [
   "index.Rmd",
+  "sorts.Rmd",
   "references.Rmd"
 ]

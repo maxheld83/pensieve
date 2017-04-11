@@ -1,0 +1,9 @@
+# Plotting Q Sorts
+
+```{r example-plot}
+library(pensieve)
+sorts <- civicon_2014$qData$sorts[,,"before"]
+sorts <- QSorts(sorts = sorts, validate = FALSE)
+plot(sorts)
+```
+

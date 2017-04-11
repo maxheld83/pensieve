@@ -50,6 +50,7 @@ Plot S3 class.
 sorts <- civicon_2014$qData$sorts[,,"before"]
 sorts <- QSorts(sorts = sorts, validate = FALSE)
 check(x = sorts)
+plot(x = sorts)
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QConcourse}},
