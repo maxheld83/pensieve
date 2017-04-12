@@ -1,9 +1,21 @@
 # Plotting Q Sorts
 
-```{r example-plot}
+## This is a plot via ggplotly
+
+```{r plot-via-ggplotly}
 library(pensieve)
 sorts <- civicon_2014$qData$sorts[,,"before"]
 sorts <- QSorts(sorts = sorts, validate = FALSE)
 plot(sorts)
 ```
 
+
+## This is a plot via plotly
+
+```{r plot-via-plotly}
+library(plotly)
+set.seed(100)
+d <- diamonds[sample(nrow(diamonds), 1000), ]
+plot_ly(d, x = ~carat, y = ~price, color = ~carat,
+        size = ~carat, text = ~paste("Clarity: ", clarity))
+```
