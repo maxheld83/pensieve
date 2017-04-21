@@ -68,7 +68,6 @@ QCors <- function(cors, validate = TRUE) {
   return(cors)
 }
 
-
 #' @describeIn correlate validation
 #'
 #' @export

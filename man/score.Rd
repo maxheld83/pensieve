@@ -54,9 +54,10 @@ Other analysis functions: \code{\link{correlate}},
 Other S3 classes from `pensieve`: \code{\link{QConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
-  \code{\link{correlate}}, \code{\link{extract}}
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}
 
 Other validation functions: \code{\link{QSorts}},
   \code{\link{check}}, \code{\link{correlate}},
-  \code{\link{extract}}
+  \code{\link{extract}}, \code{\link{make_grid}}
 }

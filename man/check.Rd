@@ -67,5 +67,5 @@ Other import helpers: \code{\link{QConcourse}},
 
 Other validation functions: \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{score}}
+  \code{\link{make_grid}}, \code{\link{score}}
 }

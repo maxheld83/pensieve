@@ -23,7 +23,8 @@ Construct S3 class.
 Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
   \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{score}}
+  \code{\link{extract}}, \code{\link{make_grid}},
+  \code{\link{score}}
 
 Other import helpers: \code{\link{QItemStrata}},
   \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
