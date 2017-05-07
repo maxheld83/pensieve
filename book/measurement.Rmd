@@ -3,34 +3,35 @@
 <!-- long title would be: how and why we measure operant subjectivity -->
 
 
-Table: (\#tab:var-meas-ded) Variations of Measuring Operant Subjectivity with a Deductive Condition of Instruction.
+<!-- Table: (\#tab:var-meas-ded) Variations of Measuring Operant Subjectivity with a  -->
+<!-- Deductive Condition of Instruction. -->
 
-+---------------+---------------+---------------+--------------------+---------------+--------------------+
-| \             | \             | \             | *Constraints* \    | \             |  \                 |
-| "Open Space"       | Fruit         | Price         | Advantages         | Price         | Advantages         |
-+===============+===============+===============+====================+===============+====================+
-| Bananas       | $1.34         | - built-in wrapper | Bananas       | $1.34         | - built-in wrapper |
-|               |               | - bright color     |               |               |                    |
-+---------------+---------------+--------------------+---------------+---------------+--------------------+1
-| Bananas       | $1.34         | - built-in wrapper | Bananas       | $1.34         | - built-in wrapper |
-|               |               | - bright color     |               |               |                    |
-+---------------+---------------+--------------------+---------------+---------------+--------------------+
-
-
------------ ------- --------------- -------------------------
-   First    row                12.0 Example of a row that
-                                    spans multiple lines.
-
-  Second    row                 5.0 Here's another one. Note
-                                    the blank line between
-                                    rows.
------------ ------- --------------- -------------------------
+<!-- +---------------+---------------+---------------+--------------------+---------------+--------------------+ -->
+<!-- | \             | \             | \             | *Constraints* \    | \ |  \ |  -->
+<!-- | "Open Space"       | Fruit         | Price         | Advantages         |  -->
+<!-- Price         | Advantages         |  -->
+<!-- +===============+===============+===============+====================+===============+====================+ -->
+<!-- | Bananas       | $1.34         | - built-in wrapper | Bananas       | $1.34 | - -->
+<!-- built-in wrapper | |               |               | - bright color     | | | |  -->
+<!-- +---------------+---------------+--------------------+---------------+---------------+--------------------+1 -->
+<!-- | Bananas       | $1.34         | - built-in wrapper | Bananas       | $1.34 | - -->
+<!-- built-in wrapper | |               |               | - bright color     | | | |  -->
+<!-- +---------------+---------------+--------------------+---------------+---------------+--------------------+ -->
 
 
-RGT, despite the acronym isn't really R methodology.
-RGT is also idiographic (not nomothetic), as is often suggested R would be
+<!-- ----------- ------- --------------- ------------------------- First    row 12.0  -->
+<!-- Example of a row that spans multiple lines. -->
+
+<!-- Second    row                 5.0 Here's another one. Note the blank line  -->
+<!-- between rows. ----------- ------- --------------- ------------------------- -->
 
 
+<!-- RGT, despite the acronym isn't really R methodology. RGT is also idiographic  -->
+<!-- (not nomothetic), as is often suggested R would be -->
 
-analysis
+
+## Q-Honeycomb -- Measuring Operant Subjectivity as Hexagonal Tesselation
+
+*Maximilian Held, Verena Kasztantowicz, Sabine Pfeiffer*
+
 
