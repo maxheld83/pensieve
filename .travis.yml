@@ -23,3 +23,4 @@ after_success:
 
 notifications:
   email: false
+  slack: sozhoh:P4zamVjBWAc8J0DpwsOyCiqC
