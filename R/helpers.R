@@ -93,3 +93,28 @@ render_site2 <- function(wd = "book/", output_format = "bookdown::gitbook", ...)
   }
   setwd("..")
 }
+
+
+# helper to convert pdf to svg ====
+pdf2svg <- function(pdf_input) {
+  # Input validation
+  pdf_input <- c("test.pdf", "test2.pdf")
+  checkmate::assert_file_exists(x = pdf_input, extension = "pdf")
+  checkmate::assert_character(x = pdf_input, any.missing = FALSE, unique = TRUE)
+  checkmate::assert_path_for_output(x = getwd(), overwrite = TRUE)
+  checkmate::assert_os(os = "mac")
+
+  # vectorized!
+  for (i in pdf_input) {
+    file_i <- tools::file_path_sans_ext(i)
+    # assemble command
+    cmd <- paste("pdf2svg",
+                 i,
+                 paste0(file_i, ".svg"),
+                 sep = " ")
+    system(cmd)
+  }
+
+
+
+}
