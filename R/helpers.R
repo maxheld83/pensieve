@@ -111,6 +111,7 @@ pdf2svg <- function(pdf_input) {
     cmd <- paste("pdf2svg",
                  i,
                  paste0(file_i, ".svg"),
+                 "1",
                  sep = " ")
     system(cmd)
   }
