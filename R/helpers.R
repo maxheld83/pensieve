@@ -102,7 +102,7 @@ pdf2svg <- function(pdf_input) {
   checkmate::assert_file_exists(x = pdf_input, extension = "pdf")
   checkmate::assert_character(x = pdf_input, any.missing = FALSE, unique = TRUE)
   checkmate::assert_path_for_output(x = getwd(), overwrite = TRUE)
-  checkmate::assert_os(os = "mac")
+  checkmate::assert_os(os = c("mac", "linux"))
 
   # vectorized!
   for (i in pdf_input) {

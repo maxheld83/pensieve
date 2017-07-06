@@ -37,3 +37,7 @@ Suggests:
     rstudioapi (>= 0.6)
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
+SystemRequirements:
+  cairo (>= 1.2 http://www.cairographics.org/),
+  poppler,
+  pdf2svg (http://www.cityinthesky.co.uk/opensource/pdf2svg/)
