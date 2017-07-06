@@ -141,7 +141,7 @@ check_named_array <- function(x) {
   res <- NULL
 
   # this checks whether the dimnames are named!
-  res$names_dimnames <- check_named(x = dimnames(x),
+  res$names_dimnames <- check_names(x = names(dimnames(x)),
                                     type = "strict")
 
   # AND whether the dims are named
