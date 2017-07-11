@@ -12,3 +12,6 @@ book/_bookdown_files
 .httr-oauth
 
 book/Pensieve.run.xml
+inst/templates/cards/simple_rect.pdf
+*.gz
+inst/templates/cards/simple_rect.tex

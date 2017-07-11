@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}  % allow accents etc in inputs
+\usepackage[T1]{fontenc}
+% \usepackage{setspace}  % easy spacing
+
+<<preamble, echo=FALSE, results="asis", cache=FALSE>>=
+language <- "ngerman"
+pensieve:::latex$set$babel(language = language)
+units <- "cm"
+paperwidth <- 8
+paperheight <- 4.5
+top <- bottom <- left <- right <- 0.5
+pensieve:::latex$set$geometry(
+  paperwidth = paperwidth,
+  paperheight = paperheight,
+  top = top,
+  bottom = bottom,
+  left = left,
+  right = right,
+  units = units)
+@
+
+\begin{document}
+\setlength{\parindent}{0cm} % this kills the indentation
+\thispagestyle{empty}
+
+<<item, echo = FALSE, results="asis", cache=FALSE>>=
+fontsize <- "large"
+pensieve:::latex$set$fontsize(fontsize = fontsize)
+cat("Arbeiten von zu Hause erlaubt es mir, Job und Familie problemlos zu vereinbaren.")
+@
+
+\end{document}
