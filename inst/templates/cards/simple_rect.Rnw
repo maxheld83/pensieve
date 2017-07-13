@@ -4,12 +4,10 @@
 % \usepackage{setspace}  % easy spacing
 
 <<preamble, echo=FALSE, results="asis", cache=FALSE>>=
-language <- "ngerman"
-pensieve:::latex$set$babel(language = language)
-units <- "cm"
-paperwidth <- 8
-paperheight <- 4.5
-top <- bottom <- left <- right <- 0.5
+  if (!(is.null(language))) {
+    # babel will only be included if a language is specified.
+    latex$set$babel(language = language)
+  }
 pensieve:::latex$set$geometry(
   paperwidth = paperwidth,
   paperheight = paperheight,
@@ -25,9 +23,8 @@ pensieve:::latex$set$geometry(
 \thispagestyle{empty}
 
 <<item, echo = FALSE, results="asis", cache=FALSE>>=
-fontsize <- "large"
 pensieve:::latex$set$fontsize(fontsize = fontsize)
-cat("Arbeiten von zu Hause erlaubt es mir, Job und Familie problemlos zu vereinbaren.")
+cat(text)
 @
 
 \end{document}

@@ -1,4 +1,33 @@
-# helper to convert pdf to svg ====
+# making cards ====
+
+make_cards <- function(text,
+                       fontsize = "normalsize",
+                       language = NULL,
+                       paperwidth = 16,
+                       paperheight = 9,
+                       top = 1,
+                       bottom = 1,
+                       left = 1,
+                       right = 1,
+                       units = "cm",
+                       template = "simple_rect.Rnw") {
+
+  # Input validation
+  checkmate::assert_string(x = text, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
+  checkmate::assert_choice(x = template, choices = c("simple_rect.Rnw"), null.ok = FALSE)
+  # other inputs are validated in downstream functions
+
+  # render
+  input_path <- paste0(
+    file.path(system.file(package = "pensieve")),
+    "/templates/cards/",
+    template
+  )
+  knitr::knit2pdf(input = input_path, quiet = FALSE)
+}
+
+
+# helper to convert pdf to svg
 pdf2svg <- function(pdf_input) {
   # Input validation
   checkmate::assert_file_exists(x = pdf_input, extension = "pdf")
@@ -17,7 +46,7 @@ pdf2svg <- function(pdf_input) {
 }
 
 
-# helpers to create latex formatting instructions ====
+# helpers to create latex formatting instructions
 latex <- list(set = NULL, # these are the functions
               options = NULL) # these are the available options
 
@@ -48,7 +77,6 @@ latex$set$fontsize <- function(fontsize) {
 
 
 # add arbitrary babel invocation
-
 latex$options$babel <- c(
   # this list is from https://tug.org/pracjourn/2007-1/gregorio/gregorio.pdf
   "acadian",
@@ -124,7 +152,6 @@ latex$options$babel <- c(
 )
 
 latex$set$babel <- function(language) {
-  # language <- "english"
   checkmate::assert_character(x = language, any.missing = FALSE, len = 1)
   checkmate::assert_choice(x = language, choices = latex$options$babel, null.ok = FALSE)
 
@@ -140,31 +167,23 @@ latex$set$babel <- function(language) {
 
 # set arbitrary dimensions
 latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right, units) {
-  # units <- "cm"
-  # paperwidth <- 16
-  # paperheight <- 9
-  # top <- bottom <- left <- right <- 1
   checkmate::assert_character(x = units, any.missing = FALSE, len = 1)
   checkmate::assert_choice(x = units, choices = c("cm", "in"), null.ok = FALSE)
 
-  # all_args <- c(list(units = units, paperwidth = paperwidth, paperheight = paperheight, top = top, bottom = bottom, left = left, right = right))
   all_args <- as.list(environment())
   num_args <- all_args[!(names(all_args) == "units")]
 
-  invisible(lapply(
-    X = num_args,
-    FUN = function(x) {
-      checkmate::assert_numeric(
-        x = x,
-        lower = 0,
-        finite = TRUE,
-        any.missing = FALSE,
-        len = 1,
-        null.ok = FALSE
-      )
-      return(NULL)
-    }
-  ))
+  mapply(FUN = checkmate::assert_numeric,
+         x = num_args,
+         .var.name = names(num_args),
+         MoreArgs = list(
+           lower = 0,
+           finite = TRUE,
+           any.missing = FALSE,
+           len = 1,
+           null.ok = FALSE
+         )
+  )
 
   opts <- sapply(
     X = names(num_args),
