@@ -82,13 +82,12 @@ NULL
 # helper function to quickly build book ====
 # helpful because this is a package, so it's not easy to build the book
 render_site2 <- function(all_book_formats = NULL, book = TRUE, landing = TRUE, docs = TRUE, ...) {
-  getwd()
   setwd("docs/")
 
   if (book) {
     setwd("book/")
     if (is.null(all_book_formats)) {
-      if (is_rstudio()) {
+      if (pensieve:::is_rstudio()) {
         # we usually do not want all formats in rstudio preview
         all_book_formats <- FALSE
       } else {
