@@ -96,10 +96,10 @@ render_site2 <- function(all_book_formats = NULL, book = TRUE, blog = TRUE, docs
       }
     }
     bookdown::render_book(input = "index.Rmd", output_format = 'bookdown::gitbook', output_dir = '../../_site/book')
-    if (all_book_formats) {
+    # if (all_book_formats) {
       bookdown::render_book(input = 'index.Rmd', output_format = 'bookdown::pdf_book', output_dir = '../../_site/book')
       bookdown::render_book(input = 'index.Rmd', output_format = 'bookdown::epub_book', output_dir = '../../_site/book')
-    }
+    # }
     setwd("../")
   }
 
