@@ -8,10 +8,10 @@ set -e
 git config --global user.email "info@maxheld.de"
 git config --global user.name "Maximilian Held"
 
-git clone -b gh-pages https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git book-output
-cd book-output
+git clone -b gh-pages https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git _site
+cd _site
 git rm -rf *
-cp -r ../_book/* ./
+cp -r ../_site/* ./
 git add --all *
 git commit -m"update homepage (travis build ${TRAVIS_BUILD_NUMBER})"
 git push origin gh-pages
