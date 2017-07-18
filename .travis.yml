@@ -14,6 +14,7 @@ warnings_are_errors: true
 before_script:
   - R CMD INSTALL .
   - Rscript -e 'pensieve:::render_site2()'
+  - Rscript -e 'pensieve:::f()'
 
 # here comes the R CMD check (part of the script by default)
 
