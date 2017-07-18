@@ -84,7 +84,7 @@ NULL
 render_site2 <- function(book = TRUE, landing = TRUE, docs = TRUE) {
   setwd("docs/")
 
-  if (book) {
+  # if (book) {
     setwd("book/")
     # if (is.null(all_book_formats)) {
     #   if (pensieve:::is_rstudio()) {
@@ -100,15 +100,15 @@ render_site2 <- function(book = TRUE, landing = TRUE, docs = TRUE) {
       bookdown::render_book(input = 'index.Rmd', output_format = 'bookdown::epub_book', output_dir = '../../_site/book')
     # }
     setwd("../")
-  }
+  # }
 
-  if (landing) {
-
-  }
-
-  if (docs) {
-
-  }
+  # if (landing) {
+  #
+  # }
+  #
+  # if (docs) {
+  #
+  # }
 
   setwd("../")
 }
