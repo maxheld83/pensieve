@@ -102,9 +102,9 @@ render_site2 <- function(book = TRUE, landing = TRUE, docs = TRUE) {
     setwd("../")
   # }
 
-  if (landing) {
+  # if (landing) {
     cat("foo")
-  }
+  # }
   #
   # if (docs) {
   #
