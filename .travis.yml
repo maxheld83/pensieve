@@ -13,7 +13,7 @@ warnings_are_errors: true
 
 before_script:
   - R CMD INSTALL .
-  - Rscript -e "pensieve:::render_site2(all_book_formats = TRUE)"
+  - Rscript -e "pensieve:::render_site2()"
 
 # here comes the R CMD check (part of the script by default)
 
