@@ -81,7 +81,7 @@ NULL
 
 # helper function to quickly build book ====
 # helpful because this is a package, so it's not easy to build the book
-render_site2 <- function(all_book_formats = NULL, book = TRUE, landing = TRUE, docs = TRUE, ...) {
+render_site2 <- function(all_book_formats = NULL, book = TRUE, landing = TRUE, docs = TRUE) {
   setwd("docs/")
 
   if (book) {
