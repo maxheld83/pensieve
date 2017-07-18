@@ -81,24 +81,24 @@ NULL
 
 # helper function to quickly build book ====
 # helpful because this is a package, so it's not easy to build the book
-render_site2 <- function(all_book_formats = NULL, book = TRUE, landing = TRUE, docs = TRUE) {
+render_site2 <- function(all_book_formats = TRUE, book = TRUE, landing = TRUE, docs = TRUE) {
   setwd("docs/")
 
   if (book) {
     setwd("book/")
-    if (is.null(all_book_formats)) {
-      if (pensieve:::is_rstudio()) {
-        # we usually do not want all formats in rstudio preview
-        all_book_formats <- FALSE
-      } else {
-        all_book_formats <- TRUE
-      }
-    }
+    # if (is.null(all_book_formats)) {
+    #   if (pensieve:::is_rstudio()) {
+    #     # we usually do not want all formats in rstudio preview
+    #     all_book_formats <- FALSE
+    #   } else {
+    #     all_book_formats <- TRUE
+    #   }
+    # }
     bookdown::render_book(input = "index.Rmd", output_format = 'bookdown::gitbook', output_dir = '../../_site/book')
-    if (all_book_formats) {
+    # if (all_book_formats) {
       bookdown::render_book(input = 'index.Rmd', output_format = 'bookdown::pdf_book', output_dir = '../../_site/book')
       bookdown::render_book(input = 'index.Rmd', output_format = 'bookdown::epub_book', output_dir = '../../_site/book')
-    }
+    # }
     setwd("../")
   }
 
