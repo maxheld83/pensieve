@@ -84,6 +84,10 @@ NULL
 render_site2 <- function(book = TRUE, landing = TRUE, docs = TRUE) {
   setwd("docs/")
 
+  if (book) {
+    cat("I am good to go")
+  }
+
   # if (book) {
     setwd("book/")
     # if (is.null(all_book_formats)) {
