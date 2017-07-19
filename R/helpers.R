@@ -84,7 +84,7 @@ NULL
 render_site2 <- function(book = TRUE, all_book_formats = NULL, landing = TRUE, docs = TRUE) {
   # infer good defaults
   if (is.null(all_book_formats)) {
-    all_book_formats <- pensieve:::is_rstudio()
+    all_book_formats <- is_rstudio()
   }
 
   setwd("docs/")
