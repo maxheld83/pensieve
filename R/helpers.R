@@ -91,15 +91,15 @@ render_site2 <- function(book = TRUE, all_book_formats = NULL, landing = TRUE, d
 
   if (book) {
     setwd("book/")
-    function(x) {
+    # function(x) {
       # this is to isolate against the clean_envir effects of below call
       bookdown::render_book(input = "index.Rmd",
                             output_format = 'bookdown::gitbook',
                             output_dir = '../../_site/book',
                             clean_envir = TRUE)
-    }
-    if (all_book_formats) {
-      function(x) {
+    # }
+    # if (all_book_formats) {
+      # function(x) {
         bookdown::render_book(input = 'index.Rmd',
                               output_format = 'bookdown::pdf_book',
                               output_dir = '../../_site/book',
@@ -108,18 +108,18 @@ render_site2 <- function(book = TRUE, all_book_formats = NULL, landing = TRUE, d
                               output_format = 'bookdown::epub_book',
                               output_dir = '../../_site/book',
                               clean_envir = TRUE)
-      }
-    }
+      # }
+    # }
     setwd("../")
   }
 
-  if (landing) {
-
-  }
-
-  if (docs) {
-
-  }
+  # if (landing) {
+  #
+  # }
+  #
+  # if (docs) {
+  #
+  # }
 
   setwd("../")
 }

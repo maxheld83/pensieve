@@ -34,7 +34,8 @@ Suggests:
     httpuv (>= 1.3.3),
     DT (>= 0.2),
     lettercase (>= 0.13.1),
-    rstudioapi (>= 0.6)
+    rstudioapi (>= 0.6),
+    svglite (>= 1.2.0)
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 SystemRequirements:

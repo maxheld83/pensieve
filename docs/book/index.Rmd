@@ -10,6 +10,7 @@ documentclass: book
 geometry: margin=4.5cm
 link-citations: yes
 github-repo: maxheld83/pensieve
+url: https\://pensieve.maxheld.de/docs/book/
 site: bookdown::bookdown_site
 always_allow_html: yes
 ---
