@@ -81,38 +81,45 @@ NULL
 
 # helper function to quickly build book ====
 # helpful because this is a package, so it's not easy to build the book
-render_site2 <- function(book = TRUE, landing = TRUE, docs = TRUE) {
+render_site2 <- function(book = TRUE, all_book_formats = NULL, landing = TRUE, docs = TRUE) {
+  # infer good defaults
+  if (is.null(all_book_formats)) {
+    all_book_formats <- pensieve:::is_rstudio()
+  }
+
   setwd("docs/")
 
   if (book) {
-    cat("I am good to go")
+    setwd("book/")
+    function(x) {
+      # this is to isolate against the clean_envir effects of below call
+      bookdown::render_book(input = "index.Rmd",
+                            output_format = 'bookdown::gitbook',
+                            output_dir = '../../_site/book',
+                            clean_envir = TRUE)
+    }
+    if (all_book_formats) {
+      function(x) {
+        bookdown::render_book(input = 'index.Rmd',
+                              output_format = 'bookdown::pdf_book',
+                              output_dir = '../../_site/book',
+                              clean_envir = TRUE)
+        bookdown::render_book(input = 'index.Rmd',
+                              output_format = 'bookdown::epub_book',
+                              output_dir = '../../_site/book',
+                              clean_envir = TRUE)
+      }
+    }
+    setwd("../")
   }
 
-  # if (book) {
-    setwd("book/")
-    # if (is.null(all_book_formats)) {
-    #   if (pensieve:::is_rstudio()) {
-    #     # we usually do not want all formats in rstudio preview
-    #     all_book_formats <- FALSE
-    #   } else {
-    #     all_book_formats <- TRUE
-    #   }
-    # }
-    bookdown::render_book(input = "index.Rmd", output_format = 'bookdown::gitbook', output_dir = '../../_site/book')
-    # if (all_book_formats) {
-      bookdown::render_book(input = 'index.Rmd', output_format = 'bookdown::pdf_book', output_dir = '../../_site/book')
-      bookdown::render_book(input = 'index.Rmd', output_format = 'bookdown::epub_book', output_dir = '../../_site/book')
-    # }
-    setwd("../")
-  # }
+  if (landing) {
 
-  # if (landing) {
-    cat("foo")
-  # }
-  #
-  # if (docs) {
-  #
-  # }
+  }
+
+  if (docs) {
+
+  }
 
   setwd("../")
 }

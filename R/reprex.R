@@ -1,5 +1,12 @@
-f <- function(foo = TRUE) {
+f <- function(foo = TRUE, bar = NULL) {
   if (foo) {
-    cat("hello world")
+    if (is.null(bar)) {
+      if (1 + 1 == 2) {
+        bar <- TRUE
+      }
+    }
+    if (bar) {
+      cat("hello world")
+    }
   }
 }
