@@ -81,45 +81,46 @@ NULL
 
 # helper function to quickly build book ====
 # helpful because this is a package, so it's not easy to build the book
-render_site2 <- function(book = TRUE, all_book_formats = NULL, landing = TRUE, docs = TRUE) {
+render_site2 <- function(book = TRUE, html_only = NULL, landing = TRUE, docs = TRUE, serve = NULL) {
   # infer good defaults
-  if (is.null(all_book_formats)) {
-    all_book_formats <- is_rstudio()
+  if (is.null(html_only)) {
+    html_only <- is_rstudio()
+  }
+  if (is.null(serve)) {
+    serve <- is_rstudio()
   }
 
   setwd("docs/")
 
   if (book) {
     setwd("book/")
-    # function(x) {
-      # this is to isolate against the clean_envir effects of below call
+    if (html_only) {
       bookdown::render_book(input = "index.Rmd",
                             output_format = 'bookdown::gitbook',
                             output_dir = '../../_site/book',
-                            clean_envir = TRUE)
-    # }
-    # if (all_book_formats) {
-      # function(x) {
-        bookdown::render_book(input = 'index.Rmd',
-                              output_format = 'bookdown::pdf_book',
-                              output_dir = '../../_site/book',
-                              clean_envir = TRUE)
-        bookdown::render_book(input = 'index.Rmd',
-                              output_format = 'bookdown::epub_book',
-                              output_dir = '../../_site/book',
-                              clean_envir = TRUE)
-      # }
-    # }
+                            clean_envir = TRUE,
+                            envir = new.env())
+    } else {
+      bookdown::render_book(input = 'index.Rmd',
+                            output_format = 'all',
+                            output_dir = '../../_site/book',
+                            clean_envir = TRUE,
+                            envir = new.env())
+    }
     setwd("../")
   }
 
-  # if (landing) {
-  #
-  # }
-  #
-  # if (docs) {
-  #
-  # }
+  if (landing) {
+
+  }
+
+  if (docs) {
+
+  }
 
   setwd("../")
+
+  if (serve) {
+    servr::httw(dir = "_site/book/", daemon = TRUE)
+  }
 }
