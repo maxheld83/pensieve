@@ -9,6 +9,8 @@ cache:
     - $HOME/bin
     - $TRAVIS_BUILD_DIR/docs/book/_bookdown_files
 
+r_github_packages: hadley/pkgdown
+
 warnings_are_errors: true
 
 before_script:
