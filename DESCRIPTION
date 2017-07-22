@@ -36,7 +36,8 @@ Suggests:
     lettercase (>= 0.13.1),
     rstudioapi (>= 0.6),
     svglite (>= 1.2.0),
-    servr (>= 0.6)
+    servr (>= 0.6),
+    withr (>= 1.0.2)
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 SystemRequirements:

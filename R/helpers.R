@@ -90,24 +90,22 @@ render_site2 <- function(book = TRUE, html_only = NULL, landing = TRUE, docs = T
     serve <- is_rstudio()
   }
 
-  setwd("docs/")
-
   if (book) {
-    setwd("book/")
-    if (html_only) {
-      bookdown::render_book(input = "index.Rmd",
-                            output_format = 'bookdown::gitbook',
-                            output_dir = '../../_site/book',
-                            clean_envir = TRUE,
-                            envir = new.env())
-    } else {
-      bookdown::render_book(input = 'index.Rmd',
-                            output_format = 'all',
-                            output_dir = '../../_site/book',
-                            clean_envir = TRUE,
-                            envir = new.env())
-    }
-    setwd("../")
+    withr::with_dir(new = "docs/book/", code = {# this makes changing wd safe
+      if (html_only) {
+        bookdown::render_book(input = "docs/book/index.Rmd",
+                              output_format = 'bookdown::gitbook',
+                              output_dir = '../../_site/book',
+                              clean_envir = TRUE,
+                              envir = new.env())
+      } else {
+        bookdown::render_book(input = 'index.Rmd',
+                              output_format = 'all',
+                              output_dir = '../../_site/book',
+                              clean_envir = TRUE,
+                              envir = new.env())
+      }
+    })
   }
 
   if (landing) {
@@ -117,8 +115,6 @@ render_site2 <- function(book = TRUE, html_only = NULL, landing = TRUE, docs = T
   if (docs) {
 
   }
-
-  setwd("../")
 
   if (serve) {
     servr::httw(dir = "_site/book/", daemon = TRUE)
