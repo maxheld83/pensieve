@@ -37,7 +37,10 @@ Suggests:
     rstudioapi (>= 0.6),
     svglite (>= 1.2.0),
     servr (>= 0.6),
-    withr (>= 1.0.2)
+    withr (>= 1.0.2),
+    pkgdown (>= 0.1.0.9000)
+Remotes:
+    hadley/pkgdown
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 SystemRequirements:

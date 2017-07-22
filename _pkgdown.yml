@@ -1,0 +1,13 @@
+navbar:
+  title: "pensieve"
+  type: inverse
+  left:
+    - text: "Home"
+      href: ../
+    - text: "Reference"
+      href: "reference/"
+    - text: "Book"
+      href: ../book
+  right:
+    - icon: fa-github
+      href: https://github.com/maxheld83/pensieve

@@ -12,3 +12,4 @@ docs$
 .httr-oauth
 ^man-roxygen$
 setup.R
+^_pkgdown\.yml$

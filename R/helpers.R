@@ -113,10 +113,10 @@ render_site2 <- function(book = TRUE, html_only = NULL, landing = TRUE, docs = T
   }
 
   if (docs) {
-
+    pkgdown::build_site(path = "_site/docs")
   }
 
   if (serve) {
-    servr::httw(dir = "_site/book/", daemon = TRUE)
+    servr::httw(dir = "_site/docs/", daemon = TRUE)
   }
 }
