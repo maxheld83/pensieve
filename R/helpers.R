@@ -109,7 +109,9 @@ render_site2 <- function(book = TRUE, html_only = NULL, landing = TRUE, docs = T
   }
 
   if (landing) {
-
+    withr::with_dir(new = "docs/landing/", code = {
+      blogdown::build_site()
+    })
   }
 
   if (docs) {
