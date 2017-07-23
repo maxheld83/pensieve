@@ -9,37 +9,40 @@ URLNote: https://github.com/maxheld83/pensieve
 BugReports: https://github.com/maxheld83/pensieve/issues
 Description: Provides tools for the scientific study of human subjectivity.
 Depends:
-    R (>= 3.3.1)
+  R (>= 3.3.1)
 License: AGPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    methods (>= 3.3.1),
-    checkmate (>= 1.8.1),
-    assertthat (>= 0.1),
-    testthat (>= 1.0.2),
-    utils (>= 3.3.1),
-    stats (>= 3.3.1),
-    reshape2 (>= 1.4.2),
-    graphics (>= 3.3.1),
-    ggplot2 (>= 2.2.0),
-    plotly (>= 4.5.6),
-    ggrepel (>= 0.6.5)
+  methods (>= 3.3.1),
+  checkmate (>= 1.8.1),
+  assertthat (>= 0.1),
+  testthat (>= 1.0.2),
+  utils (>= 3.3.1),
+  stats (>= 3.3.1),
+  reshape2 (>= 1.4.2),
+  graphics (>= 3.3.1),
+  ggplot2 (>= 2.2.0),
+  plotly (>= 4.5.6),
+  ggrepel (>= 0.6.5)
 Suggests:
-    knitr (>= 1.13),
-    rmarkdown (>= 1.0),
-    covr (>= 2.2.0),
-    bookdown (>= 0.1),
-    devtools (>= 1.12.0),
-    httpuv (>= 1.3.3),
-    DT (>= 0.2),
-    lettercase (>= 0.13.1),
-    rstudioapi (>= 0.6),
-    svglite (>= 1.2.0),
-    servr (>= 0.6),
-    withr (>= 1.0.2),
-    pkgdown (>= 0.1.0.9000)
-Remotes: hadley/pkgdown
+  knitr (>= 1.13),
+  rmarkdown (>= 1.0),
+  covr (>= 2.2.0),
+  bookdown (>= 0.1),
+  devtools (>= 1.12.0),
+  httpuv (>= 1.3.3),
+  DT (>= 0.2),
+  lettercase (>= 0.13.1),
+  rstudioapi (>= 0.6),
+  svglite (>= 1.2.0),
+  servr (>= 0.6),
+  withr (>= 1.0.2),
+  pkgdown (>= 0.1.0.9000),
+  blogdown (>= 0.0.54)
+Remotes:
+  hadley/pkgdown,
+  rstudio/blogdown
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 SystemRequirements:
