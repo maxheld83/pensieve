@@ -29,3 +29,4 @@ addons:
   apt:
     packages:
       - pdf2svg
+      - hugo
