@@ -8,8 +8,8 @@ set -e
 git config --global user.email "info@maxheld.de"
 git config --global user.name "Maximilian Held"
 
-git clone -b gh-pages https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git _site
-cd _site
+git clone -b gh-pages https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git _site-output
+cd _site-output
 git rm -rf *
 cp -r ../_site/* ./
 git add --all *
