@@ -121,7 +121,7 @@ draw_rand_sort <- function(grid = NULL,  # named integer vector of grid
 #'
 #' In summary, parallel analysis suggests the number of factors in the data that are unlikely to be products of random chance at some significance level `centile`.
 #'
-#' For more details, consider the related [paran::paran].
+#' For more details, consider the related [paran package](https://cran.r-project.org/web/packages/paran/index.html).
 #'
 #' @references
 #' - Glorfeld, L. W. 1995: *An Improvement on Horn-s Parallel Analysis Methodology for Selecting the Correct Number of Factors to Retain*, Educational and Psychological Measurement. 55(3): 377-393.

@@ -24,8 +24,7 @@ Imports:
     graphics (>= 3.3.1),
     ggplot2 (>= 2.2.0),
     plotly (>= 4.5.6),
-    ggrepel (>= 0.6.5),
-    pkgdown
+    ggrepel (>= 0.6.5)
 Suggests:
     knitr (>= 1.13),
     rmarkdown (>= 1.0),
@@ -39,6 +38,7 @@ Suggests:
     svglite (>= 1.2.0),
     servr (>= 0.6),
     withr (>= 1.0.2),
+    pkgdown (>= 0.1.0.9000)
 Remotes: hadley/pkgdown
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1

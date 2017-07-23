@@ -48,7 +48,7 @@ This result can be interpreted as a necessary Eigenvalue threshold for some \emp
 
 In summary, parallel analysis suggests the number of factors in the data that are unlikely to be products of random chance at some significance level \code{centile}.
 
-For more details, consider the related \link[paran:paran]{paran::paran}.
+For more details, consider the related \href{https://cran.r-project.org/web/packages/paran/index.html}{paran package}.
 }
 \note{
 This function is currently based on principal components analysis (PCA) as a ``factor'' extraction technique.
