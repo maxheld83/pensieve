@@ -19,7 +19,7 @@
 #' @details
 #' This function draws a *random* dataset, parametrized as some real or hypothetical *observed* dataset from a Q study.
 #'
-#' Q data has some peculiarities that must be implemented to draw comparable random datasets, and that are not addressed in existing packages implementing parallel analysis (such as [paran::paran()]):
+#' Q data has some peculiarities that must be implemented to draw comparable random datasets, and that are not addressed in existing packages implementing parallel analysis (such as [paran](https://cran.r-project.org/web/packages/paran/index.html)):
 #'
 #' - **Integers.**
 #'   The simulated data include only integers.

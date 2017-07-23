@@ -25,7 +25,7 @@ Draw one random Q-sort dataset, parametrized as original data.
 \details{
 This function draws a \emph{random} dataset, parametrized as some real or hypothetical \emph{observed} dataset from a Q study.
 
-Q data has some peculiarities that must be implemented to draw comparable random datasets, and that are not addressed in existing packages implementing parallel analysis (such as \code{\link[paran:paran]{paran::paran()}}):
+Q data has some peculiarities that must be implemented to draw comparable random datasets, and that are not addressed in existing packages implementing parallel analysis (such as \href{https://cran.r-project.org/web/packages/paran/index.html}{paran}):
 \itemize{
 \item \strong{Integers.}
 The simulated data include only integers.
