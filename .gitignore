@@ -9,6 +9,8 @@ pensieve.sublime-workspace
 *.gz
 
 _site/
-
 inst/templates/cards/simple_rect.pdf
 inst/templates/cards/simple_rect.tex
+inst/doc
+vignettes/Design.html
+vignettes/Design.R
