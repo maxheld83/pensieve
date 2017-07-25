@@ -24,7 +24,7 @@ pensieve:::latex$set$geometry(
 
 <<item, echo = FALSE, results="asis", cache=FALSE>>=
 pensieve:::latex$set$fontsize(fontsize = fontsize)
-cat(text)
+cat(item_text)
 @
 
 \end{document}
