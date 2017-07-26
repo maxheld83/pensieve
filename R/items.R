@@ -38,19 +38,22 @@ make_cards <- function(item_text,
 
   # other prep
   tex_file <- file.path(output_dir, paste0(item_handle, ".tex"))
-  asset_paths <- NULL
+  assets <- NULL
+  assets$paths <- NULL
+  assets$bin <- NULL
 
   # render
   knitr::knit(input = input_path, output = tex_file)
-  asset_paths$latex <- tex_file
+  assets$paths$latex <- tex_file
   withr::with_dir(new = output_dir, code = {
     # changing wd with with_dir is sadly necessary because below utilities do not offer convenient output paths
     tools::texi2pdf(file = tex_file)
-    asset_paths$pdf <- file.path(output_dir, paste0(item_handle, ".pdf"))
+    assets$paths$pdf <- file.path(output_dir, paste0(item_handle, ".pdf"))
+    assets$bin$pdf <- readr::read_file_raw(file = assets$paths$pdf)
     pdf2svg(pdf_input = paste0(item_handle, ".pdf"))
-    asset_paths$svg <- file.path(output_dir, paste0(item_handle, ".svg"))
+    assets$paths$svg <- file.path(output_dir, paste0(item_handle, ".svg"))
   })
-  return(asset_paths)
+  return(assets)
 }
 
 # helper to convert pdf to svg

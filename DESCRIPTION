@@ -39,7 +39,9 @@ Suggests:
   servr (>= 0.6),
   withr (>= 1.0.2),
   pkgdown (>= 0.1.0.9000),
-  blogdown (>= 0.0.54)
+  blogdown (>= 0.0.54),
+  readr (>= 1.1.1),
+  pryr (>= 0.1.2)
 Remotes:
   hadley/pkgdown,
   rstudio/blogdown
