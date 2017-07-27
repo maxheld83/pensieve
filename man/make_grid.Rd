@@ -58,7 +58,7 @@ grid <- QGrid(grid = m, pattern = "honeycomb", offset = "even", validate = FALSE
 check(grid)
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QConcourse}},
+Other S3 classes from `pensieve`: \code{\link{QItemConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}},

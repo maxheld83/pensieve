@@ -23,14 +23,13 @@ Construct S3 class.
 Pre-sorting piles are, of course, \code{categorical} information and should be treated as such.
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QConcourse}},
+Other S3 classes from `pensieve`: \code{\link{QItemConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{score}}
 
-Other import helpers: \code{\link{QConcourse}},
-  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
-  \code{\link{QSorts}}, \code{\link{anonymize}},
-  \code{\link{check}}
+Other import helpers: \code{\link{QItemStrata}},
+  \code{\link{QPeopleFeatures}}, \code{\link{QSorts}},
+  \code{\link{anonymize}}, \code{\link{check}}
 }

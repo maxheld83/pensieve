@@ -8,8 +8,8 @@
 \alias{expect.default}
 \alias{assert}
 \alias{assert.default}
+\alias{check.QItemConcourse}
 \alias{check.QItemStrata}
-\alias{check.QConcourse}
 \alias{check.QPreSorts}
 \alias{check.QPeopleFeatures}
 \title{Validate S3 classes from this package.}
@@ -30,9 +30,9 @@ assert(x, collection = NULL, var.name = NULL)
 \method{assert}{default}(x, collection = NULL, var.name = paste(class(x),
   "S3 class"))
 
-\method{check}{QItemStrata}(x)
+\method{check}{QItemConcourse}(x)
 
-\method{check}{QConcourse}(x)
+\method{check}{QItemStrata}(x)
 
 \method{check}{QPreSorts}(x)
 
@@ -60,10 +60,9 @@ Defaults to a heuristic name lookup.}
 Use \code{check()}, \code{test()}, \code{assert()} and \code{expect()} to validate  classed objects from this package.
 }
 \seealso{
-Other import helpers: \code{\link{QConcourse}},
-  \code{\link{QItemStrata}}, \code{\link{QPeopleFeatures}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}},
-  \code{\link{anonymize}}
+Other import helpers: \code{\link{QItemStrata}},
+  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{anonymize}}
 
 Other validation functions: \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}},

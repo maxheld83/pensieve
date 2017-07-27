@@ -19,14 +19,13 @@ Checks and makes QPeopleFeatures, a tibble with arbitrary additional information
 Construct S3 class.
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QConcourse}},
+Other S3 classes from `pensieve`: \code{\link{QItemConcourse}},
   \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{score}}
 
-Other import helpers: \code{\link{QConcourse}},
-  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{anonymize}},
-  \code{\link{check}}
+Other import helpers: \code{\link{QItemStrata}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{anonymize}}, \code{\link{check}}
 }
