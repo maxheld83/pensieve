@@ -11,3 +11,4 @@ pensieve.sublime-workspace
 _site/
 vignettes/*.html
 vignettes/*.R
+docs/book/_book
