@@ -1,0 +1,22 @@
+# (PART) Design {-} 
+
+# Items
+
+Good, evocative items lie at the heart of a Q study.
+In fact, akin to the old computer science adage of  *"garbage-in / garbage-out"*, the quality of the *items* strictly limits the insights that may be gleaned from the entire study.
+
+Generating and selecting good items is at least half science, half tradecraft.
+There are some standards and frameworks that can structure your item generation and sampling, but -- for now at least -- it still requires a lot of experience, intuition and knowledge of the domain in question.
+
+`pensieve` supports this stage of a Q study in a number of ways:
+
+1. Items **generation and selection** can be fully documented inside of `pensieve`, making the process transparent, reproducible and easy to iterate over.
+2. Items can be **professionally typeset**, and stored in `pensieve`, so that Q sorters and researchers alike both see the items in the *same, definitive form*, be they text or images.
+3. Arbitrary **additional information** can be stored alongside the items for later "R-way" analysis.
+
+
+Items and related information are stored in a specific, domain-specific format in `pensieve`, a list of S3 class `QItems`.
+The `QItems` list *can* be quite extensive, covering all *possible* use cases.
+But there is no need to worry, if your study is simpler: most of its elements are optional, and it is easy to get your items in and out of it.
+
+

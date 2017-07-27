@@ -1,0 +1,23 @@
+# Introduction
+
+`pensieve` is an open-source extension to the [R project for statistical computing](https://www.r-project.org), distributed via the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/) as one of thousands of packages.
+
+It is accompanied by `accio`, a web-based, closed-source front-end, for which `pensieve` serves as the backend.
+If you do not want to use hosted or closed-source software, not to worry: `accio` is meant as a convenient way of accessing `pensieve`, for users who may not want to install and learn R.
+Almost all features accessible in `accio` are also available in `pensieve`, with the exception (for now) of deploying a web-based Q-Sort.
+
+Though formally a package like many others, `pensieve` is in some ways *less and more* than mainstream packages that you may be familiar with and on which it is largely based.
+For now, at least, `pensieve` offers little advanced algorithms by itself, but merely wrangles data and interface other, powerful packages.
+This makes it making it somewhat less than a "real" package, and more of a wrapping layer.
+At the same time, `pensieve` is vastly more specialized than many other packages, tailored to the needs of *one* domain: the scientific study of human subjectivity. 
+This makes it akin to a [Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language) or a mini-language.
+
+`pensieve`, is, in other words, a very nich enterprise, much like Q Methodology itself: endowed with great hopes by its creator, and perhaps some yet-unrealised potential.
+
+
+## The OO System
+
+One of the dirty secrets of quantitative work is that a good 80\% of the time is often spent on "cleaning and preparing" messy data [@dasu_exploratory_2003; as cited in @Wickham-2014: 1].
+
+
+

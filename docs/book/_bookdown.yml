@@ -3,7 +3,7 @@ chapter_name: "Chapter "
 rmd_subdir: true
 rmd_files: [
   "index.Rmd",
-  "measurement.Rmd",
-  "sorts.Rmd",
+  "introduction.Rmd",
+  "items.Rmd",
   "references.Rmd"
 ]
