@@ -8,7 +8,7 @@ Almost all features accessible in `accio` are also available in `pensieve`, with
 
 Though formally a package like many others, `pensieve` is in some ways *less and more* than mainstream packages that you may be familiar with and on which it is largely based.
 For now, at least, `pensieve` offers little advanced algorithms by itself, but merely wrangles data and interface other, powerful packages.
-This makes it making it somewhat less than a "real" package, and more of a wrapping layer.
+This makes it somewhat less than a "real" package, and more of a wrapping layer.
 At the same time, `pensieve` is vastly more specialized than many other packages, tailored to the needs of *one* domain: the scientific study of human subjectivity. 
 This makes it akin to a [Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language) or a mini-language.
 
