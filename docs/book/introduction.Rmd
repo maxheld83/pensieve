@@ -64,3 +64,32 @@ This is in line with recent recommendations for such non-tidy data by [[@leek_no
 
 ## The `QStudy` List
 
+In addition to *atomic* (or vector) data formats, such as `QSort` which cannot be divided up further, `pensieve` also provides a lot of *composite* (or list) data formats, which comprise of atomic classes, or other list classes.
+This is easy to illustrate with `QItems`, which must always (at least) consist of a `QItemConcourse` and a `QItemSample`.
+
+Higher-level classes such as `QItems` also come with their constructor (`QItems()`) and `check()` functions, but these expect the lower level, atomic classes as inputs.
+Instead of checking *their* validity, they check the *consistency* between them.
+For example, we know that `QItemSample` may only contain items for which there is also an entry in `QItemConcourse`; it would not make sense to have an item that is part of the sample, but not the concourse.
+
+This structure of nested classes goes all the way up to a complete `QStudy` object, which includes *all* data relevant for, and produced in any given study.
+
+The top-level list `QStudy` looks like this:
+
+<!-- add chapter links to the list -->
+
+- `QStudy`
+  - `QItems`
+  - `QDesign`
+  - `QPeople`
+  - **`QData`**
+  - ...
+
+The order of this list approximately follows the progress of most Q studies, and is also reflected in the organisation of this book.
+Each of the high-level list objects, including their elements, functions and substantive considerations is covered in the following chapters.
+
+However, there is no technical reason to follow this order or structure of classes; users can organise their data in whichever form they prefer.
+Some functions accept higher-level, nested lists, but they always also accept the atomic form.
+
+In addition, not *all* Q studies will have use for all of these objects, or their elements: the nested data structures offered in `pensieve` are, for the most part, strictly optional.
+It is, in fact, possible to run `pensieve` with only a minimum of these objects, emphasized in the above.
+
