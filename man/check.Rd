@@ -8,7 +8,6 @@
 \alias{expect.default}
 \alias{assert}
 \alias{assert.default}
-\alias{check.QItemConcourse}
 \alias{check.QItemStrata}
 \alias{check.QPreSorts}
 \alias{check.QPeopleFeatures}
@@ -29,8 +28,6 @@ assert(x, collection = NULL, var.name = NULL)
 
 \method{assert}{default}(x, collection = NULL, var.name = paste(class(x),
   "S3 class"))
-
-\method{check}{QItemConcourse}(x)
 
 \method{check}{QItemStrata}(x)
 
@@ -58,13 +55,31 @@ Defaults to a heuristic name lookup.}
 }
 \description{
 Use \code{check()}, \code{test()}, \code{assert()} and \code{expect()} to validate  classed objects from this package.
+
+Check S3 class.
+}
+\examples{
+# create checkable object
+x <- QItemConcourse(
+  concourse = matrix(
+    data = c(
+      "Man lives to work.", "Man lebt, um zu arbeiten.",
+      "Man works to live.", "Man arbeitet, um zu leben."
+    ),
+    nrow = 2, ncol = 2,
+    dimnames = list(
+      items = c("live_2_work", "work_2_live"),
+      languages = c("english", "ngerman")  # ideally, these are valid babel languages
+    )
+  )
+)
+
+# check object and friends ...
+check(x)  # returns TRUE or error message
 }
 \seealso{
-Other import helpers: \code{\link{QItemStrata}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{anonymize}}
-
-Other validation functions: \code{\link{QSorts}},
-  \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{make_grid}}, \code{\link{score}}
+Other validation functions: \code{\link{QItemConcourse}},
+  \code{\link{QSorts}}, \code{\link{correlate}},
+  \code{\link{extract}}, \code{\link{make_grid}},
+  \code{\link{score}}
 }

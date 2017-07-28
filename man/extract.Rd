@@ -27,7 +27,7 @@ Currently only \code{"pca"} for principal components analysis (PCA) is allowed.}
 
 \item{loas}{A numerical matrix with loadings.}
 
-\item{validate}{A logical flag, indicating whether the object will be validated on construction.
+\item{validate}{a logical flag, indicating whether the object will be validated on construction.
 Defaults to `TRUE`.}
 
 \item{x}{class object created by respective constructor function.}
@@ -56,7 +56,7 @@ Not currently used.}
 \description{
 Wraps Principal Components Analysis (PCA) to extract component loadings.
 
-Construct S3 class.
+Construct S3 class for pensieve.
 
 Check S3 class.
 
@@ -75,6 +75,23 @@ cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])  # preliminary s
 loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")
 # this just assigns the class, without validation (not recommended)
 loas <- QLoas(loas = loas, validate = FALSE)
+# create checkable object
+x <- QItemConcourse(
+  concourse = matrix(
+    data = c(
+      "Man lives to work.", "Man lebt, um zu arbeiten.",
+      "Man works to live.", "Man arbeitet, um zu leben."
+    ),
+    nrow = 2, ncol = 2,
+    dimnames = list(
+      items = c("live_2_work", "work_2_live"),
+      languages = c("english", "ngerman")  # ideally, these are valid babel languages
+    )
+  )
+)
+
+# check object and friends ...
+check(x)  # returns TRUE or error message
 # this validates the class
 check(loas)
 # makes a barchart
@@ -92,9 +109,10 @@ Other S3 classes from `pensieve`: \code{\link{QItemConcourse}},
   \code{\link{correlate}}, \code{\link{make_grid}},
   \code{\link{score}}
 
-Other validation functions: \code{\link{QSorts}},
-  \code{\link{check}}, \code{\link{correlate}},
-  \code{\link{make_grid}}, \code{\link{score}}
+Other validation functions: \code{\link{QItemConcourse}},
+  \code{\link{QSorts}}, \code{\link{check}},
+  \code{\link{correlate}}, \code{\link{make_grid}},
+  \code{\link{score}}
 
 Other plotting functions: \code{\link{QSorts}},
   \code{\link{correlate}},

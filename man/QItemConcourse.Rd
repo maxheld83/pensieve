@@ -2,27 +2,75 @@
 % Please edit documentation in R/items.R
 \name{QItemConcourse}
 \alias{QItemConcourse}
+\alias{check.QItemConcourse}
 \title{Check and make QItemConcourse}
 \usage{
 QItemConcourse(concourse, validate = TRUE)
+
+\method{check}{QItemConcourse}(x)
 }
 \arguments{
-\item{concourse}{Character matrix of \strong{full items}, with named rows as item handles and named columns as languages.
+\item{concourse}{a character matrix of \strong{full items}, with named rows as item handles and named columns as languages.
 Cells can be \code{NA} when full items are not available.
 Full items must be unique by columns.}
 
-\item{validate}{A logical flag, indicating whether the object will be validated on construction.
+\item{validate}{a logical flag, indicating whether the object will be validated on construction.
 Defaults to `TRUE`.}
+
+\item{x}{class object created by respective constructor function.}
 }
 \description{
-Check and make QItemConcourse
+Construct S3 class for pensieve.
 
-Construct S3 class.
+Check S3 class.
+}
+\section{Methods (by generic)}{
+\itemize{
+\item \code{check}: Check QItemConcourse
+}}
+
+\examples{
+x <- QItemConcourse(
+  concourse = matrix(
+    data = c(
+      "Man lives to work.", "Man lebt, um zu arbeiten.",
+      "Man works to live.", "Man arbeitet, um zu leben."
+    ),
+    nrow = 2, ncol = 2,
+    dimnames = list(
+      items = c("live_2_work", "work_2_live"),
+      languages = c("english", "ngerman")  # ideally, these are valid babel languages
+    )
+  )
+)
+
+# create checkable object
+x <- QItemConcourse(
+  concourse = matrix(
+    data = c(
+      "Man lives to work.", "Man lebt, um zu arbeiten.",
+      "Man works to live.", "Man arbeitet, um zu leben."
+    ),
+    nrow = 2, ncol = 2,
+    dimnames = list(
+      items = c("live_2_work", "work_2_live"),
+      languages = c("english", "ngerman")  # ideally, these are valid babel languages
+    )
+  )
+)
+
+# check object and friends ...
+check(x)  # returns TRUE or error message
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
   \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
+  \code{\link{extract}}, \code{\link{make_grid}},
+  \code{\link{score}}
+
+Other validation functions: \code{\link{QSorts}},
+  \code{\link{check}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{score}}
 }

@@ -5,32 +5,46 @@
 # QItemConcourse ====
 #' @title Check and make QItemConcourse
 #'
-#' @description Check and make QItemConcourse
-#'
 #' @export
 #'
-#' @param concourse Character matrix of **full items**, with named rows as item handles and named columns as languages.
+#' @param concourse a character matrix of **full items**, with named rows as item handles and named columns as languages.
 #' Cells can be `NA` when full items are not available.
 #' Full items must be unique by columns.
 #'
+#' @examples
+#' x <- QItemConcourse(
+#'   concourse = matrix(
+#'     data = c(
+#'       "Man lives to work.", "Man lebt, um zu arbeiten.",
+#'       "Man works to live.", "Man arbeitet, um zu leben."
+#'     ),
+#'     nrow = 2, ncol = 2,
+#'     dimnames = list(
+#'       items = c("live_2_work", "work_2_live"),
+#'       languages = c("english", "ngerman")  # ideally, these are valid babel languages
+#'     )
+#'   )
+#' )
+#'
 #' @template construct
 #'
-#' @family items QStudy-elements classes
+#' @family items
 #'
 QItemConcourse <- function(concourse, validate = TRUE) {
   assert_flag(x = validate,
               na.ok = FALSE,
               null.ok = FALSE)
 
-  concourse <- classify_clever(x = concourse, classname = "QConcourse")
+  concourse <- classify_clever(x = concourse, classname = "QItemConcourse")
 
   assert_class2(x = concourse, validate = validate)
 
-  return(concourse)
+  invisible(concourse)
 }
 
 #' @export
-#' @rdname check
+#' @describeIn QItemConcourse Check QItemConcourse
+#' @template check
 check.QItemConcourse <- function(x) {
   res <- NULL
 

@@ -10,13 +10,13 @@ QPreSorts(presorts, validate = TRUE)
 \item{presorts}{An integer matrix, with named rows as item handles, named columns as participant names and cells as presorts.
 \code{-1L} for \code{negative}, \code{0L} for \code{neutral} and \code{1L} for \code{positive}.}
 
-\item{validate}{A logical flag, indicating whether the object will be validated on construction.
+\item{validate}{a logical flag, indicating whether the object will be validated on construction.
 Defaults to `TRUE`.}
 }
 \description{
 Checks and makes QPreSorts
 
-Construct S3 class.
+Construct S3 class for pensieve.
 }
 \note{
 \code{presorts} are stored as \code{integer()} because R does not allow factor matrices.
@@ -31,5 +31,5 @@ Other S3 classes from `pensieve`: \code{\link{QItemConcourse}},
 
 Other import helpers: \code{\link{QItemStrata}},
   \code{\link{QPeopleFeatures}}, \code{\link{QSorts}},
-  \code{\link{anonymize}}, \code{\link{check}}
+  \code{\link{anonymize}}
 }

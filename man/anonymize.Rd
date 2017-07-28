@@ -60,10 +60,10 @@ anonymize(real_names = c("Hillary", "Barack", "George"),
 \seealso{
 Other import helpers: \code{\link{QItemStrata}},
   \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{check}}
+  \code{\link{QSorts}}
 
 Other import helpers: \code{\link{QItemStrata}},
   \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{check}}
+  \code{\link{QSorts}}
 }
 \keyword{internal}

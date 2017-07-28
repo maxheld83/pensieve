@@ -20,7 +20,7 @@ Dimensions must be named.}
 
 \item{scores}{A numerical matrix with factor scores.}
 
-\item{validate}{A logical flag, indicating whether the object will be validated on construction.
+\item{validate}{a logical flag, indicating whether the object will be validated on construction.
 Defaults to `TRUE`.}
 
 \item{x}{class object created by respective constructor function.}
@@ -28,7 +28,7 @@ Defaults to `TRUE`.}
 \description{
 Calculates the factor scores as loadings-weighted averages of raw Q-Sorts (regression scores).
 
-Construct S3 class.
+Construct S3 class for pensieve.
 
 Check S3 class.
 }
@@ -44,6 +44,23 @@ loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")  # preparatory step
 scores <- score(loas = loas, sorts = sorts)
 # this just assigns the class, without validation (not recommended)
 scores <- QScores(scores = scores, validate = FALSE)
+# create checkable object
+x <- QItemConcourse(
+  concourse = matrix(
+    data = c(
+      "Man lives to work.", "Man lebt, um zu arbeiten.",
+      "Man works to live.", "Man arbeitet, um zu leben."
+    ),
+    nrow = 2, ncol = 2,
+    dimnames = list(
+      items = c("live_2_work", "work_2_live"),
+      languages = c("english", "ngerman")  # ideally, these are valid babel languages
+    )
+  )
+)
+
+# check object and friends ...
+check(x)  # returns TRUE or error message
 # this validates the class
 check(x = scores)
 }
@@ -57,7 +74,8 @@ Other S3 classes from `pensieve`: \code{\link{QItemConcourse}},
   \code{\link{correlate}}, \code{\link{extract}},
   \code{\link{make_grid}}
 
-Other validation functions: \code{\link{QSorts}},
-  \code{\link{check}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}}
+Other validation functions: \code{\link{QItemConcourse}},
+  \code{\link{QSorts}}, \code{\link{check}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}
 }
