@@ -5,16 +5,17 @@
 #' @inheritParams checkmate::makeExpectation
 #' @template check
 check <- function(x) {
-  UseMethod("check")
+  UseMethod(generic = "check")
 }
 
 #' @rdname check
 #' @export
 test <- function(x) {
-  UseMethod("test")
+  UseMethod(generic = "test")
 }
 
 #' @rdname check
+#' @export
 test.default <- function(x) {
   res <- check(x)
   return(makeTest(res = res))
@@ -23,10 +24,11 @@ test.default <- function(x) {
 #' @rdname check
 #' @export
 expect <- function(x, info = NULL, label = NULL) {
-  UseMethod("expect")
+  UseMethod(generic = "expect")
 }
 
 #' @rdname check
+#' @export
 expect.default <- function(x, info = NULL, label = paste(class(x), "S3 class")) {
   res <- check(x)
   return(makeExpectation(x = x, res = res, info = info, label = label))
@@ -35,10 +37,11 @@ expect.default <- function(x, info = NULL, label = paste(class(x), "S3 class")) 
 #' @rdname check
 #' @export
 assert <- function(x, collection = NULL, var.name = NULL) {
-  UseMethod("assert")
+  UseMethod(generic = "assert")
 }
 
 #' @rdname check
+#' @export
 assert.default <- function(x, collection = NULL, var.name = paste(class(x), "S3 class")) {
   res <- check(x)
   return(makeAssertion(x = x, res = res, var.name = var.name, collection = collection))
