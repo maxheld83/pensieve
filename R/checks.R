@@ -42,7 +42,7 @@ assert <- function(x, collection = NULL, var.name = NULL) {
 
 #' @rdname check
 #' @export
-assert.default <- function(x, collection = NULL, var.name = paste(class(x), "S3 class")) {
+assert.default <- function(x, collection = NULL, var.name = paste(class(x)[1], "S3 class")) {
   res <- check(x)
   return(makeAssertion(x = x, res = res, var.name = var.name, collection = collection))
 }

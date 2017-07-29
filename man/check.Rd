@@ -26,7 +26,7 @@ expect(x, info = NULL, label = NULL)
 
 assert(x, collection = NULL, var.name = NULL)
 
-\method{assert}{default}(x, collection = NULL, var.name = paste(class(x),
+\method{assert}{default}(x, collection = NULL, var.name = paste(class(x)[1],
   "S3 class"))
 
 \method{check}{QItemStrata}(x)
@@ -76,6 +76,8 @@ x <- QItemConcourse(
 
 # check object and friends ...
 check(x)  # returns TRUE or error message
+test(x)  # returns TRUE or FALSE
+assert(x)  # returns error or silently object
 }
 \seealso{
 Other validation functions: \code{\link{QItemConcourse}},

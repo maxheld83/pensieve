@@ -40,7 +40,7 @@ test_that(desc = "assert on good object silently returns object", code = {
 })
 
 test_that(desc = "assert on bad object errors out with good error message", code = {
-  testthat::expect_error(object = pensieve::assert(bad_obj))
+  testthat::expect_error(object = pensieve::assert(bad_obj), regexp = "Rows must be named according")
 })
 
 test_that(desc = "expect on good objects returns expectation", code = {

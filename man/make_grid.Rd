@@ -71,6 +71,8 @@ x <- QItemConcourse(
 
 # check object and friends ...
 check(x)  # returns TRUE or error message
+test(x)  # returns TRUE or FALSE
+assert(x)  # returns error or silently object
 # validate the class
 check(grid)
 }

@@ -64,6 +64,8 @@ x <- QItemConcourse(
 
 # check object and friends ...
 check(x)  # returns TRUE or error message
+test(x)  # returns TRUE or FALSE
+assert(x)  # returns error or silently object
 sorts <- civicon_2014$qData$sorts[,,"before"]
 sorts <- QSorts(sorts = sorts, validate = FALSE)
 check(x = sorts)
