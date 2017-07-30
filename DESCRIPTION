@@ -27,6 +27,7 @@ Imports:
   ggrepel (>= 0.6.5)
 Suggests:
   knitr (>= 1.13),
+  printr (>= 0.1),
   rmarkdown (>= 1.0),
   covr (>= 2.2.0),
   bookdown (>= 0.1),
