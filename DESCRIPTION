@@ -42,10 +42,12 @@ Suggests:
   pkgdown (>= 0.1.0.9000),
   blogdown (>= 0.0.54),
   readr (>= 1.1.1),
-  pryr (>= 0.1.2)
+  pryr (>= 0.1.2),
+  accio
 Remotes:
   hadley/pkgdown,
-  rstudio/blogdown
+  rstudio/blogdown,
+  maxheld83/accio
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 SystemRequirements:
