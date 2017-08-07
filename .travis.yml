@@ -2,7 +2,6 @@
 
 r:
 - release
-- oldrelease
 - devel
 
 language: r
