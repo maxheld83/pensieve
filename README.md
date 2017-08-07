@@ -1,6 +1,6 @@
 [![Travis CI Build Status (Package + Book)](https://travis-ci.org/maxheld83/pensieve.svg?branch=master)](https://travis-ci.org/maxheld83/pensieve)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/9ip5xkw34mkfcewu/branch/master?svg=true)](https://ci.appveyor.com/project/maxheld83/pensieve/branch/master)
-[![Coverage Status](https://img.shields.io/codecov/c/github/maxheld83/pensieve/master.svg)](https://codecov.io/github/maxheld83/pensieve?branch=master)
+[![codecov](https://codecov.io/gh/maxheld83/pensieve/branch/master/graph/badge.svg)](https://codecov.io/gh/maxheld83/pensieve)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
 [![](http://www.r-pkg.org/badges/version/pensieve)](http://www.r-pkg.org/pkg/pensieve)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/pensieve)](http://www.r-pkg.org/pkg/pensieve)
