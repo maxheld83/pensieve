@@ -9,7 +9,7 @@ os:
   - linux
   - osx
 
-disable_homebrew: true
+disable_homebrew: false
 
 language: r
 sudo: FALSE
@@ -21,6 +21,10 @@ cache:
     - $TRAVIS_BUILD_DIR/docs/book/_bookdown_files
 
 warnings_are_errors: true
+
+before_install:
+  - brew update
+  - brew outdated openssl || brew upgrade openssl
 
 before_script:
   - R CMD INSTALL .
