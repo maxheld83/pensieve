@@ -31,7 +31,13 @@ before_script:
 
 after_success:
   - Rscript -e 'covr::codecov()'
-  - docs/_deploy.sh
+
+jobs:
+  include:
+    - stage: deploy
+    - script: docs/_deploy.sh
+    - os: linux
+    - r: release
 
 notifications:
   email: false
