@@ -14,6 +14,11 @@ os:
   - linux
   - osx
 
+matrix:
+  allow_failures:
+    - os: osx
+      r: devel
+
 
 # general settings ====
 
@@ -51,21 +56,29 @@ brew_packages:
   - openssl
   - pandoc
 
-# here comes the R CMD check (part of the script by default)
+
+# INSTALL ====
+# part of R default
+
+
+# SCRIPT ====
+# part of r default
+
 
 after_success:
   - Rscript -e 'covr::codecov()'
 
-jobs:
-  allow_failures:
-    - os: osx
-      r: devel
-  include:
-    - stage: deploy
-      before_script:
-        - R CMD INSTALL .
-        - Rscript -e 'blogdown::install_hugo()'
-        - Rscript -e 'pensieve:::render_site2()'
-      script: docs/_deploy.sh
+before_deploy:
+  - R CMD INSTALL .
+  - Rscript -e 'blogdown::install_hugo()'
+  - Rscript -e 'pensieve:::render_site2()'
+
+deploy:
+  - provider: pages
+    github_token: $GITHUB_PAT
+    local_dir: _site/
+    skip_cleanup: true
+    on:
+      branch: master
       os: linux
       r: release
