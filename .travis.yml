@@ -78,6 +78,6 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION = '3.4.1'"
-      #condition: "$TRAVIS_OS_NAME = linux"
+      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION = 3.4.1"
+      #TODO below dynamic condition would be better as per https://github.com/maxheld83/pensieve/issues/304
       #r: "release"
