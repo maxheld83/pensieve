@@ -14,10 +14,6 @@ os:
   - linux
   - osx
 
-matrix:
-  allow_failures:
-    - os: osx
-
 
 # general settings ====
 
@@ -65,6 +61,9 @@ after_success:
   - Rscript -e 'covr::codecov()'
 
 jobs:
+  allow_failures:
+    - os: osx
+    - r: devel
   include:
     - stage: render
       script: Rscript -e 'pensieve:::render_site2()'
