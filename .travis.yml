@@ -65,20 +65,16 @@ brew_packages:
 # part of r default
 
 
-after_success:
-  - Rscript -e 'covr::codecov()'
-
 before_deploy:
+  - Rscript -e 'covr::codecov()'
   - R CMD INSTALL .
   - Rscript -e 'blogdown::install_hugo()'
   - Rscript -e 'pensieve:::render_site2()'
 
 deploy:
-  - provider: pages
+    provider: pages
     github_token: $GITHUB_PAT
     local_dir: _site/
     skip_cleanup: true
     on:
       branch: master
-      os: linux
-      r: release
