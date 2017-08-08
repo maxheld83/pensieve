@@ -41,8 +41,10 @@ dist: trusty
 
 sudo: false
 
-apt_packages:
-  - pdf2svg
+addons:
+  apt:
+    packages:
+      - pdf2svg
 
 
 # macOS stuff ====
