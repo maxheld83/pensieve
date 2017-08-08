@@ -51,10 +51,6 @@ brew_packages:
   - openssl
   - pandoc
 
-before_script:
-  - R CMD INSTALL .
-  - Rscript -e 'blogdown::install_hugo()'
-
 # here comes the R CMD check (part of the script by default)
 
 after_success:
@@ -65,11 +61,11 @@ jobs:
     - os: osx
     - r: devel
   include:
-    - stage: render
-      script: Rscript -e 'pensieve:::render_site2()'
-      os: linux
-      r: release
     - stage: deploy
+      before_script:
+        - R CMD INSTALL .
+        - Rscript -e 'blogdown::install_hugo()'
+        - Rscript -e 'pensieve:::render_site2()'
       script: docs/_deploy.sh
       os: linux
       r: release
