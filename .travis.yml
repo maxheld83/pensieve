@@ -41,21 +41,17 @@ dist: trusty
 
 sudo: false
 
-addons:
-  apt:
-    packages:
-      - pdf2svg
-
+apt_packages:
+  - pdf2svg
 
 
 # macOS stuff ====
 
 disable_homebrew: false
 
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew outdated openssl || brew upgrade openssl; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew outdated pandoc || brew upgrade pandoc; fi
+brew_packages:
+  - openssl
+  - pandoc
 
 before_script:
   - R CMD INSTALL .
