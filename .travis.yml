@@ -2,6 +2,9 @@
 
 language: r
 
+
+# matrix ====
+
 r:
   - oldrel
   - release
@@ -11,15 +14,14 @@ os:
   - linux
   - osx
 
-dist:
-  - trusty
-  - precise
-
-sudo: false
-
 matrix:
   allow_failures:
     - os: osx
+
+
+# general settings ====
+
+warnings_are_errors: true
 
 cache:
   packages: yes
@@ -27,7 +29,26 @@ cache:
     - $HOME/bin
     - $TRAVIS_BUILD_DIR/docs/book/_bookdown_files
 
-warnings_are_errors: true
+
+notifications:
+  email: false
+  slack: sozhoh:P4zamVjBWAc8J0DpwsOyCiqC
+
+
+# linux stuff ====
+
+dist: trusty
+
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - pdf2svg
+
+
+
+# macOS stuff ====
 
 disable_homebrew: false
 
@@ -55,12 +76,3 @@ jobs:
       script: docs/_deploy.sh
       os: linux
       r: release
-
-notifications:
-  email: false
-  slack: sozhoh:P4zamVjBWAc8J0DpwsOyCiqC
-
-addons:
-  apt:
-    packages:
-      - pdf2svg
