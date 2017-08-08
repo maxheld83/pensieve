@@ -70,7 +70,7 @@ before_deploy:
   - R CMD INSTALL .
   - Rscript -e 'blogdown::install_hugo()'
   - Rscript -e 'pensieve:::render_site2()'
-  - nmp install
+  - npm install netlify-cli -g
 
 deploy:
   - provider: pages
