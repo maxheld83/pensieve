@@ -78,4 +78,4 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-      os: linux
+      condition: "$TRAVIS_OS_NAME = linux"
