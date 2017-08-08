@@ -11,7 +11,7 @@ os:
   - linux
   - osx
 
-distro:
+dist:
   - trusty
   - precise
 
