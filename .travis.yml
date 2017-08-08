@@ -80,4 +80,4 @@ deploy:
       branch: master
       #condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION = 3.4.1"
       condition: "$TRAVIS_OS_NAME = linux"
-      r: release
+      r: "release"
