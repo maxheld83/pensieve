@@ -59,7 +59,7 @@ after_success:
 jobs:
   allow_failures:
     - os: osx
-    - r: devel
+      r: devel
   include:
     - stage: deploy
       before_script:
