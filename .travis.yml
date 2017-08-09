@@ -73,6 +73,7 @@ before_deploy:
   - npm install netlify-cli -g
   - ls
   - cp docs/.netlify _site
+  - cd _site
   - ls
 
 deploy:
@@ -84,13 +85,14 @@ deploy:
       #branch: master
       #condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
   - provider: script
-    script: ls
-    #netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT}
+    script: netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT}
     skip_cleanup: true
     on:
       branch: master
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
 
 after_deploy:
+  - ls
+  - cd ..
   - ls
 
