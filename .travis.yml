@@ -81,13 +81,7 @@ deploy:
       branch: master
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
   - provider: script
-    script:
-      - |
-        zip -r website.zip _site
-        curl -H "Content-Type: application/zip" \
-             -H "Authorization: Bearer $NETLIFY_PAT" \
-              --data-binary "@website.zip" \
-              https://api.netlify.com/api/v1/sites/pensieve/deploys
+    script: netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT}
     skip_cleanup: true
     on:
       branch: master
