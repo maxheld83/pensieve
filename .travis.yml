@@ -71,7 +71,6 @@ before_deploy:
   - Rscript -e 'blogdown::install_hugo()'
   - Rscript -e 'pensieve:::render_site2()'
   - npm install netlify-cli -g
-  - cp docs/.netlify _site
 
 deploy:
   #- provider: pages
