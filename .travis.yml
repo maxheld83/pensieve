@@ -87,6 +87,3 @@ deploy:
       branch: master
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
 
-after_deploy:
-  - ls
-
