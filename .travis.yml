@@ -17,7 +17,6 @@ os:
 matrix:
   allow_failures:
     - os: osx
-      r: devel
 
 
 # general settings ====
