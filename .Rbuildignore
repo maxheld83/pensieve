@@ -13,3 +13,4 @@ docs$
 ^man-roxygen$
 setup.R
 ^_pkgdown\.yml$
+^_site/docs$
