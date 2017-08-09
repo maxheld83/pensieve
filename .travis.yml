@@ -71,6 +71,8 @@ before_deploy:
   - Rscript -e 'blogdown::install_hugo()'
   - Rscript -e 'pensieve:::render_site2()'
   - npm install netlify-cli -g
+  - cp docs/.netlify _site
+  - cd _site/
 
 deploy:
   - provider: pages
@@ -81,9 +83,13 @@ deploy:
       branch: master
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
   - provider: script
-    script: netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT}
+    script:
+      - netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT}
     skip_cleanup: true
     on:
       branch: master
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
+
+after_deploy:
+  - cd ..
 
