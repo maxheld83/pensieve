@@ -73,15 +73,15 @@ before_deploy:
   - npm install netlify-cli -g
 
 deploy:
-  #- provider: pages
-    #github_token: $GITHUB_PAT
-    #local_dir: _site/
-    #skip_cleanup: true
-    #on:
-      #branch: master
-      #condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
   - provider: script
     script: netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT} -e production
+    skip_cleanup: true
+    on:
+      branch: master
+      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
+  - provider: pages
+    github_token: $GITHUB_PAT
+    local_dir: _site/
     skip_cleanup: true
     on:
       branch: master
