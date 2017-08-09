@@ -84,10 +84,7 @@ deploy:
       #branch: master
       #condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
   - provider: script
-    script:
-      - ls
-      - cd _site/
-      - ls
+    script: ls
     #netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT}
     skip_cleanup: true
     on:
@@ -95,5 +92,5 @@ deploy:
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
 
 after_deploy:
-  - cd ..
+  - ls
 
