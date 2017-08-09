@@ -72,7 +72,7 @@ before_deploy:
   - Rscript -e 'pensieve:::render_site2()'
   - npm install netlify-cli -g
   - cp docs/.netlify _site
-  - cd _site/
+  - ls
 
 deploy:
   - provider: pages
@@ -83,7 +83,9 @@ deploy:
       branch: master
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
   - provider: script
-    script: ls
+    script:
+      - cd _site/
+      - ls
     #netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT}
     skip_cleanup: true
     on:
