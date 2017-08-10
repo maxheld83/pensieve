@@ -43,7 +43,8 @@ Suggests:
   blogdown (>= 0.0.54),
   readr (>= 1.1.1),
   pryr (>= 0.1.2),
-  shiny (>= 1.0.3)
+  shiny (>= 1.0.3),
+  rsconnect (>= 0.8)
 Remotes:
   hadley/pkgdown,
   rstudio/blogdown
