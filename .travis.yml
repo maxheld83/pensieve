@@ -60,6 +60,7 @@ brew_packages:
 # part of R default
 
 before_install:
+  - ls
   - echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
 
 # SCRIPT ====
