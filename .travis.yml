@@ -59,6 +59,8 @@ brew_packages:
 # INSTALL ====
 # part of R default
 
+before_install:
+  - echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
 
 # SCRIPT ====
 # part of r default
@@ -70,6 +72,7 @@ before_deploy:
   - Rscript -e 'blogdown::install_hugo()'
   - Rscript -e 'pensieve:::render_site2()'
   - npm install netlify-cli -g
+  - Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
 
 deploy:
   - provider: script
