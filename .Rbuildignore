@@ -14,3 +14,5 @@ docs$
 setup.R
 ^_pkgdown\.yml$
 ^_site/docs$
+^\.netlify$
+^inst/accio/\.git$

@@ -1,0 +1,3 @@
+[submodule "inst/accio"]
+	path = inst/accio
+	url = https://github.com/maxheld83/accio.git

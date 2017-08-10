@@ -42,7 +42,8 @@ Suggests:
   pkgdown (>= 0.1.0.9000),
   blogdown (>= 0.0.54),
   readr (>= 1.1.1),
-  pryr (>= 0.1.2)
+  pryr (>= 0.1.2),
+  shiny (>= 1.0.3)
 Remotes:
   hadley/pkgdown,
   rstudio/blogdown
