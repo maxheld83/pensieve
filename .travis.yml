@@ -59,8 +59,13 @@ brew_packages:
 # INSTALL ====
 # part of R default
 
+git:
+  submodules: false
+
 before_install:
+  - ls
   - echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
+  - git submodule update --init
 
 # SCRIPT ====
 # part of r default
