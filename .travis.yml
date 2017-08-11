@@ -73,8 +73,8 @@ after_success:
   >
   if [ "$TRAVIS_BRANCH" == "master" ]  && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_R_VERSION_STRING" == "release" ]; then
     echo "foo";
-    Rscript -e 'covr::codecov()'
-  fi
+    Rscript -e 'covr::codecov()';
+  fi;
 
 before_deploy:
   - R CMD INSTALL .
