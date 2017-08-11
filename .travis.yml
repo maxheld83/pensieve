@@ -69,15 +69,11 @@ before_install:
 # SCRIPT ====
 # part of r default
 
-after_success:
-  >
-  if [ "$TRAVIS_BRANCH" == "master" ]  && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_R_VERSION_STRING" == "release" ]; then
-    echo "foo";
-    Rscript -e 'covr::codecov()';
-  fi;
+# remember that after_success and after_script stages do not fail the build, but before_deploy does, so that is better suited
 
 before_deploy:
   - R CMD INSTALL .
+  - Rscript -e 'covr::codecov()'
   - Rscript -e 'blogdown::install_hugo()'
   - Rscript -e 'pensieve:::render_site2()'
   - npm install netlify-cli -g
