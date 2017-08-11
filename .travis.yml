@@ -70,7 +70,7 @@ before_install:
 # part of r default
 
 after_success:
-  if [ "$TRAVIS_BRANCH" == "master" ]  && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_R_VERSION_STRING" = "release" ]; then
+  if [ "$TRAVIS_BRANCH" == "master" ]  && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_R_VERSION_STRING" == "release" ]; then
     Rscript -e 'covr::codecov()'
   fi
 
