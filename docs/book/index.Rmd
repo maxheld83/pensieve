@@ -19,6 +19,6 @@ always_allow_html: yes
 
 This is a very early draft, and is not ready for prime-time, let alone citation.
 
-This is the *documentation* (in lieu of vignettes).
-To find the package, go to http://pensieve.maxheld.de.
+This also serves as the *documentation* of the `pensieve` package (in lieu of vignettes).
+To find out more, go to http://pensieve.maxheld.de.
 
