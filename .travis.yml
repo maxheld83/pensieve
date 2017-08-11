@@ -69,9 +69,12 @@ before_install:
 # SCRIPT ====
 # part of r default
 
+after_success:
+  if [ "$TRAVIS_BRANCH" == "master" ]  && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_R_VERSION_STRING" = "release" ]; then
+    Rscript -e 'covr::codecov()'
+  fi
 
 before_deploy:
-  - Rscript -e 'covr::codecov()'
   - R CMD INSTALL .
   - Rscript -e 'blogdown::install_hugo()'
   - Rscript -e 'pensieve:::render_site2()'
@@ -92,6 +95,7 @@ deploy:
     on:
       all_branches: true
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release && $TRAVIS_BRANCH != master"
+
   # _site
   - provider: script
     script: netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT} -e production
