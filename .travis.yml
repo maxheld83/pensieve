@@ -86,7 +86,7 @@ deploy:
       branch: master
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
   - provider: script
-    script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', account = 'maxheld83', appName = 'accio'}')"
+    script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', account = 'maxheld83', appName = 'accio')"
     skip_cleanup: true
     on:
       branch: master
