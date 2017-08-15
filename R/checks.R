@@ -1,5 +1,5 @@
 #' @title Validate S3 classes from this package.
-#' @description Use `check()`, `test()`, `assert()` and `expect()` to validate  classed objects from this package.
+#' @description Use `check()`, `test()`, `assert()`, `expect()` and `need()` to validate  classed objects from this package.
 #' @export
 #' @inheritParams checkmate::makeAssertion
 #' @inheritParams checkmate::makeExpectation
@@ -45,6 +45,45 @@ assert <- function(x, collection = NULL, var.name = NULL) {
 assert.default <- function(x, collection = NULL, var.name = paste(class(x)[1], "S3 class")) {
   res <- check(x)
   return(makeAssertion(x = x, res = res, var.name = var.name, collection = collection))
+}
+
+#' @rdname check
+#' @export
+need <- function(x, label = NULL) {
+  UseMethod(generic = "need")
+}
+
+#' @rdname check
+#' @export
+need.default <- function(x, label = NULL) {
+  res <- check(x)
+  return(makeNeed(x = x, res = res, label = label))
+}
+
+# helper: make need function for use in shiny::validate()
+# this always returns NULL (if successful), string (if invalid object) or FALSE (if other problem)
+# no checkmate function does this, so we have to make it
+# TODO this is just a placeholder until checkmate ships the real deal: https://github.com/mllg/checkmate/issues/118
+makeNeedFunction <- function(check.fun) {
+  function(x, ...) {
+    if (is.null(x)) {
+      return(FALSE)
+    } else if (isTRUE(check.fun(x, ...))) {
+      return(NULL)
+    } else {
+      return(check.fun(x, ...))
+    }
+  }
+}
+# and the simpler variant
+makeNeed <- function(x, res, label) {
+  if (is.null(x)) {
+    return(FALSE)
+  } else if (isTRUE(res)) {
+    return(NULL)
+  } else {
+    return(paste0(label, ": ", res))
+  }
 }
 
 # helper: report first error in results, used inside custom checks

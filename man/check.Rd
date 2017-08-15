@@ -8,6 +8,8 @@
 \alias{expect.default}
 \alias{assert}
 \alias{assert.default}
+\alias{need}
+\alias{need.default}
 \alias{check.QItemStrata}
 \alias{check.QPreSorts}
 \alias{check.QPeopleFeatures}
@@ -28,6 +30,10 @@ assert(x, collection = NULL, var.name = NULL)
 
 \method{assert}{default}(x, collection = NULL, var.name = paste(class(x)[1],
   "S3 class"))
+
+need(x, label = NULL)
+
+\method{need}{default}(x, label = NULL)
 
 \method{check}{QItemStrata}(x)
 
@@ -54,9 +60,15 @@ The custom name for \code{x} as passed to any \code{assert*} function.
 Defaults to a heuristic name lookup.}
 }
 \description{
-Use \code{check()}, \code{test()}, \code{assert()} and \code{expect()} to validate  classed objects from this package.
+Use \code{check()}, \code{test()}, \code{assert()}, \code{expect()} and \code{need()} to validate  classed objects from this package.
 
 Check S3 class.
+}
+\details{
+`check()`, `test()`, `assert()` and `expect()` are extensions the family of functions from the [checkmate](https://github.com/mllg/checkmate) package.
+`check()` returns `TRUE` or the error message, `assert()` only returns a message in case of an error, `test()` returns `TRUE` or `FALSE`.
+`expect()` is for internal use with testing via [`testthat`](https://github.com/hadley/testthat)).
+`need()` returns `NULL` or the error message and is for interal use with the accio web frontend inside [shiny::validate()].
 }
 \examples{
 # create checkable object
@@ -78,6 +90,7 @@ x <- QItemConcourse(
 check(x)  # returns TRUE or error message
 test(x)  # returns TRUE or FALSE
 assert(x)  # returns error or silently object
+need(x)  # returns NULL or error message
 }
 \seealso{
 Other validation functions: \code{\link{QItemConcourse}},
