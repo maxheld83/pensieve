@@ -52,9 +52,9 @@ test_that(desc = "expect on bad object returns failure", code = {
 })
 
 test_that(desc = "need on good object returns null", code = {
-  testthat::expect_null(object = pensieve:::need(good_obj))
+  testthat::expect_null(object = pensieve::need(good_obj))
 })
 
 test_that(desc = "need on bad object returns string", code = {
-  checkmate::expect_string(x = pensieve:::need(bad_obj))
+  checkmate::expect_string(x = pensieve::need(bad_obj))
 })
