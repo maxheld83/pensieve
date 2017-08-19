@@ -44,7 +44,7 @@ Suggests:
   readr (>= 1.1.1),
   pryr (>= 0.1.2),
   shiny (>= 1.0.3),
-  shinyjs (>= 0.9.1),
+  shinyBS (>= 0.61),
   rsconnect (>= 0.8)
 Remotes:
   hadley/pkgdown,
