@@ -16,7 +16,6 @@ install.packages(repos = NULL, type = "source", INSTALL_opts = c('--no-lock'), p
 library(qmethod)  # loading it
 library(psych)  # to use psych's functions directly
 library(reshape2)  # data massaging
-library(assertthat)  # testing
 ```
 
 ```{r setup-knitr, cache = FALSE, message=FALSE, warning=FALSE}
