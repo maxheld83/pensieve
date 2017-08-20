@@ -27,7 +27,6 @@ Suggests:
   DT (>= 0.2),
   ggrepel (>= 0.6.5),
   knitr (>= 1.13),
-  pkgdown (>= 0.1.0.9000),
   pryr (>= 0.1.2),
   readr (>= 1.1.1),
   rsconnect (>= 0.8),
