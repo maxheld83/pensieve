@@ -30,12 +30,12 @@ Suggests:
   pkgdown (>= 0.1.0.9000),
   pryr (>= 0.1.2),
   readr (>= 1.1.1),
-  rsconnect (>= 0.8)
+  rsconnect (>= 0.8),
   rmarkdown (>= 1.0),
   servr (>= 0.6),
   shiny (>= 1.0.3),
   shinyBS (>= 0.61),
-  withr (>= 1.0.2),
+  withr (>= 1.0.2)
 Remotes:
   hadley/pkgdown,
   rstudio/blogdown
