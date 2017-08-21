@@ -5,7 +5,7 @@
 [![](http://www.r-pkg.org/badges/version/pensieve)](http://www.r-pkg.org/pkg/pensieve)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/pensieve)](http://www.r-pkg.org/pkg/pensieve)
 
-### Pensieve: An R package for the Scientific Study of Human Subjectivity.
+### Pensieve: An R package for the Scientific Study of Human Subjectivity. <img src="docs/book/pensieve-logo.svg" align="right" />
 
 > *The name 'Pensieve' is a homonym of 'pensive', meaning deeply, seriously thoughtful; but it also a pun, the 'sieve' part of the word alluding to the object's function of sorting meanings from a mass of thoughts or memories.*
 
