@@ -36,6 +36,8 @@ Suggests:
   shiny (>= 1.0.3),
   shinyBS (>= 0.61),
   withr (>= 1.0.2)
+Remotes:
+  rstudio/blogdown
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 SystemRequirements:
