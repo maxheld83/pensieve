@@ -75,7 +75,7 @@ before_deploy:
   - R CMD INSTALL .
   - Rscript -e 'covr::codecov()'
   - Rscript -e 'blogdown::install_hugo()'
-#  - Rscript -e 'pensieve:::render_site2()'
+  - Rscript -e 'pensieve:::render_site2()'
   - npm install netlify-cli -g
   - Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve')"
   - Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
