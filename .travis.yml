@@ -77,23 +77,23 @@ before_deploy:
   - Rscript -e 'blogdown::install_hugo()'
   - Rscript -e 'pensieve:::render_site2()'
   - npm install netlify-cli -g
-  - Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve')"
+  - Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
   - Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
 
 deploy:
   # accio
-  - provider: script
-    script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', account = 'maxheld83', appName = 'accio')"
-    skip_cleanup: true
-    on:
-      branch: master
-      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
-  - provider: script
-    script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', account = 'maxheld83', appName = 'accio-${TRAVIS_BRANCH}')"
-    skip_cleanup: true
-    on:
-      all_branches: true
-      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release && $TRAVIS_BRANCH != master"
+#  - provider: script
+#    script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', account = 'maxheld83', appName = 'accio')"
+#    skip_cleanup: true
+#    on:
+      #branch: master
+      #condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
+  #- provider: script
+   # script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', account = 'maxheld83', appName = 'accio-${TRAVIS_BRANCH}')"
+  #  skip_cleanup: true
+   # on:
+    #  all_branches: true
+     # condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release && $TRAVIS_BRANCH != master"
 
   # _site
   - provider: script
