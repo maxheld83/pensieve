@@ -53,7 +53,9 @@ Categorizing things can be considered a fundamental, spontaneous act of the huma
 data(komki)
 
 # kill nas
-komki$qsorts <- na.omit(komki$qsorts)
+komki$qsorts <- na.omit(komki$qsorts)  # because some items were never shown to some people
+#TODO this deletion may no longer be necessary as per newest job procedures
+
 komki$items <- komki$items[komki$items$Handle.english %in% rownames(komki$qsorts), ]
 komki$qcat$ass <- sapply(X = komki$qcat$ass, simplify = FALSE, FUN = function(x) {
   x[rownames(x) %in% rownames(komki$qsorts), , drop = FALSE]
@@ -80,6 +82,7 @@ In contrast to other sorting techniques, which require a *single* set of mutuall
 This complicates the analysis, but avoids imposing a pre-supposed structure of categorical subjectivity on participants.
 ^[In a future iteration, participants will ipsatively *rank* items vis-a-vis a categorical *prototype* (chosen from the items, compare @rosch-1978), yielding *ordinal* information, requiring a separate, non-parametric analytical procedure.]
 
+<!-- TODO this would appear to be wrong; ass in canonical form is a LIST of matrices, not an array -->
 For our example study on categorizations of language games with children and grown-ups, this yields a *list* of description matrices (one element for each participant, as in table \@ref(tab:desc-example)) and a three-dimensional *array* of assignment matrices (one slice for each participant, as in table \@ref(tab:ass-example)).
 ^[This canonical data representation can be easily produced from conveniently entered raw data with [`pensieve::import_qcat()`](http://pensieve.maxheld.de).]
 
@@ -216,8 +219,7 @@ make_cora <- function(surprise) {
 }
 cora <- make_cora(surprise = surprise)
 
-library(GGally)
-ggcorr(data = cora[,,"Julius"], label = TRUE)
+GGally::ggcorr(data = cora[,,"Julius"], label = TRUE)
 ```
 
 The correlation heatmap in \@ref(fig:make-cora) is broadly informative, but too big for researchers to make sense of, simply because the item combinations are many - as they should be, for a productive analysis.
