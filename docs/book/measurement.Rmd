@@ -3,8 +3,7 @@
 <!-- long title would be: how and why we measure operant subjectivity -->
 
 
-<!-- Table: (\#tab:var-meas-ded) Variations of Measuring Operant Subjectivity with a  -->
-<!-- Deductive Condition of Instruction. -->
+<!-- Table: (\#tab:var-meas-ded) Variations of Measuring Operant Subjectivity (ipsative) -->
 
 <!-- +---------------+---------------+---------------+--------------------+---------------+--------------------+ -->
 <!-- | \             | \             | \             | *Constraints* \    | \ |  \ |  -->
