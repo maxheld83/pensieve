@@ -18,13 +18,13 @@ Checks and makes QItemStrata, the item sampling structure
 Construct S3 class for pensieve.
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QItemConcourse}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
+Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
+  \code{\link{QItemConcourse}}, \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{score}}
 
-Other import helpers: \code{\link{QPeopleFeatures}},
+Other import helpers: \code{\link{PeopleInfo}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{anonymize}}
 }

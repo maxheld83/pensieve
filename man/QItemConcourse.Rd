@@ -72,8 +72,8 @@ assert(x)  # returns error or silently object
 need(x)  # returns NULL or error message
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
-  \code{\link{QPeopleFeatures}}, \code{\link{QPreSorts}},
+Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
+  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{score}}
