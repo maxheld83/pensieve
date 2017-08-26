@@ -96,7 +96,7 @@ deploy:
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release && $TRAVIS_BRANCH != master"
 
   # _site
-  - provider: script
+  - provider: scriptx
     script: netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT} -e production
     skip_cleanup: true
     on:
