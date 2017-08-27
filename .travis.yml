@@ -21,7 +21,7 @@ matrix:
 
 # general settings ====
 
-warnings_are_errors: true
+warnings_are_errors: false
 
 cache:
   packages: yes
@@ -81,18 +81,18 @@ before_deploy:
 
 deploy:
   # accio
-  - provider: script
-    script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', appName = 'accio')"
-    skip_cleanup: true
-    on:
-      branch: master
-      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
-  - provider: script
-    script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', appName = 'accio-${TRAVIS_BRANCH}')"
-    skip_cleanup: true
-    on:
-      all_branches: true
-      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release && $TRAVIS_BRANCH != master"
+  #- provider: script
+   # script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', appName = 'accio')"
+    #skip_cleanup: true
+    #on:
+     # branch: master
+      #condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
+  #- provider: script
+   # script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', appName = 'accio-${TRAVIS_BRANCH}')"
+    #skip_cleanup: true
+    #on:
+     # all_branches: true
+      #condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release && $TRAVIS_BRANCH != master"
 
   # _site
   - provider: scriptx
