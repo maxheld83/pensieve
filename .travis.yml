@@ -21,7 +21,7 @@ matrix:
 
 # general settings ====
 
-warnings_are_errors: false
+warnings_are_errors: true
 
 cache:
   packages: yes
