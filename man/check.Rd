@@ -72,7 +72,7 @@ Check S3 class.
 }
 \examples{
 # create checkable object
-x <- QItemConcourse(
+x <- ItemConcourse(
   concourse = matrix(
     data = c(
       "Man lives to work.", "Man lebt, um zu arbeiten.",
@@ -93,7 +93,7 @@ assert(x)  # returns error or silently object
 need(x)  # returns NULL or error message
 }
 \seealso{
-Other validation functions: \code{\link{QItemConcourse}},
+Other validation functions: \code{\link{ItemConcourse}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{score}}

@@ -1,9 +1,8 @@
-# QItems ====
+# Items ====
 # this ties it all together in a list, checks for consistency
 
-
-# QItemConcourse ====
-#' @title Check and make QItemConcourse
+# ItemConcourse ====
+#' @title Check and make ItemConcourse
 #'
 #' @export
 #'
@@ -12,7 +11,7 @@
 #' Full items must be unique by columns.
 #'
 #' @examples
-#' x <- QItemConcourse(
+#' x <- ItemConcourse(
 #'   concourse = matrix(
 #'     data = c(
 #'       "Man lives to work.", "Man lebt, um zu arbeiten.",
@@ -30,12 +29,40 @@
 #'
 #' @family items
 #'
-QItemConcourse <- function(concourse, validate = TRUE) {
+ItemConcourse <- function(concourse, validate = TRUE) {
   assert_flag(x = validate,
               na.ok = FALSE,
               null.ok = FALSE)
 
-  concourse <- classify_clever(x = concourse, classname = "QItemConcourse")
+  concourse <- classify_clever(x = concourse, classname = "ItemConcourse")
+
+  assert_class2(x = concourse, validate = validate)
+
+  invisible(concourse)
+}
+
+#' @rdname ItemConcourse
+#'
+ImageItemConcourse <- function(concourse, validate = TRUE) {
+  assert_flag(x = validate,
+              na.ok = FALSE,
+              null.ok = FALSE)
+
+  concourse <- classify_clever(x = concourse, classname = "ImageItemConcourse")
+
+  assert_class2(x = concourse, validate = validate)
+
+  invisible(concourse)
+}
+
+#' @rdname ItemConcourse
+#'
+TextItemConcourse <- function(concourse, validate = TRUE) {
+  assert_flag(x = validate,
+              na.ok = FALSE,
+              null.ok = FALSE)
+
+  concourse <- classify_clever(x = concourse, classname = "TextItemConcourse")
 
   assert_class2(x = concourse, validate = validate)
 
@@ -43,9 +70,9 @@ QItemConcourse <- function(concourse, validate = TRUE) {
 }
 
 #' @export
-#' @describeIn QItemConcourse Check QItemConcourse
+#' @describeIn ItemConcourse Check
 #' @template check
-check.QItemConcourse <- function(x) {
+check.ItemConcourse <- function(x) {
   res <- NULL
 
   res$matrix <- check_matrix(x = x,
@@ -62,7 +89,7 @@ check.QItemConcourse <- function(x) {
   # conceivable, though unlikely, that items are same in two languages
   res$unique_by_column <- check_unique_in_column(x = x)
 
-  return(report_checks(res = res, info = "QItemConcourse"))
+  return(report_checks(res = res, info = "ItemConcourse"))
 }
 
 #' @title Custom print method for knitr
@@ -70,7 +97,7 @@ check.QItemConcourse <- function(x) {
 #' @description Provides custom print method for knitr.
 #' Can also be invoked manually to open interactive outputs in RStudio.
 #'
-#' @param x a character matrix with full item wording of class [`QItemConcourse`][QItemConcourse], as created by [QItemConcourse()].
+#' @param x a character matrix with full item wording of class [`ItemConcourse`][ItemConcourse], as created by [ItemConcourse()].
 #'
 #' @template plot
 #'
@@ -79,11 +106,11 @@ check.QItemConcourse <- function(x) {
 #' @export
 #'
 #' @family knitr output functions
-knit_print.QItemConcourse <- function(x, use_js = NULL, ...) {
+knit_print.ItemConcourse <- function(x, use_js = NULL, ...) {
   # Input validation ====
   use_js <- assert_n_infer_use_js(use_js = use_js)
 
-  x <- classify_clever(x = x, classname = "QItemConcourse")  # gotta make sure it IS QItems in the first place
+  x <- classify_clever(x = x, classname = "ItemConcourse")  # gotta make sure it IS QItems in the first place
   assert(x)
 
   # JS method ====

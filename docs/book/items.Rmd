@@ -20,7 +20,7 @@ The `QItems` list *can* be quite extensive, covering all *possible* use cases.
 But there is no need to worry, if your study is simpler: most of its elements are optional, and it is easy to get your items in and out of it.
 
 - `QItems`
-  - `QItemConcourse` (char or bin matrix)
+  - `ItemConcourse` (char or bin matrix)
   - `QItemFeatures` (tibble)
   - `QItemStrata` (array)
   - `QItemSample` (char vector)

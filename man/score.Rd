@@ -51,7 +51,7 @@ scores <- score(loas = loas, sorts = sorts)
 # this just assigns the class, without validation (not recommended)
 scores <- QScores(scores = scores, validate = FALSE)
 # create checkable object
-x <- QItemConcourse(
+x <- ItemConcourse(
   concourse = matrix(
     data = c(
       "Man lives to work.", "Man lebt, um zu arbeiten.",
@@ -77,13 +77,13 @@ check(x = scores)
 Other analysis functions: \code{\link{correlate}},
   \code{\link{extract}}
 
-Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
-  \code{\link{QItemConcourse}}, \code{\link{QItemStrata}},
+Other S3 classes from `pensieve`: \code{\link{ItemConcourse}},
+  \code{\link{PeopleInfo}}, \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}},
   \code{\link{make_grid}}
 
-Other validation functions: \code{\link{QItemConcourse}},
+Other validation functions: \code{\link{ItemConcourse}},
   \code{\link{QSorts}}, \code{\link{check}},
   \code{\link{correlate}}, \code{\link{extract}},
   \code{\link{make_grid}}

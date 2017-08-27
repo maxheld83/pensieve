@@ -78,7 +78,7 @@ cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])
 # this just assigns the class, without validation (not recommended)
 cors <- QCors(cors = cors, validate = FALSE)
 # create checkable object
-x <- QItemConcourse(
+x <- ItemConcourse(
   concourse = matrix(
     data = c(
       "Man lives to work.", "Man lebt, um zu arbeiten.",
@@ -110,18 +110,18 @@ plot(x = cors, use_js = NULL, type = "density", n_obs = nrow(civicon_2014$qData$
 Other analysis functions: \code{\link{extract}},
   \code{\link{score}}
 
-Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
-  \code{\link{QItemConcourse}}, \code{\link{QItemStrata}},
+Other S3 classes from `pensieve`: \code{\link{ItemConcourse}},
+  \code{\link{PeopleInfo}}, \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{score}}
 
-Other validation functions: \code{\link{QItemConcourse}},
+Other validation functions: \code{\link{ItemConcourse}},
   \code{\link{QSorts}}, \code{\link{check}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{score}}
 
 Other plotting functions: \code{\link{QSorts}},
   \code{\link{extract}},
-  \code{\link{knit_print.QItemConcourse}}
+  \code{\link{knit_print.ItemConcourse}}
 }

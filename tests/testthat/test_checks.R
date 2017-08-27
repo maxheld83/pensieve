@@ -1,6 +1,6 @@
 context("Type validation")
 
-good_obj <- QItemConcourse(
+good_obj <- ItemConcourse(
   concourse = matrix(
     data = c(
       "Man lives to work.", "Man lebt, um zu arbeiten.",

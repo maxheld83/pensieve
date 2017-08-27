@@ -61,7 +61,7 @@ m <- matrix(data = c(TRUE, FALSE, FALSE, TRUE), nrow = 2, ncol = 2)
 # assign class, without validation (not recommended)
 grid <- QGrid(grid = m, pattern = "honeycomb", offset = "even", validate = FALSE)
 # create checkable object
-x <- QItemConcourse(
+x <- ItemConcourse(
   concourse = matrix(
     data = c(
       "Man lives to work.", "Man lebt, um zu arbeiten.",
@@ -84,13 +84,13 @@ need(x)  # returns NULL or error message
 check(grid)
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
-  \code{\link{QItemConcourse}}, \code{\link{QItemStrata}},
+Other S3 classes from `pensieve`: \code{\link{ItemConcourse}},
+  \code{\link{PeopleInfo}}, \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}},
   \code{\link{score}}
 
-Other validation functions: \code{\link{QItemConcourse}},
+Other validation functions: \code{\link{ItemConcourse}},
   \code{\link{QSorts}}, \code{\link{check}},
   \code{\link{correlate}}, \code{\link{extract}},
   \code{\link{score}}

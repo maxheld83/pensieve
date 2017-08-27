@@ -54,7 +54,7 @@ Plot S3 class.
 
 \examples{
 # create checkable object
-x <- QItemConcourse(
+x <- ItemConcourse(
   concourse = matrix(
     data = c(
       "Man lives to work.", "Man lebt, um zu arbeiten.",
@@ -79,8 +79,8 @@ check(x = sorts)
 plot(x = sorts)
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
-  \code{\link{QItemConcourse}}, \code{\link{QItemStrata}},
+Other S3 classes from `pensieve`: \code{\link{ItemConcourse}},
+  \code{\link{PeopleInfo}}, \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{score}}
@@ -89,12 +89,12 @@ Other import helpers: \code{\link{PeopleInfo}},
   \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
   \code{\link{anonymize}}
 
-Other validation functions: \code{\link{QItemConcourse}},
+Other validation functions: \code{\link{ItemConcourse}},
   \code{\link{check}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{score}}
 
 Other plotting functions: \code{\link{correlate}},
   \code{\link{extract}},
-  \code{\link{knit_print.QItemConcourse}}
+  \code{\link{knit_print.ItemConcourse}}
 }

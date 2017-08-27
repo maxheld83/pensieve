@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' # create checkable object
-#' x <- QItemConcourse(
+#' x <- ItemConcourse(
 #'   concourse = matrix(
 #'     data = c(
 #'       "Man lives to work.", "Man lebt, um zu arbeiten.",
