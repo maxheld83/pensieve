@@ -23,11 +23,10 @@ PeopleInfo(data.frame(Name = c("Ann", "Kim", "Joe"),
                           Gender = c("female", "other", "male")))
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{ItemConcourse}},
-  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}, \code{\link{score}}
 
 Other import helpers: \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},

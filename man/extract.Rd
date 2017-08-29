@@ -81,26 +81,11 @@ cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])  # preliminary s
 loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")
 # this just assigns the class, without validation (not recommended)
 loas <- QLoas(loas = loas, validate = FALSE)
-# create checkable object
-x <- ItemConcourse(
-  concourse = matrix(
-    data = c(
-      "Man lives to work.", "Man lebt, um zu arbeiten.",
-      "Man works to live.", "Man arbeitet, um zu leben."
-    ),
-    nrow = 2, ncol = 2,
-    dimnames = list(
-      items = c("live_2_work", "work_2_live"),
-      languages = c("english", "ngerman")  # ideally, these are valid babel languages
-    )
-  )
-)
-
 # check object and friends ...
-check(x)  # returns TRUE or error message
-test(x)  # returns TRUE or FALSE
-assert(x)  # returns error or silently object
-need(x)  # returns NULL or error message
+# check(x)  # returns TRUE or error message
+# test(x)  # returns TRUE or FALSE
+# assert(x)  # returns error or silently object
+# need(x)  # returns NULL or error message
 # this validates the class
 check(loas)
 # makes a barchart
@@ -112,18 +97,16 @@ plot(x = loas, use_js = NULL, by = "both")
 Other analysis functions: \code{\link{correlate}},
   \code{\link{score}}
 
-Other S3 classes from `pensieve`: \code{\link{ItemConcourse}},
-  \code{\link{PeopleInfo}}, \code{\link{QItemStrata}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}},
-  \code{\link{correlate}}, \code{\link{make_grid}},
-  \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
+  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{correlate}},
+  \code{\link{make_grid}}, \code{\link{score}}
 
-Other validation functions: \code{\link{ItemConcourse}},
-  \code{\link{QSorts}}, \code{\link{check}},
-  \code{\link{correlate}}, \code{\link{make_grid}},
-  \code{\link{score}}
+Other validation functions: \code{\link{QSorts}},
+  \code{\link{check}}, \code{\link{correlate}},
+  \code{\link{make_grid}}, \code{\link{score}}
 
 Other plotting functions: \code{\link{QSorts}},
   \code{\link{correlate}},
-  \code{\link{knit_print.ItemConcourse}}
+  \code{\link{knit_print.itemConcourse}}
 }

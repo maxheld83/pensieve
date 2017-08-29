@@ -71,30 +71,14 @@ Check S3 class.
 `need()` returns `NULL` or the error message and is for interal use with the accio web frontend inside [shiny::validate()].
 }
 \examples{
-# create checkable object
-x <- ItemConcourse(
-  concourse = matrix(
-    data = c(
-      "Man lives to work.", "Man lebt, um zu arbeiten.",
-      "Man works to live.", "Man arbeitet, um zu leben."
-    ),
-    nrow = 2, ncol = 2,
-    dimnames = list(
-      items = c("live_2_work", "work_2_live"),
-      languages = c("english", "ngerman")  # ideally, these are valid babel languages
-    )
-  )
-)
-
 # check object and friends ...
-check(x)  # returns TRUE or error message
-test(x)  # returns TRUE or FALSE
-assert(x)  # returns error or silently object
-need(x)  # returns NULL or error message
+# check(x)  # returns TRUE or error message
+# test(x)  # returns TRUE or FALSE
+# assert(x)  # returns error or silently object
+# need(x)  # returns NULL or error message
 }
 \seealso{
-Other validation functions: \code{\link{ItemConcourse}},
-  \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{score}}
+Other validation functions: \code{\link{QSorts}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}, \code{\link{score}}
 }
