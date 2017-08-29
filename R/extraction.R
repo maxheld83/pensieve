@@ -51,13 +51,9 @@ extract <- function(cors, nfactors, fa_type = "pca") {
 #' @examples
 #' # this just assigns the class, without validation (not recommended)
 #' loas <- QLoas(loas = loas, validate = FALSE)
-QLoas <- function(loas, validate = TRUE) {
-  # assign class
-  loas <- classify_clever(x = loas, classname = "QLoas")
-  assert_class2(x = loas, validate = validate)
+QLoas <- produce_class_constructor(classname = "QLoas", fun = function(loas) {
   return(loas)
-}
-
+})
 
 #' @describeIn extract validation
 #'

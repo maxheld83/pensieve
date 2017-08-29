@@ -84,20 +84,13 @@ make_grid <- function(x_range = c(-5,5), y_range = c(1,5), pattern = "honeycomb"
 #' m <- matrix(data = c(TRUE, FALSE, FALSE, TRUE), nrow = 2, ncol = 2)
 #' # assign class, without validation (not recommended)
 #' grid <- QGrid(grid = m, pattern = "honeycomb", offset = "even", validate = FALSE)
-QGrid <- function(grid, pattern = "honeycomb", offset = "even", validate = TRUE) {
-  # Assign attributes
+QGrid <- produce_class_constructor(classname = "QGrid", fun = function(grid, pattern = "honeycomb", offset = "even") {
   attr(x = grid, which = "pattern") <- pattern
   if (pattern == "honeycomb" | pattern == "brickwall") {
     attr(x = grid, which = "offset") <- offset
   }
-
-  # assign class
-  grid <- classify_clever(x = grid, classname = "QGrid")
-  assert_class2(x = grid, validate = validate)
-
-  # return
   return(grid)
-}
+})
 
 #' @describeIn make_grid validation
 #'

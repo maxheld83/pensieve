@@ -29,45 +29,22 @@
 #'
 #' @family items
 #'
-ItemConcourse <- function(concourse, validate = TRUE) {
-  assert_flag(x = validate,
-              na.ok = FALSE,
-              null.ok = FALSE)
-
-  concourse <- classify_clever(x = concourse, classname = "ItemConcourse")
-
-  assert_class2(x = concourse, validate = validate)
-
-  invisible(concourse)
-}
+ItemConcourse <- produce_class_constructor(classname = "ItemConcourse", fun = function(concourse) {
+  return(concourse)
+})
 
 #' @rdname ItemConcourse
 #'
-ImageItemConcourse <- function(concourse, validate = TRUE) {
-  assert_flag(x = validate,
-              na.ok = FALSE,
-              null.ok = FALSE)
 
-  concourse <- classify_clever(x = concourse, classname = "ImageItemConcourse")
-
-  assert_class2(x = concourse, validate = validate)
-
-  invisible(concourse)
-}
+ImageItemConcourse <- produce_class_constructor(classname = "ImageItemConcourse", fun = function(concourse) {
+  return(concourse)
+})
 
 #' @rdname ItemConcourse
 #'
-TextItemConcourse <- function(concourse, validate = TRUE) {
-  assert_flag(x = validate,
-              na.ok = FALSE,
-              null.ok = FALSE)
-
-  concourse <- classify_clever(x = concourse, classname = "TextItemConcourse")
-
-  assert_class2(x = concourse, validate = validate)
-
-  invisible(concourse)
-}
+TextItemConcourse <- produce_class_constructor(classname = "TextItemConcourse", fun = function(concourse) {
+  return(concourse)
+})
 
 #' @export
 #' @describeIn ItemConcourse Check
@@ -375,17 +352,9 @@ latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right
 #' @template construct
 #'
 #' @family import helpers
-QItemStrata <- function(strata, validate = TRUE) {
-  assert_flag(x = validate,
-              na.ok = FALSE,
-              null.ok = FALSE)
-
-  strata <- classify_clever(x = strata, classname = "QItemStrata")
-
-  assert_class2(x = strata, validate = validate)
-
+QItemStrata <- produce_class_constructor(classname = "QItemStrata", fun = function(strata) {
   return(strata)
-}
+})
 
 #' @export
 #' @rdname check

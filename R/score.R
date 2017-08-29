@@ -51,12 +51,9 @@ score <- function(loas, sorts) {
 #' @examples
 #' # this just assigns the class, without validation (not recommended)
 #' scores <- QScores(scores = scores, validate = FALSE)
-QScores <- function(scores, validate = TRUE) {
-  # assign class
-  scores <- classify_clever(x = scores, classname = "QScores")
-  assert_class2(x = scores, validate = validate)
+QScores <- produce_class_constructor(classname = "QScores", fun = function(scores) {
   return(scores)
-}
+})
 
 
 #' @describeIn score validation

@@ -61,12 +61,9 @@ correlate <- function(sorts, method = "spearman", use = "pairwise.complete.obs")
 #' @examples
 #' # this just assigns the class, without validation (not recommended)
 #' cors <- QCors(cors = cors, validate = FALSE)
-QCors <- function(cors, validate = TRUE) {
-  # assign class
-  cors <- classify_clever(x = cors, classname = "QCors")
-  assert_class2(x = cors, validate = validate)
+QCors <- produce_class_constructor(classname = "QCors", fun = function(cors) {
   return(cors)
-}
+})
 
 #' @describeIn correlate validation
 #'

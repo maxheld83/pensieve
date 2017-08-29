@@ -9,25 +9,6 @@ capitalize <- function(x) {
         collapse = " ")
 }
 
-# helper to append, and only if class not already in there
-# this is to avoid duplicate classes, which is just confusing
-classify_clever <- function(x, classname) {
-  if (!inherits(x = x, what = classname)) {
-    class(x) <- append(classname, class(x))
-  }
-  return(x)
-}
-
-# helper function to deal with validation stuff in class construction ====
-assert_class2 <- function(x, validate) {
-  assert_flag(x = validate,
-              na.ok = FALSE,
-              null.ok = FALSE)
-  if (validate) {
-    assert(x)
-  }
-}
-
 
 # detect whether runtime is suitable for interactive stuff (HTML or RStudio) ====
 is_rstudio <- function() {
@@ -68,8 +49,6 @@ assert_n_infer_summarize <- function(summarize, x) {
   }
   return(summarize)
 }
-
-
 
 # import frequently used packages ====
 # this is so we don't need :: whenever calling one of those
@@ -121,4 +100,35 @@ render_site2 <- function(book = TRUE, html_only = NULL, landing = TRUE, docs = T
   if (serve) {
     servr::httw(dir = "_site/docs/", daemon = TRUE)
   }
+}
+
+
+# find path to *built* accio, always root of pensieve
+# this gives "" if folder does not exist
+accio_path <- system.file('accio', package = 'pensieve')
+
+#' @title Run accio
+#'
+#' @description
+#' Run accio, the web frontend for pensieve, if available.
+#'
+#' @details
+#' Accio is the closed-source web frontend for pensieve.
+#' Learn more at https://pensieve.maxheld.de.
+#'
+#' @export
+run_accio <- function() {
+  # input validation ====
+  if (!checkmate::test_directory_exists(accio_path)) {
+    stop("The 'accio' web frontend (closed source) is not available on this computer. ",
+         "See pensieve.maxheld.de for details.")
+  }
+
+  if (!requireNamespace("shiny", quietly = TRUE)) {
+    stop("Shiny is needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
+  # run it! ====
+  shiny::runApp(appDir = accio_path)
 }

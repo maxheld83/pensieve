@@ -17,12 +17,9 @@
 #' Pre-sorting piles are, of course, `categorical` information and should be treated as such.
 #'
 #' @family import helpers
-
-QPreSorts <- function(presorts, validate = TRUE) {
-  presorts <- classify_clever(x = presorts, classname = "QPreSorts")
-  assert_class2(x = presorts, validate = validate)
+QPreSorts <- produce_class_constructor(classname = "QPreSorts", fun = function(presorts) {
   return(presorts)
-}
+})
 
 #' @export
 #' @rdname check
@@ -58,11 +55,9 @@ check.QPreSorts <- function(x) {
 #' @template construct
 #'
 #' @family import helpers
-QSorts <- function(sorts, validate = TRUE) {
-  sorts <- classify_clever(x = sorts, classname = "QSorts")
-  assert_class2(x = sorts, validate = validate)
+QSorts <- produce_class_constructor(classname = "QSorts", fun = function(sorts) {
   return(sorts)
-}
+})
 
 #' @describeIn QSorts validation
 #'

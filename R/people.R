@@ -17,20 +17,10 @@
 #' @examples
 #' PeopleInfo(data.frame(Name = c("Ann", "Kim", "Joe"),
 #'                           Gender = c("female", "other", "male")))
-PeopleInfo <- function(people_info, validate = TRUE) {
-  assert_flag(x = validate,
-              na.ok = FALSE,
-              null.ok = FALSE)
-
+PeopleInfo <- produce_class_constructor(classname = "PeopleInfo", fun = function(people_info) {
   people_info <- tibble::as_tibble(people_info)
-
-  people_info <- classify_clever(x = people_info, classname = "PeopleInfo")
-
-  assert_class2(x = people_info, validate = validate)
-
   return(people_info)
-}
-
+})
 
 #' @export
 #' @rdname check
