@@ -44,7 +44,7 @@ Stores \emph{all} (researcher-facing) \strong{item handles} and (participant-fac
 }
 \examples{
 # monolingual study, text items
-x <- itemConcourse(
+monolingual_text <- itemConcourse(
   concourse = c(live_2_work = "Man lives to work.",
                 work_2_live = "Man works to live."),
   languages = c("english"),
@@ -53,7 +53,7 @@ x <- itemConcourse(
 )
 
 # multilingual study, text items
-x <- itemConcourse(
+multilingual_text <- itemConcourse(
   concourse = matrix(
     data = c(
       "Man lives to work.", "Man lebt, um zu arbeiten.",
@@ -69,7 +69,7 @@ x <- itemConcourse(
 )
 
 # monolingual study, image items
-x <- itemConcourse(
+monolongual_image <- itemConcourse(
   concourse = c(peach = "peach.jpg",
                 pear = "pear.jpg"),
   languages = c("english"),

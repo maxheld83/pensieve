@@ -40,7 +40,7 @@
 #'
 #' @examples
 #' # monolingual study, text items
-#' x <- itemConcourse(
+#' monolingual_text <- itemConcourse(
 #'   concourse = c(live_2_work = "Man lives to work.",
 #'                 work_2_live = "Man works to live."),
 #'   languages = c("english"),
@@ -49,7 +49,7 @@
 #' )
 #'
 #' # multilingual study, text items
-#' x <- itemConcourse(
+#' multilingual_text <- itemConcourse(
 #'   concourse = matrix(
 #'     data = c(
 #'       "Man lives to work.", "Man lebt, um zu arbeiten.",
@@ -65,7 +65,7 @@
 #' )
 #'
 #' # monolingual study, image items
-#' x <- itemConcourse(
+#' monolongual_image <- itemConcourse(
 #'   concourse = c(peach = "peach.jpg",
 #'                 pear = "pear.jpg"),
 #'   languages = c("english"),
