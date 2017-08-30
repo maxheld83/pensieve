@@ -24,21 +24,31 @@
 #' @param type a character string giving the *kind* of item stimuli, must be one of:
 #' - `"textItem"` for textual items, in which case cells in `concourse` must be plain text.
 #'   An additional subclass `"textItem"` is prepended and validated.
-#' - `"imageItem"` for image items, in which case cells in `concourse` must be file paths, relative from the current working directory.
+#' - `"imageItem"` for image items, in which case cells in `concourse` must be file paths, relative from `img_dir`.
+#'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
 #'   An additional class `"imageItem"` is prepended and validated.
 #' Defaults to `"text"`.
 #'
+#' @param markup a character string giving the markup for `"textItem"`s.
+#' Defaults to `"plain"` for plain text.
+#' Currently only allows `"plain"`.
+#'
+#' @param img_dir a character string giving the directory for `"imageItem"`s.
+#' Must be relative path *from the working directory*.
+#' Best constructed with [base::file.path()].
+#' Defaults to `NULL`, in which case images are expected at the working directory root.
+#'
 #' @examples
-#' # simpler syntax for monolingual studies
+#' # monolingual study, text items
 #' x <- itemConcourse(
 #'   concourse = c(live_2_work = "Man lives to work.",
 #'                 work_2_live = "Man works to live."),
 #'   languages = c("english"),
-#'   type = "textItem"
+#'   type = "textItem",
+#'   markup = "plain"
 #' )
 #'
-#'
-#' # more complex interface for multilingual studies
+#' # multilingual study, text items
 #' x <- itemConcourse(
 #'   concourse = matrix(
 #'     data = c(
@@ -47,13 +57,25 @@
 #'     ),
 #'     nrow = 2,
 #'     ncol = 2,
-#'     dimnames = list(items = c("live_2_work", "work_2_live"))),
+#'     dimnames = list(items = c("live_2_work", "work_2_live"))
+#'   ),
 #'   languages = c("english", "ngerman"),
-#'   type = "textItem"
+#'   type = "textItem",
+#'   markup = "plain"
+#' )
+#'
+#' # monolingual study, image items
+#' x <- itemConcourse(
+#'   concourse = c(peach = "peach.jpg",
+#'                 pear = "pear.jpg"),
+#'   languages = c("english"),
+#'   img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
+#'   # these files ship with pensieve
+#'   type = "imageItem"
 #' )
 #'
 #' @family items
-itemConcourse <- function(concourse = NULL, languages = c("english"), type = "textItem") {
+itemConcourse <- function(concourse = NULL, languages = c("english"), type = "textItem", markup = "plain", img_dir = NULL) {
   assert_choice(x = type, choices = c("textItem", "imageItem"))
   assert_character(x = languages,
                    any.missing = FALSE,
@@ -83,14 +105,19 @@ itemConcourse <- function(concourse = NULL, languages = c("english"), type = "te
   }
 
   # construction
-  concourse <- new_itemConcourse(x = concourse,
-                                 handles = rownames(concourse),
-                                 languages = languages,
-                                 subclass = type)
-  concourse <- validate_itemConcourse(x = concourse)
-  concourse <- switch(EXPR = type,
-                      "textItem" = validate_textItem(concourse),
-                      "imageIgem" = validate_imageItem(concourse))
+  if (type == "textItem") {
+    concourse <- new_textItem(x = concourse,
+                              handles = rownames(concourse),
+                              languages = languages,
+                              markup = markup)
+    concourse <- validate_textItem(x = concourse)
+  } else if (type == "imageItem") {
+    concourse <- new_imageItem(x = concourse,
+                               handles = rownames(concourse),
+                               languages = languages,
+                               img_dir = img_dir)
+    concourse <- validate_imageItem(x = concourse)
+  }
   return(concourse)
 }
 
@@ -120,26 +147,39 @@ validate_itemConcourse <- function(x) {
 }
 
 # subclass text
-new_textItem <- function(x, handles, languages, markup = "plain") {
-  assert_choice(x = markup, choices = c("plain"))
-  concourse <- new_itemConcourse(x = x, handles = handles, markup = markup, languages = languages)
-  return(concourse)
+new_textItem <- function(x, handles, languages, markup) {
+  x <- new_itemConcourse(x = x, handles = handles, markup = markup, languages = languages)
+  return(x)
 }
 
 validate_textItem <- function(x) {
-  # do some kind of substantive test here on markup
+  markup <- attr(x = x, which = "markup")
+  assert_string(x = markup, na.ok = FALSE, null.ok = FALSE)
+  assert_choice(x = markup, choices = c("plain"), null.ok = FALSE)
+  #TODO test whether strings *are* in this markup, and valid
   return(x)
 }
 
 # subclass image
-new_imageItem <- function(x, handles, languages, img_dir = getwd()) {
-  assert_directory_exists(x = img_dir, access = "r")
-  concourse <- new_itemConcourse(x = x, handles = handles, img_dir = img_dir, languages = languages)
-  return(concourse)
+new_imageItem <- function(x, handles, languages, img_dir) {
+  x <- new_itemConcourse(x = x, handles = handles, img_dir = img_dir, languages = languages)
+  return(x)
 }
 
 validate_imageItem <- function(x) {
-  # do some kind of substantive test here on img_dir
+  x <- validate_itemConcourse(x = x)
+  img_dir <- attr(x = x, which = "img_dir")
+  assert_string(x = img_dir, na.ok = FALSE, null.ok = TRUE)
+  if (!is.null(img_dir)) {
+    assert_directory_exists(x = img_dir, access = "r")
+    files <- file.path(img_dir, as.vector(x))
+  } else {
+    files <- file.path(as.vector(x))
+  }
+  assert_file_exists(x = files,
+                     extension = c("png", "jpg", "jpeg", "svg"),
+                     access = "r",
+                     .var.name = "file names")
   return(x)
 }
 

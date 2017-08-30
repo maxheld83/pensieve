@@ -5,7 +5,7 @@
 \title{Construct itemConcourse}
 \usage{
 itemConcourse(concourse = NULL, languages = c("english"),
-  type = "textItem")
+  type = "textItem", markup = "plain", img_dir = NULL)
 }
 \arguments{
 \item{concourse}{\itemize{
@@ -24,25 +24,35 @@ Must be unique and valid R names.}
 \itemize{
 \item \code{"textItem"} for textual items, in which case cells in \code{concourse} must be plain text.
 An additional subclass \code{"textItem"} is prepended and validated.
-\item \code{"imageItem"} for image items, in which case cells in \code{concourse} must be file paths, relative from the current working directory.
+\item \code{"imageItem"} for image items, in which case cells in \code{concourse} must be file paths, relative from \code{img_dir}.
+Images must be \code{*.png}, \code{*.jpg}, \code{*.jpeg} or \code{*.svg}.
 An additional class \code{"imageItem"} is prepended and validated.
 Defaults to \code{"text"}.
 }}
+
+\item{markup}{a character string giving the markup for \code{"textItem"}s.
+Defaults to \code{"plain"} for plain text.
+Currently only allows \code{"plain"}.}
+
+\item{img_dir}{a character string giving the directory for \code{"imageItem"}s.
+Must be relative path \emph{from the working directory}.
+Best constructed with \code{\link[base:file.path]{base::file.path()}}.
+Defaults to \code{NULL}, in which case images are expected at the working directory root.}
 }
 \description{
 Stores \emph{all} (researcher-facing) \strong{item handles} and (participant-facing) \strong{full items}.
 }
 \examples{
-# simpler syntax for monolingual studies
+# monolingual study, text items
 x <- itemConcourse(
   concourse = c(live_2_work = "Man lives to work.",
                 work_2_live = "Man works to live."),
   languages = c("english"),
-  type = "textItem"
+  type = "textItem",
+  markup = "plain"
 )
 
-
-# more complex interface for multilingual studies
+# multilingual study, text items
 x <- itemConcourse(
   concourse = matrix(
     data = c(
@@ -51,9 +61,21 @@ x <- itemConcourse(
     ),
     nrow = 2,
     ncol = 2,
-    dimnames = list(items = c("live_2_work", "work_2_live"))),
+    dimnames = list(items = c("live_2_work", "work_2_live"))
+  ),
   languages = c("english", "ngerman"),
-  type = "textItem"
+  type = "textItem",
+  markup = "plain"
+)
+
+# monolingual study, image items
+x <- itemConcourse(
+  concourse = c(peach = "peach.jpg",
+                pear = "pear.jpg"),
+  languages = c("english"),
+  img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
+  # these files ship with pensieve
+  type = "imageItem"
 )
 
 }
