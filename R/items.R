@@ -88,6 +88,9 @@ itemConcourse <- function(concourse = NULL, languages = c("english"), type = "te
                                  languages = languages,
                                  subclass = type)
   concourse <- validate_itemConcourse(x = concourse)
+  concourse <- switch(EXPR = type,
+                      "textItem" = validate_textItem(concourse),
+                      "imageIgem" = validate_imageItem(concourse))
   return(concourse)
 }
 
@@ -125,7 +128,7 @@ new_textItem <- function(x, handles, languages, markup = "plain") {
 
 validate_textItem <- function(x) {
   # do some kind of substantive test here on markup
-  NULL
+  return(x)
 }
 
 # subclass image
@@ -137,7 +140,7 @@ new_imageItem <- function(x, handles, languages, img_dir = getwd()) {
 
 validate_imageItem <- function(x) {
   # do some kind of substantive test here on img_dir
-  NULL
+  return(x)
 }
 
 #' @title Custom print method for knitr
