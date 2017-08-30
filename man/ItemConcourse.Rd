@@ -2,13 +2,13 @@
 % Please edit documentation in R/items.R
 \name{itemConcourse}
 \alias{itemConcourse}
-\title{Construct itemConcourse}
+\title{Construct items}
 \usage{
-itemConcourse(concourse = NULL, languages = c("english"),
+itemConcourse(full_items = NULL, languages = c("english"),
   type = "textItem", markup = "plain", img_dir = NULL)
 }
 \arguments{
-\item{concourse}{\itemize{
+\item{full_items}{\itemize{
 \item for \emph{monolingual studies}, when only one \code{languages} is given: a named character vector of (participant-facing) \strong{full items}, with names as (researcher-facing) \strong{item handles},
 \item for \emph{multilingual studies}, when several \code{languages} are given: a character matrix of (participant-facing) \strong{full items}, with rownames as (researcher-facing) \strong{item handles}.
 }
@@ -45,7 +45,7 @@ Stores \emph{all} (researcher-facing) \strong{item handles} and (participant-fac
 \examples{
 # monolingual study, text items
 monolingual_text <- itemConcourse(
-  concourse = c(live_2_work = "Man lives to work.",
+  full_items = c(live_2_work = "Man lives to work.",
                 work_2_live = "Man works to live."),
   languages = c("english"),
   type = "textItem",
@@ -54,7 +54,7 @@ monolingual_text <- itemConcourse(
 
 # multilingual study, text items
 multilingual_text <- itemConcourse(
-  concourse = matrix(
+  full_items = matrix(
     data = c(
       "Man lives to work.", "Man lebt, um zu arbeiten.",
       "Man works to live.", "Man arbeitet, um zu leben."
@@ -69,8 +69,8 @@ multilingual_text <- itemConcourse(
 )
 
 # monolingual study, image items
-monolongual_image <- itemConcourse(
-  concourse = c(peach = "peach.jpg",
+monolingual_image <- itemConcourse(
+  full_items = c(peach = "peach.jpg",
                 pear = "pear.jpg"),
   languages = c("english"),
   img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),

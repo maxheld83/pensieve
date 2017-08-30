@@ -3,7 +3,7 @@ context("Constructing items")
 # object construction ====
 test_that(desc = "construction of monolingual text item works", code = {
   monolingual_text <- itemConcourse(
-    concourse = c(live_2_work = "Man lives to work.",
+    full_items = c(live_2_work = "Man lives to work.",
                   work_2_live = "Man works to live."),
     languages = c("english"),
     type = "textItem",
@@ -13,7 +13,7 @@ test_that(desc = "construction of monolingual text item works", code = {
 })
 test_that(desc = "construction of monolingual image item works", code = {
   monolingual_image <- itemConcourse(
-    concourse = c(peach = "peach.jpg",
+    full_items = c(peach = "peach.jpg",
                   pear = "pear.jpg"),
     languages = c("english"),
     img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
@@ -26,7 +26,7 @@ test_that(desc = "construction of monolingual image item works", code = {
 test_that(desc = "construction of multilingual text item works", code = {
   # TODO avoid this duplication, this is copied from examples
   multilingual_text <- itemConcourse(
-    concourse = matrix(
+    full_items = matrix(
       data = c(
         "Man lives to work.", "Man lebt, um zu arbeiten.",
         "Man works to live.", "Man arbeitet, um zu leben."

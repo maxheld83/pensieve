@@ -1,7 +1,3 @@
-# items ====
-# this ties it all together in a list, checks for consistency
-
-
 # itemConcourse ====
 
 #' @title Construct itemConcourse
@@ -10,7 +6,7 @@
 #'
 #' @export
 #'
-#' @param concourse
+#' @param full_items
 #' - for *monolingual studies*, when only one `languages` is given: a named character vector of (participant-facing) **full items**, with names as (researcher-facing) **item handles**,
 #' - for *multilingual studies*, when several `languages` are given: a character matrix of (participant-facing) **full items**, with rownames as (researcher-facing) **item handles**.
 #'
@@ -41,7 +37,7 @@
 #' @examples
 #' # monolingual study, text items
 #' monolingual_text <- itemConcourse(
-#'   concourse = c(live_2_work = "Man lives to work.",
+#'   full_items = c(live_2_work = "Man lives to work.",
 #'                 work_2_live = "Man works to live."),
 #'   languages = c("english"),
 #'   type = "textItem",
@@ -50,7 +46,7 @@
 #'
 #' # multilingual study, text items
 #' multilingual_text <- itemConcourse(
-#'   concourse = matrix(
+#'   full_items = matrix(
 #'     data = c(
 #'       "Man lives to work.", "Man lebt, um zu arbeiten.",
 #'       "Man works to live.", "Man arbeitet, um zu leben."
@@ -65,8 +61,8 @@
 #' )
 #'
 #' # monolingual study, image items
-#' monolongual_image <- itemConcourse(
-#'   concourse = c(peach = "peach.jpg",
+#' monolingual_image <- itemConcourse(
+#'   full_items = c(peach = "peach.jpg",
 #'                 pear = "pear.jpg"),
 #'   languages = c("english"),
 #'   img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
@@ -74,8 +70,8 @@
 #'   type = "imageItem"
 #' )
 #'
-#' @family items
-itemConcourse <- function(concourse = NULL, languages = c("english"), type = "textItem", markup = "plain", img_dir = NULL) {
+#' @family constructors
+itemConcourse <- function(full_items = NULL, languages = c("english"), type = "textItem", markup = "plain", img_dir = NULL) {
   assert_choice(x = type, choices = c("textItem", "imageItem"))
   assert_character(x = languages,
                    any.missing = FALSE,
@@ -85,20 +81,20 @@ itemConcourse <- function(concourse = NULL, languages = c("english"), type = "te
                    null.ok = FALSE)
 
   # monolingual case, easier entry ui
-  if (length(languages) == 1 & is.vector(concourse)) {
-    assert_vector(x = concourse,
+  if (length(languages) == 1 & is.vector(full_items)) {
+    assert_vector(x = full_items,
                   strict = TRUE,
                   any.missing = TRUE,
                   all.missing = TRUE,
                   unique = TRUE,
                   names = "strict")
-    concourse <- as.matrix(concourse)
+    full_items <- as.matrix(full_items)
   }
 
   # general and multilingual case
-  if (length(languages) != ncol(concourse)) {
+  if (length(languages) != ncol(full_items)) {
     stop(
-      paste("You provided", length(languages), "languages, but concourse has", ncol(concourse), "columns.",
+      paste("You provided", length(languages), "languages, but concourse has", ncol(full_items), "columns.",
             "Must be equal."),
       call. = FALSE
     )
@@ -106,19 +102,19 @@ itemConcourse <- function(concourse = NULL, languages = c("english"), type = "te
 
   # construction
   if (type == "textItem") {
-    concourse <- new_textItem(x = concourse,
-                              handles = rownames(concourse),
+    full_items <- new_textItem(x = full_items,
+                              handles = rownames(full_items),
                               languages = languages,
                               markup = markup)
-    concourse <- validate_textItem(x = concourse)
+    full_items <- validate_textItem(x = full_items)
   } else if (type == "imageItem") {
-    concourse <- new_imageItem(x = concourse,
-                               handles = rownames(concourse),
+    full_items <- new_imageItem(x = full_items,
+                               handles = rownames(full_items),
                                languages = languages,
                                img_dir = img_dir)
-    concourse <- validate_imageItem(x = concourse)
+    full_items <- validate_imageItem(x = full_items)
   }
-  return(concourse)
+  return(full_items)
 }
 
 # parent constructor
