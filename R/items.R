@@ -1,12 +1,12 @@
 # items ====
 
-#' @title Construct items
-#'
-#' @description Stores all item-related information in a list.
+#' @title Construct list of item-related objects
 #'
 #' @export
 #'
 #' @param pensieve_concourse object returned by [pensieveConcourse()]
+#'
+#' @template construction_helpers
 pensieveItems <- function(pensieve_concourse) {
   pensieve_items <- new_pensieveItems(pensieve_concourse = pensieve_concourse)
   pensieve_items <- validate_pensieveItems(pensieve_items)
@@ -30,11 +30,9 @@ validate_pensieveItems <- function(pensieve_items) {
 }
 
 
-# concourse ====
+# pensieveConcourse ====
 
-#' @title Construct pensieveConcourse
-#'
-#' @description Stores *all* (researcher-facing) **item handles** and (participant-facing) **full items**.
+#' @title Construct matrix of *all* (researcher-facing) **item handles** and (participant-facing) **full items**
 #'
 #' @export
 #'
@@ -99,9 +97,8 @@ validate_pensieveItems <- function(pensieve_items) {
 #'  # these files ship with pensieve
 #'  type = "image"
 #' )
-
 #'
-#' @family constructors
+#' @template construction_helpers
 pensieveConcourse <- function(concourse, languages = c("english"), type = "text", markup = "plain", img_dir = NULL) {
   assert_string(x = type, na.ok = FALSE, null.ok = FALSE)
   assert_character(x = languages,
@@ -258,10 +255,6 @@ knit_print.pensieveConcourse <- function(x, use_js = NULL, ...) {
     print(x)
   }
 }
-
-
-
-# QSet ====
 
 make_cards <- function(item_text,
                        item_handle,
@@ -495,11 +488,11 @@ latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right
 }
 
 
-# QItemSample ====
+# pensieveItemSample ====
 # logical vector about the inclusion/exclusion of items
 # make this a function which *actually* samples
 
-# QItemStrata ====
+# pensieveItemStrata ====
 # logical array of n dimensions, items as rows, arbitrary dimensions,
 #' @title Check and make QItemStrata
 #'
@@ -529,8 +522,7 @@ check.QItemStrata <- function(x) {
   return(report_checks(res = res, info = "QItemStrata"))
 }
 
-
-# QItemFeatures ====
+# pensieveItemProp ====
 # WIDE dataframe with arbitrary features of the items, one row per item
 
 

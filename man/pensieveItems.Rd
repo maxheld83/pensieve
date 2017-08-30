@@ -2,7 +2,7 @@
 % Please edit documentation in R/items.R
 \name{pensieveItems}
 \alias{pensieveItems}
-\title{Construct items}
+\title{Construct list of item-related objects}
 \usage{
 pensieveItems(pensieve_concourse)
 }
@@ -10,5 +10,12 @@ pensieveItems(pensieve_concourse)
 \item{pensieve_concourse}{object returned by \code{\link[=pensieveConcourse]{pensieveConcourse()}}}
 }
 \description{
-Stores all item-related information in a list.
+Constructs S3 class for pensieve.
+}
+\seealso{
+Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
+  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{correlate}},
+  \code{\link{extract}}, \code{\link{make_grid}},
+  \code{\link{pensieveConcourse}}, \code{\link{score}}
 }

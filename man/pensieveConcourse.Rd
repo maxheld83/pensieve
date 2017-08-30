@@ -2,7 +2,7 @@
 % Please edit documentation in R/items.R
 \name{pensieveConcourse}
 \alias{pensieveConcourse}
-\title{Construct pensieveConcourse}
+\title{Construct matrix of \emph{all} (researcher-facing) \strong{item handles} and (participant-facing) \strong{full items}}
 \usage{
 pensieveConcourse(concourse, languages = c("english"), type = "text",
   markup = "plain", img_dir = NULL)
@@ -40,7 +40,7 @@ Best constructed with \code{\link[base:file.path]{base::file.path()}}.
 Defaults to \code{NULL}, in which case images are expected at the working directory root.}
 }
 \description{
-Stores \emph{all} (researcher-facing) \strong{item handles} and (participant-facing) \strong{full items}.
+Constructs S3 class for pensieve.
 }
 \examples{
 # monolingual study, text items
@@ -76,4 +76,11 @@ monolingual_image <- pensieveConcourse(
  type = "image"
 )
 
+}
+\seealso{
+Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
+  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{correlate}},
+  \code{\link{extract}}, \code{\link{make_grid}},
+  \code{\link{pensieveItems}}, \code{\link{score}}
 }

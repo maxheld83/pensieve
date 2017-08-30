@@ -26,7 +26,8 @@ Pre-sorting piles are, of course, \code{categorical} information and should be t
 Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
   \code{\link{QItemStrata}}, \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{make_grid}}, \code{\link{score}}
+  \code{\link{make_grid}}, \code{\link{pensieveConcourse}},
+  \code{\link{pensieveItems}}, \code{\link{score}}
 
 Other import helpers: \code{\link{PeopleInfo}},
   \code{\link{QItemStrata}}, \code{\link{QSorts}},
