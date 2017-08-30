@@ -7,11 +7,10 @@
 #' @export
 #'
 #' @param pensieve_concourse object returned by [pensieveConcourse()]
-
 pensieveItems <- function(pensieve_concourse) {
   pensieve_items <- new_pensieveItems(pensieve_concourse = pensieve_concourse)
   pensieve_items <- validate_pensieveItems(pensieve_items)
-  return(pensieveItems)
+  return(pensieve_items)
 }
 
 # constructor
