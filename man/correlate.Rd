@@ -95,11 +95,12 @@ plot(x = cors, use_js = NULL, type = "density", n_obs = nrow(civicon_2014$qData$
 Other analysis functions: \code{\link{extract}},
   \code{\link{score}}
 
-Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
-  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{extract}},
-  \code{\link{make_grid}}, \code{\link{pensieveConcourse}},
-  \code{\link{pensieveItems}}, \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{extract}}, \code{\link{make_grid}},
+  \code{\link{pensieveConcourse}},
+  \code{\link{pensieveItems}},
+  \code{\link{pensievePeople}}, \code{\link{score}}
 
 Other validation functions: \code{\link{QSorts}},
   \code{\link{check}}, \code{\link{extract}},

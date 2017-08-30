@@ -1,36 +1,44 @@
-# PeopleInfo ====
+# pensievePeople ====
 
-#' @title Check and make PeopleInfo
+#' @title Construct tibble with additional participant information
 #'
 #' @export
 #'
-#' @description Checks and makes PeopleInfo, a tibble with arbitrary additional information on the participating people-variables.
-#'
-#' @param people_info
+#' @param people
 #' A dataframe or tibble, with one row per participant.
-#' First column must be participant name, same as in other objects.
+#' First column must be (short form of) participant name and valid R name.
+#' Later columns can have arbitrary additional information about participants.
+#' Columns must be named.
 #'
-#' @template construct
-#'
-#' @family import helpers
+#' @template construction_helpers
 #'
 #' @examples
-#' PeopleInfo(data.frame(Name = c("Ann", "Kim", "Joe"),
-#'                           Gender = c("female", "other", "male")))
-PeopleInfo <- produce_class_constructor(classname = "PeopleInfo", fun = function(people_info) {
-  people_info <- tibble::as_tibble(people_info)
-  return(people_info)
-})
+#' people <- pensievePeople(data.frame(Name = c("Ann", "Kim", "Joe"),
+#'                                     Gender = c("female", "other", "male"),
+#'                                     stringsAsFactors = FALSE))
+pensievePeople <- function(people) {
+  people <- new_pensievePeople(people = people)
+  people <- validate_pensievePeople(people = people)
+  return(people)
+}
 
-#' @export
-#' @rdname check
-check.PeopleInfo <- function(x) {
-  res <- NULL
+# constructor
+new_pensievePeople <- function(people) {
+  people <- tibble::as_tibble(people)
+  structure(
+    .Data = people,
+    class = c("pensievePeople", class(people))
+  )
+}
 
-  res$tibble <- check_tibble(x = x,
-                             types = c("logical", "integer", "integerish", "double", "numeric", "character", "factor"),
-                             any.missing = TRUE,
-                             all.missing = FALSE,
-                             col.names = "strict")
-  return(report_checks(res = res, info = "PeopleInfo"))
+# validator
+validate_pensievePeople <- function(people) {
+  check_tibble(x = people,
+               types = c("logical", "integer", "integerish", "double", "numeric", "character", "factor"),
+               any.missing = TRUE,
+               all.missing = FALSE,
+               col.names = "strict")
+  names <- people[[1]]
+  check_names(x = names, type = "strict")
+  return(people)
 }

@@ -78,9 +78,9 @@ monolingual_image <- pensieveConcourse(
 
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
-  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{pensieveItems}}, \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}, \code{\link{pensieveItems}},
+  \code{\link{pensievePeople}}, \code{\link{score}}
 }

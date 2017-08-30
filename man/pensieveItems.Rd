@@ -13,9 +13,9 @@ pensieveItems(pensieve_concourse)
 Constructs S3 class for pensieve.
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
-  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{pensieveConcourse}}, \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}, \code{\link{pensieveConcourse}},
+  \code{\link{pensievePeople}}, \code{\link{score}}
 }

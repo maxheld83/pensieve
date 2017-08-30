@@ -62,12 +62,11 @@ check(x = scores)
 Other analysis functions: \code{\link{correlate}},
   \code{\link{extract}}
 
-Other S3 classes from `pensieve`: \code{\link{PeopleInfo}},
-  \code{\link{QItemStrata}}, \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{pensieveConcourse}},
-  \code{\link{pensieveItems}}
+Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
+  \code{\link{QPreSorts}}, \code{\link{QSorts}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}, \code{\link{pensieveConcourse}},
+  \code{\link{pensieveItems}}, \code{\link{pensievePeople}}
 
 Other validation functions: \code{\link{QSorts}},
   \code{\link{check}}, \code{\link{correlate}},
