@@ -1,3 +1,112 @@
+#' @title Construct list of categorical assignments
+#'
+#' @export
+#'
+#' @param assignments
+#' a named list of matrices, with names as a participant names.
+#' Matrices have identical item-handles as row names, and may have arbitrary (ignored) column names.
+#' Matrices must all be of one data type, either
+#' - `logical` for *nominal*-scaled sorts, where a category applies or does not apply,
+#' - `integer` for *ordinally*-scaled sorts, where a category applies to some item *more or less* than to another other item,
+#' - `numeric` for *interval* or *ratio*-scaled sorts, where a category applies to some item *by some amount more or less* than to another item.
+#' Notice that -- counterintuitively -- *categorically*-scaled sorts are not allowed.
+#'
+#' @template construction_helpers
+#'
+#' @examples
+#' lisa <- matrix(data = c(TRUE, FALSE, FALSE, TRUE),
+#'                       nrow = 2,
+#'                       dimnames = list(handles = c("foo", "bar")))
+#' peter <- matrix(data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
+#'                       nrow = 2,
+#'                       dimnames = list(handles = c("foo", "bar")))
+#' assignments <- list(lisa = lisa, peter = peter)
+#' assignments <- pensieveAssignments(list(lisa = lisa, peter = peter))
+pensieveAssignments <- function(assignments) {
+  validate_pensieveAssignments(new_pensieveAssignments(assignments = assignments))
+}
+
+# constructor
+new_pensieveAssignments <- function(assignments) {
+  structure(
+    .Data = assignments,
+    class = c("pensieveAssignments")
+  )
+}
+
+# validator
+validate_pensieveAssignments <- function(assignments) {
+  assert_list(x = assignments,
+              any.missing = FALSE,
+              all.missing = FALSE,
+              names = "strict")
+  data_type <- mode(assignments[[1]])  # we'll just take the first
+  n_items <- nrow(assignments[[1]])
+  item_handles <- rownames(assignments[[1]])
+  assert_choice(x = data_type, choices = c("logical", "integer", "numeric"))
+  lapply(X = assignments, FUN = function(x) {
+    assert_matrix(x = x,
+                  mode = data_type,
+                  any.missing = TRUE,
+                  all.missing = TRUE,
+                  nrows = n_items,
+                  row.names = "strict")
+    assert_set_equal(x = rownames(x),
+                     y = item_handles,
+                     ordered = TRUE)
+  })
+  return(assignments)
+}
+
+#' @title Create Co-Occurence Matrices.
+#'
+#' @export
+#'
+#' @description Creates co-occurence matrices from logical q-category assignments.
+#'
+#' @param ass Named list of logical matrices, one for each participant.
+#' Each logical matrix has items as named rows, category indices as columns and logical values in cells.
+#'
+#' @return
+#' An integer array with items as rows and columns, participants as third dimension and cells as co-occurence counts.
+#'
+#' @details
+#' The diagonal is replaced with the *maximum number of categories* for that person, to standardize the entire table.
+#'
+#' @family import
+#'
+#' @author Maximilian Held
+#'
+count_cooccur <- function(ass) {
+
+  # input validation ===
+  expect_list(x = ass,
+              types = "matrix",
+              all.missing = FALSE)
+  for (i in names(ass)) {
+    expect_matrix(x = ass[[i]],
+                  mode = "logical",
+                  any.missing = TRUE,
+                  all.missing = FALSE,
+                  row.names = "unique",
+                  null.ok = FALSE,
+                  info = paste("Matrix", i, "is not as expected."))
+  }
+
+  # body ===
+  a <- sapply(X = ass, USE.NAMES = TRUE, simplify = "array", FUN = function(x) {
+    m <- tcrossprod(x)
+    storage.mode(m) <- "integer"
+    diag(m) <- ncol(x)
+    return(m)
+  })
+  names(dimnames(a))[3] <- "people"
+  return(a)
+}
+
+
+# import helper
+
 #' @title Import Q categorisation data.
 #'
 #' @export
