@@ -1,52 +1,85 @@
-# itemConcourse ====
+# items ====
 
-#' @title Construct itemConcourse
+#' @title Construct items
+#'
+#' @description Stores all item-related information in a list.
+#'
+#' @export
+#'
+#' @param pensieve_concourse object returned by [pensieveConcourse()]
+
+pensieveItems <- function(pensieve_concourse) {
+  pensieve_items <- new_pensieveItems(pensieve_concourse = pensieve_concourse)
+  pensieve_items <- validate_pensieveItems(pensieve_items)
+  return(pensieveItems)
+}
+
+# constructor
+new_pensieveItems <- function(pensieve_concourse) {
+  structure(
+    .Data = list(
+      concourse = pensieve_concourse
+    ),
+    class = c("pensieveItems")
+  )
+}
+
+# validator
+validate_pensieveItems <- function(pensieve_items) {
+  validate_pensieveConcourse(pensieve_items$concourse)  # this also validates subclass, must not be null
+  return(pensieve_items)
+}
+
+
+# concourse ====
+
+#' @title Construct pensieveConcourse
 #'
 #' @description Stores *all* (researcher-facing) **item handles** and (participant-facing) **full items**.
 #'
 #' @export
 #'
-#' @param full_items
+#' @param concourse
 #' - for *monolingual studies*, when only one `languages` is given: a named character vector of (participant-facing) **full items**, with names as (researcher-facing) **item handles**,
 #' - for *multilingual studies*, when several `languages` are given: a character matrix of (participant-facing) **full items**, with rownames as (researcher-facing) **item handles**.
 #'
 #' Full items must be unique by language, and can be `NA` if not available (not recommended).
 #' Names must be unique and valid R names.
 #'
-#' @param languages a character vector of languages, giving the column names.
-#' Defaults to `c("english")` for a single language concourse in english.
+#' @param languages a character vector of languages, in the order of columns in `concourse`.
+#' Defaults to `c("english")`.
 #' Must be unique and valid R names.
 #'
 #' @param type a character string giving the *kind* of item stimuli, must be one of:
-#' - `"textItem"` for textual items, in which case cells in `concourse` must be plain text.
-#'   An additional subclass `"textItem"` is prepended and validated.
-#' - `"imageItem"` for image items, in which case cells in `concourse` must be file paths, relative from `img_dir`.
+#' - `"text"` for textual items, in which case cells in `concourse` must be text.
+#'   An additional subclass `"pensieveConcourseText"` is prepended and validated.
+#' - `"image"` for image items, in which case cells in `concourse` must be file paths, relative from `img_dir`.
 #'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
-#'   An additional class `"imageItem"` is prepended and validated.
+#'   An additional class `"pensieveConcourseImage"` is prepended and validated.
 #' Defaults to `"text"`.
 #'
-#' @param markup a character string giving the markup for `"textItem"`s.
+#' @param markup a character string giving the markup for `type = "text"`s.
 #' Defaults to `"plain"` for plain text.
 #' Currently only allows `"plain"`.
 #'
-#' @param img_dir a character string giving the directory for `"imageItem"`s.
+#' @param img_dir a character string giving the directory for `type = "image"`s.
 #' Must be relative path *from the working directory*.
 #' Best constructed with [base::file.path()].
 #' Defaults to `NULL`, in which case images are expected at the working directory root.
 #'
 #' @examples
 #' # monolingual study, text items
-#' monolingual_text <- itemConcourse(
-#'   full_items = c(live_2_work = "Man lives to work.",
+#' monolingual_text <- pensieveConcourse(
+#'   concourse = c(live_2_work = "Man lives to work.",
 #'                 work_2_live = "Man works to live."),
 #'   languages = c("english"),
-#'   type = "textItem",
+#'   type = "text",
 #'   markup = "plain"
 #' )
 #'
 #' # multilingual study, text items
-#' multilingual_text <- itemConcourse(
-#'   full_items = matrix(
+#' multilingual_text <- pensieveConcourse(
+#'   concourse = matrix(
 #'     data = c(
 #'       "Man lives to work.", "Man lebt, um zu arbeiten.",
 #'       "Man works to live.", "Man arbeitet, um zu leben."
@@ -56,23 +89,22 @@
 #'     dimnames = list(items = c("live_2_work", "work_2_live"))
 #'   ),
 #'   languages = c("english", "ngerman"),
-#'   type = "textItem",
+#'   type = "text",
 #'   markup = "plain"
 #' )
 #'
 #' # monolingual study, image items
-#' monolingual_image <- itemConcourse(
-#'   full_items = c(peach = "peach.jpg",
-#'                 pear = "pear.jpg"),
-#'   languages = c("english"),
-#'   img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
-#'   # these files ship with pensieve
-#'   type = "imageItem"
+#' monolingual_image <- pensieveConcourse(
+#'  concourse = c(peach = "peach.jpg", pear = "pear.jpg"),
+#'  img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
+#'  # these files ship with pensieve
+#'  type = "image"
 #' )
+
 #'
 #' @family constructors
-itemConcourse <- function(full_items = NULL, languages = c("english"), type = "textItem", markup = "plain", img_dir = NULL) {
-  assert_choice(x = type, choices = c("textItem", "imageItem"))
+pensieveConcourse <- function(concourse, languages = c("english"), type = "text", markup = "plain", img_dir = NULL) {
+  assert_string(x = type, na.ok = FALSE, null.ok = FALSE)
   assert_character(x = languages,
                    any.missing = FALSE,
                    all.missing = FALSE,
@@ -81,55 +113,58 @@ itemConcourse <- function(full_items = NULL, languages = c("english"), type = "t
                    null.ok = FALSE)
 
   # monolingual case, easier entry ui
-  if (length(languages) == 1 & is.vector(full_items)) {
-    assert_vector(x = full_items,
+  if (length(languages) == 1 & is.vector(concourse)) {
+    assert_vector(x = concourse,
                   strict = TRUE,
                   any.missing = TRUE,
                   all.missing = TRUE,
                   unique = TRUE,
                   names = "strict")
-    full_items <- as.matrix(full_items)
+    concourse <- as.matrix(concourse)
+    colnames(concourse) <- languages
   }
 
   # general and multilingual case
-  if (length(languages) != ncol(full_items)) {
+  if (length(languages) != ncol(concourse)) {
     stop(
-      paste("You provided", length(languages), "languages, but concourse has", ncol(full_items), "columns.",
+      paste("You provided", length(languages), "languages, but concourse has", ncol(concourse), "columns.",
             "Must be equal."),
       call. = FALSE
     )
   }
 
   # construction
-  if (type == "textItem") {
-    full_items <- new_textItem(x = full_items,
-                              handles = rownames(full_items),
-                              languages = languages,
-                              markup = markup)
-    full_items <- validate_textItem(x = full_items)
-  } else if (type == "imageItem") {
-    full_items <- new_imageItem(x = full_items,
-                               handles = rownames(full_items),
-                               languages = languages,
-                               img_dir = img_dir)
-    full_items <- validate_imageItem(x = full_items)
+  if (type == "text") {
+    concourse <- new_pensieveConcourseText(concourse = concourse,
+                                           handles = rownames(concourse),
+                                           languages = languages,
+                                           markup = markup)
+  } else if (type == "image") {
+    concourse <- new_pensieveConcourseImage(concourse = concourse,
+                                            handles = rownames(concourse),
+                                            languages = languages,
+                                            img_dir = img_dir)
   }
-  return(full_items)
+
+  # validation
+  validate_pensieveConcourse(concourse = concourse)
+
+  return(concourse)
 }
 
 # parent constructor
-new_itemConcourse <- function(x, handles, languages, ..., subclass = "textItem") {
+new_pensieveConcourse <- function(concourse, handles, languages, ..., subclass) {
   structure(
-    .Data = x,
+    .Data = concourse,
     dimnames = list(handles = handles, languages = languages),
     ...,
-    class = c(subclass, "itemConcourse", "matrix")
+    class = c(subclass, "pensieveConcourse", "matrix")
   )
 }
 
 # parent validator
-validate_itemConcourse <- function(x) {
-  assert_matrix(x = x,
+validate_pensieveConcourse <- function(concourse) {
+  assert_matrix(x = concourse,
                 mode = "character",
                 any.missing = TRUE,
                 all.missing = TRUE,
@@ -137,46 +172,63 @@ validate_itemConcourse <- function(x) {
                 col.names = "strict",
                 null.ok = FALSE)
 
-  assert_unique_in_column(x = x)
+  assert_unique_in_column(x = concourse)
 
-  return(x)
+  # validate subclasses
+  if (inherits(x = concourse, what = "pensieveConcourseText")) {
+    validate_pensieveConcourseText(concourse = concourse)
+  } else if (inherits(x = concourse, what = "pensieveConcourseImage")) {
+    validate_pensieveConcourseImage(concourse = concourse)
+  } else {
+    stop("No valid type provided. Must be 'text' or 'image'.",
+         call. = FALSE)
+  }
+
+  return(concourse)
 }
 
 # subclass text
-new_textItem <- function(x, handles, languages, markup) {
-  x <- new_itemConcourse(x = x, handles = handles, markup = markup, languages = languages)
-  return(x)
+new_pensieveConcourseText <- function(concourse, handles, languages, markup) {
+  concourse <- new_pensieveConcourse(concourse = concourse,
+                                     handles = handles,
+                                     markup = markup,
+                                     languages = languages,
+                                     subclass = "pensieveConcourseText")
+  return(concourse)
 }
 
-validate_textItem <- function(x) {
-  markup <- attr(x = x, which = "markup")
+validate_pensieveConcourseText <- function(concourse) {
+  markup <- attr(x = concourse, which = "markup")
   assert_string(x = markup, na.ok = FALSE, null.ok = FALSE)
   assert_choice(x = markup, choices = c("plain"), null.ok = FALSE)
   #TODO test whether strings *are* in this markup, and valid
-  return(x)
+  return(concourse)
 }
 
 # subclass image
-new_imageItem <- function(x, handles, languages, img_dir) {
-  x <- new_itemConcourse(x = x, handles = handles, img_dir = img_dir, languages = languages)
-  return(x)
+new_pensieveConcourseImage <- function(concourse, handles, languages, img_dir) {
+  concourse <- new_pensieveConcourse(concourse = concourse,
+                                     handles = handles,
+                                     img_dir = img_dir,
+                                     languages = languages,
+                                     subclass = "pensieveConcourseImage")
+  return(concourse)
 }
 
-validate_imageItem <- function(x) {
-  x <- validate_itemConcourse(x = x)
-  img_dir <- attr(x = x, which = "img_dir")
+validate_pensieveConcourseImage <- function(concourse) {
+  img_dir <- attr(x = concourse, which = "img_dir")
   assert_string(x = img_dir, na.ok = FALSE, null.ok = TRUE)
   if (!is.null(img_dir)) {
     assert_directory_exists(x = img_dir, access = "r")
-    files <- file.path(img_dir, as.vector(x))
+    files <- file.path(img_dir, as.vector(concourse))
   } else {
-    files <- file.path(as.vector(x))
+    files <- file.path(as.vector(concourse))
   }
   assert_file_exists(x = files,
                      extension = c("png", "jpg", "jpeg", "svg"),
                      access = "r",
                      .var.name = "file names")
-  return(x)
+  return(concourse)
 }
 
 #' @title Custom print method for knitr
@@ -184,7 +236,7 @@ validate_imageItem <- function(x) {
 #' @description Provides custom print method for knitr.
 #' Can also be invoked manually to open interactive outputs in RStudio.
 #'
-#' @param x a character matrix with full item wording of class [`itemConcourse`][itemConcourse], as created by [itemConcourse()].
+#' @param x object returned by [pensieveConcourse()].
 #'
 #' @template plot
 #'
@@ -193,11 +245,11 @@ validate_imageItem <- function(x) {
 #' @export
 #'
 #' @family knitr output functions
-knit_print.itemConcourse <- function(x, use_js = NULL, ...) {
+knit_print.pensieveConcourse <- function(x, use_js = NULL, ...) {
   # Input validation ====
   use_js <- assert_n_infer_use_js(use_js = use_js)
 
-  validate_itemConcourse(x)
+  validate_pensieveConcourse(x)
 
   # JS method ====
   if (use_js) {  # interactive

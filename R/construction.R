@@ -1,3 +1,9 @@
+# general notes for myself:
+# - helpers (exposed className()-functions) at most validate that input which affects THEIR working
+# - construction happens from the child to the parent; you call the child, which also constructs the parent class.
+# - validation happens from parent to child; you validate the parent, which always also validates the child, and if necessary children exist.
+
+
 # helper to append, and only if class not already in there
 # this is to avoid duplicate classes, which is just confusing
 classify_clever <- function(x, classname) {

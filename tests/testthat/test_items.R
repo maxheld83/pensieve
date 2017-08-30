@@ -2,31 +2,31 @@ context("Constructing items")
 
 # object construction ====
 test_that(desc = "construction of monolingual text item works", code = {
-  monolingual_text <- itemConcourse(
-    full_items = c(live_2_work = "Man lives to work.",
+  monolingual_text <- pensieveConcourse(
+    concourse = c(live_2_work = "Man lives to work.",
                   work_2_live = "Man works to live."),
     languages = c("english"),
-    type = "textItem",
+    type = "text",
     markup = "plain"
   )
-  expect_s3_class(object = monolingual_text, class = c("textItem", "itemConcourse"))
+  expect_s3_class(object = monolingual_text, class = c("pensieveConcourseText", "pensieveConcourse"))
 })
 test_that(desc = "construction of monolingual image item works", code = {
-  monolingual_image <- itemConcourse(
-    full_items = c(peach = "peach.jpg",
+  monolingual_image <- pensieveConcourse(
+    concourse = c(peach = "peach.jpg",
                   pear = "pear.jpg"),
     languages = c("english"),
     img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
     # these files ship with pensieve
-    type = "imageItem"
+    type = "image"
   )
-  expect_s3_class(object = monolingual_image, class = c("imageItem", "itemConcourse"))
+  expect_s3_class(object = monolingual_image, class = c("pensieveConcourseImage", "pensieveConcourse"))
 })
 
 test_that(desc = "construction of multilingual text item works", code = {
   # TODO avoid this duplication, this is copied from examples
-  multilingual_text <- itemConcourse(
-    full_items = matrix(
+  multilingual_text <- pensieveConcourse(
+    concourse = matrix(
       data = c(
         "Man lives to work.", "Man lebt, um zu arbeiten.",
         "Man works to live.", "Man arbeitet, um zu leben."
@@ -36,10 +36,10 @@ test_that(desc = "construction of multilingual text item works", code = {
       dimnames = list(items = c("live_2_work", "work_2_live"))
     ),
     languages = c("english", "ngerman"),
-    type = "textItem",
+    type = "text",
     markup = "plain"
   )
-  expect_s3_class(object = multilingual_text, class = c("textItem", "itemConcourse"))
+  expect_s3_class(object = multilingual_text, class = c("pensieveConcourseText", "pensieveConcourse"))
 })
 
 

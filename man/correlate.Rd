@@ -106,5 +106,5 @@ Other validation functions: \code{\link{QSorts}},
 
 Other plotting functions: \code{\link{QSorts}},
   \code{\link{extract}},
-  \code{\link{knit_print.itemConcourse}}
+  \code{\link{knit_print.pensieveConcourse}}
 }

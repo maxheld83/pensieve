@@ -79,5 +79,5 @@ Other validation functions: \code{\link{check}},
 
 Other plotting functions: \code{\link{correlate}},
   \code{\link{extract}},
-  \code{\link{knit_print.itemConcourse}}
+  \code{\link{knit_print.pensieveConcourse}}
 }
