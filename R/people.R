@@ -42,3 +42,4 @@ validate_pensievePeople <- function(people) {
   check_names(x = names, type = "strict")
   return(people)
 }
+

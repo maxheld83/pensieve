@@ -43,12 +43,12 @@ NULL
 #' @param assignments
 #' a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
 #' Matrix must be either
-#' - `logical` for *nominal*-scaled sort, where an open category applies or does not apply,
-#' - `integer` for *ordinally*-scaled sort, where an open category applies to some item *more or less* than to another other item,
-#' - `numeric` for *interval* or *ratio*-scaled sort, where an open category applies to some item *by some amount more or less* than to another item.
+#' - `logical` for *nominal*-scaled sort, where an open category applies (`TRUE`) or does not apply (`FALSE`),
+#' - `integer` for *ordinally*-scaled sort, where an open category applies to some item *more* (`2nd` rank) *or less* (`3rd` rank) than to another other item,
+#' - `numeric` for *interval* or *ratio*-scaled sort, where an open category applies to some item *by some amount more or less* (say `2.4` units) than to another item.
 #' Notice that -- counterintuitively -- *categorically*-scaled open sorts are not allowed.
 #' If columns are named, they must be the same as the names in `descriptions`.
-#' Either way, `assignments` and `descriptions` are always *matched by index only*.
+#' Either way, `assignments` and `descriptions` are always *matched by index only*: the first column from `assignments`, must be the first element of `description`, and so forth.
 #'
 #' @param descriptions
 #' a character vector giving the open-ended category description provided by the participant.
@@ -158,53 +158,6 @@ validate_pensieveOpenSorts <- function(open_sorts) {
   })
   return(open_sorts)
 }
-
-#' @title Create Co-Occurence Matrices.
-#'
-#' @export
-#'
-#' @description Creates co-occurence matrices from logical q-category assignments.
-#'
-#' @param ass Named list of logical matrices, one for each participant.
-#' Each logical matrix has items as named rows, category indices as columns and logical values in cells.
-#'
-#' @return
-#' An integer array with items as rows and columns, participants as third dimension and cells as co-occurence counts.
-#'
-#' @details
-#' The diagonal is replaced with the *maximum number of categories* for that person, to standardize the entire table.
-#'
-#' @family import
-#'
-#' @author Maximilian Held
-#'
-count_cooccur <- function(ass) {
-
-  # input validation ===
-  expect_list(x = ass,
-              types = "matrix",
-              all.missing = FALSE)
-  for (i in names(ass)) {
-    expect_matrix(x = ass[[i]],
-                  mode = "logical",
-                  any.missing = TRUE,
-                  all.missing = FALSE,
-                  row.names = "unique",
-                  null.ok = FALSE,
-                  info = paste("Matrix", i, "is not as expected."))
-  }
-
-  # body ===
-  a <- sapply(X = ass, USE.NAMES = TRUE, simplify = "array", FUN = function(x) {
-    m <- tcrossprod(x)
-    storage.mode(m) <- "integer"
-    diag(m) <- ncol(x)
-    return(m)
-  })
-  names(dimnames(a))[3] <- "people"
-  return(a)
-}
-
 
 # import helper
 
@@ -335,3 +288,52 @@ import_qcat <- function(desc, ass) {
   return(cat_canon)
 }
 
+
+
+
+
+#' @title Create Co-Occurence Matrices.
+#'
+#' @export
+#'
+#' @description Creates co-occurence matrices from logical q-category assignments.
+#'
+#' @param ass Named list of logical matrices, one for each participant.
+#' Each logical matrix has items as named rows, category indices as columns and logical values in cells.
+#'
+#' @return
+#' An integer array with items as rows and columns, participants as third dimension and cells as co-occurence counts.
+#'
+#' @details
+#' The diagonal is replaced with the *maximum number of categories* for that person, to standardize the entire table.
+#'
+#' @family import
+#'
+#' @author Maximilian Held
+#'
+count_cooccur <- function(ass) {
+
+  # input validation ===
+  expect_list(x = ass,
+              types = "matrix",
+              all.missing = FALSE)
+  for (i in names(ass)) {
+    expect_matrix(x = ass[[i]],
+                  mode = "logical",
+                  any.missing = TRUE,
+                  all.missing = FALSE,
+                  row.names = "unique",
+                  null.ok = FALSE,
+                  info = paste("Matrix", i, "is not as expected."))
+  }
+
+  # body ===
+  a <- sapply(X = ass, USE.NAMES = TRUE, simplify = "array", FUN = function(x) {
+    m <- tcrossprod(x)
+    storage.mode(m) <- "integer"
+    diag(m) <- ncol(x)
+    return(m)
+  })
+  names(dimnames(a))[3] <- "people"
+  return(a)
+}
