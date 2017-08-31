@@ -72,9 +72,9 @@ check(grid)
 Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{pensieveAssignments}},
   \code{\link{pensieveConcourse}},
   \code{\link{pensieveItems}},
+  \code{\link{pensieveOpenSorts}},
   \code{\link{pensievePeople}}, \code{\link{score}}
 
 Other validation functions: \code{\link{QSorts}},

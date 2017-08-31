@@ -1,61 +1,162 @@
-#' @title Construct list of categorical assignments
+#' @title Construct *single* and *multiple* open sort matrix.
 #'
 #' @export
-#'
-#' @param assignments
-#' a named list of matrices, with names as a participant names.
-#' Matrices have identical item-handles as row names, and may have arbitrary (ignored) column names.
-#' Matrices must all be of one data type, either
-#' - `logical` for *nominal*-scaled sorts, where a category applies or does not apply,
-#' - `integer` for *ordinally*-scaled sorts, where a category applies to some item *more or less* than to another other item,
-#' - `numeric` for *interval* or *ratio*-scaled sorts, where a category applies to some item *by some amount more or less* than to another item.
-#' Notice that -- counterintuitively -- *categorically*-scaled sorts are not allowed.
 #'
 #' @template construction_helpers
 #'
 #' @examples
-#' lisa <- matrix(data = c(TRUE, FALSE, FALSE, TRUE),
+#' # Lisas open sort, matching by index
+#' assignments <- matrix(data = c(TRUE, FALSE, FALSE, TRUE),
 #'                       nrow = 2,
-#'                       dimnames = list(handles = c("foo", "bar")))
-#' peter <- matrix(data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
+#'                       dimnames = list(handles = c("cat", "dog")))
+#' descriptions <- c("a pet which largely takes care of itself",
+#'                   "is known to have saved humans")
+#' lisa <- pensieveOpenSort(assignments = assignments, descriptions = descriptions)
+#'
+#' # Peters open sort, matching by name
+#' assignments <- matrix(data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
 #'                       nrow = 2,
-#'                       dimnames = list(handles = c("foo", "bar")))
-#' assignments <- list(lisa = lisa, peter = peter)
-#' assignments <- pensieveAssignments(list(lisa = lisa, peter = peter))
-pensieveAssignments <- function(assignments) {
-  validate_pensieveAssignments(new_pensieveAssignments(assignments = assignments))
+#'                       dimnames = list(handles = c("cat", "dog"),
+#'                                       categories = c("in_homes",
+#'                                                      "quiet",
+#'                                                      "herbivore")))
+#' descriptions <- c(in_homes = "Animal found in peoples homes.",
+#'                   quiet = "Does not make a lot of noise.",
+#'                   herbivore = "Eats plants.")
+#' peter <- pensieveOpenSort(assignments = assignments, descriptions = descriptions)
+#'
+#' # Rebeccas open sort, without any descriptions provided
+#' assignments <- matrix(data = c(FALSE, FALSE, TRUE, TRUE),
+#'                       nrow = 2,
+#'                       dimnames = list(handles = c("cat", "dog")))
+#' rebecca <- pensieveOpenSort(assignments = assignments, descriptions = NULL)
+#' # providing no description is possible, but makes interpretation hard, if not meaningless.
+#'
+#' # now let's combine the individual sort into a list
+#' open_sorts <- pensieveOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
+#'
+#' @name pensieveOpenSorts
+NULL
+
+#' @describeIn pensieveOpenSorts Creates *individual* open sort.
+#'
+#' @param assignments
+#' a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
+#' Matrix must be either
+#' - `logical` for *nominal*-scaled sort, where an open category applies or does not apply,
+#' - `integer` for *ordinally*-scaled sort, where an open category applies to some item *more or less* than to another other item,
+#' - `numeric` for *interval* or *ratio*-scaled sort, where an open category applies to some item *by some amount more or less* than to another item.
+#' Notice that -- counterintuitively -- *categorically*-scaled open sorts are not allowed.
+#' If columns are named, they must be the same as the names in `descriptions`.
+#' Either way, `assignments` and `descriptions` are always *matched by index only*.
+#'
+#' @param descriptions
+#' a character vector giving the open-ended category description provided by the participant.
+#' Can be named.
+#' Defaults to `NULL`, in which case the user-defined categories are unknown (not recommended).
+#'
+#' @export
+pensieveOpenSort <- function(assignments, descriptions = NULL) {
+
+  if (!is.null(descriptions)) {
+    # prepare descriptions; must always be named LIST
+    if (is.null(names(descriptions))) {
+      names(descriptions) <- as.character(1:length(descriptions))
+    }
+    descriptions <- as.list(descriptions)
+  }
+
+  validate_pensieveOpenSort(new_pensieveOpenSort(assignments = assignments, descriptions = descriptions))
 }
 
 # constructor
-new_pensieveAssignments <- function(assignments) {
+new_pensieveOpenSort <- function(assignments, descriptions) {
+  # remember that matching is ALWAYS by index only, the rest is fluff
+  do.call(what = structure, args = append(
+    x = list(.Data = assignments,
+             class = c("pensieveOpenSort", "Matrix")),
+    values = descriptions))
+}
+
+# validator
+validate_pensieveOpenSort <- function(assignments) {
+
+  # validate assignments
+  assert_matrix(x = assignments,
+                row.names = "strict",
+                null.ok = FALSE)
+
+  descriptions <- attributes(assignments)
+  descriptions <- descriptions[!(names(descriptions) %in% c("dim", "dimnames", "class"))]
+  if (length(descriptions) == 0) {  # recreate NULL assignment, when there are none in attr
+    descriptions <- NULL
+  }
+
+  if (!is.null(descriptions)) {
+    # validate descriptions
+    assert_list(x = descriptions,
+                types = "character",
+                any.missing = TRUE,
+                all.missing = TRUE,
+                unique = TRUE,
+                names = "unique", # strict fails on "1" etc
+                null.ok = FALSE,
+                len = ncol(assignments)) # this already validates against assignments
+
+    if (!is.null(colnames(assignments))) {
+      # validate descriptions AND assignments
+      assert_names(x = colnames(assignments),
+                   type = "unique")
+
+      assert_set_equal(x = names(descriptions),
+                       y = colnames(assignments),
+                       ordered = TRUE)
+    }
+  }
+  return(assignments)
+}
+
+#' @describeIn pensieveOpenSorts *Combine* individual open sorts in a list.
+#'
+#' @param open_sorts named list of matrices created by [pensieveOpenSort()], one for each participant.
+#' Must all be of equal data type and all have the same rows and rownames.
+pensieveOpenSorts <- function(open_sorts) {
+  validate_pensieveOpenSorts(new_pensieveOpenSorts(open_sorts = open_sorts))
+}
+
+# constructor
+new_pensieveOpenSorts <- function(open_sorts) {
   structure(
-    .Data = assignments,
-    class = c("pensieveAssignments")
+    .Data = open_sorts,
+    class = c("pensieveOpenSorts")
   )
 }
 
 # validator
-validate_pensieveAssignments <- function(assignments) {
-  assert_list(x = assignments,
-              any.missing = FALSE,
-              all.missing = FALSE,
-              names = "strict")
-  data_type <- mode(assignments[[1]])  # we'll just take the first
-  n_items <- nrow(assignments[[1]])
-  item_handles <- rownames(assignments[[1]])
+validate_pensieveOpenSorts <- function(open_sorts) {
+  assert_list(x = open_sorts,
+              any.missing = TRUE,
+              all.missing = TRUE,
+              names = "strict",
+              types = "matrix")
+
+  # for no particular reason, we make the first in the list the benchmark
+  data_type <- mode(open_sorts[[1]])
+  n_items <- nrow(open_sorts[[1]])
+  item_handles <- rownames(open_sorts[[1]])
+
   assert_choice(x = data_type, choices = c("logical", "integer", "numeric"))
-  lapply(X = assignments, FUN = function(x) {
+  lapply(X = open_sorts, FUN = function(x) {
+    validate_pensieveOpenSort(assignments = x)
     assert_matrix(x = x,
                   mode = data_type,
-                  any.missing = TRUE,
-                  all.missing = TRUE,
                   nrows = n_items,
                   row.names = "strict")
     assert_set_equal(x = rownames(x),
                      y = item_handles,
                      ordered = TRUE)
   })
-  return(assignments)
+  return(open_sorts)
 }
 
 #' @title Create Co-Occurence Matrices.
