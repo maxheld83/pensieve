@@ -19,9 +19,6 @@ Creates co-occurence matrices from logical q-category assignments.
 \details{
 The diagonal is replaced with the \emph{maximum number of categories} for that person, to standardize the entire table.
 }
-\seealso{
-Other import: \code{\link{import_qcat}}
-}
 \author{
 Maximilian Held
 }

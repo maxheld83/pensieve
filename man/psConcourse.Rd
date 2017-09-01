@@ -81,7 +81,7 @@ monolingual_image <- psConcourse(
 Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{make_grid}}, \code{\link{pensievePeople}},
-  \code{\link{psItems}}, \code{\link{psOpenSorts}},
+  \code{\link{make_grid}}, \code{\link{psItems}},
+  \code{\link{psOpenSorts}}, \code{\link{psPeople}},
   \code{\link{score}}
 }

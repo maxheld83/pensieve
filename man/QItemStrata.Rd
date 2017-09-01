@@ -21,8 +21,8 @@ Construct S3 class for pensieve.
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{pensievePeople}}, \code{\link{psConcourse}},
-  \code{\link{psItems}}, \code{\link{psOpenSorts}},
+  \code{\link{psConcourse}}, \code{\link{psItems}},
+  \code{\link{psOpenSorts}}, \code{\link{psPeople}},
   \code{\link{score}}
 
 Other import helpers: \code{\link{QPreSorts}},

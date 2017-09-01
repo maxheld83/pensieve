@@ -4,11 +4,14 @@
 \alias{psOpenSorts}
 \alias{psOpenSort}
 \alias{psOpenSorts}
+\alias{import_psOpenSorts}
 \title{Construct \emph{single} and \emph{multiple} open sort matrix.}
 \usage{
 psOpenSort(assignments, descriptions = NULL)
 
 psOpenSorts(open_sorts)
+
+import_psOpenSorts(assignments_messy, descriptions_messy = NULL)
 }
 \arguments{
 \item{assignments}{a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
@@ -28,17 +31,65 @@ Defaults to \code{NULL}, in which case the user-defined categories are unknown (
 
 \item{open_sorts}{named list of matrices created by \code{\link[=psOpenSort]{psOpenSort()}}, one for each participant.
 Must all be of equal data type and all have the same rows and rownames.}
+
+\item{assignments_messy}{a character matrix with rows as items, columns as participants and  \strong{logical category assignments} as character strings in cells.
+Categories are identified by a subset from \code{LETTERS}, same as in \code{descriptions_messy}.
+Assignments must be the same subset of \code{LETTERS} as the column names in \code{descriptions_messy}.
+Rows and columns must be named.
+
+For example, if some participant assigned her (self-described) categories \code{A}, \code{D} and \code{Z} to some item, the cell for that item and participant would read \code{"A, D, Z"}.
+Order and punctuation are ignored.
+
+See \code{note}.}
+
+\item{descriptions_messy}{a character matrix with rows as category indices, columns as participants and \strong{category descriptions} in cells.
+Rows \emph{must} be named by a subset of \code{LETTERS} to conveniently enter, and identify them from \code{assignments_messy}.
+The row names are arbitrary identifiers, but will be retained for the canonical form.
+Columns \emph{must} be named as participants.
+
+Defaults to \code{NULL}, in which case no descriptions are available.
+
+Notice category description in one row have \emph{nothing in common} other than their \emph{indices}:
+For example, the category descriptions in a row named \code{'B'} are all by different participants, and may refer to entirely different aspects.
+They are only conveniently entered in a table, and all share the fact that they were the \emph{second} description provided.
+
+When some category has not been defined by the participant, the value in the cell should be \code{NA}.
+Empty strings \code{""} will also be considered \code{NA}.}
 }
 \description{
 Constructs S3 class for pensieve.
+}
+\details{
+Open sorting categorizations \emph{cannot} be compared between participants, because each participants defines her own categories.
+\strong{The canonical representation of open sorting data} is therefore a \emph{list} of matrices, one for each participant.
+Every \emph{individual} matrix is a \code{\link[=psOpenSort]{psOpenSort()}} object, and together, they form a \code{\link[=psOpenSorts]{psOpenSorts()}} list.
+The rows in these matrices are the items, the columns are the category, and cells are the assignment.
+
+The canonical representation of open sorts in \code{\link[=psOpenSorts]{psOpenSorts()}} can be cumbersome to enter manually.
+For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of \code{descriptions_messy} and \code{assignments_messy}.
 }
 \section{Functions}{
 \itemize{
 \item \code{psOpenSort}: Creates \emph{individual} open sort.
 
 \item \code{psOpenSorts}: \emph{Combine} individual open sorts in a list.
+
+\item \code{import_psOpenSorts}: descriptions and \emph{logical} assignments from convenient, but messy format
 }}
 
+\note{
+When category is assigned, but never described, it is \code{TRUE} in the respective logical matrix entries and their description is \code{NA}:
+This is still considered valuable, if incomplete information.
+When a category is described, but never assigned, it is omitted from the data entirely.
+
+When \emph{no} category was assigned to some item in \code{assignments_messay}, an empty character string \code{""} should be in the respective cell.
+
+An \code{NA} value implies that the given participant never considered the given items \emph{at all}, across \emph{all} her categories.
+Notice this implies \emph{limited scenarios of \code{NA}} for data entered in this messy, convenient form.
+The more complicated cases, where a participant did consider \emph{some}, but \emph{not all} items in the assignment of a category, or -- equivalently -- all categories in their assessment of all items, cannot be recorded in this convenience format.
+Such more granular \code{NA} records can, however, be recorded in the canonical data representation, where the respective cell of the items x category logical matrix would be \code{NA}.
+If your data gathering procedure produces such granular \code{NA} records, do not use this convenience function.
+}
 \examples{
 # Lisas open sort, matching by index
 assignments <- matrix(data = c(TRUE, FALSE, FALSE, TRUE),
@@ -70,12 +121,45 @@ rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 # now let's combine the individual sort into a list
 open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
 
+
+# create psOpenSorts from convenient input
+ass <- matrix(data = c("A, B",
+                       # meaning A and B are assigned
+                       "",
+                       # meaning no category assigned
+                       "B",
+                       # only B assigned
+                       NA),
+                       # item never considered for assignment across *all* categories or vice versa
+                       nrow = 2,
+                       ncol = 2,
+                       dimnames = list(items = c("cat", "dog"),
+                       people = c("tony", "amy")))
+desc <- matrix(data = c("",
+                        # will be treated as NA
+                        NA,
+                        # participant provided no description, but assigned the category
+                        "lives in cage",
+                        # described, but never assigned
+                        NA,
+                        # never assigned, never described will be removed
+                        "actually a predator!",
+                        "lives on a farm"
+                        # described, but never assigned
+                        ),
+                        nrow = 3,
+                        dimnames = list(categories = c("A", "B", "C"),
+                        people = c("tony", "amy")))
+# notice how individual *nominal* categories are pasted together in cells here;
+# this convenient form *only* works for nominally-scaled data
+import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{make_grid}}, \code{\link{pensievePeople}},
-  \code{\link{psConcourse}}, \code{\link{psItems}},
+  \code{\link{make_grid}}, \code{\link{psConcourse}},
+  \code{\link{psItems}}, \code{\link{psPeople}},
   \code{\link{score}}
 }

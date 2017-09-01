@@ -1,4 +1,4 @@
-# pensievePeople ====
+# psPeople ====
 
 #' @title Construct tibble with additional participant information
 #'
@@ -13,26 +13,26 @@
 #' @template construction_helpers
 #'
 #' @examples
-#' people <- pensievePeople(data.frame(Name = c("Ann", "Kim", "Joe"),
+#' people <- psPeople(data.frame(Name = c("Ann", "Kim", "Joe"),
 #'                                     Gender = c("female", "other", "male"),
 #'                                     stringsAsFactors = FALSE))
-pensievePeople <- function(people) {
-  people <- new_pensievePeople(people = people)
-  people <- validate_pensievePeople(people = people)
+psPeople <- function(people) {
+  people <- new_psPeople(people = people)
+  people <- validate_psPeople(people = people)
   return(people)
 }
 
 # constructor
-new_pensievePeople <- function(people) {
+new_psPeople <- function(people) {
   people <- tibble::as_tibble(people)
   structure(
     .Data = people,
-    class = c("pensievePeople", class(people))
+    class = c("psPeople", class(people))
   )
 }
 
 # validator
-validate_pensievePeople <- function(people) {
+validate_psPeople <- function(people) {
   check_tibble(x = people,
                types = c("logical", "integer", "integerish", "double", "numeric", "character", "factor"),
                any.missing = TRUE,
