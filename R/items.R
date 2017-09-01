@@ -4,33 +4,31 @@
 #'
 #' @export
 #'
-#' @param pensieve_concourse object returned by [pensieveConcourse()]
+#' @param ps_concourse object returned by [psConcourse()]
 #'
 #' @template construction_helpers
-pensieveItems <- function(pensieve_concourse) {
-  pensieve_items <- new_pensieveItems(pensieve_concourse = pensieve_concourse)
-  pensieve_items <- validate_pensieveItems(pensieve_items)
-  return(pensieve_items)
+psItems <- function(ps_concourse) {
+  validate_psItems(new_psItems(ps_concourse = ps_concourse))
 }
 
 # constructor
-new_pensieveItems <- function(pensieve_concourse) {
+new_psItems <- function(ps_concourse) {
   structure(
     .Data = list(
-      concourse = pensieve_concourse
+      concourse = ps_concourse
     ),
-    class = c("pensieveItems")
+    class = c("psItems")
   )
 }
 
 # validator
-validate_pensieveItems <- function(pensieve_items) {
-  validate_pensieveConcourse(pensieve_items$concourse)  # this also validates subclass, must not be null
-  return(pensieve_items)
+validate_psItems <- function(ps_items) {
+  validate_psConcourse(ps_items$concourse)  # this also validates subclass, must not be null
+  return(ps_items)
 }
 
 
-# pensieveConcourse ====
+# psConcourse ====
 
 #' @title Construct matrix of *all* (researcher-facing) **item handles** and (participant-facing) **full items**
 #'
@@ -49,10 +47,10 @@ validate_pensieveItems <- function(pensieve_items) {
 #'
 #' @param type a character string giving the *kind* of item stimuli, must be one of:
 #' - `"text"` for textual items, in which case cells in `concourse` must be text.
-#'   An additional subclass `"pensieveConcourseText"` is prepended and validated.
+#'   An additional subclass `"psConcourseText"` is prepended and validated.
 #' - `"image"` for image items, in which case cells in `concourse` must be file paths, relative from `img_dir`.
 #'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
-#'   An additional class `"pensieveConcourseImage"` is prepended and validated.
+#'   An additional class `"psConcourseImage"` is prepended and validated.
 #' Defaults to `"text"`.
 #'
 #' @param markup a character string giving the markup for `type = "text"`s.
@@ -66,7 +64,7 @@ validate_pensieveItems <- function(pensieve_items) {
 #'
 #' @examples
 #' # monolingual study, text items
-#' monolingual_text <- pensieveConcourse(
+#' monolingual_text <- psConcourse(
 #'   concourse = c(live_2_work = "Man lives to work.",
 #'                 work_2_live = "Man works to live."),
 #'   languages = c("english"),
@@ -75,7 +73,7 @@ validate_pensieveItems <- function(pensieve_items) {
 #' )
 #'
 #' # multilingual study, text items
-#' multilingual_text <- pensieveConcourse(
+#' multilingual_text <- psConcourse(
 #'   concourse = matrix(
 #'     data = c(
 #'       "Man lives to work.", "Man lebt, um zu arbeiten.",
@@ -91,7 +89,7 @@ validate_pensieveItems <- function(pensieve_items) {
 #' )
 #'
 #' # monolingual study, image items
-#' monolingual_image <- pensieveConcourse(
+#' monolingual_image <- psConcourse(
 #'  concourse = c(peach = "peach.jpg", pear = "pear.jpg"),
 #'  img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
 #'  # these files ship with pensieve
@@ -99,7 +97,7 @@ validate_pensieveItems <- function(pensieve_items) {
 #' )
 #'
 #' @template construction_helpers
-pensieveConcourse <- function(concourse, languages = c("english"), type = "text", markup = "plain", img_dir = NULL) {
+psConcourse <- function(concourse, languages = c("english"), type = "text", markup = "plain", img_dir = NULL) {
   assert_string(x = type, na.ok = FALSE, null.ok = FALSE)
   assert_character(x = languages,
                    any.missing = FALSE,
@@ -131,35 +129,35 @@ pensieveConcourse <- function(concourse, languages = c("english"), type = "text"
 
   # construction
   if (type == "text") {
-    concourse <- new_pensieveConcourseText(concourse = concourse,
+    concourse <- new_psConcourseText(concourse = concourse,
                                            handles = rownames(concourse),
                                            languages = languages,
                                            markup = markup)
   } else if (type == "image") {
-    concourse <- new_pensieveConcourseImage(concourse = concourse,
+    concourse <- new_psConcourseImage(concourse = concourse,
                                             handles = rownames(concourse),
                                             languages = languages,
                                             img_dir = img_dir)
   }
 
   # validation
-  validate_pensieveConcourse(concourse = concourse)
+  validate_psConcourse(concourse = concourse)
 
   return(concourse)
 }
 
 # parent constructor
-new_pensieveConcourse <- function(concourse, handles, languages, ..., subclass) {
+new_psConcourse <- function(concourse, handles, languages, ..., subclass) {
   structure(
     .Data = concourse,
     dimnames = list(handles = handles, languages = languages),
     ...,
-    class = c(subclass, "pensieveConcourse", "matrix")
+    class = c(subclass, "psConcourse", "matrix")
   )
 }
 
 # parent validator
-validate_pensieveConcourse <- function(concourse) {
+validate_psConcourse <- function(concourse) {
   assert_matrix(x = concourse,
                 mode = "character",
                 any.missing = TRUE,
@@ -171,10 +169,10 @@ validate_pensieveConcourse <- function(concourse) {
   assert_unique_in_column(x = concourse)
 
   # validate subclasses
-  if (inherits(x = concourse, what = "pensieveConcourseText")) {
-    validate_pensieveConcourseText(concourse = concourse)
-  } else if (inherits(x = concourse, what = "pensieveConcourseImage")) {
-    validate_pensieveConcourseImage(concourse = concourse)
+  if (inherits(x = concourse, what = "psConcourseText")) {
+    validate_psConcourseText(concourse = concourse)
+  } else if (inherits(x = concourse, what = "psConcourseImage")) {
+    validate_psConcourseImage(concourse = concourse)
   } else {
     stop("No valid type provided. Must be 'text' or 'image'.",
          call. = FALSE)
@@ -184,16 +182,16 @@ validate_pensieveConcourse <- function(concourse) {
 }
 
 # subclass text
-new_pensieveConcourseText <- function(concourse, handles, languages, markup) {
-  concourse <- new_pensieveConcourse(concourse = concourse,
+new_psConcourseText <- function(concourse, handles, languages, markup) {
+  concourse <- new_psConcourse(concourse = concourse,
                                      handles = handles,
                                      markup = markup,
                                      languages = languages,
-                                     subclass = "pensieveConcourseText")
+                                     subclass = "psConcourseText")
   return(concourse)
 }
 
-validate_pensieveConcourseText <- function(concourse) {
+validate_psConcourseText <- function(concourse) {
   markup <- attr(x = concourse, which = "markup")
   assert_string(x = markup, na.ok = FALSE, null.ok = FALSE)
   assert_choice(x = markup, choices = c("plain"), null.ok = FALSE)
@@ -202,16 +200,16 @@ validate_pensieveConcourseText <- function(concourse) {
 }
 
 # subclass image
-new_pensieveConcourseImage <- function(concourse, handles, languages, img_dir) {
-  concourse <- new_pensieveConcourse(concourse = concourse,
+new_psConcourseImage <- function(concourse, handles, languages, img_dir) {
+  concourse <- new_psConcourse(concourse = concourse,
                                      handles = handles,
                                      img_dir = img_dir,
                                      languages = languages,
-                                     subclass = "pensieveConcourseImage")
+                                     subclass = "psConcourseImage")
   return(concourse)
 }
 
-validate_pensieveConcourseImage <- function(concourse) {
+validate_psConcourseImage <- function(concourse) {
   img_dir <- attr(x = concourse, which = "img_dir")
   assert_string(x = img_dir, na.ok = FALSE, null.ok = TRUE)
   if (!is.null(img_dir)) {
@@ -232,7 +230,7 @@ validate_pensieveConcourseImage <- function(concourse) {
 #' @description Provides custom print method for knitr.
 #' Can also be invoked manually to open interactive outputs in RStudio.
 #'
-#' @param x object returned by [pensieveConcourse()].
+#' @param x object returned by [psConcourse()].
 #'
 #' @template plot
 #'
@@ -241,11 +239,11 @@ validate_pensieveConcourseImage <- function(concourse) {
 #' @export
 #'
 #' @family knitr output functions
-knit_print.pensieveConcourse <- function(x, use_js = NULL, ...) {
+knit_print.psConcourse <- function(x, use_js = NULL, ...) {
   # Input validation ====
   use_js <- assert_n_infer_use_js(use_js = use_js)
 
-  validate_pensieveConcourse(x)
+  validate_psConcourse(x)
 
   # JS method ====
   if (use_js) {  # interactive

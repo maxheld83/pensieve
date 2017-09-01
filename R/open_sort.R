@@ -11,7 +11,7 @@
 #'                       dimnames = list(handles = c("cat", "dog")))
 #' descriptions <- c("a pet which largely takes care of itself",
 #'                   "is known to have saved humans")
-#' lisa <- pensieveOpenSort(assignments = assignments, descriptions = descriptions)
+#' lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
 #'
 #' # Peters open sort, matching by name
 #' assignments <- matrix(data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
@@ -23,22 +23,22 @@
 #' descriptions <- c(in_homes = "Animal found in peoples homes.",
 #'                   quiet = "Does not make a lot of noise.",
 #'                   herbivore = "Eats plants.")
-#' peter <- pensieveOpenSort(assignments = assignments, descriptions = descriptions)
+#' peter <- psOpenSort(assignments = assignments, descriptions = descriptions)
 #'
 #' # Rebeccas open sort, without any descriptions provided
 #' assignments <- matrix(data = c(FALSE, FALSE, TRUE, TRUE),
 #'                       nrow = 2,
 #'                       dimnames = list(handles = c("cat", "dog")))
-#' rebecca <- pensieveOpenSort(assignments = assignments, descriptions = NULL)
+#' rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 #' # providing no description is possible, but makes interpretation hard, if not meaningless.
 #'
 #' # now let's combine the individual sort into a list
-#' open_sorts <- pensieveOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
+#' open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
 #'
-#' @name pensieveOpenSorts
+#' @name psOpenSorts
 NULL
 
-#' @describeIn pensieveOpenSorts Creates *individual* open sort.
+#' @describeIn psOpenSorts Creates *individual* open sort.
 #'
 #' @param assignments
 #' a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
@@ -56,7 +56,7 @@ NULL
 #' Defaults to `NULL`, in which case the user-defined categories are unknown (not recommended).
 #'
 #' @export
-pensieveOpenSort <- function(assignments, descriptions = NULL) {
+psOpenSort <- function(assignments, descriptions = NULL) {
 
   if (!is.null(descriptions)) {
     # prepare descriptions; must always be named LIST
@@ -66,20 +66,20 @@ pensieveOpenSort <- function(assignments, descriptions = NULL) {
     descriptions <- as.list(descriptions)
   }
 
-  validate_pensieveOpenSort(new_pensieveOpenSort(assignments = assignments, descriptions = descriptions))
+  validate_psOpenSort(new_psOpenSort(assignments = assignments, descriptions = descriptions))
 }
 
 # constructor
-new_pensieveOpenSort <- function(assignments, descriptions) {
+new_psOpenSort <- function(assignments, descriptions) {
   # remember that matching is ALWAYS by index only, the rest is fluff
   do.call(what = structure, args = append(
     x = list(.Data = assignments,
-             class = c("pensieveOpenSort", "Matrix")),
+             class = c("psOpenSort", "Matrix")),
     values = descriptions))
 }
 
 # validator
-validate_pensieveOpenSort <- function(assignments) {
+validate_psOpenSort <- function(assignments) {
 
   # validate assignments
   assert_matrix(x = assignments,
@@ -116,24 +116,24 @@ validate_pensieveOpenSort <- function(assignments) {
   return(assignments)
 }
 
-#' @describeIn pensieveOpenSorts *Combine* individual open sorts in a list.
+#' @describeIn psOpenSorts *Combine* individual open sorts in a list.
 #'
-#' @param open_sorts named list of matrices created by [pensieveOpenSort()], one for each participant.
+#' @param open_sorts named list of matrices created by [psOpenSort()], one for each participant.
 #' Must all be of equal data type and all have the same rows and rownames.
-pensieveOpenSorts <- function(open_sorts) {
-  validate_pensieveOpenSorts(new_pensieveOpenSorts(open_sorts = open_sorts))
+psOpenSorts <- function(open_sorts) {
+  validate_psOpenSorts(new_psOpenSorts(open_sorts = open_sorts))
 }
 
 # constructor
-new_pensieveOpenSorts <- function(open_sorts) {
+new_psOpenSorts <- function(open_sorts) {
   structure(
     .Data = open_sorts,
-    class = c("pensieveOpenSorts")
+    class = c("psOpenSorts")
   )
 }
 
 # validator
-validate_pensieveOpenSorts <- function(open_sorts) {
+validate_psOpenSorts <- function(open_sorts) {
   assert_list(x = open_sorts,
               any.missing = TRUE,
               all.missing = TRUE,
@@ -147,7 +147,7 @@ validate_pensieveOpenSorts <- function(open_sorts) {
 
   assert_choice(x = data_type, choices = c("logical", "integer", "numeric"))
   lapply(X = open_sorts, FUN = function(x) {
-    validate_pensieveOpenSort(assignments = x)
+    validate_psOpenSort(assignments = x)
     assert_matrix(x = x,
                   mode = data_type,
                   nrows = n_items,

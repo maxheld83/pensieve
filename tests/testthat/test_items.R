@@ -2,17 +2,17 @@ context("Constructing items")
 
 # object construction ====
 test_that(desc = "construction of monolingual text item works", code = {
-  monolingual_text <- pensieveConcourse(
+  monolingual_text <- psConcourse(
     concourse = c(live_2_work = "Man lives to work.",
                   work_2_live = "Man works to live."),
     languages = c("english"),
     type = "text",
     markup = "plain"
   )
-  expect_s3_class(object = monolingual_text, class = c("pensieveConcourseText", "pensieveConcourse"))
+  expect_s3_class(object = monolingual_text, class = c("psConcourseText", "psConcourse"))
 })
 test_that(desc = "construction of monolingual image item works", code = {
-  monolingual_image <- pensieveConcourse(
+  monolingual_image <- psConcourse(
     concourse = c(peach = "peach.jpg",
                   pear = "pear.jpg"),
     languages = c("english"),
@@ -20,12 +20,12 @@ test_that(desc = "construction of monolingual image item works", code = {
     # these files ship with pensieve
     type = "image"
   )
-  expect_s3_class(object = monolingual_image, class = c("pensieveConcourseImage", "pensieveConcourse"))
+  expect_s3_class(object = monolingual_image, class = c("psConcourseImage", "psConcourse"))
 })
 
 test_that(desc = "construction of multilingual text item works", code = {
   # TODO avoid this duplication, this is copied from examples
-  multilingual_text <- pensieveConcourse(
+  multilingual_text <- psConcourse(
     concourse = matrix(
       data = c(
         "Man lives to work.", "Man lebt, um zu arbeiten.",
@@ -39,7 +39,7 @@ test_that(desc = "construction of multilingual text item works", code = {
     type = "text",
     markup = "plain"
   )
-  expect_s3_class(object = multilingual_text, class = c("pensieveConcourseText", "pensieveConcourse"))
+  expect_s3_class(object = multilingual_text, class = c("psConcourseText", "psConcourse"))
 })
 
 
