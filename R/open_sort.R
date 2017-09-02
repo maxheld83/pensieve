@@ -80,7 +80,7 @@ new_psOpenSort <- function(assignments, descriptions) {
   # remember that matching is ALWAYS by index only, the rest is fluff
   do.call(what = structure, args = append(
     x = list(.Data = assignments,
-             class = c("psOpenSort", "Matrix")),
+             class = c("psOpenSort", "matrix")),
     values = descriptions))
 }
 
