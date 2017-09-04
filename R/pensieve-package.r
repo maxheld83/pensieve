@@ -2,5 +2,5 @@
 #'
 #' @name pensieve
 #' @docType package
-#' @import ggplot2 checkmate testthat
+#' @import ggplot2 checkmate testthat ggraph
 "_PACKAGE"

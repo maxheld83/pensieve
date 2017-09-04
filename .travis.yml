@@ -18,7 +18,6 @@ matrix:
   allow_failures:
     - os: osx
 
-
 # general settings ====
 
 warnings_are_errors: false

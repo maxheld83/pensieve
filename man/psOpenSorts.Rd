@@ -11,9 +11,9 @@
 \usage{
 psOpenSort(assignments, descriptions = NULL)
 
-tidy.psOpenSort(x, codings = NULL)
+tidy.psOpenSort(x)
 
-autoplot1.psOpenSort(object, codings = NULL, str_wrap_width = 30)
+autoplot1.psOpenSort(object, edge_codings = NULL, str_wrap_width = 30)
 
 psOpenSorts(open_sorts)
 
@@ -37,12 +37,19 @@ Defaults to \code{NULL}, in which case the user-defined categories are unknown (
 
 \item{x}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
 
-\item{codings}{a tibble with category description indeces in the first column, and arbitrary metadata \emph{about the descriptions} in later named columns.
+\item{object}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
+
+\item{edge_codings}{a tibble with category description indeces in the first column, and arbitrary metadata \emph{about the descriptions} in limited later columns:
+\itemize{
+\item 2nd column will be mapped to line color,
+\item 3rd column will be mapped to line type (and must be discrete).
+Later columns will be ignored.
 Useful if participants or researchers have coded the open-ended descriptions in some way.
 Category description indeces must be a subset of the column names in \code{x}.
-Defaults to \code{NULL}.}
-
-\item{object}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
+If more then one code applies to a category, multiple rows with identical categories can exist, and multiple, "fanned-out" edges will be drawn between the respective nodes.
+See note.
+Defaults to \code{NULL}.
+}}
 
 \item{str_wrap_width}{integer scalar, giving the maximum number of characters after which to insert a newline, passed on to \code{\link[stringr:str_wrap]{stringr::str_wrap()}}.
 Defaults to \code{30}.
@@ -101,6 +108,9 @@ For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format 
 }}
 
 \note{
+If \code{codings} are added, the aesthetics are set \emph{for each individual \link{psOpenSort} separately}, which may make it hard to compare plots across participants.
+To get consistent code aesthetics, consider applying \code{\link[ggraph:scale_edge_color_manual]{ggraph::scale_edge_color_manual()}} and friends.
+
 When category is assigned, but never described, it is \code{TRUE} in the respective logical matrix entries and their description is \code{NA}:
 This is still considered valuable, if incomplete information.
 When a category is described, but never assigned, it is omitted from the data entirely.
@@ -145,8 +155,15 @@ rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
 
 autoplot1.psOpenSort(object = lisa)
-autoplot1.psOpenSort(object = peter)
 autoplot1.psOpenSort(object = rebecca)
+
+# no with codes
+petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herbivore"),
+                             reference = c("location", "human interaction", NA, "animal diet"),
+                             length = c("medium", "medium", "medium", "short")
+                             # notice the duplicates to allow for multiple codes
+                             )
+autoplot1.psOpenSort(object = peter, edge_codings = petercodes)
 
 # create psOpenSorts from convenient input
 ass <- matrix(data = c("A, B",

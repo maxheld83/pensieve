@@ -144,20 +144,12 @@ validate_psOpenSort <- function(assignments) {
 #'
 #' @param x a [psOpenSort], created by [psOpenSort()].
 #'
-#' @param codings a tibble with category description indeces in the first column, and arbitrary metadata *about the descriptions* in later named columns.
-#' Useful if participants or researchers have coded the open-ended descriptions in some way.
-#' Category description indeces must be a subset of the column names in `x`.
-#' Defaults to `NULL`.
-#'
 #' @export
-tidy.psOpenSort <- function(x, codings = NULL) {
+tidy.psOpenSort <- function(x) {
   # input validation ====
   assert_class(x = x, classes = "psOpenSort", null.ok = FALSE)
   #TODO replace this with a real asserter, once available
   invisible(validate_psOpenSort(assignments = x))
-
-  assert_tibble(x = codings, null.ok = TRUE)
-  assert_subset(x = codings[[1]], choices = colnames(x))
 
   # prep EDGE data ====
   # melt the edges
@@ -166,14 +158,6 @@ tidy.psOpenSort <- function(x, codings = NULL) {
   edge_df <- edge_df[!(is.na(edge_df$value)), ]  # kill NAs
   edge_df <- edge_df[edge_df$value, ]  # take only TRUEs
   edge_df <- edge_df[, c("items", "categories")]
-
-  # add codes
-  if (!is.null(codings)) {
-    codeslong <- reshape2::melt(data = codings, id.vars = 1)
-    codeslong <- codeslong[codeslong$value, ]
-    codeslong <- codeslong[,c("Index", "variable")]
-    edge_df <- merge(x = edge_df, y = codeslong, by.x = "categories", by.y = "Index", all = TRUE)
-  }
 
   # NAs as nodes don't work, so we have to kill these
   edge_df <- edge_df[!(is.na(edge_df$categories) | is.na(edge_df$items)), ]
@@ -201,18 +185,37 @@ tidy.psOpenSort <- function(x, codings = NULL) {
 #'
 #' @param object a [psOpenSort], created by [psOpenSort()].
 #'
-#' @inheritParams tidy.psOpenSort
+#' @param edge_codings a tibble with category description indeces in the first column, and arbitrary metadata *about the descriptions* in limited later columns:
+#' - 2nd column will be mapped to line color,
+#' - 3rd column will be mapped to line type (and must be discrete).
+#' Later columns will be ignored.
+#' Useful if participants or researchers have coded the open-ended descriptions in some way.
+#' Category description indeces must be a subset of the column names in `x`.
+#' If more then one code applies to a category, multiple rows with identical categories can exist, and multiple, "fanned-out" edges will be drawn between the respective nodes.
+#' See note.
+#' Defaults to `NULL`.
 #'
 #' @param str_wrap_width integer scalar, giving the maximum number of characters after which to insert a newline, passed on to [stringr::str_wrap()].
 #' Defaults to `30`.
 #' Useful for long descriptions.
 #'
+#' @note
+#' If `codings` are added, the aesthetics are set *for each individual [psOpenSort] separately*, which may make it hard to compare plots across participants.
+#' To get consistent code aesthetics, consider applying [ggraph::scale_edge_color_manual()] and friends.
+#'
 #' @examples
 #' autoplot1.psOpenSort(object = lisa)
-#' autoplot1.psOpenSort(object = peter)
 #' autoplot1.psOpenSort(object = rebecca)
+#'
+#' # no with codes
+#' petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herbivore"),
+#'                              reference = c("location", "human interaction", NA, "animal diet"),
+#'                              length = c("medium", "medium", "medium", "short")
+#'                              # notice the duplicates to allow for multiple codes
+#'                              )
+#' autoplot1.psOpenSort(object = peter, edge_codings = petercodes)
 #' @export
-autoplot1.psOpenSort <- function(object, codings = NULL, str_wrap_width = 30) {
+autoplot1.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 30) {
   if (!requireNamespace("ggraph", quietly = TRUE)) {
     stop("ggraph needed for this function to work. Please install it.",
          call. = FALSE)
@@ -222,9 +225,22 @@ autoplot1.psOpenSort <- function(object, codings = NULL, str_wrap_width = 30) {
          call. = FALSE)
   }
 
-  dataprep <- tidy.psOpenSort(x = object, codings = codings)
+  dataprep <- tidy.psOpenSort(x = object)
   edge_df <- dataprep$edge_df
   node_df <- dataprep$node_df
+
+  # add codes
+  if (!is.null(edge_codings)) {
+    # prep codings
+    assert_tibble(x = edge_codings, null.ok = TRUE)
+    #assert_subset(x = unique(edge_codings[[1]]), choices = unique(edge_df$categories))
+
+    edge_df <- merge(x = edge_df, y = edge_codings, by.x = "categories", by.y = "category", all = TRUE)
+
+    # NAs as nodes don't work, so we have to kill these
+    edge_df <- edge_df[!(is.na(edge_df$categories) | is.na(edge_df$items)), ]
+    # this implies that missing sub- and supercodes must LATER be added again via the ggplot scale_color function, so that the legend is always complete and color schemes are comparable.
+  }
 
   if (requireNamespace("stringr", quietly = TRUE)) {
     # wrap strings
@@ -242,7 +258,11 @@ autoplot1.psOpenSort <- function(object, codings = NULL, str_wrap_width = 30) {
   assert_true(x = igraph::bipartite_mapping(graph = graph)$res)
 
   g <- ggraph::ggraph(graph = graph, layout = "bipartite")
-  g <- g + ggraph::geom_edge_fan()
+  if (is.null(edge_codings)) {
+    g <- g + ggraph::geom_edge_fan()
+  } else {
+    g <- g + ggraph::geom_edge_fan(mapping = aes_(edge_colour = as.name(colnames(edge_df)[3]), edge_linetype = as.name(colnames(edge_df)[4])))
+  }
   g <- g + ggraph::geom_node_label(mapping = aes(label = labels), repel = FALSE, hjust = "inward")
   g <- g + coord_flip()
   g <- g + theme_void()
