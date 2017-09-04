@@ -125,6 +125,64 @@ validate_psOpenSort <- function(assignments) {
   return(assignments)
 }
 
+#' @describeIn psOpenSorts Prepare *individual* open sort for bipartite plotting.
+#'
+#' @param x a [psOpenSort], created by [psOpenSort()].
+#'
+#' @param codings a tibble with category description indeces in the first column, and arbitrary metadata *about the descriptions* in later named columns.
+#' Useful if participants or researchers have coded the open-ended descriptions in some way.
+#' Category description indeces must be a subset of the column names in `x`.
+#' Defaults to `NULL`.
+#'
+#' @export
+#'
+#' @examples
+#' tidy.psOpenSort(x = lisa)
+tidy.psOpenSort <- function(x, codings = NULL) {
+  # input validation ====
+  assert_class(x = x, classes = "psOpenSort", null.ok = FALSE)
+  #TODO replace this with a real asserter, once available
+  invisible(validate_psOpenSort(assignments = x))
+
+  assert_tibble(x = codings, null.ok = TRUE)
+  assert_subset(x = codings[[1]], choices = colnames(x))
+
+  # prep EDGE data ====
+  # melt the edges
+  edge_df <- reshape2::melt(data = x, as.is = TRUE)
+  edge_df[[2]] <- as.character(edge_df[[2]])
+  edge_df <- edge_df[!(is.na(edge_df$value)), ]  # kill NAs
+  edge_df <- edge_df[edge_df$value, ]  # take only TRUEs
+  edge_df <- edge_df[, c(1, 2)]
+  colnames(edge_df) <- c("items", "categories")
+
+  # add codes
+  if (!is.null(codings)) {
+    codeslong <- reshape2::melt(data = codings, id.vars = 1)
+    codeslong <- codeslong[codeslong$value, ]
+    codeslong <- codeslong[,c("Index", "variable")]
+    edge_df <- merge(x = edge_df, y = codeslong, by.x = "categories", by.y = "Index", all = TRUE)
+  }
+
+  # NAs as nodes don't work, so we have to kill these
+  edge_df <- edge_df[!(is.na(edge_df$categories) | is.na(edge_df$items)), ]
+  # this implies that missing sub- and supercodes must LATER be added again via the ggplot scale_color function, so that the legend is always complete and color schemes are comparable.
+
+  # prep NODE VERTICES DATA ====
+  node_df <- data.frame(name = c(colnames(x), rownames(x)),
+                          type = c(rep(FALSE, ncol(x)), rep(TRUE, nrow(x))),
+                          stringsAsFactors = FALSE)
+
+  # add the full descriptions and items as labels
+  fulldesc <- data.frame(index = names(attributes(x)$descriptions),
+                         desc = unlist(attributes(x)$descriptions))
+  # TODO add extra treatment here in case there is NO description for some category; in that case, the colname (A) might be a good fall-back
+  node_df$label <- NA
+  node_df$label <- c(fulldesc$desc, rownames(x))
+
+  return(list(edge_df = edge_df, node_df = node_df))
+}
+
 #' @describeIn psOpenSorts *Combine* individual open sorts in a list.
 #'
 #' @param open_sorts named list of matrices created by [psOpenSort()], one for each participant.

@@ -3,11 +3,14 @@
 \name{psOpenSorts}
 \alias{psOpenSorts}
 \alias{psOpenSort}
+\alias{tidy.psOpenSort}
 \alias{psOpenSorts}
 \alias{import_psOpenSorts}
 \title{Construct \emph{single} and \emph{multiple} open sort matrix.}
 \usage{
 psOpenSort(assignments, descriptions = NULL)
+
+tidy.psOpenSort(x, codings = NULL)
 
 psOpenSorts(open_sorts)
 
@@ -28,6 +31,13 @@ Either way, \code{assignments} and \code{descriptions} are always \emph{matched 
 \item{descriptions}{a character vector giving the open-ended category description provided by the participant.
 Can be named.
 Defaults to \code{NULL}, in which case the user-defined categories are unknown (not recommended).}
+
+\item{x}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
+
+\item{codings}{a tibble with category description indeces in the first column, and arbitrary metadata \emph{about the descriptions} in later named columns.
+Useful if participants or researchers have coded the open-ended descriptions in some way.
+Category description indeces must be a subset of the column names in \code{x}.
+Defaults to \code{NULL}.}
 
 \item{open_sorts}{named list of matrices created by \code{\link[=psOpenSort]{psOpenSort()}}, one for each participant.
 Must all be of equal data type and all have the same rows and rownames.}
@@ -71,6 +81,8 @@ For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format 
 \section{Functions}{
 \itemize{
 \item \code{psOpenSort}: Creates \emph{individual} open sort.
+
+\item \code{tidy.psOpenSort}: Prepare \emph{individual} open sort for bipartite plotting.
 
 \item \code{psOpenSorts}: \emph{Combine} individual open sorts in a list.
 
@@ -121,6 +133,7 @@ rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 # now let's combine the individual sort into a list
 open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
 
+tidy.psOpenSort(x = lisa)
 
 # create psOpenSorts from convenient input
 ass <- matrix(data = c("A, B",
