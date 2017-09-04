@@ -14,7 +14,7 @@
 #' # Lisas open sort, matching by index
 #' assignments <- matrix(data = c(TRUE, FALSE, FALSE, TRUE),
 #'                       nrow = 2,
-#'                       dimnames = list(handles = c("cat", "dog")))
+#'                       dimnames = list(items = c("cat", "dog")))
 #' descriptions <- c("a pet which largely takes care of itself",
 #'                   "is known to have saved humans")
 #' lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
@@ -22,7 +22,7 @@
 #' # Peters open sort, matching by name
 #' assignments <- matrix(data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
 #'                       nrow = 2,
-#'                       dimnames = list(handles = c("cat", "dog"),
+#'                       dimnames = list(items = c("cat", "dog"),
 #'                                       categories = c("in_homes",
 #'                                                      "quiet",
 #'                                                      "herbivore")))
@@ -80,6 +80,7 @@ new_psOpenSort <- function(assignments, descriptions) {
   # remember that matching is ALWAYS by index only, the rest is fluff
   do.call(what = structure, args = append(
     x = list(.Data = assignments,
+             dimnames = list(items = rownames(assignments), categories = colnames(assignments)),
              class = c("psOpenSort", "matrix")),
     values = list(descriptions = descriptions)))
 }
@@ -91,6 +92,7 @@ validate_psOpenSort <- function(assignments) {
   assert_matrix(x = assignments,
                 row.names = "strict",
                 null.ok = FALSE)
+  assert_set_equal(x = names(dimnames(assignments)), y = c("items", "categories"))
 
   descriptions <- attributes(assignments)$descriptions
   if (length(descriptions) == 0) {  # recreate NULL assignment, when there are none in attr
@@ -153,8 +155,7 @@ tidy.psOpenSort <- function(x, codings = NULL) {
   edge_df[[2]] <- as.character(edge_df[[2]])
   edge_df <- edge_df[!(is.na(edge_df$value)), ]  # kill NAs
   edge_df <- edge_df[edge_df$value, ]  # take only TRUEs
-  edge_df <- edge_df[, c(1, 2)]
-  colnames(edge_df) <- c("items", "categories")
+  edge_df <- edge_df[, c("items", "categories")]
 
   # add codes
   if (!is.null(codings)) {

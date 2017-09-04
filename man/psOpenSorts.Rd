@@ -106,7 +106,7 @@ If your data gathering procedure produces such granular \code{NA} records, do no
 # Lisas open sort, matching by index
 assignments <- matrix(data = c(TRUE, FALSE, FALSE, TRUE),
                       nrow = 2,
-                      dimnames = list(handles = c("cat", "dog")))
+                      dimnames = list(items = c("cat", "dog")))
 descriptions <- c("a pet which largely takes care of itself",
                   "is known to have saved humans")
 lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
@@ -114,7 +114,7 @@ lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
 # Peters open sort, matching by name
 assignments <- matrix(data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
                       nrow = 2,
-                      dimnames = list(handles = c("cat", "dog"),
+                      dimnames = list(items = c("cat", "dog"),
                                       categories = c("in_homes",
                                                      "quiet",
                                                      "herbivore")))
