@@ -213,11 +213,40 @@ tidy.psOpenSort <- function(x, codings = NULL) {
 #' autoplot1.psOpenSort(object = rebecca)
 #' @export
 autoplot1.psOpenSort <- function(object, codings = NULL, str_wrap_width = 30) {
+  if (!requireNamespace("ggraph", quietly = TRUE)) {
+    stop("ggraph needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("igraph", quietly = TRUE)) {
+    stop("ggraph needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
   dataprep <- tidy.psOpenSort(x = object, codings = codings)
   edge_df <- dataprep$edge_df
   node_df <- dataprep$node_df
-  rm(edge_df, node_df)
-  return("foo")
+
+  if (requireNamespace("stringr", quietly = TRUE)) {
+    # wrap strings
+    node_df$labels <- stringr::str_wrap(string = node_df$labels,
+                                        width = str_wrap_width)
+  } else {
+    warning("Package 'stringr' is not installed, strings could not be wrapped.")
+  }
+
+  # replace all NAs with names, because ggplot does not like NAs
+  node_df$labels[is.na(node_df$labels)] <- paste(node_df$name[is.na(node_df$labels)], "(NA)")
+
+  graph <- igraph::graph_from_data_frame(d = edge_df, directed = FALSE, vertices = node_df)
+
+  assert_true(x = igraph::bipartite_mapping(graph = graph)$res)
+
+  g <- ggraph::ggraph(graph = graph, layout = "bipartite")
+  g <- g + ggraph::geom_edge_fan()
+  g <- g + ggraph::geom_node_label(mapping = aes(label = labels), repel = FALSE, hjust = "inward")
+  g <- g + coord_flip()
+  g <- g + theme_void()
+  return(g)
 }
 
 

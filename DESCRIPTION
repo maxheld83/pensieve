@@ -28,6 +28,8 @@ Suggests:
   devtools (>= 1.12.0),
   DT (>= 0.2),
   ggrepel (>= 0.6.5),
+  ggraph (>= 1.0.0),
+  igraph (>= 1.1.2),
   knitr (>= 1.13),
   lettercase (>= 0.13.1),
   pkgdown (>= 0.1.0.9000),
@@ -38,6 +40,7 @@ Suggests:
   servr (>= 0.6),
   shiny (>= 1.0.3),
   shinyBS (>= 0.61),
+  stringr (>= 1.2.0),
   withr (>= 1.0.2)
 Remotes:
   hadley/pkgdown,

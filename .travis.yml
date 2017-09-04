@@ -44,6 +44,7 @@ addons:
   apt:
     packages:
       - pdf2svg
+      - libudunits2-dev
 
 
 # macOS stuff ====
