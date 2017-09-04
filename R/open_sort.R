@@ -259,7 +259,7 @@ autoplot1.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 3
 
   g <- ggraph::ggraph(graph = graph, layout = "bipartite")
   if (is.null(edge_codings)) {
-    g <- g + ggraph::geom_edge_fan()
+    g <- g + ggraph::geom_edge_link()
   } else {
     # g <- g + ggraph::geom_edge_fan(mapping = aes_(edge_colour = as.name(colnames(edge_df)[3]), edge_linetype = as.name(colnames(edge_df)[4])))
     g <- g + ggraph::geom_edge_fan(mapping = aes_(edge_colour = as.name(colnames(edge_df)[3])))
