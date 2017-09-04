@@ -81,7 +81,7 @@ new_psOpenSort <- function(assignments, descriptions) {
   do.call(what = structure, args = append(
     x = list(.Data = assignments,
              class = c("psOpenSort", "matrix")),
-    values = descriptions))
+    values = list(descriptions = descriptions)))
 }
 
 # validator
@@ -92,8 +92,7 @@ validate_psOpenSort <- function(assignments) {
                 row.names = "strict",
                 null.ok = FALSE)
 
-  descriptions <- attributes(assignments)
-  descriptions <- descriptions[!(names(descriptions) %in% c("dim", "dimnames", "class"))]
+  descriptions <- attributes(assignments)$descriptions
   if (length(descriptions) == 0) {  # recreate NULL assignment, when there are none in attr
     descriptions <- NULL
   }
