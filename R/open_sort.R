@@ -261,7 +261,8 @@ autoplot1.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 3
   if (is.null(edge_codings)) {
     g <- g + ggraph::geom_edge_fan()
   } else {
-    g <- g + ggraph::geom_edge_fan(mapping = aes_(edge_colour = as.name(colnames(edge_df)[3]), edge_linetype = as.name(colnames(edge_df)[4])))
+    # g <- g + ggraph::geom_edge_fan(mapping = aes_(edge_colour = as.name(colnames(edge_df)[3]), edge_linetype = as.name(colnames(edge_df)[4])))
+    g <- g + ggraph::geom_edge_fan(mapping = aes_(edge_colour = as.name(colnames(edge_df)[3])))
   }
   g <- g + ggraph::geom_node_label(mapping = aes(label = labels), repel = FALSE, hjust = "inward")
   g <- g + coord_flip()
