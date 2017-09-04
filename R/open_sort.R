@@ -140,6 +140,8 @@ validate_psOpenSort <- function(assignments) {
 #'
 #' @examples
 #' tidy.psOpenSort(x = lisa)
+#' tidy.psOpenSort(x = peter)
+#' tidy.psOpenSort(x = rebecca)
 tidy.psOpenSort <- function(x, codings = NULL) {
   # input validation ====
   assert_class(x = x, classes = "psOpenSort", null.ok = FALSE)

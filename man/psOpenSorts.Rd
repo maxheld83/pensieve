@@ -134,6 +134,8 @@ rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
 
 tidy.psOpenSort(x = lisa)
+tidy.psOpenSort(x = peter)
+tidy.psOpenSort(x = rebecca)
 
 # create psOpenSorts from convenient input
 ass <- matrix(data = c("A, B",
