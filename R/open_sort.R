@@ -16,7 +16,7 @@
 #'                       nrow = 2,
 #'                       dimnames = list(items = c("cat", "dog")))
 #' descriptions <- c("a pet which largely takes care of itself",
-#'                   "is known to have saved humans")
+#'                   NA)
 #' lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
 #'
 #' # Peters open sort, matching by name
@@ -63,7 +63,6 @@ NULL
 #'
 #' @export
 psOpenSort <- function(assignments, descriptions = NULL) {
-
   if (!is.null(descriptions)) {
     # prepare descriptions; must always be named LIST
     if (is.null(names(descriptions))) {
@@ -78,9 +77,23 @@ psOpenSort <- function(assignments, descriptions = NULL) {
 # constructor
 new_psOpenSort <- function(assignments, descriptions) {
   # remember that matching is ALWAYS by index only, the rest is fluff
+
+  # must protect against NO colnames or rownames, make "fake" ones out of integers, because all of the downstream expects colnames
+  # also, description attributes must always be indexed by character, so this makes that easier too
+  if (is.null(colnames(assignments))) {
+    safe_colnames <- as.character(1:ncol(assignments))
+  } else {
+    safe_colnames <- colnames(assignments)
+  }
+  if (is.null(rownames(assignments))) {
+    safe_rownames <- as.character(1:nrow(assignments))
+  } else {
+    safe_rownames <- rownames(assignments)
+  }
+
   do.call(what = structure, args = append(
     x = list(.Data = assignments,
-             dimnames = list(items = rownames(assignments), categories = colnames(assignments)),
+             dimnames = list(items = safe_rownames, categories = safe_colnames),
              class = c("psOpenSort", "matrix")),
     values = list(descriptions = descriptions)))
 }
@@ -137,11 +150,6 @@ validate_psOpenSort <- function(assignments) {
 #' Defaults to `NULL`.
 #'
 #' @export
-#'
-#' @examples
-#' tidy.psOpenSort(x = lisa)
-#' tidy.psOpenSort(x = peter)
-#' tidy.psOpenSort(x = rebecca)
 tidy.psOpenSort <- function(x, codings = NULL) {
   # input validation ====
   assert_class(x = x, classes = "psOpenSort", null.ok = FALSE)
@@ -172,19 +180,47 @@ tidy.psOpenSort <- function(x, codings = NULL) {
   # this implies that missing sub- and supercodes must LATER be added again via the ggplot scale_color function, so that the legend is always complete and color schemes are comparable.
 
   # prep NODE VERTICES DATA ====
-  node_df <- data.frame(name = c(colnames(x), rownames(x)),
+  fulldesc <- unlist(attributes(x)$descriptions[colnames(x)])
+  if (is.null(fulldesc)) {
+    node_df <- data.frame(name = c(colnames(x), rownames(x)),
                           type = c(rep(FALSE, ncol(x)), rep(TRUE, nrow(x))),
+                          labels = c(rep(NA, ncol(x)), rownames(x)),
                           stringsAsFactors = FALSE)
-
-  # add the full descriptions and items as labels
-  fulldesc <- data.frame(index = names(attributes(x)$descriptions),
-                         desc = unlist(attributes(x)$descriptions))
-  # TODO add extra treatment here in case there is NO description for some category; in that case, the colname (A) might be a good fall-back
-  node_df$label <- NA
-  node_df$label <- c(fulldesc$desc, rownames(x))
+  } else {
+    node_df <- data.frame(name = c(colnames(x), rownames(x)),
+                          type = c(rep(FALSE, ncol(x)), rep(TRUE, nrow(x))),
+                          labels = c(fulldesc, rownames(x)),
+                          stringsAsFactors = FALSE)
+  }
 
   return(list(edge_df = edge_df, node_df = node_df))
 }
+
+
+#' @describeIn psOpenSorts Create bipartite plot from *individual* open sort.
+#'
+#' @param object a [psOpenSort], created by [psOpenSort()].
+#'
+#' @inheritParams tidy.psOpenSort
+#'
+#' @param str_wrap_width integer scalar, giving the maximum number of characters after which to insert a newline, passed on to [stringr::str_wrap()].
+#' Defaults to `30`.
+#' Useful for long descriptions.
+#'
+#' @examples
+#' autoplot1.psOpenSort(object = lisa)
+#' autoplot1.psOpenSort(object = peter)
+#' autoplot1.psOpenSort(object = rebecca)
+#'
+#' @export
+autoplot1.psOpenSort <- function(object, codings = NULL, str_wrap_width = 30) {
+  dataprep <- tidy.psOpenSort(x = object, codings = codings)
+  edge_df <- dataprep$edge_df
+  node_df <- dataprep$node_df
+  rm(edge_df, node_df)
+  return("foo")
+}
+
 
 #' @describeIn psOpenSorts *Combine* individual open sorts in a list.
 #'

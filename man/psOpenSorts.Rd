@@ -4,6 +4,7 @@
 \alias{psOpenSorts}
 \alias{psOpenSort}
 \alias{tidy.psOpenSort}
+\alias{autoplot1.psOpenSort}
 \alias{psOpenSorts}
 \alias{import_psOpenSorts}
 \title{Construct \emph{single} and \emph{multiple} open sort matrix.}
@@ -11,6 +12,8 @@
 psOpenSort(assignments, descriptions = NULL)
 
 tidy.psOpenSort(x, codings = NULL)
+
+autoplot1.psOpenSort(object, codings = NULL, str_wrap_width = 30)
 
 psOpenSorts(open_sorts)
 
@@ -38,6 +41,12 @@ Defaults to \code{NULL}, in which case the user-defined categories are unknown (
 Useful if participants or researchers have coded the open-ended descriptions in some way.
 Category description indeces must be a subset of the column names in \code{x}.
 Defaults to \code{NULL}.}
+
+\item{object}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
+
+\item{str_wrap_width}{integer scalar, giving the maximum number of characters after which to insert a newline, passed on to \code{\link[stringr:str_wrap]{stringr::str_wrap()}}.
+Defaults to \code{30}.
+Useful for long descriptions.}
 
 \item{open_sorts}{named list of matrices created by \code{\link[=psOpenSort]{psOpenSort()}}, one for each participant.
 Must all be of equal data type and all have the same rows and rownames.}
@@ -84,6 +93,8 @@ For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format 
 
 \item \code{tidy.psOpenSort}: Prepare \emph{individual} open sort for bipartite plotting.
 
+\item \code{autoplot1.psOpenSort}: Create bipartite plot from \emph{individual} open sort.
+
 \item \code{psOpenSorts}: \emph{Combine} individual open sorts in a list.
 
 \item \code{import_psOpenSorts}: descriptions and \emph{logical} assignments from convenient, but messy format
@@ -108,7 +119,7 @@ assignments <- matrix(data = c(TRUE, FALSE, FALSE, TRUE),
                       nrow = 2,
                       dimnames = list(items = c("cat", "dog")))
 descriptions <- c("a pet which largely takes care of itself",
-                  "is known to have saved humans")
+                  NA)
 lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
 
 # Peters open sort, matching by name
@@ -133,9 +144,10 @@ rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 # now let's combine the individual sort into a list
 open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
 
-tidy.psOpenSort(x = lisa)
-tidy.psOpenSort(x = peter)
-tidy.psOpenSort(x = rebecca)
+autoplot1.psOpenSort(object = lisa)
+autoplot1.psOpenSort(object = peter)
+autoplot1.psOpenSort(object = rebecca)
+
 
 # create psOpenSorts from convenient input
 ass <- matrix(data = c("A, B",
