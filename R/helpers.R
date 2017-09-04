@@ -50,13 +50,6 @@ assert_n_infer_summarize <- function(summarize, x) {
   return(summarize)
 }
 
-# import frequently used packages ====
-# this is so we don't need :: whenever calling one of those
-#' @import ggplot2
-#' @import checkmate
-#' @import testthat
-NULL
-
 
 # helper function to quickly build book ====
 # helpful because this is a package, so it's not easy to build the book

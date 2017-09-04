@@ -148,7 +148,6 @@ autoplot1.psOpenSort(object = lisa)
 autoplot1.psOpenSort(object = peter)
 autoplot1.psOpenSort(object = rebecca)
 
-
 # create psOpenSorts from convenient input
 ass <- matrix(data = c("A, B",
                        # meaning A and B are assigned

@@ -211,7 +211,6 @@ tidy.psOpenSort <- function(x, codings = NULL) {
 #' autoplot1.psOpenSort(object = lisa)
 #' autoplot1.psOpenSort(object = peter)
 #' autoplot1.psOpenSort(object = rebecca)
-#'
 #' @export
 autoplot1.psOpenSort <- function(object, codings = NULL, str_wrap_width = 30) {
   dataprep <- tidy.psOpenSort(x = object, codings = codings)
