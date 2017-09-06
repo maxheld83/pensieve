@@ -106,5 +106,5 @@ deploy:
     local_dir: _site/
     skip_cleanup: true
     on:
-      branch: dev
+      branch: demo
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"

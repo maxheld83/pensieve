@@ -1,0 +1,26 @@
+# Demo {#demo}
+
+This is just a demo for the **software workshop**.
+
+## Importing a Concourse
+
+```{r prep}
+# devtools::install_github(repo = "maxheld83/qmethod", force = TRUE)
+```
+
+```{r data-import, include = FALSE}
+sorts <- civicon_2014$qData$sorts[,,"before"]
+head(sorts)
+```
+
+## Correlations
+
+```{r cor, fig.cap="Correlations", fig.width=10, fig.height=9}
+cors <- correlate(sorts = sorts, method = "spearman", use = "pairwise.complete.obs")
+plot(cors)
+```
+
+
+
+
+
