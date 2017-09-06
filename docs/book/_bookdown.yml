@@ -8,3 +8,4 @@ rmd_files: [
   "demo.Rmd",
   "references.Rmd"
 ]
+delete_merged_file: true

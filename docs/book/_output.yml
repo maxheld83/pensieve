@@ -1,5 +1,4 @@
 bookdown::gitbook:
-  dev: svglite
   split_by: rmd
   css: css/style.css
   config:

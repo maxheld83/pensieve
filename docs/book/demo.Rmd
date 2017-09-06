@@ -5,7 +5,12 @@ This is just a demo for the **software workshop**.
 ## Importing a Concourse
 
 ```{r prep}
-# devtools::install_github(repo = "maxheld83/qmethod", force = TRUE)
+# devtools::install_github(repo = "maxheld83/qmethod", ref = "more-rot", force = TRUE)
+knitr::opts_chunk$set(tidy = TRUE, cache = TRUE, echo = FALSE, message = FALSE, fig.width = 10, fig.height = 9)  # tidy formats code nicely in echo
+options(digits = 2)  # display only 2 digits in knitr output
+options(scipen = 999)
+library(qmethod)
+library(pensieve)
 ```
 
 ```{r data-import, include = FALSE}
@@ -15,9 +20,66 @@ head(sorts)
 
 ## Correlations
 
-```{r cor, fig.cap="Correlations", fig.width=10, fig.height=9}
+```{r cor, fig.cap="Correlations"}
 cors <- correlate(sorts = sorts, method = "spearman", use = "pairwise.complete.obs")
 plot(cors)
+```
+
+```{r check-cors, include = FALSE}
+check(cors)
+str(cors)
+# cors["Christian", "Claus"] <- 2
+# check(cors)
+```
+
+
+# Parallel Analysis
+
+```{r paran, fig.cap="Parallel Analysis"}
+nfac <- q.nfactors(dataset = sorts, 
+                   cutoff = 5, 
+                   siglevel = 0.05, 
+                   quietly = TRUE,
+                   cor.method = "spearman",
+                   iterations = 10000)
+plot(nfac$screeplot)
+ret_fac <- 3
+```
+
+
+# Extraction
+
+```{r extraction, fig.cap="Unrotated Loadings"}
+loas <- extract(cors = cors, nfactors = ret_fac, fa_type = "pca")
+# help(loas)
+pensieve::plot.QLoas(x = loas, by = "people", r2 = TRUE)
+```
+
+```{r rotation}
+res <- qmethod(dataset = sorts, 
+               nfactors = ret_fac, 
+               rotation = "varimax",
+               forced = TRUE,
+               cor.method = "spearman",
+               allow.confounded = TRUE,
+               threshold = "none")
+# res <- q.fnames(results = res, fnames = c("resentment", "moderate", "critical"))
+# res <- q.fcolors(results = res)
+q.loaplot(results = res,
+          quietly = FALSE, 
+          names = TRUE, 
+          points = TRUE, 
+          alpha = 1, 
+          grid = TRUE,
+          rug = TRUE,
+          maxvals = FALSE)
+q.compplot(results = res)
+```
+
+
+```{r scoring}
+q.scoreplot.num(results = res, factor = "resentment")
+q.scoreplot.ord(results = res, factor = "resentment")
 ```
 
 

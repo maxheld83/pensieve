@@ -46,7 +46,8 @@ Suggests:
 Remotes:
   hadley/pkgdown,
   rstudio/blogdown,
-  maxheld83/qmethod
+  maxheld83/qmethod more-rot,
+  hadely/ggplot2
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 SystemRequirements:
