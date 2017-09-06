@@ -4,7 +4,49 @@ This is just a demo for the **software workshop**.
 
 ## Importing a Concourse
 
-```{r prep}
+```{r make-cards, include = FALSE, eval=FALSE}
+make.distribution(nstat=78, max.bin=7)
+q_concourse <- import.q.concourse(  # import concourse
+  q.concourse.dir = "../schumpermas/keyneson/keyneson-sample/keyneson-concourse/",
+  languages = c("english", "german")
+)
+q_sampling_structure <- read.csv(  # read in sampling structure
+  file = "../schumpermas/keyneson/keyneson-sample/sampling-structure.csv",
+  fileEncoding = "UTF-8"  # should not be necessary, all data is ascii
+)
+q_distribution <- as.integer(c(  # set up distribution
+  "-7" = 1,  # these names are crap, they don't really work, maybe rather make this a matrix if you really want names
+  "-6" = 1,
+  "-5" = 2,
+  "-4" = 4,
+  "-3" = 6,
+  "-2" = 9,
+  "-1" = 10,
+  "0" = 11,
+   "1" = 10,
+   "2" = 9,
+   "3" = 6,
+   "4" = 4,
+   "5" = 2,
+   "6" = 1,
+   "7" = 1
+))
+q_set <- build.q.set(
+  q.concourse = q_concourse,
+  q.sample = q_sampling_structure$handle,
+  q.distribution = q_distribution
+)
+names(dimnames(q_set)) <- c("items", "languages")
+make.cards(q.set = q_set[sort(row.names(q_set)), ], 
+           study.language = "english", 
+           output.pdf = TRUE, 
+           show.handles = TRUE,
+           file.name = "cards-civicon_researcher",
+           duplex.double = TRUE)
+```
+
+
+```{r prep, include = FALSE}
 # devtools::install_github(repo = "maxheld83/qmethod", ref = "more-rot", force = TRUE)
 knitr::opts_chunk$set(tidy = TRUE, cache = TRUE, echo = FALSE, message = FALSE, fig.width = 10, fig.height = 9)  # tidy formats code nicely in echo
 options(digits = 2)  # display only 2 digits in knitr output
@@ -49,7 +91,7 @@ ret_fac <- 3
 
 # Extraction
 
-```{r extraction, fig.cap="Unrotated Loadings"}
+```{r extraction, fig.cap="Unrotated Loadings", include = FALSE, eval=FALSE}
 loas <- extract(cors = cors, nfactors = ret_fac, fa_type = "pca")
 # help(loas)
 pensieve::plot.QLoas(x = loas, by = "people", r2 = TRUE)
@@ -77,7 +119,7 @@ q.compplot(results = res)
 ```
 
 
-```{r scoring}
+```{r scoring, include = FALSE, eval=FALSE}
 q.scoreplot.num(results = res, factor = "resentment")
 q.scoreplot.ord(results = res, factor = "resentment")
 ```
