@@ -14,8 +14,17 @@ test_that(desc = "works with example",
                    all.missing = FALSE,
                    len = 3,
                    unique = TRUE)
-    expect_equal(object = fake_names, expected = c("Terrelle", "Shawnara", "Cesar"))
-  })
+  expect_equal(object = fake_names, expected = c("Terrelle", "Shawnara", "Cesar"))
+})
+
+test_that(desc = "returns fake names in the order in which real names are provided",
+          code = {
+  fake_names <- anonymize(
+    real_names = c("George", "Barack", "Hillary"),
+    lookup_file = lookup_file)
+  expect_equal(object = fake_names,
+               expected = c("Cesar", "Shawnara", "Terrelle"))
+})
 
 test_that(desc = "appends fake names as necessary and writes them to file",
           code = {

@@ -152,8 +152,9 @@ anonymize <- function(real_names, lookup_file) {
   expect_identical(object = lookup,
                    expected = lookup_check,
                    info = "Something went writing the 'lookup_file' to disk.")
-  message(paste0("Lookup file written to ",
+  message(paste("Lookup file written to",
                  lookup_file,
                  "Keep it safe."))
-  return(lookup[lookup[,"real_names"] %in% real_names, "fake_names"])
+
+  return(lookup[match(x = real_names, table = lookup$real_names), "fake_names"])
 }
