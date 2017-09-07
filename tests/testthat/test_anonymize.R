@@ -1,21 +1,25 @@
 context("Anonymization")
 
+lookup_file <- system.file("extdata",
+                           "example_name_lookup.csv",
+                           package = "pensieve")
+real_names <- c("Hillary", "Barack", "George")
+
 test_that(desc = "works with example",
           code = {
-  fake_names <- anonymize(real_names = c("Hillary", "Barack", "George"),
-                          lookup_file = system.file("extdata",
-                                                    "example_name_lookup.csv",
-                                                    package = "pensieve"))
+  fake_names <- anonymize(real_names = real_names,
+                          lookup_file = lookup_file)
   expect_character(x = fake_names,
                    any.missing = FALSE,
                    all.missing = FALSE,
                    len = 3,
                    unique = TRUE)
+    expect_equal(object = fake_names, expected = c("Terrelle", "Shawnara", "Cesar"))
   })
 
-test_that(desc = "appends fake names as necessary",
+test_that(desc = "appends fake names as necessary and writes them to file",
           code = {
-  fake_names <- anonymize(real_names = c("Hillary", "Barack", "George", "Marylin"),
+  fake_names <- anonymize(real_names = c(real_names, "Marylin"),
                           lookup_file = system.file("extdata",
                                                     "example_name_lookup.csv",
                                                     package = "pensieve"))
@@ -24,14 +28,18 @@ test_that(desc = "appends fake names as necessary",
                    all.missing = FALSE,
                    len = 4,
                    unique = TRUE)
+
+  on_file <- read.csv(file = lookup_file)
+  expect_equivalent(object = as.character(on_file[, "real_names"]), expected = c(real_names, "Marylin"))
+  expect_equivalent(object = as.character(on_file[, "fake_names"]), expected = fake_names)
 })
 
-test_that(desc = "errors out on real names that are also fake names",
+test_that(desc = "retains unused lookup table entries",
           code = {
-  file <- data.frame(real_names = c("Hillary", "Barack"),
-                     fake_names = c("Hillary", "John"),
-                     stringsAsFactors = FALSE)
-  write.csv(x = file, file = "test.temp.csv", row.names = FALSE)
-  expect_error(object = anonymize(real_names = c("Hillary", "Barack"),
-                                  lookup_file = "test.temp.csv"))
+  file.copy(from = lookup_file, to = "retain.temp.csv", overwrite = TRUE)
+  fake_names <- anonymize(real_names = c("Hillary", "Barack"),
+                          lookup_file = "retain.temp.csv")
+  new_lookup <- read.csv("retain.temp.csv", stringsAsFactors = FALSE)
+  old_lookup <- read.csv(lookup_file, stringsAsFactors = FALSE)
+  expect_equal(object = new_lookup, expected = old_lookup)
 })

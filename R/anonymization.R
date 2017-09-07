@@ -71,67 +71,89 @@ anonymize <- function(real_names, lookup_file) {
 
   # Body ====
 
-  # let's first build the resulting df with empty fake_names
-  lookup <- data.frame(real_names = real_names,
-                       fake_names = NA,
-                       stringsAsFactors = FALSE)
-
   if (file.exists(lookup_file)) {  # then we fill in what we can
-    file <- utils::read.csv(file = lookup_file,
-                            header = TRUE,
-                            stringsAsFactors = FALSE,
-                            colClasses = c("character", "character"))
-    # df ok?
-    expect_data_frame(x = file,
+    lookup <- utils::read.csv(file = lookup_file,
+                              header = TRUE,
+                              stringsAsFactors = FALSE,
+                              colClasses = c("character", "character"))
+
+    info <- "This problem stems from your 'lookup_file'."
+    expect_data_frame(x = lookup,
                       types = c("character", "character"),
                       any.missing = FALSE,
                       all.missing = FALSE,
                       ncols = 2,
-                      null.ok = FALSE)
-    expect_equal(object = names(file),
-                 expected = c("real_names", "fake_names"))
-    for (i in file$real_names) {
-      if (i %in% file$fake_names) {
-        # cannot use expect_that here, that'll screw up the test above
-        stop(paste(i, "is a real name but also used as a fake name."))
-      }
-    }
+                      null.ok = FALSE,
+                      info = info)
+    expect_equal(object = names(lookup),
+                 expected = c("real_names", "fake_names"),
+                 info = info)
 
     # let's check those that we have, are the fake names ok?
-    expect_character(x = file$fake_names,
+    expect_character(x = lookup$fake_names,
                      any.missing = FALSE,
                      all.missing = FALSE,
-                     unique = TRUE)
-    for (i in file$fake_names) {
-      expect_names(x = i, type = "strict", info = i)  # are they valid r varnames?
-    }
+                     unique = TRUE,
+                     info = info)
+    expect_names(x = lookup$fake_names,
+                 type = "strict",
+                 info = info)
 
-    # let's also protect against non-unique real_names
-    expect_character(x = file$real_names,
+    expect_character(x = lookup$real_names,
+                     unique = TRUE,
+                     info = info)
+
+    expect_character(x = c(lookup$fake_names, lookup$real_names),
+                     unique = TRUE,
                      any.missing = FALSE,
-                     all.missing = FALSE)
+                     all.missing = FALSE,
+                     info = "Your 'lookup_info' must not contain missing or non-unique values across and within both columns.")
 
-    # now let's fill in what we have
-    # must be via for-loop to make sure order doesn't matter
-    for (i in lookup$real_names) {
-      if (length(file[file$real_names == i, "fake_names"]) < 1) {
-        lookup$fake_names[lookup$real_names == i] <- NA
-      } else {
-        lookup$fake_names[lookup$real_names == i] <- file[file$real_names == i, "fake_names"]
+  } else {
+    lookup <- data.frame(real_names = real_names,
+                         fake_names = NA,
+                         stringsAsFactors = FALSE)
+  }
+
+  for (i in real_names) {
+    if (!(i %in% lookup$real_names)) {
+      if (i %in% lookup$fake_names) {
+        # disallow this
+        # -  to avoid confusion and
+        # - to prevent anonymizing already anonymized names
+        stop(paste(i, "is a real name but also used as a fake name in your 'lookup_file'."))
       }
+      new_fake <- sample(x = names(good_names),
+                         size = 1,
+                         replace = FALSE,
+                         prob = good_names)
+      # now generate a completely fresh, never used fake name
+      while (new_fake %in% c(lookup$real_names, lookup$fake_names, real_names)) {
+        new_fake <- sample(x = names(good_names),
+                           size = 1,
+                           replace = FALSE,
+                           prob = good_names)
+      }
+      lookup <- rbind(lookup, c(i, new_fake))
     }
   }
 
-  needed_names <- sum(is.na(lookup$fake_names))
-
-  lookup$fake_names[is.na(lookup$fake_names)] <- sample(x = names(good_names),
-                                                        size = needed_names,
-                                                        replace = FALSE,
-                                                        prob = good_names)
   utils::write.table(x = lookup,
                      sep = ",",
                      file = lookup_file,
                      row.names = FALSE,
                      append = FALSE)
-  return(lookup$fake_names)
+
+  # let's be extra careful and validate the written file
+  lookup_check <- utils::read.csv(file = lookup_file,
+                                  header = TRUE,
+                                  stringsAsFactors = FALSE,
+                                  colClasses = c("character", "character"))
+  expect_identical(object = lookup,
+                   expected = lookup_check,
+                   info = "Something went writing the 'lookup_file' to disk.")
+  message(paste0("Lookup file written to ",
+                 lookup_file,
+                 "Keep it safe."))
+  return(lookup[lookup[,"real_names"] %in% real_names, "fake_names"])
 }
