@@ -163,6 +163,7 @@ petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herb
                              length = c("medium", "medium", "medium", "short")
                              # notice the duplicates to allow for multiple codes
                              )
+library(ggraph)
 autoplot1.psOpenSort(object = peter, edge_codings = petercodes)
 
 # create psOpenSorts from convenient input

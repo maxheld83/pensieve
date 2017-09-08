@@ -213,6 +213,7 @@ tidy.psOpenSort <- function(x) {
 #'                              length = c("medium", "medium", "medium", "short")
 #'                              # notice the duplicates to allow for multiple codes
 #'                              )
+#' library(ggraph)  # must be attached while running below
 #' autoplot1.psOpenSort(object = peter, edge_codings = petercodes)
 #' @export
 autoplot1.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 30) {
@@ -221,7 +222,7 @@ autoplot1.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 3
          call. = FALSE)
   }
   if (!requireNamespace("igraph", quietly = TRUE)) {
-    stop("ggraph needed for this function to work. Please install it.",
+    stop("igraph needed for this function to work. Please install it.",
          call. = FALSE)
   }
 
