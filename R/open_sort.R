@@ -200,6 +200,8 @@ tidy.psOpenSort <- function(x) {
 #' Useful for long descriptions.
 #'
 #' @note
+#' To render the resulting `ggplot` object, you must *manually* call `library(ggraph)` somewhere in your script (as per [this limitation](https://github.com/thomasp85/ggraph/issues/85)).
+#'
 #' If `codings` are added, the aesthetics are set *for each individual [psOpenSort] separately*, which may make it hard to compare plots across participants.
 #' To get consistent code aesthetics, consider applying [ggraph::scale_edge_color_manual()] and friends.
 #'

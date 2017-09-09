@@ -108,6 +108,8 @@ For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format 
 }}
 
 \note{
+To render the resulting \code{ggplot} object, you must \emph{manually} call \code{library(ggraph)} somewhere in your script (as per \href{https://github.com/thomasp85/ggraph/issues/85}{this limitation}).
+
 If \code{codings} are added, the aesthetics are set \emph{for each individual \link{psOpenSort} separately}, which may make it hard to compare plots across participants.
 To get consistent code aesthetics, consider applying \code{\link[ggraph:scale_edge_color_manual]{ggraph::scale_edge_color_manual()}} and friends.
 
@@ -163,7 +165,7 @@ petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herb
                              length = c("medium", "medium", "medium", "short")
                              # notice the duplicates to allow for multiple codes
                              )
-library(ggraph)
+library(ggraph)  # must be attached while running below
 autoplot1.psOpenSort(object = peter, edge_codings = petercodes)
 
 # create psOpenSorts from convenient input
