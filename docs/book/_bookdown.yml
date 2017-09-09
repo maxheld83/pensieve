@@ -1,4 +1,5 @@
 book_filename: "Pensieve"
+delete_merged_file: true
 chapter_name: "Chapter "
 rmd_subdir: true
 rmd_files: [
