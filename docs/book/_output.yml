@@ -17,4 +17,3 @@ bookdown::pdf_book:
   latex_engine: xelatex
 bookdown::epub_book:
   stylesheet: css/style.css
-  dev: svglite

@@ -41,6 +41,7 @@ Suggests:
   shiny (>= 1.0.3),
   shinyBS (>= 0.61),
   stringr (>= 1.2.0),
+  svglite (>= 1.2.0),
   withr (>= 1.0.2)
 Remotes:
   hadley/pkgdown,

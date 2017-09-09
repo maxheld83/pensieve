@@ -22,3 +22,9 @@ This is a very early draft, and is not ready for prime-time, let alone citation.
 This also serves as the *documentation* of the `pensieve` package (in lieu of vignettes).
 To find out more, go to http://pensieve.maxheld.de.
 
+```{r ggplotex}
+library(ggplot2)
+g <- ggplot(mpg, aes(class))
+# Number of cars in each class:
+g + geom_bar()
+```
