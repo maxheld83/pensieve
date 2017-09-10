@@ -219,14 +219,8 @@ tidy.psOpenSort <- function(x) {
 #' autoplot1.psOpenSort(object = peter, edge_codings = petercodes)
 #' @export
 autoplot1.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 30) {
-  if (!requireNamespace("ggraph", quietly = TRUE)) {
-    stop("ggraph needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
-  if (!requireNamespace("igraph", quietly = TRUE)) {
-    stop("igraph needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
+  requireNamespace2("ggraph")
+  requireNamespace2("igraph")
 
   dataprep <- tidy.psOpenSort(x = object)
   edge_df <- dataprep$edge_df

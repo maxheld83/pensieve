@@ -117,11 +117,17 @@ run_accio <- function() {
          "See pensieve.maxheld.de for details.")
   }
 
-  if (!requireNamespace("shiny", quietly = TRUE)) {
-    stop("Shiny is needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
+  requireNamespace2(x = "shiny")
 
   # run it! ====
   shiny::runApp(appDir = accio_path)
+}
+
+requireNamespace2 <- function(x) {
+  if (!requireNamespace(x, quietly = TRUE)) {
+    stop(paste(x,
+               "ggraph needed for this function to work.",
+               "Please install it."),
+         call. = FALSE)
+  }
 }
