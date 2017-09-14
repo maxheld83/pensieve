@@ -269,6 +269,26 @@ autoplot.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 30
   return(g)
 }
 
+#' @rdname psOpenSorts
+#'
+#' @param ... further arguments passed to methods.
+#'
+#' @examples
+#' summary(peter)
+#'
+#' @export
+summary.psOpenSort <- function(object, ...) {
+  n_of_cat <- ncol(object)
+  n_of_t <- sum(object)
+
+  list(
+    n_of_cat = n_of_cat,
+    n_of_t = n_of_t,
+    avg_t_per_cat = n_of_t / n_of_cat,
+    n_of_t_by_item = rowSums(object),
+    n_of_t_by_cat = colSums(object)
+  )
+}
 
 #' @describeIn psOpenSorts *Combine* individual open sorts in a list.
 #'
@@ -379,7 +399,7 @@ validate_psOpenSorts <- function(open_sorts) {
 #'                         people = c("tony", "amy")))
 #' # notice how individual *nominal* categories are pasted together in cells here;
 #' # this convenient form *only* works for nominally-scaled data
-#' import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+#' osorts_example <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
 #'
 #' @note
 #' When category is assigned, but never described, it is `TRUE` in the respective logical matrix entries and their description is `NA`:
@@ -457,6 +477,48 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL) {
   }
   cat_canon <- psOpenSorts(open_sorts = cat_canon)
   return(cat_canon)
+}
+
+#' @rdname psOpenSorts
+# #' @describeIn psOpenSorts *Summarize* list of open sorts
+#'
+#' @export
+tidy.psOpenSorts <- function(x) {
+  by_person <- sapply(X = x, FUN = function(x) unlist(summary(x)[1:3]), simplify = TRUE, USE.NAMES = FALSE)
+  by_person <- as.data.frame(t(by_person))
+  by_person$name <- rownames(by_person)
+
+  # below two are dicey, because n of cat and n of t is different, so these are unweighted sums
+  by_both <- sapply(X = x, FUN = function(x) summary(x)$n_of_t_by_item)
+  by_item <- rowSums(x = by_both)
+
+  return(by_person)
+}
+
+#' @rdname psOpenSorts
+# #' @describeIn psOpenSorts plots Summary
+#'
+#' @examples
+#' ggplot2::autoplot(object = osorts_example)
+#'
+#' @export
+autoplot.psOpenSorts <- function(object) {
+  by_person <- tidy.psOpenSorts(x = object)
+
+  g <- ggplot(data = by_person,
+              mapping = aes_string(x = 'n_of_cat', y = 'n_of_t', label = 'name'))
+  g <- g + geom_point()
+  g <- g + xlab("Number of Categories")
+  g <- g + ylab("Number of Assignments")
+
+  if (requireNamespace("ggrepel", quietly = TRUE)) {
+    # repel labels
+    g <- g + ggrepel::geom_label_repel()
+  } else {
+    warning("Package 'ggrepel' is not installed, labels might overplot.")
+    g <- g + geom_label()
+  }
+  g
 }
 
 
