@@ -140,7 +140,8 @@ validate_psOpenSort <- function(assignments) {
   return(assignments)
 }
 
-#' @describeIn psOpenSorts Prepare *individual* open sort for bipartite plotting.
+#' @rdname psOpenSorts
+# #' @describeIn psOpenSorts Prepare *individual* open sort for bipartite plotting.
 #'
 #' @param x a [psOpenSort], created by [psOpenSort()].
 #'

@@ -11,7 +11,7 @@
 \usage{
 psOpenSort(assignments, descriptions = NULL)
 
-tidy.psOpenSort(x)
+\method{tidy}{psOpenSort}(x)
 
 \method{autoplot}{psOpenSort}(object, edge_codings = NULL,
   str_wrap_width = 30)
@@ -98,8 +98,6 @@ For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format 
 \section{Functions}{
 \itemize{
 \item \code{psOpenSort}: Creates \emph{individual} open sort.
-
-\item \code{tidy.psOpenSort}: Prepare \emph{individual} open sort for bipartite plotting.
 
 \item \code{psOpenSorts}: \emph{Combine} individual open sorts in a list.
 
