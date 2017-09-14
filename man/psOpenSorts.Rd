@@ -4,7 +4,7 @@
 \alias{psOpenSorts}
 \alias{psOpenSort}
 \alias{tidy.psOpenSort}
-\alias{autoplot1.psOpenSort}
+\alias{autoplot.psOpenSort}
 \alias{psOpenSorts}
 \alias{import_psOpenSorts}
 \title{Construct \emph{single} and \emph{multiple} open sort matrix.}
@@ -13,7 +13,8 @@ psOpenSort(assignments, descriptions = NULL)
 
 tidy.psOpenSort(x)
 
-autoplot1.psOpenSort(object, edge_codings = NULL, str_wrap_width = 30)
+\method{autoplot}{psOpenSort}(object, edge_codings = NULL,
+  str_wrap_width = 30)
 
 psOpenSorts(open_sorts)
 
@@ -100,8 +101,6 @@ For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format 
 
 \item \code{tidy.psOpenSort}: Prepare \emph{individual} open sort for bipartite plotting.
 
-\item \code{autoplot1.psOpenSort}: Create bipartite plot from \emph{individual} open sort.
-
 \item \code{psOpenSorts}: \emph{Combine} individual open sorts in a list.
 
 \item \code{import_psOpenSorts}: descriptions and \emph{logical} assignments from convenient, but messy format
@@ -156,8 +155,8 @@ rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 # now let's combine the individual sort into a list
 open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
 
-autoplot1.psOpenSort(object = lisa)
-autoplot1.psOpenSort(object = rebecca)
+ggplot2::autoplot(object = lisa)
+ggplot2::autoplot(object = rebecca)
 
 # no with codes
 petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herbivore"),
@@ -166,7 +165,7 @@ petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herb
                              # notice the duplicates to allow for multiple codes
                              )
 library(ggraph)  # must be attached while running below
-autoplot1.psOpenSort(object = peter, edge_codings = petercodes)
+ggplot2::autoplot(object = peter, edge_codings = petercodes)
 
 # create psOpenSorts from convenient input
 ass <- matrix(data = c("A, B",

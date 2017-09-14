@@ -181,7 +181,8 @@ tidy.psOpenSort <- function(x) {
 }
 
 
-#' @describeIn psOpenSorts Create bipartite plot from *individual* open sort.
+#' @rdname psOpenSorts
+# #' @describeIn psOpenSorts Create bipartite plot from *individual* open sort.
 #'
 #' @param object a [psOpenSort], created by [psOpenSort()].
 #'
@@ -206,8 +207,8 @@ tidy.psOpenSort <- function(x) {
 #' To get consistent code aesthetics, consider applying [ggraph::scale_edge_color_manual()] and friends.
 #'
 #' @examples
-#' autoplot1.psOpenSort(object = lisa)
-#' autoplot1.psOpenSort(object = rebecca)
+#' ggplot2::autoplot(object = lisa)
+#' ggplot2::autoplot(object = rebecca)
 #'
 #' # no with codes
 #' petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herbivore"),
@@ -216,9 +217,9 @@ tidy.psOpenSort <- function(x) {
 #'                              # notice the duplicates to allow for multiple codes
 #'                              )
 #' library(ggraph)  # must be attached while running below
-#' autoplot1.psOpenSort(object = peter, edge_codings = petercodes)
+#' ggplot2::autoplot(object = peter, edge_codings = petercodes)
 #' @export
-autoplot1.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 30) {
+autoplot.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 30) {
   requireNamespace2("ggraph")
   requireNamespace2("igraph")
 
