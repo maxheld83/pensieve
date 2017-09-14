@@ -286,21 +286,24 @@ make_cards <- function(item_text,
   }
 
   # other prep
-  tex_file <- file.path(output_dir, paste0(item_handle, ".tex"))
   assets <- NULL
   assets$paths <- NULL
   assets$bin <- NULL
+  assets$paths$latex <- file.path(output_dir, paste0(item_handle, ".tex"))
+  assets$paths$pdf <- file.path(output_dir, paste0(item_handle, ".pdf"))
+  assets$paths$svg <- file.path(output_dir, paste0(item_handle, ".svg"))
 
   # render
-  knitr::knit(input = input_path, output = tex_file)
-  assets$paths$latex <- tex_file
+  knitr::knit(input = input_path, output = assets$paths$latex)
+  assets$bin$latex <- readr::read_file(assets$paths$latex)
   withr::with_dir(new = output_dir, code = {
     # changing wd with with_dir is sadly necessary because below utilities do not offer convenient output paths
-    tools::texi2pdf(file = tex_file)
-    assets$paths$pdf <- file.path(output_dir, paste0(item_handle, ".pdf"))
+    # setwd(output_dir)
+    tools::texi2pdf(file = assets$paths$latex)
     assets$bin$pdf <- readr::read_file_raw(file = assets$paths$pdf)
     pdf2svg(pdf_input = paste0(item_handle, ".pdf"))
-    assets$paths$svg <- file.path(output_dir, paste0(item_handle, ".svg"))
+    assets$bin$svg <- readr::read_file(file = assets$paths$svg)
+    # setwd("/Users/max/GitHub/pensieve/")
   })
   return(assets)
 }
