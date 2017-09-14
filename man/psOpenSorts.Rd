@@ -5,8 +5,11 @@
 \alias{psOpenSort}
 \alias{tidy.psOpenSort}
 \alias{autoplot1.psOpenSort}
+\alias{summary.psOpenSort}
 \alias{psOpenSorts}
 \alias{import_psOpenSorts}
+\alias{tidy.psOpenSorts}
+\alias{autoplot.psOpenSorts}
 \title{Construct \emph{single} and \emph{multiple} open sort matrix.}
 \usage{
 psOpenSort(assignments, descriptions = NULL)
@@ -15,9 +18,15 @@ tidy.psOpenSort(x)
 
 autoplot1.psOpenSort(object, edge_codings = NULL, str_wrap_width = 30)
 
+\method{summary}{psOpenSort}(object, ...)
+
 psOpenSorts(open_sorts)
 
 import_psOpenSorts(assignments_messy, descriptions_messy = NULL)
+
+tidy.psOpenSorts(x)
+
+\method{autoplot}{psOpenSorts}(object)
 }
 \arguments{
 \item{assignments}{a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
@@ -54,6 +63,8 @@ Defaults to \code{NULL}.
 \item{str_wrap_width}{integer scalar, giving the maximum number of characters after which to insert a newline, passed on to \code{\link[stringr:str_wrap]{stringr::str_wrap()}}.
 Defaults to \code{30}.
 Useful for long descriptions.}
+
+\item{...}{further arguments passed to methods.}
 
 \item{open_sorts}{named list of matrices created by \code{\link[=psOpenSort]{psOpenSort()}}, one for each participant.
 Must all be of equal data type and all have the same rows and rownames.}
@@ -167,6 +178,8 @@ petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herb
                              )
 library(ggraph)  # must be attached while running below
 autoplot1.psOpenSort(object = peter, edge_codings = petercodes)
+summary(peter)
+
 
 # create psOpenSorts from convenient input
 ass <- matrix(data = c("A, B",
@@ -198,7 +211,9 @@ desc <- matrix(data = c("",
                         people = c("tony", "amy")))
 # notice how individual *nominal* categories are pasted together in cells here;
 # this convenient form *only* works for nominally-scaled data
-import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+osorts_example <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+
+ggplot2::autoplot(object = osorts_example)
 
 }
 \seealso{
