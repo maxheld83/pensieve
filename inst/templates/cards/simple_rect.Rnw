@@ -27,6 +27,7 @@ pensieve:::latex$set$geometry(
 \sloppy  % this avoids overfull hboxes, even if the result is ugly
 <<item, echo = FALSE, results="asis", cache=FALSE>>=
 pensieve:::latex$set$fontsize(fontsize = fontsize)
+pensieve:::latex$set$alignment(alignment = alignment)
 cat(item_text)
 @
 

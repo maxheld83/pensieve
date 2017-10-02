@@ -267,7 +267,8 @@ make_cards <- function(item_text,
                        left = 1,
                        right = 1,
                        units = "cm",
-                       extra_preamb_args = NULL) {
+                       extra_preamb_args = NULL,
+                       alignment = "justified") {
 
   # Input validation
   checkmate::assert_string(x = item_text, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
@@ -355,6 +356,30 @@ latex$set$fontsize <- function(fontsize) {
   checkmate::assert_choice(x = fontsize, choices = latex$options$fontsize, null.ok = FALSE)
 
   cat("\\", fontsize, "\n", sep = "")
+}
+
+# insert arbitrary alignment
+latex$options$alignment <- c(
+  # this list is from https://www.sharelatex.com/learn/Text_alignment
+  # we're only using vanilla latex, no extra package
+  "justified",
+  "left",
+  "right",
+  "center"
+)
+
+latex$set$alignment <- function(alignment = "justified") {
+  # alignment <- "justified"
+  checkmate::assert_character(x = alignment, any.missing = FALSE, len = 1)
+  checkmate::assert_choice(x = alignment, choices = latex$options$alignment, null.ok = FALSE)
+
+  switch(
+    EXPR = alignment,
+    justified = NULL,
+    left = cat("\\raggedright \n "),
+    right = cat("\\raggedleft \n "),
+    center = cat("\\centering \n ")
+  )
 }
 
 # add arbitrary commands to preamble
