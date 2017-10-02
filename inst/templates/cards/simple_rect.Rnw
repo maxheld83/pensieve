@@ -4,10 +4,13 @@
 % \usepackage{setspace}  % easy spacing
 
 <<preamble, echo=FALSE, results="asis", cache=FALSE>>=
-  if (!(is.null(language))) {
-    # babel will only be included if a language is specified.
-    latex$set$babel(language = language)
-  }
+pensieve:::latex$set$extra_preamb_args(
+  extra_preamb_args = extra_preamb_args
+)
+if (!(is.null(language))) {
+  # babel will only be included if a language is specified.
+  latex$set$babel(language = language)
+}
 pensieve:::latex$set$geometry(
   paperwidth = paperwidth,
   paperheight = paperheight,

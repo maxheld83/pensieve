@@ -266,7 +266,8 @@ make_cards <- function(item_text,
                        bottom = 1,
                        left = 1,
                        right = 1,
-                       units = "cm") {
+                       units = "cm",
+                       extra_preamb_args = NULL) {
 
   # Input validation
   checkmate::assert_string(x = item_text, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
@@ -356,6 +357,14 @@ latex$set$fontsize <- function(fontsize) {
   cat("\\", fontsize, "\n", sep = "")
 }
 
+# add arbitrary commands to preamble
+latex$set$extra_preamb_args <- function(extra_preamb_args) {
+  # type faces can be found here: http://www.tug.dk/FontCatalogue/universalisadfstandard/
+
+  checkmate::assert_character(x = extra_preamb_args, any.missing = FALSE)
+
+  cat(extra_preamb_args, sep = "\n")
+}
 
 # add arbitrary babel invocation
 latex$options$babel <- c(
