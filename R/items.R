@@ -375,7 +375,6 @@ latex$set$alignment <- function(alignment = "justified") {
 
   switch(
     EXPR = alignment,
-    justified = NULL,
     left = cat("\\raggedright \n "),
     right = cat("\\raggedleft \n "),
     center = cat("\\centering \n ")
