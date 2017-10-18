@@ -27,5 +27,3 @@ As a feature-rich, one-stop-shop, the software supports a Q study all the way fr
 The package adheres to best practices in (R) software development and reproducible research, including source control and dependency management, unit and integration testing as well as an extensive documentation.
 
 Additional, planned features are discussed, feedback and contributions are invited.
-
-(Note to conference organisers: This will be a fairly substantial release and may be of interest to a broader group of participants. I would greatly appreciate the opportunity to present this open source software in a plenary format.)
