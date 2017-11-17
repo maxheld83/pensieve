@@ -24,7 +24,7 @@ is_use_js <- function() {
 
 # assert and infer helpers ====
 
-assert_n_infer_use_js <- function(use_js) {
+assert_n_infer_use_js <- function(use_js = NULL) {
   checkmate::assert_flag(x = use_js,
                          na.ok = FALSE,
                          null.ok = TRUE)
