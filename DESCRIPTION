@@ -44,8 +44,7 @@ Suggests:
   svglite (>= 1.2.0),
   withr (>= 1.0.2)
 Remotes:
-  hadley/pkgdown,
-  rstudio/blogdown
+  hadley/pkgdown
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 SystemRequirements:

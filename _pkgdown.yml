@@ -6,8 +6,6 @@ navbar:
       href: ../
     - text: "Reference"
       href: "reference/"
-    - text: "Articles"
-      href: "articles/"
     - text: "Book"
       href: ../book/index.html
   right:
