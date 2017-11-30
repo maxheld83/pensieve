@@ -521,11 +521,6 @@ latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right
   )
 }
 
-
-# pensieveItemSample ====
-# logical vector about the inclusion/exclusion of items
-# make this a function which *actually* samples
-
 # pensieveItemStrata ====
 # logical array of n dimensions, items as rows, arbitrary dimensions,
 #' @title Check and make QItemStrata
@@ -555,9 +550,6 @@ check.QItemStrata <- function(x) {
   res <- c(res, check_named_array(x = x))  # via external helper
   return(report_checks(res = res, info = "QItemStrata"))
 }
-
-# pensieveItemProp ====
-# WIDE dataframe with arbitrary features of the items, one row per item
 
 
 # Drafts and Helpers ====
