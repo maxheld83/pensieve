@@ -5,14 +5,14 @@
 ^appveyor\.yml$
 ^codecov\.yml$
 ^data-raw$
-^_site$
-docs$
 ^CONTRIBUTING\.md$
 .*/rsconnect
 .httr-oauth
 ^man-roxygen$
 setup.R
 ^_pkgdown\.yml$
-^_site/docs$
 ^\.netlify$
 ^inst/accio/\.git$
+^docs$
+logo.*
+vignettes/\.drafts$

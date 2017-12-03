@@ -1,13 +1,8 @@
+template:
+  params:
+    ganalytics: UA-48816137-13
 navbar:
   title: "pensieve"
   type: inverse
-  left:
-    - text: "Home"
-      href: ../
-    - text: "Reference"
-      href: "reference/"
-    - text: "Book"
-      href: ../book/index.html
-  right:
-    - icon: fa-github
-      href: https://github.com/maxheld83/pensieve
+url: https://pensieve.maxheld.de
+theme: cosmo

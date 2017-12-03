@@ -1,11 +1,13 @@
-[![Travis CI Build Status (Package + Book)](https://travis-ci.org/maxheld83/pensieve.svg?branch=master)](https://travis-ci.org/maxheld83/pensieve)
+[![Travis CI Build Status](https://travis-ci.org/maxheld83/pensieve.svg?branch=master)](https://travis-ci.org/maxheld83/pensieve)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/9ip5xkw34mkfcewu/branch/master?svg=true)](https://ci.appveyor.com/project/maxheld83/pensieve/branch/master)
 [![codecov](https://codecov.io/gh/maxheld83/pensieve/branch/master/graph/badge.svg)](https://codecov.io/gh/maxheld83/pensieve)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
 [![](http://www.r-pkg.org/badges/version/pensieve)](http://www.r-pkg.org/pkg/pensieve)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/pensieve)](http://www.r-pkg.org/pkg/pensieve)
 
-### Pensieve: An R package for the Scientific Study of Human Subjectivity. <img src="docs/book/pensieve-logo.png" align="right" />
+<img src="logo.png" width=200/>
+
+# Pensieve: An R package for the Scientific Study of Human Subjectivity.
 
 > *The name 'Pensieve' is a homonym of 'pensive', meaning deeply, seriously thoughtful; but it also a pun, the 'sieve' part of the word alluding to the object's function of sorting meanings from a mass of thoughts or memories.*
 

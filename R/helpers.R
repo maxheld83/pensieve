@@ -51,51 +51,6 @@ assert_n_infer_summarize <- function(summarize, x) {
 }
 
 
-# helper function to quickly build book ====
-# helpful because this is a package, so it's not easy to build the book
-render_site2 <- function(book = TRUE, html_only = NULL, landing = TRUE, docs = TRUE, serve = NULL) {
-  # infer good defaults
-  if (is.null(html_only)) {
-    html_only <- is_rstudio()
-  }
-  if (is.null(serve)) {
-    serve <- is_rstudio()
-  }
-
-  if (book) {
-    withr::with_dir(new = "docs/book/", code = {# this makes changing wd safe
-      if (html_only) {
-        bookdown::render_book(input = "docs/book/index.Rmd",
-                              output_format = 'bookdown::gitbook',
-                              output_dir = '../../_site/book',
-                              clean_envir = TRUE,
-                              envir = new.env())
-      } else {
-        bookdown::render_book(input = 'index.Rmd',
-                              output_format = 'all',
-                              output_dir = '../../_site/book',
-                              clean_envir = TRUE,
-                              envir = new.env())
-      }
-    })
-  }
-
-  if (landing) {
-    withr::with_dir(new = "docs/landing/", code = {
-      blogdown::build_site()
-    })
-  }
-
-  if (docs) {
-    pkgdown::build_site(path = "_site/docs", preview = FALSE)
-  }
-
-  if (serve) {
-    servr::httw(dir = "_site/book", daemon = TRUE)
-  }
-}
-
-
 # find path to *built* accio, always root of pensieve
 # this gives "" if folder does not exist
 accio_path <- system.file('accio', package = 'pensieve')

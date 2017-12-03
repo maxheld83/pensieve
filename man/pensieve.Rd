@@ -18,6 +18,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Maximilian Held \email{info@maxheld.de}
+\strong{Maintainer}: Maximilian Held \email{info@maxheld.de} (0000-0002-4703-5388)
 
 }

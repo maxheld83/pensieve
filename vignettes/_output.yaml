@@ -1,0 +1,6 @@
+html_document:
+  toc: true
+  toc_float: true
+  number_sections: true
+  theme: cosmo
+  fig_caption: true

@@ -26,7 +26,6 @@ cache:
   packages: yes
   directories:
     - $HOME/bin
-    - $TRAVIS_BUILD_DIR/docs/book/_bookdown_files
 
 
 notifications:
@@ -73,8 +72,7 @@ before_install:
 before_deploy:
   - R CMD INSTALL .
   - Rscript -e 'covr::codecov()'
-  - Rscript -e 'blogdown::install_hugo()'
-  - Rscript -e 'pensieve:::render_site2()'
+  - Rscript -e 'pkgdown::build_site()'
   - npm install netlify-cli -g
   - Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
   - Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
@@ -103,7 +101,7 @@ deploy:
       condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = release"
   - provider: pages
     github_token: $GITHUB_PAT
-    local_dir: _site/
+    local_dir: docs/
     skip_cleanup: true
     on:
       branch: dev
