@@ -5,7 +5,7 @@
 [![](http://www.r-pkg.org/badges/version/pensieve)](http://www.r-pkg.org/pkg/pensieve)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/pensieve)](http://www.r-pkg.org/pkg/pensieve)
 
-<img src="logo.png" width=200/>
+<img src="https://github.com/maxheld83/pensieve/blob/master/logo.png?raw=true" width=200/>
 
 # Pensieve: An R package for the Scientific Study of Human Subjectivity.
 
