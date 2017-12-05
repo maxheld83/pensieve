@@ -1,28 +1,6 @@
-context("Constructing items")
+context("Concourse")
 
 # object construction ====
-test_that(desc = "construction of monolingual text item works", code = {
-  monolingual_text <- psConcourse(
-    concourse = c(live_2_work = "Man lives to work.",
-                  work_2_live = "Man works to live."),
-    languages = c("english"),
-    type = "text",
-    markup = "plain"
-  )
-  expect_s3_class(object = monolingual_text, class = c("psConcourseText", "psConcourse"))
-})
-test_that(desc = "construction of monolingual image item works", code = {
-  monolingual_image <- psConcourse(
-    concourse = c(peach = "peach.jpg",
-                  pear = "pear.jpg"),
-    languages = c("english"),
-    img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
-    # these files ship with pensieve
-    type = "image"
-  )
-  expect_s3_class(object = monolingual_image, class = c("psConcourseImage", "psConcourse"))
-})
-
 test_that(desc = "construction of multilingual text item works", code = {
   # TODO avoid this duplication, this is copied from examples
   multilingual_text <- psConcourse(
@@ -33,13 +11,39 @@ test_that(desc = "construction of multilingual text item works", code = {
       ),
       nrow = 2,
       ncol = 2,
-      dimnames = list(items = c("live_2_work", "work_2_live"))
+      dimnames = list(items = c("live_2_work", "work_2_live"),
+                      languages = c("english", "ngerman"))
     ),
-    languages = c("english", "ngerman"),
     type = "text",
-    markup = "plain"
+    markup = "plain",
+    babel = TRUE
   )
-  expect_s3_class(object = multilingual_text, class = c("psConcourseText", "psConcourse"))
+  expect_s3_class(object = multilingual_text, class = c(
+    "psConcourseText",
+    "psConcourse",
+    "matrix"))
+})
+
+test_that(desc = "construction of monolingual image item works", code = {
+  # TODO avoid this duplication, this is copied from examples
+  monolingual_image <- psConcourse(
+    concourse = matrix(
+      data = c("peach.jpg",
+               "pear.jpg"),
+      nrow = 2,
+      ncol = 1,
+      dimnames = list(
+        items = c("peach", "pear"),
+        languages = c("english")
+     )),
+   type = "image",
+   img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit")
+   # these files ship with pensieve
+  )
+  expect_s3_class(object = monolingual_image, class = c(
+    "psConcourseImage",
+    "psConcourse",
+    "matrix"))
 })
 
 

@@ -30,22 +30,22 @@ validate_psItems <- function(ps_items) {
 
 # psConcourse ====
 
-#' @title Construct matrix of *all* (researcher-facing) **item handles** and (participant-facing) **full items**
+#' @title Constructs matrix of *all* **full items**.
 #'
 #' @export
 #'
 #' @param concourse
-#' - for *monolingual studies*, when only one `languages` is given: a named character vector of (participant-facing) **full items**, with names as (researcher-facing) **item handles**,
-#' - for *multilingual studies*, when several `languages` are given: a character matrix of (participant-facing) **full items**, with rownames as (researcher-facing) **item handles**.
+#' A matrix with:
+#' - researcher-facing **item handles** as row names,
+#' - **languages** as column names and
+#' - participant-facing **full items** in cells.
+#'
+#' For *monolingual studies*, use one column only.
 #'
 #' Full items must be unique by language, and can be `NA` if not available (not recommended).
 #' Names must be unique and valid R names.
 #'
-#' @param languages a character vector of languages, in the order of columns in `concourse`.
-#' Defaults to `c("english")`.
-#' Must be unique and valid R names.
-#'
-#' @param type a character string giving the *kind* of item stimuli, must be one of:
+#' @param type a character string giving the *kind* of full item stimuli, must be one of:
 #' - `"text"` for textual items, in which case cells in `concourse` must be text.
 #'   An additional subclass `"psConcourseText"` is prepended and validated.
 #' - `"image"` for image items, in which case cells in `concourse` must be file paths, relative from `img_dir`.
@@ -56,22 +56,19 @@ validate_psItems <- function(ps_items) {
 #' @param markup a character string giving the markup for `type = "text"`s.
 #' Defaults to `"plain"` for plain text.
 #' Currently only allows `"plain"`.
+#' Ignored unless `type = "text"`.
+#'
+#' @param babel a logical flag, indicating whether [LaTeX's babel package](https://ctan.org/pkg/babel) should be used for multilingual support.
+#' If `TRUE` (default), column names in `concourse` must be [valid babel languages](http://ctan.math.washington.edu/tex-archive/macros/latex/required/babel/base/babel.pdf).
+#' Ignored unless `type = "text"`.
 #'
 #' @param img_dir a character string giving the directory for `type = "image"`s.
 #' Must be relative path *from the working directory*.
 #' Best constructed with [base::file.path()].
 #' Defaults to `NULL`, in which case images are expected at the working directory root.
+#' Ignored unless `type = "image"`.
 #'
 #' @examples
-#' # monolingual study, text items
-#' monolingual_text <- psConcourse(
-#'   concourse = c(live_2_work = "Man lives to work.",
-#'                 work_2_live = "Man works to live."),
-#'   languages = c("english"),
-#'   type = "text",
-#'   markup = "plain"
-#' )
-#'
 #' # multilingual study, text items
 #' multilingual_text <- psConcourse(
 #'   concourse = matrix(
@@ -81,63 +78,49 @@ validate_psItems <- function(ps_items) {
 #'     ),
 #'     nrow = 2,
 #'     ncol = 2,
-#'     dimnames = list(items = c("live_2_work", "work_2_live"))
+#'     dimnames = list(
+#'       items = c("live_2_work", "work_2_live"),
+#'       languages = c("english", "ngerman"))
 #'   ),
-#'   languages = c("english", "ngerman"),
 #'   type = "text",
-#'   markup = "plain"
+#'   markup = "plain",
+#'   babel = TRUE
 #' )
 #'
 #' # monolingual study, image items
 #' monolingual_image <- psConcourse(
-#'  concourse = c(peach = "peach.jpg", pear = "pear.jpg"),
-#'  img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
+#'   concourse = matrix(
+#'     data = c("peach.jpg",
+#'              "pear.jpg"),
+#'     nrow = 2,
+#'     ncol = 1,
+#'     dimnames = list(
+#'       items = c("peach", "pear"),
+#'       languages = c("english")
+#'    )),
+#'  type = "image",
+#'  img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit")
 #'  # these files ship with pensieve
-#'  type = "image"
 #' )
 #'
 #' @template construction_helpers
-psConcourse <- function(concourse, languages = c("english"), type = "text", markup = "plain", img_dir = NULL) {
+psConcourse <- function(concourse,
+                        type = "text",
+                        markup = "plain",
+                        babel = TRUE,
+                        img_dir = NULL) {
   assert_string(x = type, na.ok = FALSE, null.ok = FALSE)
-  assert_character(x = languages,
-                   any.missing = FALSE,
-                   all.missing = FALSE,
-                   min.len = 1,
-                   unique = TRUE,
-                   null.ok = FALSE)
-
-  # monolingual case, easier entry ui
-  if (length(languages) == 1 & is.vector(concourse)) {
-    assert_vector(x = concourse,
-                  strict = TRUE,
-                  any.missing = TRUE,
-                  all.missing = TRUE,
-                  unique = TRUE,
-                  names = "strict")
-    concourse <- as.matrix(concourse)
-    colnames(concourse) <- languages
-  }
-
-  # general and multilingual case
-  if (length(languages) != ncol(concourse)) {
-    stop(
-      paste("You provided", length(languages), "languages, but concourse has", ncol(concourse), "columns.",
-            "Must be equal."),
-      call. = FALSE
-    )
-  }
 
   # construction
   if (type == "text") {
-    concourse <- new_psConcourseText(concourse = concourse,
-                                           handles = rownames(concourse),
-                                           languages = languages,
-                                           markup = markup)
+    concourse <- new_psConcourseText(
+      concourse = concourse,
+      markup = markup,
+      babel = babel)
   } else if (type == "image") {
-    concourse <- new_psConcourseImage(concourse = concourse,
-                                            handles = rownames(concourse),
-                                            languages = languages,
-                                            img_dir = img_dir)
+    concourse <- new_psConcourseImage(
+      concourse = concourse,
+      img_dir = img_dir)
   }
 
   # validation
@@ -147,17 +130,8 @@ psConcourse <- function(concourse, languages = c("english"), type = "text", mark
 }
 
 # parent constructor
-new_psConcourse <- function(concourse, handles, languages, ..., subclass) {
-  structure(
-    .Data = concourse,
-    dimnames = list(handles = handles, languages = languages),
-    ...,
-    class = c(subclass, "psConcourse", "matrix")
-  )
-}
-
-# parent validator
-validate_psConcourse <- function(concourse) {
+new_psConcourse <- function(concourse, ..., subclass = NULL) {
+  # base type validation
   assert_matrix(x = concourse,
                 mode = "character",
                 any.missing = TRUE,
@@ -165,6 +139,16 @@ validate_psConcourse <- function(concourse) {
                 row.names = "strict",
                 col.names = "strict",
                 null.ok = FALSE)
+
+  structure(
+    .Data = concourse,
+    ...,
+    class = c(subclass, "psConcourse", "matrix")
+  )
+}
+
+# parent validator
+validate_psConcourse <- function(concourse) {
 
   assert_unique_in_column(x = concourse)
 
@@ -182,31 +166,36 @@ validate_psConcourse <- function(concourse) {
 }
 
 # subclass text
-new_psConcourseText <- function(concourse, handles, languages, markup) {
-  concourse <- new_psConcourse(concourse = concourse,
-                                     handles = handles,
-                                     markup = markup,
-                                     languages = languages,
-                                     subclass = "psConcourseText")
-  return(concourse)
+new_psConcourseText <- function(concourse, markup, babel) {
+  new_psConcourse(
+    concourse = concourse,
+    markup = markup,
+    babel = babel,
+    subclass = "psConcourseText")
 }
 
 validate_psConcourseText <- function(concourse) {
   markup <- attr(x = concourse, which = "markup")
+  babel <- attr(x = concourse, which = "babel")
   assert_string(x = markup, na.ok = FALSE, null.ok = FALSE)
   assert_choice(x = markup, choices = c("plain"), null.ok = FALSE)
-  #TODO test whether strings *are* in this markup, and valid
+  assert_flag(x = babel, null.ok = FALSE, na.ok = FALSE)
+
+  if (babel) {
+    checkmate::assert_subset(
+      x = colnames(concourse),
+      choices = latex$options$babel,
+      empty.ok = FALSE)
+  }
   return(concourse)
 }
 
 # subclass image
-new_psConcourseImage <- function(concourse, handles, languages, img_dir) {
-  concourse <- new_psConcourse(concourse = concourse,
-                                     handles = handles,
-                                     img_dir = img_dir,
-                                     languages = languages,
-                                     subclass = "psConcourseImage")
-  return(concourse)
+new_psConcourseImage <- function(concourse, img_dir) {
+  new_psConcourse(
+    concourse = concourse,
+    img_dir = img_dir,
+    subclass = "psConcourseImage")
 }
 
 validate_psConcourseImage <- function(concourse) {
@@ -392,77 +381,97 @@ latex$set$extra_preamb_args <- function(extra_preamb_args) {
 
 # add arbitrary babel invocation
 latex$options$babel <- c(
-  # this list is from https://tug.org/pracjourn/2007-1/gregorio/gregorio.pdf
-  "acadian",
+  # this list is from http://ctan.math.washington.edu/tex-archive/macros/latex/required/babel/base/babel.pdf
   "afrikaans",
-  "albanian",
-  "american",
-  "australian",
-  "austrian",
-  "bahasa",
-  "bahasai",
-  "bahasam",
+  "azerbaijani",
   "basque",
-  "brazil",
-  "brazilian",
   "breton",
-  "british",
   "bulgarian",
-  "canadian",
-  "canadien",
   "catalan",
   "croatian",
   "czech",
   "danish",
   "dutch",
+
+  # english
   "english",
+  "USenglish",
+  "american",
+  "UKenglish",
+  "british",
+  "canadian",
+  "australian",
+  "newzealand",
+
   "esperanto",
   "estonian",
   "finnish",
-  "francais",
+
+  # french
   "french",
-  "frenchb",
+  "francais",
+  "canadien",
+  "acadian",
+
   "galician",
+
+  # german
+  "austrian",
   "german",
   "germanb",
+  "ngerman",
+  "naustrian",
+
+  # greek
   "greek",
+  "polutonikogreek",
+
   "hebrew",
-  "hungarian",
   "icelandic",
-  "indon",
+
+  # indonesian
+  "bahasa",
   "indonesian",
+  "indon",
+  "bahasai",
+
   "interlingua",
-  "irish",
+  "irish", # gaelic
   "italian",
   "latin",
   "lowersorbian",
-  "magyar",
-  "ngerman",
-  "norsk",
+
+  # malay
+  "bahasam",
+  "malay",
+  "melayu",
+
+  "samin",
+
+  # norwegian
+  "norks",
   "nynorsk",
+
   "polish",
-  "polutonikogreek",
+
+  # portuguese
   "portuges",
   "portuguese",
+  "brazilian",
+  "brazil",
+
   "romanian",
   "russian",
-  "samin",
   "scottish",
-  "serbian",
+  "spanish",
   "slovak",
   "slovene",
-  "spanish",
   "swedish",
+  "serbian",
   "turkish",
-  "ukrainian",
+  "urkainian",
   "uppersorbian",
-  "welsh",
-  "UKenglish",
-  "USenglish",
-  "malay",
-  "meyalu",
-  "naustrian",
-  "newzealand"
+  "welsh"
 )
 
 latex$set$babel <- function(language) {

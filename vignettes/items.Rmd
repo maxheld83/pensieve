@@ -34,3 +34,4 @@ only a few elements are necessary (in bold), and even the entire `psItems` is op
     *`psItemConcourseText`* or
     *`psItemConcourseImage`*.
   - `psItemStrata` for structured sampling.
+

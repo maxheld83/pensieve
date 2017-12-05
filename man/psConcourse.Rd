@@ -2,25 +2,25 @@
 % Please edit documentation in R/items.R
 \name{psConcourse}
 \alias{psConcourse}
-\title{Construct matrix of \emph{all} (researcher-facing) \strong{item handles} and (participant-facing) \strong{full items}}
+\title{Constructs matrix of \emph{all} \strong{full items}.}
 \usage{
-psConcourse(concourse, languages = c("english"), type = "text",
-  markup = "plain", img_dir = NULL)
+psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
+  img_dir = NULL)
 }
 \arguments{
-\item{concourse}{\itemize{
-\item for \emph{monolingual studies}, when only one \code{languages} is given: a named character vector of (participant-facing) \strong{full items}, with names as (researcher-facing) \strong{item handles},
-\item for \emph{multilingual studies}, when several \code{languages} are given: a character matrix of (participant-facing) \strong{full items}, with rownames as (researcher-facing) \strong{item handles}.
+\item{concourse}{A matrix with:
+\itemize{
+\item researcher-facing \strong{item handles} as row names,
+\item \strong{languages} as column names and
+\item participant-facing \strong{full items} in cells.
 }
+
+For \emph{monolingual studies}, use one column only.
 
 Full items must be unique by language, and can be \code{NA} if not available (not recommended).
 Names must be unique and valid R names.}
 
-\item{languages}{a character vector of languages, in the order of columns in \code{concourse}.
-Defaults to \code{c("english")}.
-Must be unique and valid R names.}
-
-\item{type}{a character string giving the \emph{kind} of item stimuli, must be one of:
+\item{type}{a character string giving the \emph{kind} of full item stimuli, must be one of:
 \itemize{
 \item \code{"text"} for textual items, in which case cells in \code{concourse} must be text.
 An additional subclass \code{"psConcourseText"} is prepended and validated.
@@ -32,26 +32,23 @@ Defaults to \code{"text"}.
 
 \item{markup}{a character string giving the markup for \code{type = "text"}s.
 Defaults to \code{"plain"} for plain text.
-Currently only allows \code{"plain"}.}
+Currently only allows \code{"plain"}.
+Ignored unless \code{type = "text"}.}
+
+\item{babel}{a logical flag, indicating whether \href{https://ctan.org/pkg/babel}{LaTeX's babel package} should be used for multilingual support.
+If \code{TRUE} (default), column names in \code{concourse} must be \href{http://ctan.math.washington.edu/tex-archive/macros/latex/required/babel/base/babel.pdf}{valid babel languages}.
+Ignored unless \code{type = "text"}.}
 
 \item{img_dir}{a character string giving the directory for \code{type = "image"}s.
 Must be relative path \emph{from the working directory}.
 Best constructed with \code{\link[base:file.path]{base::file.path()}}.
-Defaults to \code{NULL}, in which case images are expected at the working directory root.}
+Defaults to \code{NULL}, in which case images are expected at the working directory root.
+Ignored unless \code{type = "image"}.}
 }
 \description{
 Constructs S3 class for pensieve.
 }
 \examples{
-# monolingual study, text items
-monolingual_text <- psConcourse(
-  concourse = c(live_2_work = "Man lives to work.",
-                work_2_live = "Man works to live."),
-  languages = c("english"),
-  type = "text",
-  markup = "plain"
-)
-
 # multilingual study, text items
 multilingual_text <- psConcourse(
   concourse = matrix(
@@ -61,19 +58,29 @@ multilingual_text <- psConcourse(
     ),
     nrow = 2,
     ncol = 2,
-    dimnames = list(items = c("live_2_work", "work_2_live"))
+    dimnames = list(
+      items = c("live_2_work", "work_2_live"),
+      languages = c("english", "ngerman"))
   ),
-  languages = c("english", "ngerman"),
   type = "text",
-  markup = "plain"
+  markup = "plain",
+  babel = TRUE
 )
 
 # monolingual study, image items
 monolingual_image <- psConcourse(
- concourse = c(peach = "peach.jpg", pear = "pear.jpg"),
- img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit"),
+  concourse = matrix(
+    data = c("peach.jpg",
+             "pear.jpg"),
+    nrow = 2,
+    ncol = 1,
+    dimnames = list(
+      items = c("peach", "pear"),
+      languages = c("english")
+   )),
+ type = "image",
+ img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit")
  # these files ship with pensieve
- type = "image"
 )
 
 }
