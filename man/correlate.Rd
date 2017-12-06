@@ -107,6 +107,5 @@ Other validation functions: \code{\link{QSorts}},
   \code{\link{make_grid}}, \code{\link{score}}
 
 Other plotting functions: \code{\link{QSorts}},
-  \code{\link{extract}},
-  \code{\link{knit_print.psConcourse}}
+  \code{\link{extract}}
 }

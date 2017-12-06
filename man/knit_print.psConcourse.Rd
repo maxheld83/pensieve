@@ -2,26 +2,24 @@
 % Please edit documentation in R/items.R
 \name{knit_print.psConcourse}
 \alias{knit_print.psConcourse}
-\title{Custom print method for knitr}
+\title{Print pensieve S3 object}
 \usage{
 knit_print.psConcourse(x, use_js = NULL, ...)
 }
 \arguments{
 \item{x}{object returned by \code{\link[=psConcourse]{psConcourse()}}.}
 
-\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
+\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the printed result should be returned.
+Applicable only to HTML-outputs.
 Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
 
 \item{...}{Arguments passed onto other methods.
 Not currently used.}
 }
 \description{
-Provides custom print method for knitr.
-Can also be invoked manually to open interactive outputs in RStudio.
-
-Plot S3 class.
-}
-\seealso{
-Other plotting functions: \code{\link{QSorts}},
-  \code{\link{correlate}}, \code{\link{extract}}
+Extends the [knitr::knit_print()] generic for pensieve S3 object.
+Can also be invoked in an interactive session for interactive displays in RStudio.
+When [DT::datatable()] is installed (recommended), and `use_js` evaluates to `TRUE`, an interactive table will be printed.
+When [printr][printr] is installed (recommended), a static table depending on the output format will be printed.
+Otherwise, the object is simply [base::print()]ed.
 }

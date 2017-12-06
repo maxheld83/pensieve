@@ -78,11 +78,35 @@ run_accio <- function() {
   shiny::runApp(appDir = accio_path)
 }
 
-requireNamespace2 <- function(x) {
+# always returns TRUE or FALSE (if error = FALSE) or error
+requireNamespace2 <- function(x, error = TRUE, msg = NULL) {
   if (!requireNamespace(x, quietly = TRUE)) {
-    stop(paste(x,
-               "ggraph needed for this function to work.",
-               "Please install it."),
-         call. = FALSE)
+    if (error) {
+      if (is.null(msg)) {
+        stop(
+          paste(
+            x,
+            "package is needed for this function to work.",
+            "Please install it."),
+          call. = FALSE)
+      } else {
+        stop(msg, call. = FALSE)
+      }
+    } else {
+      if (is.null(msg)) {
+        warning(
+          paste(
+            "Function works better with package",
+            x,
+            "installed.",
+            "Please install it."),
+          call. = FALSE)
+      } else {
+        warning(msg, call. = FALSE)
+      }
+    }
+    return(FALSE)
+  } else {
+    return(TRUE)
   }
 }

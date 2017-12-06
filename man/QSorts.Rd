@@ -79,6 +79,5 @@ Other validation functions: \code{\link{check}},
   \code{\link{make_grid}}, \code{\link{score}}
 
 Other plotting functions: \code{\link{correlate}},
-  \code{\link{extract}},
-  \code{\link{knit_print.psConcourse}}
+  \code{\link{extract}}
 }

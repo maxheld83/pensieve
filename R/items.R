@@ -214,20 +214,11 @@ validate_psConcourseImage <- function(concourse) {
   return(concourse)
 }
 
-#' @title Custom print method for knitr
-#'
-#' @description Provides custom print method for knitr.
-#' Can also be invoked manually to open interactive outputs in RStudio.
-#'
 #' @param x object returned by [psConcourse()].
 #'
-#' @template plot
-#'
-#' @inheritParams knitr::knit_print
+#' @template print
 #'
 #' @export
-#'
-#' @family knitr output functions
 knit_print.psConcourse <- function(x, use_js = NULL, ...) {
   # Input validation ====
   use_js <- assert_n_infer_use_js(use_js = use_js)
@@ -235,11 +226,13 @@ knit_print.psConcourse <- function(x, use_js = NULL, ...) {
   validate_psConcourse(x)
 
   # JS method ====
-  if (use_js) {  # interactive
-    DT::datatable(data = as.data.frame(x),
-                  options = list(searchHighlight = TRUE))
+  if (use_js & requireNamespace2(x = "DT", error = FALSE)) {
+    DT::datatable(
+      data = as.data.frame(x),
+      options = list(searchHighlight = TRUE))
   } else {
-    print(x)
+    requireNamespace2(x = "printr", error = FALSE)
+    NextMethod()
   }
 }
 
