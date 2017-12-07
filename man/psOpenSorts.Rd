@@ -6,7 +6,6 @@
 \alias{tidy.psOpenSort}
 \alias{autoplot.psOpenSort}
 \alias{summary.psOpenSort}
-\alias{psOpenSorts}
 \alias{import_psOpenSorts}
 \alias{tidy.psOpenSorts}
 \alias{autoplot.psOpenSorts}
@@ -221,3 +220,4 @@ Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
   \code{\link{psItems}}, \code{\link{psPeople}},
   \code{\link{score}}
 }
+\concept{S3 classes from `pensieve`}

@@ -2,10 +2,13 @@
 % Please edit documentation in R/items.R
 \name{psConcourse}
 \alias{psConcourse}
+\alias{knit_print.psConcourse}
 \title{Constructs matrix of \emph{all} \strong{full items}.}
 \usage{
 psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
   img_dir = NULL)
+
+\method{knit_print}{psConcourse}(x, use_js = NULL, ...)
 }
 \arguments{
 \item{concourse}{A matrix with:
@@ -42,12 +45,43 @@ Ignored unless \code{type = "text"}.}
 \item{img_dir}{a character string giving the directory for \code{type = "image"}s.
 Must be relative path \emph{from the working directory}.
 Best constructed with \code{\link[base:file.path]{base::file.path()}}.
-Defaults to \code{NULL}, in which case images are expected at the working directory root.
+Defaults to \code{NULL}, in which case images are expected at the working directory root \code{\link[base:getwd]{base::getwd()}}.
 Ignored unless \code{type = "image"}.}
+
+\item{x}{an R object to be printed}
+
+\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the printed result should be returned.
+Applicable only to HTML-outputs.
+Defaults to \code{NULL}, in which case the appropriate output is inferred from the runtime environment.}
+
+\item{...}{additional arguments passed to the S3 method (currently ignored,
+except two optional arguments \code{options} and \code{inline}; see
+the references below)}
+}
+\value{
+Object of class \code{psConcourse}.
 }
 \description{
 Constructs S3 class for pensieve.
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{knit_print}: print psConcourse in knitr chunks
+}}
+
+\section{Printing in knitr chunks}{
+
+Extends the \code{\link[knitr:knit_print]{knitr::knit_print()}} generic for pensieve S3 object.
+When \code{\link[DT:datatable]{DT::datatable()}} is installed (recommended), and \code{use_js} evaluates to \code{TRUE}, an interactive table will be printed.
+When printr is installed (recommended), a static table depending on the output format will be printed.
+Otherwise, the object is simply \code{\link[base:print]{base::print()}}ed.
+
+By default \code{print()} in knitr will default to \code{\link[knitr:knit_print]{knitr::knit_print()}}, so to nicely print some object \code{obj} inside a chunk, you can just write \code{print(obj)} or even just \code{obj}.
+
+However, to manually invoke or preview the interactive displays in RStudio, you must call \code{\link[knitr:knit_print]{knitr::knit_print()}} in full.
+The \code{\link[base:print]{base::print()}}ing method of the underlying classes is \emph{not} altered outside of a knitr chunk.
+}
+
 \examples{
 # multilingual study, text items
 multilingual_text <- psConcourse(
@@ -83,6 +117,9 @@ monolingual_image <- psConcourse(
  # these files ship with pensieve
 )
 
+# print concourse
+# knitr::knit_print(x = multilingual_text, op)
+
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
@@ -92,3 +129,5 @@ Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
   \code{\link{psOpenSorts}}, \code{\link{psPeople}},
   \code{\link{score}}
 }
+\concept{S3 classes from `pensieve`}
+\concept{print functions}

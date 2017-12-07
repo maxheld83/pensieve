@@ -17,7 +17,7 @@ QSorts(sorts, validate = TRUE)
 Dimensions must be named.}
 
 \item{validate}{a logical flag, indicating whether the object will be validated on construction.
-Defaults to `TRUE`.}
+Defaults to \code{TRUE}.}
 
 \item{x}{class object created by respective constructor function.}
 
@@ -25,7 +25,7 @@ Defaults to `TRUE`.}
 Defaults to \code{1}, in which case the first column is plotted.}
 
 \item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
-Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
+Defaults to \code{NULL}, in which case the appropriate output is inferred from the runtime environment.}
 
 \item{...}{Arguments passed onto other methods.
 Not currently used.}
@@ -40,10 +40,10 @@ Check S3 class.
 Plot S3 class.
 }
 \details{
-`check()`, `test()`, `assert()` and `expect()` are extensions the family of functions from the [checkmate](https://github.com/mllg/checkmate) package.
-`check()` returns `TRUE` or the error message, `assert()` only returns a message in case of an error, `test()` returns `TRUE` or `FALSE`.
-`expect()` is for internal use with testing via [`testthat`](https://github.com/hadley/testthat)).
-`need()` returns `NULL` or the error message and is for interal use with the accio web frontend inside [shiny::validate()].
+\code{check()}, \code{test()}, \code{assert()} and \code{expect()} are extensions the family of functions from the \href{https://github.com/mllg/checkmate}{checkmate} package.
+\code{check()} returns \code{TRUE} or the error message, \code{assert()} only returns a message in case of an error, \code{test()} returns \code{TRUE} or \code{FALSE}.
+\code{expect()} is for internal use with testing via \href{https://github.com/hadley/testthat}{testthat}).
+\code{need()} returns \code{NULL} or the error message and is for interal use with the accio web frontend inside \code{\link[shiny:validate]{shiny::validate()}}.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -81,3 +81,7 @@ Other validation functions: \code{\link{check}},
 Other plotting functions: \code{\link{correlate}},
   \code{\link{extract}}
 }
+\concept{S3 classes from `pensieve`}
+\concept{import helpers}
+\concept{plotting functions}
+\concept{validation functions}

@@ -64,4 +64,5 @@ Other import helpers: \code{\link{QItemStrata}},
 Other import helpers: \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}}
 }
+\concept{import helpers}
 \keyword{internal}

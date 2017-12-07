@@ -10,7 +10,7 @@ QItemStrata(strata, validate = TRUE)
 \item{strata}{A logical array of arbitrary dimensions, with first dimension (rows) as item handles, and higher dimensions as orthogonal sampling strata.}
 
 \item{validate}{a logical flag, indicating whether the object will be validated on construction.
-Defaults to `TRUE`.}
+Defaults to \code{TRUE}.}
 }
 \description{
 Checks and makes QItemStrata, the item sampling structure
@@ -28,3 +28,5 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
 Other import helpers: \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{anonymize}}
 }
+\concept{S3 classes from `pensieve`}
+\concept{import helpers}

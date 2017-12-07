@@ -28,3 +28,4 @@ Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
   \code{\link{psItems}}, \code{\link{psOpenSorts}},
   \code{\link{score}}
 }
+\concept{S3 classes from `pensieve`}

@@ -65,8 +65,10 @@ validate_psItems <- function(ps_items) {
 #' @param img_dir a character string giving the directory for `type = "image"`s.
 #' Must be relative path *from the working directory*.
 #' Best constructed with [base::file.path()].
-#' Defaults to `NULL`, in which case images are expected at the working directory root.
+#' Defaults to `NULL`, in which case images are expected at the working directory root [base::getwd()].
 #' Ignored unless `type = "image"`.
+#'
+#' @return Object of class `psConcourse`.
 #'
 #' @examples
 #' # multilingual study, text items
@@ -132,19 +134,19 @@ psConcourse <- function(concourse,
 # parent constructor
 new_psConcourse <- function(concourse, ..., subclass = NULL) {
   # base type validation
-  assert_matrix(x = concourse,
-                mode = "character",
-                any.missing = TRUE,
-                all.missing = TRUE,
-                row.names = "strict",
-                col.names = "strict",
-                null.ok = FALSE)
+  assert_matrix(
+    x = concourse,
+    mode = "character",
+    any.missing = TRUE,
+    all.missing = TRUE,
+    row.names = "strict",
+    col.names = "strict",
+    null.ok = FALSE)
 
   structure(
     .Data = concourse,
     ...,
-    class = c(subclass, "psConcourse", "matrix")
-  )
+    class = c(subclass, "psConcourse", "matrix"))
 }
 
 # parent validator
@@ -158,8 +160,9 @@ validate_psConcourse <- function(concourse) {
   } else if (inherits(x = concourse, what = "psConcourseImage")) {
     validate_psConcourseImage(concourse = concourse)
   } else {
-    stop("No valid type provided. Must be 'text' or 'image'.",
-         call. = FALSE)
+    stop(
+      "No valid type provided. Must be 'text' or 'image'.",
+      call. = FALSE)
   }
 
   return(concourse)
@@ -207,16 +210,21 @@ validate_psConcourseImage <- function(concourse) {
   } else {
     files <- file.path(as.vector(concourse))
   }
-  assert_file_exists(x = files,
-                     extension = c("png", "jpg", "jpeg", "svg"),
-                     access = "r",
-                     .var.name = "file names")
+  assert_file_exists(
+    x = files,
+    extension = c("png", "jpg", "jpeg", "svg"),
+    access = "r",
+    .var.name = "file names")
   return(concourse)
 }
 
-#' @param x object returned by [psConcourse()].
+#' @describeIn psConcourse print psConcourse in knitr chunks
 #'
 #' @template print
+#'
+#' @examples
+#' # print concourse
+#' # knitr::knit_print(x = multilingual_text, op)
 #'
 #' @export
 knit_print.psConcourse <- function(x, use_js = NULL, ...) {
