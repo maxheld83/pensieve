@@ -118,7 +118,7 @@ monolingual_image <- psConcourse(
 )
 
 # print concourse
-# knitr::knit_print(x = multilingual_text, op)
+knitr::knit_print(x = multilingual_text, use_js = TRUE, options = NULL)
 
 }
 \seealso{

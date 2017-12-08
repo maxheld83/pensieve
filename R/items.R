@@ -224,7 +224,7 @@ validate_psConcourseImage <- function(concourse) {
 #'
 #' @examples
 #' # print concourse
-#' # knitr::knit_print(x = multilingual_text, op)
+#' knitr::knit_print(x = multilingual_text, use_js = TRUE, options = NULL)
 #'
 #' @export
 knit_print.psConcourse <- function(x, use_js = NULL, ...) {
