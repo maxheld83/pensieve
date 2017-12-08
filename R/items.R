@@ -225,34 +225,31 @@ validate_psConcourseImage <- function(concourse) {
 
 # coercion
 
-#' @title Coerce other objects to psConcourse
+#' @title Coerce objects to psConcourse
 #' @inheritParams psConcourse
 #' @export
-as_psConcourse <- function(x,
+as_psConcourse <- function(concourse,
                            type = "text",
                            markup = "plain",
                            babel = TRUE,
                            img_dir = NULL,
                            ...) {
-  UseMethod("as_psConcourse")
+  UseMethod(generic = "as_psConcourse")
 }
 
-as_psConcourse.default <- function(x, type, markup, babel, img_dir, ...) {
+#' @export
+as_psConcourse.default <- function(concourse, type, markup, babel, img_dir, ...) {
   stop(
     "Sorry, don't know how to coerce object of class ",
-    paste(class(x), collapse = "/"),
+    paste(class(concourse), collapse = "/"),
     " into a psConcourse.",
     call. = FALSE
   )
 }
 
-as_psConcourse.psConcourse <- function(x) {
-  psConcourse(x)
-    # concourse = x,
-    # type = type,
-    # markup = markup,
-    # babel = babel,
-    # img_dir = img_dir)
+#' @export
+as_psConcourse.psConcourse <- function(concourse, ...) {
+  psConcourse(concourse)
 }
 
 #' @describeIn psConcourse coerce matrices to psConcourse
@@ -274,11 +271,11 @@ as_psConcourse.psConcourse <- function(x) {
 #'   nrow = 2,
 #'   ncol = 2)
 #' concourse <- as_psConcourse(
-#'   x = concourse,
+#'   concourse = concourse,
 #'   languages = c("english", "ngerman"),
 #'   handles = c("live_2_work", "work_2_live"))
 #' @export
-as_psConcourse.matrix <- function(x,
+as_psConcourse.matrix <- function(concourse,
                                   type = "text",
                                   markup = "plain",
                                   babel = TRUE,
@@ -287,7 +284,7 @@ as_psConcourse.matrix <- function(x,
                                   handles = NULL, ...) {
   # input validation ===
   assert_matrix(
-    x = x,
+    x = concourse,
     mode = "character",
     null.ok = FALSE)
 
@@ -296,38 +293,39 @@ as_psConcourse.matrix <- function(x,
     any.missing = FALSE,
     unique = TRUE,
     null.ok = TRUE,
-    len = ncol(x))
+    len = ncol(concourse))
   assert_names(x = languages, type = "strict")
 
   assert_character(
     x = handles,
     any.missing = FALSE,
     unique = TRUE,
-    null.ok = TRUE)
+    null.ok = TRUE,
+    len = ncol(concourse))
   assert_names(x = handles, type = "strict")
 
   # make languages ===
   if (!is.null(languages)) {
-    if (!is.null(colnames(x))) {
-      warning("Existing languages as colnames of x are overwritten.")
+    if (!is.null(colnames(concourse))) {
+      warning("Existing languages as colnames of concourse are overwritten.")
     }
-    colnames(x) <- languages
-  } else if (is.null(colnames(x))) {
-    stop("No languages as colnames of x found.", call. = FALSE)
+    colnames(concourse) <- languages
+  } else if (is.null(colnames(concourse))) {
+    stop("No languages as colnames of concourse found.", call. = FALSE)
   }
 
   # make handles
   if (!is.null(handles)) {
-    if (!is.null(rownames(x))) {
-      warning("Existing handles as rownames of x are overwritten.")
+    if (!is.null(rownames(concourse))) {
+      warning("Existing handles as rownames of concourse are overwritten.")
     }
-    rownames(x) <- handles
-  } else if (is.null(rownames(x))) {
-    stop("No languages as rownames of x found.", call. = FALSE)
+    rownames(concourse) <- handles
+  } else if (is.null(rownames(concourse))) {
+    stop("No languages as rownames of concourse found.", call. = FALSE)
   }
 
   psConcourse(
-    concourse = x,
+    concourse = concourse,
     type = type,
     markup = markup,
     babel = babel,

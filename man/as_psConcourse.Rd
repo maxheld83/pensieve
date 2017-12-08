@@ -2,13 +2,23 @@
 % Please edit documentation in R/items.R
 \name{as_psConcourse}
 \alias{as_psConcourse}
-\title{Coerce other objects to psConcourse}
+\title{Coerce objects to psConcourse}
 \usage{
-as_psConcourse(x, type = "text", markup = "plain", babel = TRUE,
+as_psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
   img_dir = NULL, ...)
 }
 \arguments{
-\item{x}{an R object to be printed}
+\item{concourse}{A matrix with:
+\itemize{
+\item researcher-facing \strong{item handles} as row names,
+\item \strong{languages} as column names and
+\item participant-facing \strong{full items} in cells.
+}
+
+For \emph{monolingual studies}, use one column only.
+
+Full items must be unique by language, and can be \code{NA} if not available (not recommended).
+Names must be unique and valid R names.}
 
 \item{type}{a character string giving the \emph{kind} of full item stimuli, must be one of:
 \itemize{
@@ -40,5 +50,5 @@ except two optional arguments \code{options} and \code{inline}; see
 the references below)}
 }
 \description{
-Coerce other objects to psConcourse
+Coerce objects to psConcourse
 }

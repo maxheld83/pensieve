@@ -9,7 +9,7 @@
 psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
   img_dir = NULL)
 
-\method{as_psConcourse}{matrix}(x, type = "text", markup = "plain",
+\method{as_psConcourse}{matrix}(concourse, type = "text", markup = "plain",
   babel = TRUE, img_dir = NULL, languages = NULL, handles = NULL, ...)
 
 \method{knit_print}{psConcourse}(x, use_js = NULL, ...)
@@ -52,8 +52,6 @@ Best constructed with \code{\link[base:file.path]{base::file.path()}}.
 Defaults to \code{NULL}, in which case images are expected at the working directory root \code{\link[base:getwd]{base::getwd()}}.
 Ignored unless \code{type = "image"}.}
 
-\item{x}{an R object to be printed}
-
 \item{languages}{character vector as an alternative way to give the languages of items.
 Defaults to \code{NULL}, in which case languages are expected as column names.}
 
@@ -63,6 +61,8 @@ Defaults to \code{NULL}, in which case items are expected as row names.}
 \item{...}{additional arguments passed to the S3 method (currently ignored,
 except two optional arguments \code{options} and \code{inline}; see
 the references below)}
+
+\item{x}{an R object to be printed}
 
 \item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the printed result should be returned.
 Applicable only to HTML-outputs.
@@ -139,7 +139,7 @@ concourse <- matrix(
   nrow = 2,
   ncol = 2)
 concourse <- as_psConcourse(
-  x = concourse,
+  concourse = concourse,
   languages = c("english", "ngerman"),
   handles = c("live_2_work", "work_2_live"))
 # print concourse
