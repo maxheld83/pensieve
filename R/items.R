@@ -168,7 +168,9 @@ validate_psConcourse <- function(concourse) {
   return(concourse)
 }
 
-# subclass text
+
+# subclass text ===
+
 new_psConcourseText <- function(concourse, markup, babel) {
   new_psConcourse(
     concourse = concourse,
@@ -193,7 +195,9 @@ validate_psConcourseText <- function(concourse) {
   return(concourse)
 }
 
+
 # subclass image
+
 new_psConcourseImage <- function(concourse, img_dir) {
   new_psConcourse(
     concourse = concourse,
@@ -217,6 +221,119 @@ validate_psConcourseImage <- function(concourse) {
     .var.name = "file names")
   return(concourse)
 }
+
+
+# coercion
+
+#' @title Coerce other objects to psConcourse
+#' @inheritParams psConcourse
+#' @export
+as_psConcourse <- function(x,
+                           type = "text",
+                           markup = "plain",
+                           babel = TRUE,
+                           img_dir = NULL,
+                           ...) {
+  UseMethod("as_psConcourse")
+}
+
+as_psConcourse.default <- function(x, type, markup, babel, img_dir, ...) {
+  stop(
+    "Sorry, don't know how to coerce object of class ",
+    paste(class(x), collapse = "/"),
+    " into a psConcourse.",
+    call. = FALSE
+  )
+}
+
+as_psConcourse.psConcourse <- function(x) {
+  psConcourse(x)
+    # concourse = x,
+    # type = type,
+    # markup = markup,
+    # babel = babel,
+    # img_dir = img_dir)
+}
+
+#' @describeIn psConcourse coerce matrices to psConcourse
+#'
+#' @param languages character vector as an alternative way to give the languages of items.
+#' Defaults to `NULL`, in which case languages are expected as column names.
+#'
+#' @param handles character vector as an alternative way to give the item handles.
+#' Defaults to `NULL`, in which case items are expected as row names.
+#'
+#' @examples
+#' # coerce matrix to psConcourse (multilingual concourse)
+#' concourse <- matrix(
+#'   data = c(
+#'     "Man lives to work.",
+#'     "Man lebt, um zu arbeiten.",
+#'     "Man works to live.",
+#'     "Man arbeitet, um zu leben."),
+#'   nrow = 2,
+#'   ncol = 2)
+#' concourse <- as_psConcourse(
+#'   x = concourse,
+#'   languages = c("english", "ngerman"),
+#'   handles = c("live_2_work", "work_2_live"))
+#' @export
+as_psConcourse.matrix <- function(x,
+                                  type = "text",
+                                  markup = "plain",
+                                  babel = TRUE,
+                                  img_dir = NULL,
+                                  languages = NULL,
+                                  handles = NULL, ...) {
+  # input validation ===
+  assert_matrix(
+    x = x,
+    mode = "character",
+    null.ok = FALSE)
+
+  assert_character(
+    x = languages,
+    any.missing = FALSE,
+    unique = TRUE,
+    null.ok = TRUE,
+    len = ncol(x))
+  assert_names(x = languages, type = "strict")
+
+  assert_character(
+    x = handles,
+    any.missing = FALSE,
+    unique = TRUE,
+    null.ok = TRUE)
+  assert_names(x = handles, type = "strict")
+
+  # make languages ===
+  if (!is.null(languages)) {
+    if (!is.null(colnames(x))) {
+      warning("Existing languages as colnames of x are overwritten.")
+    }
+    colnames(x) <- languages
+  } else if (is.null(colnames(x))) {
+    stop("No languages as colnames of x found.", call. = FALSE)
+  }
+
+  # make handles
+  if (!is.null(handles)) {
+    if (!is.null(rownames(x))) {
+      warning("Existing handles as rownames of x are overwritten.")
+    }
+    rownames(x) <- handles
+  } else if (is.null(rownames(x))) {
+    stop("No languages as rownames of x found.", call. = FALSE)
+  }
+
+  psConcourse(
+    concourse = x,
+    type = type,
+    markup = markup,
+    babel = babel,
+    img_dir = img_dir)
+}
+
 
 #' @describeIn psConcourse print psConcourse in knitr chunks
 #'

@@ -2,11 +2,15 @@
 % Please edit documentation in R/items.R
 \name{psConcourse}
 \alias{psConcourse}
+\alias{as_psConcourse.matrix}
 \alias{knit_print.psConcourse}
 \title{Constructs matrix of \emph{all} \strong{full items}.}
 \usage{
 psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
   img_dir = NULL)
+
+\method{as_psConcourse}{matrix}(x, type = "text", markup = "plain",
+  babel = TRUE, img_dir = NULL, languages = NULL, handles = NULL, ...)
 
 \method{knit_print}{psConcourse}(x, use_js = NULL, ...)
 }
@@ -50,13 +54,19 @@ Ignored unless \code{type = "image"}.}
 
 \item{x}{an R object to be printed}
 
-\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the printed result should be returned.
-Applicable only to HTML-outputs.
-Defaults to \code{NULL}, in which case the appropriate output is inferred from the runtime environment.}
+\item{languages}{character vector as an alternative way to give the languages of items.
+Defaults to \code{NULL}, in which case languages are expected as column names.}
+
+\item{handles}{character vector as an alternative way to give the item handles.
+Defaults to \code{NULL}, in which case items are expected as row names.}
 
 \item{...}{additional arguments passed to the S3 method (currently ignored,
 except two optional arguments \code{options} and \code{inline}; see
 the references below)}
+
+\item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the printed result should be returned.
+Applicable only to HTML-outputs.
+Defaults to \code{NULL}, in which case the appropriate output is inferred from the runtime environment.}
 }
 \value{
 Object of class \code{psConcourse}.
@@ -66,6 +76,8 @@ Constructs S3 class for pensieve.
 }
 \section{Methods (by generic)}{
 \itemize{
+\item \code{as_psConcourse}: coerce matrices to psConcourse
+
 \item \code{knit_print}: print psConcourse in knitr chunks
 }}
 
@@ -117,6 +129,19 @@ monolingual_image <- psConcourse(
  # these files ship with pensieve
 )
 
+# coerce matrix to psConcourse (multilingual concourse)
+concourse <- matrix(
+  data = c(
+    "Man lives to work.",
+    "Man lebt, um zu arbeiten.",
+    "Man works to live.",
+    "Man arbeitet, um zu leben."),
+  nrow = 2,
+  ncol = 2)
+concourse <- as_psConcourse(
+  x = concourse,
+  languages = c("english", "ngerman"),
+  handles = c("live_2_work", "work_2_live"))
 # print concourse
 knitr::knit_print(x = multilingual_text, use_js = TRUE, options = NULL)
 
