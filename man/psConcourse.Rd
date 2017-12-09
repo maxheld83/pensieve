@@ -29,24 +29,10 @@ as_psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
 \method{knit_print}{psConcourse}(x, use_js = NULL, ...)
 }
 \arguments{
-\item{concourse}{A matrix with:
-\itemize{
-\item researcher-facing \strong{item handles} as row names,
-\item \strong{languages} as column names and
-\item participant-facing \strong{full items} in cells.
-}
-
-For \emph{monolingual studies}, use one column only.
-
+\item{concourse}{Participant-facing \strong{full items} as character strings, with researcher-facing \strong{item handles} as names.
+See \code{details} for alternative formats.
 Full items must be unique by language, and can be \code{NA} if not available (not recommended).
-Names must be unique and valid R names.
-
-\code{\link[=as_psConcourse]{as_psConcourse()}} also accepts \code{concourse} as:
-\itemize{
-\item \code{data.frame()},
-\item \code{matrix()},
-\item named character vector (\code{c()}).
-}}
+Names must be unique and valid R names.}
 
 \item{type}{a character string giving the \emph{kind} of full item stimuli, must be one of:
 \itemize{
@@ -74,10 +60,10 @@ Defaults to \code{NULL}, in which case images are expected at the working direct
 Ignored unless \code{type = "image"}.}
 
 \item{languages}{character vector as an alternative way to give the languages of items.
-Defaults to \code{NULL}, in which case languages are expected as column names.}
+Defaults to \code{NULL}, in which case languages are expected as (column) names from \code{concourse}.}
 
 \item{handles}{character vector as an alternative way to give the item handles.
-Defaults to \code{NULL}, in which case items are expected as row names.}
+Defaults to \code{NULL}, in which case items are expected as (row) names from \code{concourse}.}
 
 \item{x}{an R object to be printed}
 
@@ -94,6 +80,22 @@ Object of class \code{psConcourse}.
 }
 \description{
 Constructs S3 class for pensieve.
+}
+\details{
+Storing \strong{full items} can enable deployment and convencience functions, as well as enhance the presentation of results.
+
+\strong{Canonically}, \code{\link[=psConcourse]{psConcourse()}} stores the concourse as a matrix with:
+\itemize{
+\item researcher-facing \strong{item handles} as row names,
+\item \strong{languages} as column names and
+\item participant-facing \strong{full items} in cells.
+}
+
+You can also \strong{coerce} other, more convenient forms via \code{\link[=as_psConcourse]{as_psConcourse()}}:
+\itemize{
+\item \code{data.frame()}s in the same format,
+\item character vectors of full items, with optional names as handles (for monolingual studies only).
+}
 }
 \section{Methods (by generic)}{
 \itemize{

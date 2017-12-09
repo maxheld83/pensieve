@@ -30,25 +30,25 @@ validate_psItems <- function(ps_items) {
 
 # psConcourse ====
 
-#' @title Store *all* **full items** in a psConcourse matrix.
+#' @title Store all **full items** in a psConcourse matrix.
 #'
-#' @export
+#' @details
+#' Storing **full items** can enable deployment and convencience functions, as well as enhance the presentation of results.
 #'
-#' @param concourse
-#' A matrix with:
+#' **Canonically**, [psConcourse()] stores the concourse as a matrix with:
 #' - researcher-facing **item handles** as row names,
 #' - **languages** as column names and
 #' - participant-facing **full items** in cells.
 #'
-#' For *monolingual studies*, use one column only.
+#' You can also **coerce** other, more convenient forms via [as_psConcourse()]:
+#' - `data.frame()`s in the same format,
+#' - character vectors of full items, with optional names as handles (for monolingual studies only).
 #'
+#' @param concourse
+#' Participant-facing **full items** as character strings, with researcher-facing **item handles** as names.
+#' See `details` for alternative formats.
 #' Full items must be unique by language, and can be `NA` if not available (not recommended).
 #' Names must be unique and valid R names.
-#'
-#' [as_psConcourse()] also accepts `concourse` as:
-#' - `data.frame()`,
-#' - `matrix()`,
-#' - named character vector (`c()`).
 #'
 #' @param type a character string giving the *kind* of full item stimuli, must be one of:
 #' - `"text"` for textual items, in which case cells in `concourse` must be text.
@@ -111,6 +111,8 @@ validate_psItems <- function(ps_items) {
 #' )
 #'
 #' @template construction_helpers
+#'
+#' @export
 psConcourse <- function(concourse,
                         type = "text",
                         markup = "plain",
@@ -231,6 +233,13 @@ validate_psConcourseImage <- function(concourse) {
 # coercion
 
 #' @rdname psConcourse
+#'
+#' @param languages character vector as an alternative way to give the languages of items.
+#' Defaults to `NULL`, in which case languages are expected as (column) names from `concourse`.
+#'
+#' @param handles character vector as an alternative way to give the item handles.
+#' Defaults to `NULL`, in which case items are expected as (row) names from `concourse`.
+#'
 #' @export
 as_psConcourse <- function(concourse,
                            type = "text",
@@ -258,12 +267,6 @@ as_psConcourse.psConcourse <- function(concourse, type, markup, babel, img_dir, 
 }
 
 #' @describeIn psConcourse coerce matrices to psConcourse
-#'
-#' @param languages character vector as an alternative way to give the languages of items.
-#' Defaults to `NULL`, in which case languages are expected as column names.
-#'
-#' @param handles character vector as an alternative way to give the item handles.
-#' Defaults to `NULL`, in which case items are expected as row names.
 #'
 #' @examples
 #' # coerce matrix to psConcourse (multilingual concourse)
