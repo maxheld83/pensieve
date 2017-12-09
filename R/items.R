@@ -45,7 +45,10 @@ validate_psItems <- function(ps_items) {
 #' Full items must be unique by language, and can be `NA` if not available (not recommended).
 #' Names must be unique and valid R names.
 #'
-#' To read in items in other formats, use the convenience function [as_psConcourse()].
+#' [as_psConcourse()] also accepts `concourse` as:
+#' - `data.frame()`,
+#' - `matrix()`,
+#' - named character vector (`c()`).
 #'
 #' @param type a character string giving the *kind* of full item stimuli, must be one of:
 #' - `"text"` for textual items, in which case cells in `concourse` must be text.
@@ -352,6 +355,56 @@ as_psConcourse.matrix <- function(concourse,
 #'
 #' @export
 as_psConcourse.data.frame <- as_psConcourse.matrix
+
+
+#' @describeIn psConcourse coerce named character vector to psConcourse (monolingual concourse)
+#'
+#' @examples
+#' # coerce named character vector to psConcourse (monolingual concourse only)
+#' concourse <- c(
+#'   live_2_work = "man lives to work",
+#'   work_2_live = "man works to live")
+#' as_psConcourse(concourse, languages = "english")
+#'
+#' @export
+as_psConcourse.character <- function(concourse,
+                                     type = "text",
+                                     markup = "plain",
+                                     babel = TRUE,
+                                     img_dir = NULL,
+                                     languages,
+                                     ...) {
+
+  # input validation
+  assert_character(
+    x = concourse,
+    any.missing = FALSE,
+    all.missing = FALSE,
+    unique = TRUE,
+    null.ok = FALSE,
+    names = "strict"
+  )
+
+  assert_character(
+    x = languages,
+    any.missing = FALSE,
+    len = 1,
+    null.ok = FALSE
+  )
+
+  # transform to matrix
+  concourse <- as.matrix(concourse)
+  colnames(concourse) <- languages
+
+  as_psConcourse.matrix(
+    concourse = concourse,
+    type = type,
+    babel = babel,
+    img_dir = img_dir,
+    languages = NULL,
+    handles = NULL
+  )
+}
 
 
 #' @describeIn psConcourse print psConcourse in knitr chunks

@@ -5,6 +5,7 @@
 \alias{as_psConcourse}
 \alias{as_psConcourse.matrix}
 \alias{as_psConcourse.data.frame}
+\alias{as_psConcourse.character}
 \alias{knit_print.psConcourse}
 \title{Store \emph{all} \strong{full items} in a psConcourse matrix.}
 \usage{
@@ -21,6 +22,9 @@ as_psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
   markup = "plain", babel = TRUE, img_dir = NULL, languages = NULL,
   handles = NULL, ...)
 
+\method{as_psConcourse}{character}(concourse, type = "text",
+  markup = "plain", babel = TRUE, img_dir = NULL, languages, ...)
+
 \method{knit_print}{psConcourse}(x, use_js = NULL, ...)
 }
 \arguments{
@@ -36,7 +40,12 @@ For \emph{monolingual studies}, use one column only.
 Full items must be unique by language, and can be \code{NA} if not available (not recommended).
 Names must be unique and valid R names.
 
-To read in items in other formats, use the convenience function \code{\link[=as_psConcourse]{as_psConcourse()}}.}
+\code{\link[=as_psConcourse]{as_psConcourse()}} also accepts \code{concourse} as:
+\itemize{
+\item \code{data.frame()},
+\item \code{matrix()},
+\item named character vector (\code{c()}).
+}}
 
 \item{type}{a character string giving the \emph{kind} of full item stimuli, must be one of:
 \itemize{
@@ -90,6 +99,8 @@ Constructs S3 class for pensieve.
 \item \code{as_psConcourse}: coerce matrices to psConcourse
 
 \item \code{as_psConcourse}: coerce data.frames to psConcourse
+
+\item \code{as_psConcourse}: coerce named character vector to psConcourse (monolingual concourse)
 
 \item \code{knit_print}: print psConcourse in knitr chunks
 }}
@@ -161,6 +172,12 @@ concourse <- data.frame(
   english = c("man lives to work", "man works to live"),
   ngerman = c("man lebt, um zu arbeiten", "man arbeitet, um zu leben"))
 as_psConcourse(concourse = concourse, handles = c("live_2_work", "work_2_live"))
+
+# coerce named character vector to psConcourse (monolingual concourse only)
+concourse <- c(
+  live_2_work = "man lives to work",
+  work_2_live = "man works to live")
+as_psConcourse(concourse, languages = "english")
 
 # print concourse
 knitr::knit_print(x = multilingual_text, use_js = TRUE, options = NULL)
