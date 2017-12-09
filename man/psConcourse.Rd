@@ -122,22 +122,27 @@ The \code{\link[base:print]{base::print()}}ing method of the underlying classes 
 }
 
 \examples{
-# multilingual study, text items
+# multilingual study, text items ====
+m <- matrix(
+  data = c(
+    "Man lives to work.", "Man lebt, um zu arbeiten.",
+    "Man works to live.", "Man arbeitet, um zu leben."),
+  nrow = 2,
+  byrow = TRUE)
+
+# helper expects handles as rownames, languages as colnames
+# see below coercion for easier input
+concourse <- m
+colnames(concourse) <- c("english", "ngerman")  # "ngerman" is a babel lang
+rownames(concourse) <- c("live_2_work", "work_2_live")
+
 multilingual_text <- psConcourse(
-  concourse = matrix(
-    data = c(
-      "Man lives to work.", "Man lebt, um zu arbeiten.",
-      "Man works to live.", "Man arbeitet, um zu leben."
-    ),
-    nrow = 2,
-    ncol = 2,
-    dimnames = list(
-      items = c("live_2_work", "work_2_live"),
-      languages = c("english", "ngerman"))
-  ),
-  type = "text",
-  markup = "plain",
-  babel = TRUE
+  concourse = concourse
+)
+
+# for monolingual concourses, just use one column
+monolingual_text <- psConcourse(
+  concourse = concourse[,"english", drop = FALSE]
 )
 
 # monolingual study, image items ====
@@ -158,37 +163,31 @@ monolingual_image <- psConcourse(
       items = c("peach", "pear"),
       languages = c("english")
    )),
- type = "image",
- img_dir = img_dir
+  type = "image",
+  img_dir = img_dir
 )
 
-# coerce matrix to psConcourse (multilingual concourse)
-concourse <- matrix(
-  data = c(
-    "Man lives to work.",
-    "Man lebt, um zu arbeiten.",
-    "Man works to live.",
-    "Man arbeitet, um zu leben."),
-  nrow = 2,
-  ncol = 2)
-concourse <- as_psConcourse(
-  concourse = concourse,
+# coercion methods ====
+
+# coercion from matrix
+# aka providing handles and languages as arguments
+from_matrix <- as_psConcourse(
+  concourse = m,
   languages = c("english", "ngerman"),
   handles = c("live_2_work", "work_2_live"))
 
-# coerce data.frame to psConcourse (multilingual concourse)
-concourse <- data.frame(
-  english = c("man lives to work", "man works to live"),
-  ngerman = c("man lebt, um zu arbeiten", "man arbeitet, um zu leben"))
-as_psConcourse(concourse = concourse, handles = c("live_2_work", "work_2_live"))
+# coercion from data.frame
+from_df <- as_psConcourse(concourse = data.frame(concourse))
 
-# coerce character vector to psConcourse (monolingual concourse only)
-concourse <- c(
-  live_2_work = "man lives to work",
-  work_2_live = "man works to live")
-as_psConcourse(concourse, languages = "english")
+# coercion from (named) vector (monolingual concourse only)
+vec <- concourse[,"english"]
+from_vec <- as_psConcourse(vec, languages = "english")
 
-#' # print concourse
+
+# printing methods ====
+
+# print in knitr chunks
+# also works in RStudio interactively
 knitr::knit_print(x = multilingual_text, use_js = TRUE, options = NULL)
 }
 \seealso{
