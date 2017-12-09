@@ -7,7 +7,7 @@
 \alias{as_psConcourse.data.frame}
 \alias{as_psConcourse.character}
 \alias{knit_print.psConcourse}
-\title{Store \emph{all} \strong{full items} in a psConcourse matrix.}
+\title{Store all \strong{full items} in a psConcourse matrix.}
 \usage{
 psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
   img_dir = NULL)
@@ -182,9 +182,8 @@ concourse <- c(
   work_2_live = "man works to live")
 as_psConcourse(concourse, languages = "english")
 
-# print concourse
+#' # print concourse
 knitr::knit_print(x = multilingual_text, use_js = TRUE, options = NULL)
-
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
