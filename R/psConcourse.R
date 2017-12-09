@@ -44,7 +44,7 @@
 #'
 #' @return Object of class `psConcourse`.
 #'
-#' @example inst/examples/ex_psConcourse.R
+#' @example tests/testthat/helper_psConcourse.R
 #'
 #' @template construction_helpers
 #'

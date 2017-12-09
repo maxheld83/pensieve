@@ -140,7 +140,14 @@ multilingual_text <- psConcourse(
   babel = TRUE
 )
 
-# monolingual study, image items
+# monolingual study, image items ====
+# this is a directory with some images that ship with pensieve
+# location differs depending on runtime; ignore this
+img_dir <- file.path("..", "..", "inst", "extdata", "fruit")
+if (!dir.exists(img_dir)) {
+  img_dir <- file.path(system.file(package = "pensieve"), "extdata", "fruit")
+}
+
 monolingual_image <- psConcourse(
   concourse = matrix(
     data = c("peach.jpg",
@@ -152,8 +159,7 @@ monolingual_image <- psConcourse(
       languages = c("english")
    )),
  type = "image",
- img_dir = file.path(system.file(package = "pensieve"), "extdata", "fruit")
- # these files ship with pensieve
+ img_dir = img_dir
 )
 
 # coerce matrix to psConcourse (multilingual concourse)
