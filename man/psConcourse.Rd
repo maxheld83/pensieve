@@ -4,8 +4,9 @@
 \alias{psConcourse}
 \alias{as_psConcourse}
 \alias{as_psConcourse.matrix}
+\alias{as_psConcourse.data.frame}
 \alias{knit_print.psConcourse}
-\title{Constructs matrix of \emph{all} \strong{full items}.}
+\title{Store \emph{all} \strong{full items} in a psConcourse matrix.}
 \usage{
 psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
   img_dir = NULL)
@@ -15,6 +16,10 @@ as_psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
 
 \method{as_psConcourse}{matrix}(concourse, type = "text", markup = "plain",
   babel = TRUE, img_dir = NULL, languages = NULL, handles = NULL, ...)
+
+\method{as_psConcourse}{data.frame}(concourse, type = "text",
+  markup = "plain", babel = TRUE, img_dir = NULL, languages = NULL,
+  handles = NULL, ...)
 
 \method{knit_print}{psConcourse}(x, use_js = NULL, ...)
 }
@@ -29,7 +34,9 @@ as_psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
 For \emph{monolingual studies}, use one column only.
 
 Full items must be unique by language, and can be \code{NA} if not available (not recommended).
-Names must be unique and valid R names.}
+Names must be unique and valid R names.
+
+To read in items in other formats, use the convenience function \code{\link[=as_psConcourse]{as_psConcourse()}}.}
 
 \item{type}{a character string giving the \emph{kind} of full item stimuli, must be one of:
 \itemize{
@@ -81,6 +88,8 @@ Constructs S3 class for pensieve.
 \section{Methods (by generic)}{
 \itemize{
 \item \code{as_psConcourse}: coerce matrices to psConcourse
+
+\item \code{as_psConcourse}: coerce data.frames to psConcourse
 
 \item \code{knit_print}: print psConcourse in knitr chunks
 }}
@@ -146,6 +155,13 @@ concourse <- as_psConcourse(
   concourse = concourse,
   languages = c("english", "ngerman"),
   handles = c("live_2_work", "work_2_live"))
+
+# coerce data.frame to psConcourse (multilingual concourse)
+concourse <- data.frame(
+  english = c("man lives to work", "man works to live"),
+  ngerman = c("man lebt, um zu arbeiten", "man arbeitet, um zu leben"))
+as_psConcourse(concourse = concourse, handles = c("live_2_work", "work_2_live"))
+
 # print concourse
 knitr::knit_print(x = multilingual_text, use_js = TRUE, options = NULL)
 

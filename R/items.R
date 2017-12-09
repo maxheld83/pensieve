@@ -30,7 +30,7 @@ validate_psItems <- function(ps_items) {
 
 # psConcourse ====
 
-#' @title Constructs matrix of *all* **full items**.
+#' @title Store *all* **full items** in a psConcourse matrix.
 #'
 #' @export
 #'
@@ -44,6 +44,8 @@ validate_psItems <- function(ps_items) {
 #'
 #' Full items must be unique by language, and can be `NA` if not available (not recommended).
 #' Names must be unique and valid R names.
+#'
+#' To read in items in other formats, use the convenience function [as_psConcourse()].
 #'
 #' @param type a character string giving the *kind* of full item stimuli, must be one of:
 #' - `"text"` for textual items, in which case cells in `concourse` must be text.
@@ -273,6 +275,7 @@ as_psConcourse.psConcourse <- function(concourse, ...) {
 #'   concourse = concourse,
 #'   languages = c("english", "ngerman"),
 #'   handles = c("live_2_work", "work_2_live"))
+#'
 #' @export
 as_psConcourse.matrix <- function(concourse,
                                   type = "text",
@@ -281,27 +284,33 @@ as_psConcourse.matrix <- function(concourse,
                                   img_dir = NULL,
                                   languages = NULL,
                                   handles = NULL, ...) {
+  if (is.data.frame(concourse)) {
+    concourse <- as.matrix.data.frame(concourse)
+  }
+
   # input validation ===
   assert_matrix(
     x = concourse,
     mode = "character",
     null.ok = FALSE)
 
-  assert_character(
-    x = languages,
-    any.missing = FALSE,
-    unique = TRUE,
-    null.ok = TRUE,
-    len = ncol(concourse))
-  assert_names(x = languages, type = "strict")
+  if (!is.null(languages)) {
+    assert_character(
+      x = languages,
+      any.missing = FALSE,
+      unique = TRUE,
+      len = ncol(concourse))
+    assert_names(x = languages, type = "strict")
+  }
 
-  assert_character(
-    x = handles,
-    any.missing = FALSE,
-    unique = TRUE,
-    null.ok = TRUE,
-    len = ncol(concourse))
-  assert_names(x = handles, type = "strict")
+  if (!is.null(handles)) {
+    assert_character(
+      x = handles,
+      any.missing = FALSE,
+      unique = TRUE,
+      len = ncol(concourse))
+    assert_names(x = handles, type = "strict")
+  }
 
   # make languages ===
   if (!is.null(languages)) {
@@ -330,6 +339,19 @@ as_psConcourse.matrix <- function(concourse,
     babel = babel,
     img_dir = img_dir)
 }
+
+
+#' @describeIn psConcourse coerce data.frames to psConcourse
+#'
+#' @examples
+#' # coerce data.frame to psConcourse (multilingual concourse)
+#' concourse <- data.frame(
+#'   english = c("man lives to work", "man works to live"),
+#'   ngerman = c("man lebt, um zu arbeiten", "man arbeitet, um zu leben"))
+#' as_psConcourse(concourse = concourse, handles = c("live_2_work", "work_2_live"))
+#'
+#' @export
+as_psConcourse.data.frame <- as_psConcourse.matrix
 
 
 #' @describeIn psConcourse print psConcourse in knitr chunks
