@@ -225,8 +225,7 @@ validate_psConcourseImage <- function(concourse) {
 
 # coercion
 
-#' @title Coerce objects to psConcourse
-#' @inheritParams psConcourse
+#' @rdname psConcourse
 #' @export
 as_psConcourse <- function(concourse,
                            type = "text",

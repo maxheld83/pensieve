@@ -2,12 +2,16 @@
 % Please edit documentation in R/items.R
 \name{psConcourse}
 \alias{psConcourse}
+\alias{as_psConcourse}
 \alias{as_psConcourse.matrix}
 \alias{knit_print.psConcourse}
 \title{Constructs matrix of \emph{all} \strong{full items}.}
 \usage{
 psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
   img_dir = NULL)
+
+as_psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
+  img_dir = NULL, ...)
 
 \method{as_psConcourse}{matrix}(concourse, type = "text", markup = "plain",
   babel = TRUE, img_dir = NULL, languages = NULL, handles = NULL, ...)
@@ -52,15 +56,15 @@ Best constructed with \code{\link[base:file.path]{base::file.path()}}.
 Defaults to \code{NULL}, in which case images are expected at the working directory root \code{\link[base:getwd]{base::getwd()}}.
 Ignored unless \code{type = "image"}.}
 
+\item{...}{additional arguments passed to the S3 method (currently ignored,
+except two optional arguments \code{options} and \code{inline}; see
+the references below)}
+
 \item{languages}{character vector as an alternative way to give the languages of items.
 Defaults to \code{NULL}, in which case languages are expected as column names.}
 
 \item{handles}{character vector as an alternative way to give the item handles.
 Defaults to \code{NULL}, in which case items are expected as row names.}
-
-\item{...}{additional arguments passed to the S3 method (currently ignored,
-except two optional arguments \code{options} and \code{inline}; see
-the references below)}
 
 \item{x}{an R object to be printed}
 
