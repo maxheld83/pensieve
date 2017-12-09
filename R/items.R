@@ -237,12 +237,13 @@ as_psConcourse <- function(concourse,
                            markup = "plain",
                            babel = TRUE,
                            img_dir = NULL,
-                           ...) {
+                           languages = NULL,
+                           handles = NULL) {
   UseMethod(generic = "as_psConcourse")
 }
 
 #' @export
-as_psConcourse.default <- function(concourse, type, markup, babel, img_dir, ...) {
+as_psConcourse.default <- function(concourse, type, markup, babel, img_dir, languages, handles) {
   stop(
     "Sorry, don't know how to coerce object of class ",
     paste(class(concourse), collapse = "/"),
@@ -252,7 +253,7 @@ as_psConcourse.default <- function(concourse, type, markup, babel, img_dir, ...)
 }
 
 #' @export
-as_psConcourse.psConcourse <- function(concourse, ...) {
+as_psConcourse.psConcourse <- function(concourse, type, markup, babel, img_dir, languages, handles) {
   psConcourse(concourse)
 }
 
@@ -286,8 +287,7 @@ as_psConcourse.matrix <- function(concourse,
                                   babel = TRUE,
                                   img_dir = NULL,
                                   languages = NULL,
-                                  handles = NULL,
-                                  ...) {
+                                  handles = NULL) {
   if (is.data.frame(concourse)) {
     concourse <- as.matrix.data.frame(concourse)
   }
