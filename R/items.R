@@ -286,9 +286,14 @@ as_psConcourse.matrix <- function(concourse,
                                   babel = TRUE,
                                   img_dir = NULL,
                                   languages = NULL,
-                                  handles = NULL, ...) {
+                                  handles = NULL,
+                                  ...) {
   if (is.data.frame(concourse)) {
     concourse <- as.matrix.data.frame(concourse)
+  }
+
+  if (is.character(concourse) & is.vector(concourse)) {
+    concourse <- as.matrix(concourse)
   }
 
   # input validation ===
@@ -360,51 +365,14 @@ as_psConcourse.data.frame <- as_psConcourse.matrix
 #' @describeIn psConcourse coerce named character vector to psConcourse (monolingual concourse)
 #'
 #' @examples
-#' # coerce named character vector to psConcourse (monolingual concourse only)
+#' # coerce character vector to psConcourse (monolingual concourse only)
 #' concourse <- c(
 #'   live_2_work = "man lives to work",
 #'   work_2_live = "man works to live")
 #' as_psConcourse(concourse, languages = "english")
 #'
 #' @export
-as_psConcourse.character <- function(concourse,
-                                     type = "text",
-                                     markup = "plain",
-                                     babel = TRUE,
-                                     img_dir = NULL,
-                                     languages,
-                                     ...) {
-
-  # input validation
-  assert_character(
-    x = concourse,
-    any.missing = FALSE,
-    all.missing = FALSE,
-    unique = TRUE,
-    null.ok = FALSE,
-    names = "strict"
-  )
-
-  assert_character(
-    x = languages,
-    any.missing = FALSE,
-    len = 1,
-    null.ok = FALSE
-  )
-
-  # transform to matrix
-  concourse <- as.matrix(concourse)
-  colnames(concourse) <- languages
-
-  as_psConcourse.matrix(
-    concourse = concourse,
-    type = type,
-    babel = babel,
-    img_dir = img_dir,
-    languages = NULL,
-    handles = NULL
-  )
-}
+as_psConcourse.character <- as_psConcourse.matrix
 
 
 #' @describeIn psConcourse print psConcourse in knitr chunks

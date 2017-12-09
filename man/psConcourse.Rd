@@ -23,7 +23,8 @@ as_psConcourse(concourse, type = "text", markup = "plain", babel = TRUE,
   handles = NULL, ...)
 
 \method{as_psConcourse}{character}(concourse, type = "text",
-  markup = "plain", babel = TRUE, img_dir = NULL, languages, ...)
+  markup = "plain", babel = TRUE, img_dir = NULL, languages = NULL,
+  handles = NULL, ...)
 
 \method{knit_print}{psConcourse}(x, use_js = NULL, ...)
 }
@@ -173,7 +174,7 @@ concourse <- data.frame(
   ngerman = c("man lebt, um zu arbeiten", "man arbeitet, um zu leben"))
 as_psConcourse(concourse = concourse, handles = c("live_2_work", "work_2_live"))
 
-# coerce named character vector to psConcourse (monolingual concourse only)
+# coerce character vector to psConcourse (monolingual concourse only)
 concourse <- c(
   live_2_work = "man lives to work",
   work_2_live = "man works to live")
