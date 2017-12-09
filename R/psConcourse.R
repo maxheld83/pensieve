@@ -89,7 +89,8 @@ new_psConcourse <- function(concourse, ..., subclass = NULL) {
   structure(
     .Data = concourse,
     ...,
-    class = c(subclass, "psConcourse", "matrix"))
+    class = c(subclass, "psConcourse", "matrix"),
+    dimnames = list(items = rownames(concourse), languages = colnames(concourse)))
 }
 
 # parent validator
