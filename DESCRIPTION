@@ -39,6 +39,7 @@ Suggests:
   rmarkdown (>= 1.0),
   servr (>= 0.6),
   shiny (>= 1.0.3),
+  shinyjs (>= 0.9.1),
   shinyBS (>= 0.61),
   shinydashboard (>= 0.6.1),
   stringr (>= 1.2.0),
