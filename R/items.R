@@ -166,96 +166,94 @@ latex$set$extra_preamb_args <- function(extra_preamb_args) {
 # add arbitrary babel invocation
 latex$options$babel <- c(
   # this list is from http://ctan.math.washington.edu/tex-archive/macros/latex/required/babel/base/babel.pdf
-  "afrikaans",
-  "azerbaijani",
-  "basque",
-  "breton",
-  "bulgarian",
-  "catalan",
-  "croatian",
-  "czech",
-  "danish",
-  "dutch",
+  Afrikaans = "afrikaans",
+  Azerbaijani = "azerbaijani",
+  Basque = "basque",
+  Breton = "breton",
+  Bulgarian = "bulgarian",
+  Catalan = "catalan",
+  Croatian = "croatian",
+  Czech = "czech",
+  Danish = "danish",
+  Dutch = "dutch",
 
-  # english
-  "english",
-  "USenglish",
-  "american",
-  "UKenglish",
-  "british",
-  "canadian",
-  "australian",
-  "newzealand",
+  English = "english",
+  `English (US)` = "USenglish",
+  `English (America)` = "american",
+  `English (UK)` = "UKenglish",
+  `English (Britain)` = "british",
+  `English (Canada)` = "canadian",
+  `English (Australia)` = "australian",
+  `English (New Zealand)` = "newzealand",
 
-  "esperanto",
-  "estonian",
-  "finnish",
+  Esperanto = "esperanto",
+  Estonian = "estonian",
+  Finnish = "finnish",
 
   # french
-  "french",
-  "francais",
-  "canadien",
-  "acadian",
+  French = "french",
+  `French (Canada)` = "canadien",
+  `French (Acadian)` = "acadian",
 
-  "galician",
+  Galician = "galician",
 
   # german
-  "austrian",
-  "german",
-  "germanb",
-  "ngerman",
-  "naustrian",
+  `German (Austria)` = "austrian",
+  German = "german",
+  `German (DACH)` = "germanb",
+  `German (Germany New)` = "ngerman",
+  `German (Austria New)` = "naustrian",
 
   # greek
-  "greek",
-  "polutonikogreek",
+  Greek = "greek",
+  `Greek (Polutonik Accents)` = "polutonikogreek",
 
-  "hebrew",
-  "icelandic",
+  Hebrew = "hebrew",
+  Icelandic = "icelandic",
 
   # indonesian
-  "bahasa",
-  "indonesian",
-  "indon",
-  "bahasai",
+  `Indonesian` = "indonesian",
+  `Indonesian (Bahasa)` = "bahasa",
+  `Indonesian (Indon)` = "indon",
+  `Indonesian (Bahasai)` = "bahasai",
 
-  "interlingua",
-  "irish", # gaelic
-  "italian",
-  "latin",
-  "lowersorbian",
+  Interlingua = "interlingua",
+  `Irish (Gaelic)` = "irish",
+  Italian = "italian",
+  Latin = "latin",
+  `Lower Sorbian` = "lowersorbian",
 
   # malay
-  "bahasam",
-  "malay",
-  "melayu",
+  `Malay (Bahasam)` = "bahasam",
+  Malay = "malay",
+  `Malay (Melayu)` = "melayu",
 
-  "samin",
+  Samin = "samin",
 
   # norwegian
-  "norks",
-  "nynorsk",
+  `Norwegian (Norks)` = "norks",
+  `Norwegian (Nynorks)` = "nynorsk",
 
-  "polish",
+  Polish = "polish",
 
   # portuguese
-  "portuges",
-  "portuguese",
-  "brazilian",
-  "brazil",
+  # "portuges",
+  Portuguese = "portuguese",
+  `Portuguese (Brazil)` = "brazilian",
+  # "brazil",
 
-  "romanian",
-  "russian",
-  "scottish",
-  "spanish",
-  "slovak",
-  "slovene",
-  "swedish",
-  "serbian",
-  "turkish",
-  "urkainian",
-  "uppersorbian",
-  "welsh"
+  Romanian = "romanian",
+  Russian = "russian",
+  Scottish = "scottish",
+  Spanish = "spanish",
+  Slovak = "slovak",
+  Slovene = "slovene",
+  Swedish = "swedish",
+  Serbian = "serbian",
+  Turkish = "turkish",
+  Ukrainian = "ukrainian",
+  `Upper Sorbian` = "uppersorbian",
+  Welsh = "welsh"
 )
 
 latex$set$babel <- function(language) {
