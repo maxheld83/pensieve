@@ -166,6 +166,15 @@ latex$set$extra_preamb_args <- function(extra_preamb_args) {
 # add arbitrary babel invocation
 latex$options$babel <- c(
   # this list is from http://ctan.math.washington.edu/tex-archive/macros/latex/required/babel/base/babel.pdf
+  English = "english",
+  `English (US)` = "USenglish",
+  `English (America)` = "american",
+  `English (UK)` = "UKenglish",
+  `English (Britain)` = "british",
+  `English (Canada)` = "canadian",
+  `English (Australia)` = "australian",
+  `English (New Zealand)` = "newzealand",
+
   Afrikaans = "afrikaans",
   Azerbaijani = "azerbaijani",
   Basque = "basque",
@@ -176,15 +185,6 @@ latex$options$babel <- c(
   Czech = "czech",
   Danish = "danish",
   Dutch = "dutch",
-
-  English = "english",
-  `English (US)` = "USenglish",
-  `English (America)` = "american",
-  `English (UK)` = "UKenglish",
-  `English (Britain)` = "british",
-  `English (Canada)` = "canadian",
-  `English (Australia)` = "australian",
-  `English (New Zealand)` = "newzealand",
 
   Esperanto = "esperanto",
   Estonian = "estonian",
