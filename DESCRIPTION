@@ -35,7 +35,6 @@ Suggests:
   printr (>= 0.1),
   pryr (>= 0.1.2),
   readr (>= 1.1.1),
-  rhandsontable (>= 0.3.4),
   rsconnect (>= 0.8),
   rmarkdown (>= 1.0),
   servr (>= 0.6),
