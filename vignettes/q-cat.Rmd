@@ -1,4 +1,20 @@
-# Q-Cat: Categorical Operant Subjectivity {#q-cat}
+---
+title: "Q-Cat: Categorical Operant Subjectivity"
+author:
+- "Maximilian Held"
+- "Verena Kasztantowicz"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r knitr-setup}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
 
 ```{r setup-q-cat, echo = FALSE, message=FALSE}
 library(knitr)
@@ -86,7 +102,7 @@ This complicates the analysis, but avoids imposing a pre-supposed structure of c
 For our example study on categorizations of language games with children and grown-ups, this yields a *list* of description matrices (one element for each participant, as in table \@ref(tab:desc-example)) and a three-dimensional *array* of assignment matrices (one slice for each participant, as in table \@ref(tab:ass-example)).
 ^[This canonical data representation can be easily produced from conveniently entered raw data with [`pensieve::import_qcat()`](http://pensieve.maxheld.de).]
 
-```{marginfigure-language-bees}
+```{r marginfigure-language-bees}
 **Language of Bees**  
 *Bee-german: 'Summ, summ, summ.'  
 Bee-english: 'Samm, Samm, Samm.'  
@@ -94,7 +110,7 @@ Bee-french: 'Summe, summe, summe.'
 Bee-finnish: 'Suomi, suomi, suomi'*  
 ```
 
-```{marginfigure-eating-grandpa}
+```{r marginfigure-eating-grandpa}
 **Let's eat Grandpa**  
 *Let's eat grandpa.  
 Let's eat, grandpa.  
@@ -397,6 +413,95 @@ As Watts writes about Q-*Sorts*, here *too*:
 <!-- -a viewpoint is relational: an interaction between subject and world (an object, another person, an event, a concept ... ) -->
 <!-- -viewpoints are the act of observation -->
 <!-- -viewpoints are inherently meaningful -->
+
+<!-- ## Categorizing -->
+
+<!-- Relevance: seeing the world efficiently through categories -->
+
+<!-- Q-Sorting is a special case of categorization in general [@coxon-1999] -->
+
+<!-- ## Categorizing and Subjectivity -->
+
+<!-- Do the theory of viewpoints in operant subjectivity apply as well in categorization? -->
+
+<!-- 	"A viewpoint does not exist within a person, but only in their current outlook or positioning relative to some aspect of their immediate environment (a circumstance perhaps, an event, or some other object of enquiry). A viewpoint exists and takes a defined form only in the moment of relationship between a subject and its object, between knower and known, observer and observed. Given this essentially relational nature, a viewpoint could never be described as belonging to a person in any enduring sense, nor could it even be made meaningful by reference to them alone." [@watts-2011, p. 40] -->
+
+
+<!-- -a viewpoint is judgmental, means neither right nor wrong -->
+
+<!-- 	"In the first place, a subjective operant, unlike a scale response, is neither right nor wrong." [@Brown-1980, p. 4] -->
+
+<!-- -a viewpoint is the first-person perspective -->
+
+<!-- 	"[...] it is of more scientific interest to know how subjects have combined items (e.g., as in Q sorting) than how subjects have responded to a set of items combined a priori by the investigator." [@Brown-1980, p. 21] -->
+
+<!-- 	"Operational definitions begin with concepts in search of behavior; operant definitions begin with behavior in search of concepts." [@Brown-1980, p. 28] -->
+
+
+<!-- -viewpoints are "categories of thinking" -->
+
+
+<!-- ##Theory of Categorization -->
+
+
+
+<!-- ## Procedure -->
+
+<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic13.png) -->
+
+<!-- The Q-Cat procedure requires similar paper cards you would use for a q-sort. -->
+<!-- In fact, for this exemplary study we reused the same 35 cards from the q-sort to do the q-cat-sort directly afterwards. -->
+
+<!-- Like in a q-sort, One-on-One Interviews are recommended for Q-Cat to get a deeper sense about what the participants are thinking and to avoid influences between them. -->
+
+<!-- # preparation: receiving the texts -->
+<!-- If the participants are not familiar with the items, you should plan enough time to let them read all the items carefully or to listen to an audio version of, as we have done with the children in this study to make sure they have experienced the whole text. -->
+<!-- Sometimes you can gather some interesting spontaneous reactions here (laughter, incomprehension or refusal), to whom you could come back later in the interview. -->
+
+<!-- Before starting, we prepared a -->
+<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic9.png) -->
+
+
+<!-- # act of categorization -->
+<!-- As a starting question, we asked the participants to take two items, which seems similar to them (in any aspect) and put them to the side. -->
+
+<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic10.png) -->
+
+<!-- We asked them to describe in what way the texts are similar and what feature they share, so that we can write it down on the "categories sheet". -->
+
+<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic11.png) -->
+
+<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic12.png) -->
+
+<!-- Our goal is to collect shared categories, for which the paired comparison turned out to be the efficient and comprehensible way to get the sorting process going. -->
+<!-- After the paired comparison, we ask them to find more texts of the same kind and put them to the side. -->
+
+
+<!-- It happens that children can't explain a category, mixing several categories at once or simply describing the two texts as "strange". -->
+<!-- Sometimes, this can be clarified the moment they're searching more texts. -->
+<!-- Or you can help them to write down the mixed categories after another to help them structure their sorting. -->
+
+<!-- However, more importantly is the fact, that this procedure is forgiving in this sense. -->
+<!-- It tries to measure similarity, which can be based on a vague observation, unable to express with words. -->
+
+<!-- If all texts are screened, we assign all items belonging to one category with the same letter. -->
+<!-- The easiest way is to write down the letter directly on the card. -->
+
+<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic14.png) -->
+
+<!-- The procedure of category finding and assigning can be repeated as long as the participant want to. -->
+
+<!-- For the most of the cases, we have several letters (= several categories) on one item card in the end. -->
+
+
+
+
+
+<!-- Similar procedures: -->
+<!-- - Open or Multiple Card Sorting [@coxon-1999] -->
+<!-- - Multiple Sorting Procedure [@barnett-2004] -->
+<!-- - Repertory Grid Technique [@fransella-2004] -->
+
 
 ## References
 
