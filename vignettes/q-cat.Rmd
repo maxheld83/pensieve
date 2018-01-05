@@ -1,24 +1,24 @@
 ---
-title: "Q-Cat: Categorical Operant Subjectivity"
+title: "Logical Open Sorts"
 author:
 - "Maximilian Held"
 - "Verena Kasztantowicz"
 date: "`r Sys.Date()`"
 abstract: >
-  Q-Sorts record item positions *continuously*, distending from a neutral mid-point along some dimension. 
-  However, while adhering to Stephenson's ontology and epistemology, Q methodology can also be extended to cover *categorical* operant subjectivity.
+  In Q methodology, subjectivity is measured in *closed sorts* along one or several *given* dimensions, such as a condition of instruction shared with all participants.
+  Other methods, such as [Repertory Grid Technique](https://en.wikipedia.org/wiki/Repertory_grid) (RGT) and several *open sorting* techniques allow each participant to define her own dimensions, though these approaches do not share the tenets of operant subjectivity, such as an ipsative measurement and Q-mode extraction.
+  We here describe a data gathering procedure and experimental analysis to unite these two features, to measure a operant subjectivity with *open sorts*, starting with logical assignments.
   
-  We here suggest a survey method and analytical algorithm to capture such shared viewpoints of categorizing items.
-  The well-established [Repertory Grid Technique](https://en.wikipedia.org/wiki/Repertory_grid) also shares some of Q's underpinnings and allows spontaneous categories, but does not lend itself (easily) to a transposed, "Q-wise" factor extraction and may not be ipsative between the items. 
-  Instead, we invite participants to come up with their own, dichotomous categories and ask them to classify the full Q-Set accordingly.
+  We invite participants to come up with their own, dichotomous categories and ask them to classify the full Q-Set accordingly.
   The resultant logical table is summarized into a per-person measure of categorical item similarity, in turn transformed into a person-by-person correlation matrix.
   We then extract higher-level principal components (PCA) in a stepwise residual process, and calculate the respective (rotated) component scores, yielding ideal-typical, shared ways of categorizing the Q-Set.
   These categorical viewpoints are then subjected to a nested, low-level PCA to allow a substantive abduction of just *what* those categories might be.
   
-  Using real-world data gathered for this purpose, we show that results from the suggested procedure can be meaningfully interpreted as categorical operant subjectivity.
+  Using real-world data gathered for this purpose, we show that results from the suggested procedure can be meaningfully interpreted as operant subjectivity with open dimensionality.
   We also present software for the R statistics framework to run the analysis.
   
-  Categorizing things can be considered a fundamental, spontaneous act of the human mind, and Q-Cat is a helpful addition to the Q-methodologists toolkit to study it.
+  To spontaneously and ideosyncratically categorise things and ideas encountered in the world, is perhaps a definiting operation of the human mind.
+  Here too, using the right approach, we can distill shared, categorical viewpoints on these items, extending the scientific study of human subjectivity to new formats and realms.
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
