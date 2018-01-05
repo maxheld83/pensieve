@@ -4,6 +4,22 @@ template:
 navbar:
   title: "pensieve"
   type: inverse
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: Reference
+      href: reference/index.html
+    - text: Articles
+      menu:
+        - text: "Introduction"
+          href: articles/introduction.html
+        - text: "Design"
+        - text: "Items"
+          href: articles/items.html
+        - text: "-----"
+        - text: "Open Sorting"
+        - text: "Logical Open Sort"
+          href: articles/q-cat.html
   right:
     - icon: fa-cloud
       href: https://maxheld83.shinyapps.io/accio/
