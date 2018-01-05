@@ -1,9 +1,10 @@
 ---
-title: "Logical Open Sorts"
+title: "Logical Open Sorts (LOS)"
 author:
 - "Maximilian Held"
 - "Verena Kasztantowicz"
 date: "`r Sys.Date()`"
+bibliography: held_library.bib
 abstract: >
   In Q methodology, subjectivity is measured in *closed sorts* along one or several *given* dimensions, such as a condition of instruction shared with all participants.
   Other methods, such as [Repertory Grid Technique](https://en.wikipedia.org/wiki/Repertory_grid) (RGT) and several *open sorting* techniques allow each participant to define her own dimensions, though these approaches do not share the tenets of operant subjectivity, such as an ipsative measurement and Q-mode extraction.
@@ -19,75 +20,25 @@ abstract: >
   
   To spontaneously and ideosyncratically categorise things and ideas encountered in the world, is perhaps a definiting operation of the human mind.
   Here too, using the right approach, we can distill shared, categorical viewpoints on these items, extending the scientific study of human subjectivity to new formats and realms.
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_fragment:
+    toc: true
+    toc_float: true
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Logical Open Sorts}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-
-```{r knitr-setup}
-knitr::opts_chunk$set(eval = FALSE)
-```
-
-
-```{r setup-q-cat, echo = FALSE, message=FALSE}
-library(knitr)
-opts_knit$set(echo = FALSE,
-              cache = TRUE,
-              fig.retina = 2,
-              dpi = 72) 
-
-library(devtools)
-library(rmarkdown)
-library(ggplot2)
-library(reshape2)
-library(plyr)
-library(grid)
-library(gridExtra)
-library(tufte)
-library(xtable)
-options(xtable.comment = FALSE)
-options(xtable.booktabs = TRUE)
-options(scipen=999)
-
-install_github(repo = "maxheld83/qmethod")
-library(qmethod)  # from github
-```
-
-```{r q-pic, echo=FALSE, out.width="100%", fig.cap=c("Participant considers all items.", "Participant chooses two similar items, names category.", "Participant applies categories to all items.", "All items are categorized as TRUE or FALSE."), dpi = 72, fig.margin = TRUE, fig.show = "asis"}
-include_graphics(path = c("img/q-cat-stage-0.png", "img/q-cat-stage-1.png", "img/q-cat-stage-2.png", "img/q-cat-stage-3.png"))
-```
+# Introduction
 
 > "The factors are likewise natural, representing actual *categories of thinking* that are operant with respect to the issues under consideration." 
 > 
-> -- Steven Brown [-@Brown1980, p. 70, emphasis added]
+> -- Steven Brown [-@Brown1980: 70, emphasis added]
 
+<!-- TODO must add more background, literature and motivation here -->
 
-
-```{r kill-nas, echo=FALSE}
-data(komki)
-
-# kill nas
-komki$qsorts <- na.omit(komki$qsorts)  # because some items were never shown to some people
-#TODO this deletion may no longer be necessary as per newest job procedures
-
-komki$items <- komki$items[komki$items$Handle.english %in% rownames(komki$qsorts), ]
-komki$qcat$ass <- sapply(X = komki$qcat$ass, simplify = FALSE, FUN = function(x) {
-  x[rownames(x) %in% rownames(komki$qsorts), , drop = FALSE]
-})
-
-# killing jason, because a) he just didn't REALLY do the thing and b) he dominates the qcat model, which we don't like.
-komki$qsorts <- komki$qsorts[, colnames(komki$qsorts) != "Jason"]
-komki$qcat$desc <- komki$qcat$desc[, colnames(komki$qcat$desc) != "Jason"]
-komki$qcat$ass$Jason <- NULL
-```
-
-
-## Data Gathering: Subjective Categorizing as *Pure Behavior*
-
-In the `Q-Cat` procedure, participants sort items according to their own, "first-person", arbitrary categories.
+In this procedure, participants sort items according to their own, "first-person", arbitrary categories.
 <!-- TODO add citation for first-person -->
 These categories are:
 
@@ -99,9 +50,68 @@ In contrast to other sorting techniques, which require a *single* set of mutuall
 This complicates the analysis, but avoids imposing a pre-supposed structure of categorical subjectivity on participants.
 ^[In a future iteration, participants will ipsatively *rank* items vis-a-vis a categorical *prototype* (chosen from the items, compare @rosch-1978), yielding *ordinal* information, requiring a separate, non-parametric analytical procedure.]
 
+<!-- - not clear what this is: Multiple Sorting Procedure [@barnett-2004] -->
+
+
+# Sorting Procedure
+
+<!--TODO VK: do these files this still exist, and are they ehlpful to explain the procedure? 
+[](Verena/Documents/GoogleDrive/komki/pics/qpic13.png)
+[](Verena/Documents/GoogleDrive/komki/pics/qpic9.png)
+[](Verena/Documents/GoogleDrive/komki/pics/qpic10.png)
+[](Verena/Documents/GoogleDrive/komki/pics/qpic11.png)
+[](Verena/Documents/GoogleDrive/komki/pics/qpic12.png)
+[](Verena/Documents/GoogleDrive/komki/pics/qpic14.png)
+-->
+
+As in a traditional Q-sort, the LOS procedure requires items printed on paper cards.
+The same criteria for good items hold. 
+<!-- TODO cite section on good items -->
+In fact, for this exemplary study we reused the same 35 cards from the q-sort to do the q-cat-sort directly afterwards. 
+As in Q, personal administration of the sorts with one-on-one interviews are recommended to get a deeper sense about what the participants are thinking and to avoid influences between them, but online administration is also conceivable.
+
+If the participants are not familiar with the items, you should plan enough time to let them read all the items carefully or to listen to an audio version of, as we have done with the children in this study to make sure they have experienced the whole text.
+Sometimes you can gather some interesting spontaneous reactions here (laughter, incomprehension or refusal), to whom you could come back later in the interview.
+
+As a starting question, we asked the participants to take two items, which seems similar to them (in any aspect) and put them to the side.
+We asked them to describe in what way the texts are similar and what feature they share.
+We then noted this category description in a paper table, sorted by an category index (say, from `A` to `Z`).
+Starting out with pairs of similar items, naturally, increases the minimum number of *shared* categories: this procedure will never yield a category which applies only to a *single* item.
+This "bias" is defensible, because it flows from what we want to measure: categorical *similarity* between the items.
+<!-- must explain more clearly, that this degree of minimal similary is, in fact, by design -->
+A single-item category produces no additional information in this regard, and it is unclear how a category with a membership of one would be meaningful.
+
+After each paired comparison, we invited the participating children to find *more* items, for which the category would apply, putting them to one side of the table.
+Once all items have been considered for the category in question, the index of that category (say, `C`) is noted on all cards, for which the category applied.
+All cards are then mixed again, placed in the center of the table, and the process begins again, with a new pair of similar items.
+
+```{r process-pics, echo=FALSE, out.width="100%", fig.cap=c("Participant considers all items.", "Participant chooses two similar items, names category.", "Participant applies categories to all items.", "All items are categorized as TRUE or FALSE."), dpi = 72, fig.show = "asis"}
+knitr::include_graphics(path = c("q-cat-stage-0.png", "q-cat-stage-1.png", "q-cat-stage-2.png", "q-cat-stage-3.png"))
+```
+
+Ensuring that any one category is assessed for *all* items can be mentally taxing for the participants, but is essential for the downstream analysis.
+We also tried in alternative procedure, where participants first define all categories, and then check all items for each of the categories.
+This can sometimes be a little faster, but the categories cannot be as easily changed, and the ipsative nature of the assessment may be lost.
+Whatever the order, the tedium of assessing *all* categories on *all* items remains.
+This tiring step in LOS is an unavoidable disadvantage of the approach, and compares unfavorably to Q-sorts, which participants often enjoy completing.
+^[The comparison is a bit unfair, because LOS produces a lot more information then a Q-sort.]
+
+The participating children sometimes had a hard time explaining a category, mixing several characteristics or simply describing items as "strange".
+This is to be expected, perhaps in any age group, because spontaneous categorisations are rarely well-defined.
+If participants so choose, they can revise their category descriptions at any point, but these can also remain imperfect.
+LOS is an attempt to measure categorical similarity between the items, and as such, the categories may well *be* vague and ill-defined -- that may be just the operant subjectivity.
+Accordingly, the category descriptions do not actually figure in the downstream analysis, they merely serve in the final interpretation to make sense of the extracted factors of categorical similarity.
+
+
+# Data Gathering: Subjective Categorizing as *Pure Behavior*
+
 <!-- TODO this would appear to be wrong; ass in canonical form is a LIST of matrices, not an array -->
 For our example study on categorizations of language games with children and grown-ups, this yields a *list* of description matrices (one element for each participant, as in table \@ref(tab:desc-example)) and a three-dimensional *array* of assignment matrices (one slice for each participant, as in table \@ref(tab:ass-example)).
 ^[This canonical data representation can be easily produced from conveniently entered raw data with [`pensieve::import_qcat()`](http://pensieve.maxheld.de).]
+
+```{r knitr-setup}
+knitr::opts_chunk$set(eval = FALSE)
+```
 
 ```{r marginfigure-language-bees}
 **Language of Bees**  
@@ -151,6 +161,53 @@ kable(x = ass_example,
       col.names = as.character(c(1:ncol(ass_example))),
       caption = "Assignment Matrix (Subset)")
 ```
+
+
+```{r setup-q-cat, echo = FALSE, message=FALSE}
+library(knitr)
+opts_knit$set(echo = FALSE,
+              cache = TRUE,
+              fig.retina = 2,
+              dpi = 72) 
+
+library(devtools)
+library(rmarkdown)
+library(ggplot2)
+library(reshape2)
+library(plyr)
+library(grid)
+library(gridExtra)
+library(tufte)
+library(xtable)
+options(xtable.comment = FALSE)
+options(xtable.booktabs = TRUE)
+options(scipen=999)
+
+install_github(repo = "maxheld83/qmethod")
+library(qmethod)  # from github
+```
+
+
+```{r kill-nas, echo=FALSE}
+data(komki)
+
+# kill nas
+komki$qsorts <- na.omit(komki$qsorts)  # because some items were never shown to some people
+#TODO this deletion may no longer be necessary as per newest job procedures
+
+komki$items <- komki$items[komki$items$Handle.english %in% rownames(komki$qsorts), ]
+komki$qcat$ass <- sapply(X = komki$qcat$ass, simplify = FALSE, FUN = function(x) {
+  x[rownames(x) %in% rownames(komki$qsorts), , drop = FALSE]
+})
+
+# killing jason, because a) he just didn't REALLY do the thing and b) he dominates the qcat model, which we don't like.
+komki$qsorts <- komki$qsorts[, colnames(komki$qsorts) != "Jason"]
+komki$qcat$desc <- komki$qcat$desc[, colnames(komki$qcat$desc) != "Jason"]
+komki$qcat$ass$Jason <- NULL
+```
+
+
+
 
 
 ## Analysis 1: Shared Categories as Surprising Similarity
@@ -443,65 +500,6 @@ As Watts writes about Q-*Sorts*, here *too*:
 
 
 <!-- ##Theory of Categorization -->
-
-
-
-<!-- ## Procedure -->
-
-<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic13.png) -->
-
-<!-- The Q-Cat procedure requires similar paper cards you would use for a q-sort. -->
-<!-- In fact, for this exemplary study we reused the same 35 cards from the q-sort to do the q-cat-sort directly afterwards. -->
-
-<!-- Like in a q-sort, One-on-One Interviews are recommended for Q-Cat to get a deeper sense about what the participants are thinking and to avoid influences between them. -->
-
-<!-- # preparation: receiving the texts -->
-<!-- If the participants are not familiar with the items, you should plan enough time to let them read all the items carefully or to listen to an audio version of, as we have done with the children in this study to make sure they have experienced the whole text. -->
-<!-- Sometimes you can gather some interesting spontaneous reactions here (laughter, incomprehension or refusal), to whom you could come back later in the interview. -->
-
-<!-- Before starting, we prepared a -->
-<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic9.png) -->
-
-
-<!-- # act of categorization -->
-<!-- As a starting question, we asked the participants to take two items, which seems similar to them (in any aspect) and put them to the side. -->
-
-<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic10.png) -->
-
-<!-- We asked them to describe in what way the texts are similar and what feature they share, so that we can write it down on the "categories sheet". -->
-
-<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic11.png) -->
-
-<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic12.png) -->
-
-<!-- Our goal is to collect shared categories, for which the paired comparison turned out to be the efficient and comprehensible way to get the sorting process going. -->
-<!-- After the paired comparison, we ask them to find more texts of the same kind and put them to the side. -->
-
-
-<!-- It happens that children can't explain a category, mixing several categories at once or simply describing the two texts as "strange". -->
-<!-- Sometimes, this can be clarified the moment they're searching more texts. -->
-<!-- Or you can help them to write down the mixed categories after another to help them structure their sorting. -->
-
-<!-- However, more importantly is the fact, that this procedure is forgiving in this sense. -->
-<!-- It tries to measure similarity, which can be based on a vague observation, unable to express with words. -->
-
-<!-- If all texts are screened, we assign all items belonging to one category with the same letter. -->
-<!-- The easiest way is to write down the letter directly on the card. -->
-
-<!-- [](Verena/Documents/GoogleDrive/komki/pics/qpic14.png) -->
-
-<!-- The procedure of category finding and assigning can be repeated as long as the participant want to. -->
-
-<!-- For the most of the cases, we have several letters (= several categories) on one item card in the end. -->
-
-
-
-
-
-<!-- Similar procedures: -->
-<!-- - Open or Multiple Card Sorting [@coxon-1999] -->
-<!-- - Multiple Sorting Procedure [@barnett-2004] -->
-<!-- - Repertory Grid Technique [@fransella-2004] -->
 
 
 ## References
