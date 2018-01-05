@@ -66,8 +66,20 @@ This complicates the analysis, but avoids imposing a pre-supposed structure of c
 
 As in a traditional Q-sort, the LOS procedure requires items printed on paper cards.
 The same criteria for good items hold. 
-<!-- TODO cite section on good items -->
-In fact, for this exemplary study we reused the same 35 cards from the q-sort to do the q-cat-sort directly afterwards. 
+<!-- TODO cite section on good items; mention differences -->
+For this study, the 35 items covered language games, such as the following two examples:
+
+> **Language of Bees**  
+> *Bee-german: 'Summ, summ, summ.'  
+> Bee-english: 'Samm, Samm, Samm.'  
+> Bee-french: 'Summe, summe, summe.'   
+> Bee-finnish: 'Suomi, suomi, suomi'*  
+
+> **Let's eat Grandpa**  
+> *Let's eat grandpa.  
+> Let's eat, grandpa.  
+> Commas - They save lives!*
+
 As in Q, personal administration of the sorts with one-on-one interviews are recommended to get a deeper sense about what the participants are thinking and to avoid influences between them, but online administration is also conceivable.
 
 If the participants are not familiar with the items, you should plan enough time to let them read all the items carefully or to listen to an audio version of, as we have done with the children in this study to make sure they have experienced the whole text.
@@ -90,7 +102,7 @@ knitr::include_graphics(path = c("q-cat-stage-0.png", "q-cat-stage-1.png", "q-ca
 ```
 
 Ensuring that any one category is assessed for *all* items can be mentally taxing for the participants, but is essential for the downstream analysis.
-We also tried in alternative procedure, where participants first define all categories, and then check all items for each of the categories.
+We also tried an alternative procedure, where participants first define all categories, and then check all items for each of the categories.
 This can sometimes be a little faster, but the categories cannot be as easily changed, and the ipsative nature of the assessment may be lost.
 Whatever the order, the tedium of assessing *all* categories on *all* items remains.
 This tiring step in LOS is an unavoidable disadvantage of the approach, and compares unfavorably to Q-sorts, which participants often enjoy completing.
@@ -103,7 +115,7 @@ LOS is an attempt to measure categorical similarity between the items, and as su
 Accordingly, the category descriptions do not actually figure in the downstream analysis, they merely serve in the final interpretation to make sense of the extracted factors of categorical similarity.
 
 
-# Data Gathering: Subjective Categorizing as *Pure Behavior*
+# Data Storage
 
 <!-- TODO this would appear to be wrong; ass in canonical form is a LIST of matrices, not an array -->
 For our example study on categorizations of language games with children and grown-ups, this yields a *list* of description matrices (one element for each participant, as in table \@ref(tab:desc-example)) and a three-dimensional *array* of assignment matrices (one slice for each participant, as in table \@ref(tab:ass-example)).
@@ -111,21 +123,6 @@ For our example study on categorizations of language games with children and gro
 
 ```{r knitr-setup}
 knitr::opts_chunk$set(eval = FALSE)
-```
-
-```{r marginfigure-language-bees}
-**Language of Bees**  
-*Bee-german: 'Summ, summ, summ.'  
-Bee-english: 'Samm, Samm, Samm.'  
-Bee-french: 'Summe, summe, summe.'   
-Bee-finnish: 'Suomi, suomi, suomi'*  
-```
-
-```{r marginfigure-eating-grandpa}
-**Let's eat Grandpa**  
-*Let's eat grandpa.  
-Let's eat, grandpa.  
-Commas - They save lives!*
 ```
 
 ```{r julius-desc, echo = FALSE}
