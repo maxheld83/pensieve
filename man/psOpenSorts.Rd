@@ -30,7 +30,7 @@ psOpenSort(assignments, descriptions = NULL)
 }
 \arguments{
 \item{open_sorts}{A list of matrices, one for each participant.
-Matrices must be \code{\link[=psOpenSort]{psOpenSort()}} object, or coercable to \code{\link[=psOpenSort]{psOpenSort()}}.}
+Matrices must be \code{\link[=psOpenSort]{psOpenSort()}} objects.}
 
 \item{assignments_messy}{a character matrix with rows as items, columns as participants and  \strong{logical category assignments} as character strings in cells.
 Categories are identified by a subset from \code{LETTERS}, same as in \code{descriptions_messy}.
@@ -59,18 +59,17 @@ Empty strings \code{""} will also be considered \code{NA}.}
 \item{assignments}{a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
 Matrix must be either
 \itemize{
-\item \code{logical} for \emph{nominal}-scaled sort, where an open category applies (\code{TRUE}) or does not apply (\code{FALSE}),
-\item \code{integer} for \emph{ordinally}-scaled sort, where an open category applies to some item \emph{more} (\code{2nd} rank) \emph{or less} (\code{3rd} rank) than to another other item,
-\item \code{numeric} for \emph{interval} or \emph{ratio}-scaled sort, where an open category applies to some item \emph{by some amount more or less} (say \code{2.4} units) than to another item.
-Notice that -- counterintuitively -- \emph{categorically}-scaled open sorts are not allowed.
+\item \code{logical} for \emph{nominal}-scaled sort, where an open dimension applies (\code{TRUE}) or does not apply (\code{FALSE}),
+\item \code{integer} for \emph{ordinally}-scaled sort, where an open dimension applies to some item \emph{more} (\code{2nd} rank) \emph{or less} (\code{3rd} rank) than to another other item,
+\item \code{numeric} for \emph{interval} or \emph{ratio}-scaled sort, where an open dimension applies to some item \emph{by some amount more or less} (say \code{2.4} units) than to another item.
 }
 
 If columns are named, they must be the same as the names in \code{descriptions}.
 Either way, \code{assignments} and \code{descriptions} are always \emph{matched by index only}: the first column from \code{assignments}, must be the first element of \code{description}, and so forth.}
 
-\item{descriptions}{a character vector giving the open-ended category description provided by the participant.
+\item{descriptions}{a character vector giving the open-ended dimension description provided by the participant.
 Can be named.
-Defaults to \code{NULL}, in which case the user-defined categories are unknown (not recommended).}
+Defaults to \code{NULL}, in which case no user-provided dimension descriptions are available (not recommended).}
 
 \item{x}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
 
@@ -139,32 +138,37 @@ To get consistent code aesthetics, consider applying \code{\link[ggraph:scale_ed
 \examples{
 # create single open sort ====
 
-# Lisas open sort, matching by index
-assignments <- matrix(data = c(TRUE, FALSE, FALSE, TRUE),
-                      nrow = 2,
-                      dimnames = list(items = c("cat", "dog")))
-descriptions <- c("a pet which largely takes care of itself",
-                  NA)
+# Lisas open sort, matching descriptions by index
+assignments <- matrix(
+  data = c(TRUE, FALSE, FALSE, TRUE),
+  nrow = 2,
+  dimnames = list(items = c("cat", "dog")))
+descriptions <- c(
+  "a pet which largely takes care of itself",
+  NA  # dimension is assigned, but not described (not a problem)
+)
 lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
 
-# Peters open sort, matching by name
-assignments <- matrix(data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
-                      nrow = 2,
-                      dimnames = list(items = c("cat", "dog"),
-                                      categories = c("in_homes",
-                                                     "quiet",
-                                                     "herbivore")))
-descriptions <- c(in_homes = "Animal found in peoples homes.",
-                  quiet = "Does not make a lot of noise.",
-                  herbivore = "Eats plants.")
+# Peters open sort, descriptions are named, but still matched by index
+assignments <- matrix(
+  data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
+  nrow = 2,
+  dimnames = list(
+    items = c("cat", "dog"),
+    categories = c("in_homes", "quiet", "herbivore")
+))
+descriptions <- c(
+  in_homes = "Animal found in peoples homes.",
+  quiet = "Does not make a lot of noise.",
+  herbivore = "Eats plants.")  # defined, but never assigned (not a problem)
 peter <- psOpenSort(assignments = assignments, descriptions = descriptions)
 
 # Rebeccas open sort, without any descriptions provided
-assignments <- matrix(data = c(FALSE, FALSE, TRUE, TRUE),
-                      nrow = 2,
-                      dimnames = list(handles = c("cat", "dog")))
+assignments <- matrix(
+  data = c(FALSE, FALSE, TRUE, TRUE),
+  nrow = 2,
+  dimnames = list(handles = c("cat", "dog")))
 rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
-
 
 # now let's combine the individual sorts into a list ====
 open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))

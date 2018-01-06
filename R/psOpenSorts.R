@@ -12,7 +12,7 @@
 #'
 #' @param open_sorts
 #' A list of matrices, one for each participant.
-#' Matrices must be [psOpenSort()] object, or coercable to [psOpenSort()].
+#' Matrices must be [psOpenSort()] objects.
 #'
 #' @example tests/testthat/helper_psOpenSorts.R
 #'
@@ -37,8 +37,7 @@ new_psOpenSorts <- function(open_sorts) {
 validate_psOpenSorts <- function(open_sorts) {
   assert_list(x = open_sorts,
               any.missing = TRUE,
-              all.missing = TRUE,
-              names = "strict",
+              all.missing = FALSE,
               types = "matrix")
 
   # for no particular reason, we make the first in the list the benchmark
@@ -203,18 +202,17 @@ make_messy <- function(open_sorts) {
 #' @param assignments
 #' a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
 #' Matrix must be either
-#' - `logical` for *nominal*-scaled sort, where an open category applies (`TRUE`) or does not apply (`FALSE`),
-#' - `integer` for *ordinally*-scaled sort, where an open category applies to some item *more* (`2nd` rank) *or less* (`3rd` rank) than to another other item,
-#' - `numeric` for *interval* or *ratio*-scaled sort, where an open category applies to some item *by some amount more or less* (say `2.4` units) than to another item.
-#' Notice that -- counterintuitively -- *categorically*-scaled open sorts are not allowed.
+#' - `logical` for *nominal*-scaled sort, where an open dimension applies (`TRUE`) or does not apply (`FALSE`),
+#' - `integer` for *ordinally*-scaled sort, where an open dimension applies to some item *more* (`2nd` rank) *or less* (`3rd` rank) than to another other item,
+#' - `numeric` for *interval* or *ratio*-scaled sort, where an open dimension applies to some item *by some amount more or less* (say `2.4` units) than to another item.
 #'
 #' If columns are named, they must be the same as the names in `descriptions`.
 #' Either way, `assignments` and `descriptions` are always *matched by index only*: the first column from `assignments`, must be the first element of `description`, and so forth.
 #'
 #' @param descriptions
-#' a character vector giving the open-ended category description provided by the participant.
+#' a character vector giving the open-ended dimension description provided by the participant.
 #' Can be named.
-#' Defaults to `NULL`, in which case the user-defined categories are unknown (not recommended).
+#' Defaults to `NULL`, in which case no user-provided dimension descriptions are available (not recommended).
 #'
 #' @export
 psOpenSort <- function(assignments, descriptions = NULL) {
@@ -226,7 +224,9 @@ psOpenSort <- function(assignments, descriptions = NULL) {
     descriptions <- as.list(descriptions)
   }
 
-  validate_psOpenSort(new_psOpenSort(assignments = assignments, descriptions = descriptions))
+  validate_psOpenSort(new_psOpenSort(
+    assignments = assignments,
+    descriptions = descriptions))
 }
 
 # constructor
@@ -248,7 +248,7 @@ new_psOpenSort <- function(assignments, descriptions) {
 
   do.call(what = structure, args = append(
     x = list(.Data = assignments,
-             dimnames = list(items = safe_rownames, categories = safe_colnames),
+             dimnames = list(items = safe_rownames, dimensions = safe_colnames),
              class = c("psOpenSort", "matrix")),
     values = list(descriptions = descriptions)))
 }
@@ -259,8 +259,9 @@ validate_psOpenSort <- function(assignments) {
   # validate assignments
   assert_matrix(x = assignments,
                 row.names = "strict",
+                # col.names = "strict",  # TODO re-enable this
                 null.ok = FALSE)
-  assert_set_equal(x = names(dimnames(assignments)), y = c("items", "categories"))
+  assert_set_equal(x = names(dimnames(assignments)), y = c("items", "dimensions"))
 
   descriptions <- attributes(assignments)$descriptions
   if (length(descriptions) == 0) {  # recreate NULL assignment, when there are none in attr
@@ -313,10 +314,10 @@ tidy.psOpenSort <- function(x) {
   edge_df[[2]] <- as.character(edge_df[[2]])
   edge_df <- edge_df[!(is.na(edge_df$value)), ]  # kill NAs
   edge_df <- edge_df[edge_df$value, ]  # take only TRUEs
-  edge_df <- edge_df[, c("items", "categories")]
+  edge_df <- edge_df[, c("items", "dimensions")]
 
   # NAs as nodes don't work, so we have to kill these
-  edge_df <- edge_df[!(is.na(edge_df$categories) | is.na(edge_df$items)), ]
+  edge_df <- edge_df[!(is.na(edge_df$dimensions) | is.na(edge_df$items)), ]
   # this implies that missing sub- and supercodes must LATER be added again via the ggplot scale_color function, so that the legend is always complete and color schemes are comparable.
 
   # prep NODE VERTICES DATA ====
@@ -389,10 +390,10 @@ autoplot.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 30
     assert_tibble(x = edge_codings, null.ok = TRUE)
     #assert_subset(x = unique(edge_codings[[1]]), choices = unique(edge_df$categories))
 
-    edge_df <- merge(x = edge_df, y = edge_codings, by.x = "categories", by.y = "category", all = TRUE)
+    edge_df <- merge(x = edge_df, y = edge_codings, by.x = "dimensions", by.y = "category", all = TRUE)
 
     # NAs as nodes don't work, so we have to kill these
-    edge_df <- edge_df[!(is.na(edge_df$categories) | is.na(edge_df$items)), ]
+    edge_df <- edge_df[!(is.na(edge_df$dimensions) | is.na(edge_df$items)), ]
     # this implies that missing sub- and supercodes must LATER be added again via the ggplot scale_color function, so that the legend is always complete and color schemes are comparable.
   }
 
