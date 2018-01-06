@@ -60,6 +60,8 @@ validate_psOpenSorts <- function(open_sorts) {
   return(open_sorts)
 }
 
+# singular; single matrix of assignments and descriptions ====
+
 #' @describeIn psOpenSorts Creates *individual* open sort.
 #'
 #' @param assignments
@@ -69,6 +71,7 @@ validate_psOpenSorts <- function(open_sorts) {
 #' - `integer` for *ordinally*-scaled sort, where an open category applies to some item *more* (`2nd` rank) *or less* (`3rd` rank) than to another other item,
 #' - `numeric` for *interval* or *ratio*-scaled sort, where an open category applies to some item *by some amount more or less* (say `2.4` units) than to another item.
 #' Notice that -- counterintuitively -- *categorically*-scaled open sorts are not allowed.
+#'
 #' If columns are named, they must be the same as the names in `descriptions`.
 #' Either way, `assignments` and `descriptions` are always *matched by index only*: the first column from `assignments`, must be the first element of `description`, and so forth.
 #'

@@ -39,9 +39,10 @@ Matrix must be either
 \item \code{integer} for \emph{ordinally}-scaled sort, where an open category applies to some item \emph{more} (\code{2nd} rank) \emph{or less} (\code{3rd} rank) than to another other item,
 \item \code{numeric} for \emph{interval} or \emph{ratio}-scaled sort, where an open category applies to some item \emph{by some amount more or less} (say \code{2.4} units) than to another item.
 Notice that -- counterintuitively -- \emph{categorically}-scaled open sorts are not allowed.
+}
+
 If columns are named, they must be the same as the names in \code{descriptions}.
-Either way, \code{assignments} and \code{descriptions} are always \emph{matched by index only}: the first column from \code{assignments}, must be the first element of \code{description}, and so forth.
-}}
+Either way, \code{assignments} and \code{descriptions} are always \emph{matched by index only}: the first column from \code{assignments}, must be the first element of \code{description}, and so forth.}
 
 \item{descriptions}{a character vector giving the open-ended category description provided by the participant.
 Can be named.
