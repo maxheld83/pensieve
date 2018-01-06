@@ -101,6 +101,7 @@ Constructs S3 class for pensieve.
 }
 \details{
 Open sorting categorizations \emph{cannot} be compared between participants, because each participants defines her own dimensions.
+
 \strong{The canonical representation of open sorting data} is therefore a \emph{list} of matrices, one for each participant.
 Every \emph{individual} matrix is a \code{\link[=psOpenSort]{psOpenSort()}} object, and together, they form a \code{\link[=psOpenSorts]{psOpenSorts()}} list.
 The rows in these matrices are the items, the columns are the dimensions, and cells are the assignment.
@@ -164,7 +165,6 @@ rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 
 # now let's combine the individual sort into a list
 open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
-
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)
 
