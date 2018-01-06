@@ -16,6 +16,13 @@ test_that(desc = "construction of multiple open sort list works", code = {
 
 context("Import functions for messy open sort data")
 
+test_that(desc = "recreate canonical form", code = {
+  expect_equivalent(object = open_sorts_from_messy$lisa, expected = open_sorts$lisa)
+  # expect_equivalent(object = open_sorts_from_messy$peter, expected = open_sorts$peter)
+  # expect_equal(object = open_sorts_from_messy$rebecca, expected = open_sorts$rebecca)
+  # expect_equivalent(object = open_sorts_from_messy, expected = open_sorts)
+})
+
 test_that(desc = "works with komki csvs",
           code = {
   desc <- read.csv(file = "komki_messy/cat_desc.csv",
