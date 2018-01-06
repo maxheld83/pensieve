@@ -1,3 +1,19 @@
+context("psOpenSort")
+
+test_that(desc = "construction of single open sort works", code = {
+  expect_s3_class(object = lisa, class = c("psOpenSort", "matrix"))
+  expect_s3_class(object = peter, class = c("psOpenSort", "matrix"))
+  expect_s3_class(object = rebecca, class = c("psOpenSort", "matrix"))
+})
+
+
+context("psOpenSorts")
+
+test_that(desc = "construction of multiple open sort list works", code = {
+  expect_s3_class(object = open_sorts, class = c("psOpenSorts"))
+})
+
+
 context("Import functions for messy open sort data")
 
 test_that(desc = "works with komki csvs",

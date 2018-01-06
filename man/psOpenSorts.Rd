@@ -166,6 +166,7 @@ rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 
 # now let's combine the individual sort into a list
 open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
+str(open_sorts)
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)
 
