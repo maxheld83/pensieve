@@ -2,16 +2,18 @@
 % Please edit documentation in R/psOpenSorts.R
 \name{psOpenSorts}
 \alias{psOpenSorts}
+\alias{import_psOpenSorts}
 \alias{psOpenSort}
 \alias{tidy.psOpenSort}
 \alias{autoplot.psOpenSort}
 \alias{summary.psOpenSort}
-\alias{import_psOpenSorts}
 \alias{tidy.psOpenSorts}
 \alias{autoplot.psOpenSorts}
 \title{Store open sorts in a psOpenSort list.}
 \usage{
 psOpenSorts(open_sorts)
+
+import_psOpenSorts(assignments_messy, descriptions_messy = NULL)
 
 psOpenSort(assignments, descriptions = NULL)
 
@@ -22,8 +24,6 @@ psOpenSort(assignments, descriptions = NULL)
 
 \method{summary}{psOpenSort}(object, ...)
 
-import_psOpenSorts(assignments_messy, descriptions_messy = NULL)
-
 \method{tidy}{psOpenSorts}(x)
 
 \method{autoplot}{psOpenSorts}(object)
@@ -31,6 +31,30 @@ import_psOpenSorts(assignments_messy, descriptions_messy = NULL)
 \arguments{
 \item{open_sorts}{A list of matrices, one for each participant.
 Matrices must be \code{\link[=psOpenSort]{psOpenSort()}} object, or coercable to \code{\link[=psOpenSort]{psOpenSort()}}.}
+
+\item{assignments_messy}{a character matrix with rows as items, columns as participants and  \strong{logical category assignments} as character strings in cells.
+Categories are identified by a subset from \code{LETTERS}, same as in \code{descriptions_messy}.
+Assignments must be the same subset of \code{LETTERS} as the column names in \code{descriptions_messy}.
+Rows and columns must be named.
+
+For example, if some participant assigned her (self-described) categories \code{A}, \code{D} and \code{Z} to some item, the cell for that item and participant would read \code{"A, D, Z"}.
+Order and punctuation are ignored.
+
+See \code{note}.}
+
+\item{descriptions_messy}{a character matrix with rows as category indices, columns as participants and \strong{category descriptions} in cells.
+Rows \emph{must} be named by a subset of \code{LETTERS} to conveniently enter, and identify them from \code{assignments_messy}.
+The row names are arbitrary identifiers, but will be retained for the canonical form.
+Columns \emph{must} be named as participants.
+
+Defaults to \code{NULL}, in which case no descriptions are available.
+
+Notice category description in one row have \emph{nothing in common} other than their \emph{indices}:
+For example, the category descriptions in a row named \code{'B'} are all by different participants, and may refer to entirely different aspects.
+They are only conveniently entered in a table, and all share the fact that they were the \emph{second} description provided.
+
+When some category has not been defined by the participant, the value in the cell should be \code{NA}.
+Empty strings \code{""} will also be considered \code{NA}.}
 
 \item{assignments}{a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
 Matrix must be either
@@ -69,30 +93,6 @@ Defaults to \code{30}.
 Useful for long descriptions.}
 
 \item{...}{further arguments passed to methods.}
-
-\item{assignments_messy}{a character matrix with rows as items, columns as participants and  \strong{logical category assignments} as character strings in cells.
-Categories are identified by a subset from \code{LETTERS}, same as in \code{descriptions_messy}.
-Assignments must be the same subset of \code{LETTERS} as the column names in \code{descriptions_messy}.
-Rows and columns must be named.
-
-For example, if some participant assigned her (self-described) categories \code{A}, \code{D} and \code{Z} to some item, the cell for that item and participant would read \code{"A, D, Z"}.
-Order and punctuation are ignored.
-
-See \code{note}.}
-
-\item{descriptions_messy}{a character matrix with rows as category indices, columns as participants and \strong{category descriptions} in cells.
-Rows \emph{must} be named by a subset of \code{LETTERS} to conveniently enter, and identify them from \code{assignments_messy}.
-The row names are arbitrary identifiers, but will be retained for the canonical form.
-Columns \emph{must} be named as participants.
-
-Defaults to \code{NULL}, in which case no descriptions are available.
-
-Notice category description in one row have \emph{nothing in common} other than their \emph{indices}:
-For example, the category descriptions in a row named \code{'B'} are all by different participants, and may refer to entirely different aspects.
-They are only conveniently entered in a table, and all share the fact that they were the \emph{second} description provided.
-
-When some category has not been defined by the participant, the value in the cell should be \code{NA}.
-Empty strings \code{""} will also be considered \code{NA}.}
 }
 \value{
 Object of class \code{psOpenSorts}.
@@ -109,21 +109,16 @@ The rows in these matrices are the items, the columns are the dimensions, and ce
 Optional dimension descriptions are included as attributes of the matrices.
 
 The canonical representation of open sorts in \code{\link[=psOpenSorts]{psOpenSorts()}} can be cumbersome to enter manually.
-For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of \code{descriptions_messy} and \code{assignments_messy}.
+For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of \code{descriptions_messy} and \code{assignments_messy} using \code{\link[=import_psOpenSorts]{import_psOpenSorts()}}.
 }
 \section{Functions}{
 \itemize{
-\item \code{psOpenSort}: Creates \emph{individual} open sort.
-
 \item \code{import_psOpenSorts}: descriptions and \emph{logical} assignments from convenient, but messy format
+
+\item \code{psOpenSort}: creates \emph{individual} open sort.
 }}
 
 \note{
-To render the resulting \code{ggplot} object, you must \emph{manually} call \code{library(ggraph)} somewhere in your script (as per \href{https://github.com/thomasp85/ggraph/issues/85}{this limitation}).
-
-If \code{codings} are added, the aesthetics are set \emph{for each individual \link{psOpenSort} separately}, which may make it hard to compare plots across participants.
-To get consistent code aesthetics, consider applying \code{\link[ggraph:scale_edge_color_manual]{ggraph::scale_edge_color_manual()}} and friends.
-
 When category is assigned, but never described, it is \code{TRUE} in the respective logical matrix entries and their description is \code{NA}:
 This is still considered valuable, if incomplete information.
 When a category is described, but never assigned, it is omitted from the data entirely.
@@ -135,8 +130,15 @@ Notice this implies \emph{limited scenarios of \code{NA}} for data entered in th
 The more complicated cases, where a participant did consider \emph{some}, but \emph{not all} items in the assignment of a category, or -- equivalently -- all categories in their assessment of all items, cannot be recorded in this convenience format.
 Such more granular \code{NA} records can, however, be recorded in the canonical data representation, where the respective cell of the items x category logical matrix would be \code{NA}.
 If your data gathering procedure produces such granular \code{NA} records, do not use this convenience function.
+
+To render the resulting \code{ggplot} object, you must \emph{manually} call \code{library(ggraph)} somewhere in your script (as per \href{https://github.com/thomasp85/ggraph/issues/85}{this limitation}).
+
+If \code{codings} are added, the aesthetics are set \emph{for each individual \link{psOpenSort} separately}, which may make it hard to compare plots across participants.
+To get consistent code aesthetics, consider applying \code{\link[ggraph:scale_edge_color_manual]{ggraph::scale_edge_color_manual()}} and friends.
 }
 \examples{
+# create single open sort ====
+
 # Lisas open sort, matching by index
 assignments <- matrix(data = c(TRUE, FALSE, FALSE, TRUE),
                       nrow = 2,
@@ -162,26 +164,14 @@ assignments <- matrix(data = c(FALSE, FALSE, TRUE, TRUE),
                       nrow = 2,
                       dimnames = list(handles = c("cat", "dog")))
 rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
-# providing no description is possible, but makes interpretation hard, if not meaningless.
 
-# now let's combine the individual sort into a list
+
+# now let's combine the individual sorts into a list ====
 open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
-str(open_sorts)
-ggplot2::autoplot(object = lisa)
-ggplot2::autoplot(object = rebecca)
-
-# no with codes
-petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herbivore"),
-                             reference = c("location", "human interaction", NA, "animal diet"),
-                             length = c("medium", "medium", "medium", "short")
-                             # notice the duplicates to allow for multiple codes
-                             )
-library(ggraph)  # must be attached while running below
-ggplot2::autoplot(object = peter, edge_codings = petercodes)
-summary(peter)
 
 
-# create psOpenSorts from convenient input
+# create psOpenSorts from convenient input ====
+
 ass <- matrix(data = c("A, B",
                        # meaning A and B are assigned
                        "",
@@ -210,8 +200,20 @@ desc <- matrix(data = c("",
                         dimnames = list(categories = c("A", "B", "C"),
                         people = c("tony", "amy")))
 # notice how individual *nominal* categories are pasted together in cells here;
-# this convenient form *only* works for nominally-scaled data
+# this convenient form *only* works for logical data
 osorts_example <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+ggplot2::autoplot(object = lisa)
+ggplot2::autoplot(object = rebecca)
+
+# no with codes
+petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herbivore"),
+                             reference = c("location", "human interaction", NA, "animal diet"),
+                             length = c("medium", "medium", "medium", "short")
+                             # notice the duplicates to allow for multiple codes
+                             )
+library(ggraph)  # must be attached while running below
+ggplot2::autoplot(object = peter, edge_codings = petercodes)
+summary(peter)
 
 ggplot2::autoplot(object = osorts_example)
 

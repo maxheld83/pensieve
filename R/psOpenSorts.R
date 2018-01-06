@@ -60,9 +60,122 @@ validate_psOpenSorts <- function(open_sorts) {
   return(open_sorts)
 }
 
+# import helper
+
+#' @describeIn psOpenSorts descriptions and *logical* assignments from convenient, but messy format
+#'
+#' @export
+#'
+#' @param assignments_messy a character matrix with rows as items, columns as participants and  **logical category assignments** as character strings in cells.
+#' Categories are identified by a subset from `LETTERS`, same as in `descriptions_messy`.
+#' Assignments must be the same subset of `LETTERS` as the column names in `descriptions_messy`.
+#' Rows and columns must be named.
+#'
+#' For example, if some participant assigned her (self-described) categories `A`, `D` and `Z` to some item, the cell for that item and participant would read `"A, D, Z"`.
+#' Order and punctuation are ignored.
+#'
+#' See `note`.
+#'
+#' @param descriptions_messy a character matrix with rows as category indices, columns as participants and **category descriptions** in cells.
+#' Rows *must* be named by a subset of `LETTERS` to conveniently enter, and identify them from `assignments_messy`.
+#' The row names are arbitrary identifiers, but will be retained for the canonical form.
+#' Columns *must* be named as participants.
+#'
+#' Defaults to `NULL`, in which case no descriptions are available.
+#'
+#' Notice category description in one row have *nothing in common* other than their *indices*:
+#' For example, the category descriptions in a row named `'B'` are all by different participants, and may refer to entirely different aspects.
+#' They are only conveniently entered in a table, and all share the fact that they were the *second* description provided.
+#'
+#' When some category has not been defined by the participant, the value in the cell should be `NA`.
+#' Empty strings `""` will also be considered `NA`.
+#'
+#' @details
+#' The canonical representation of open sorts in [psOpenSorts()] can be cumbersome to enter manually.
+#' For *logical* (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of `descriptions_messy` and `assignments_messy` using [import_psOpenSorts()].
+#'
+#' @note
+#' When category is assigned, but never described, it is `TRUE` in the respective logical matrix entries and their description is `NA`:
+#' This is still considered valuable, if incomplete information.
+#' When a category is described, but never assigned, it is omitted from the data entirely.
+#'
+#' When *no* category was assigned to some item in `assignments_messay`, an empty character string `""` should be in the respective cell.
+#'
+#' An `NA` value implies that the given participant never considered the given items *at all*, across *all* her categories.
+#' Notice this implies *limited scenarios of `NA`* for data entered in this messy, convenient form.
+#' The more complicated cases, where a participant did consider *some*, but *not all* items in the assignment of a category, or -- equivalently -- all categories in their assessment of all items, cannot be recorded in this convenience format.
+#' Such more granular `NA` records can, however, be recorded in the canonical data representation, where the respective cell of the items x category logical matrix would be `NA`.
+#' If your data gathering procedure produces such granular `NA` records, do not use this convenience function.
+import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL) {
+  # variable names are too long
+  ass <- assignments_messy
+  desc <- descriptions_messy
+
+  # Input validation ====
+  assert_matrix(x = ass,
+                mode = "character",
+                any.missing = TRUE,
+                all.missing = FALSE,
+                row.names = "strict",
+                col.names = "strict",
+                null.ok = FALSE)
+
+  if (!is.null(desc)) {
+    desc[desc == ""] <- NA  # empty strings are considered NAs
+    assert_matrix(x = desc,
+                  mode = "character",
+                  any.missing = TRUE,
+                  all.missing = FALSE,
+                  null.ok = FALSE,
+                  row.names = "strict",
+                  col.names = "strict")
+    check_subset(x = rownames(desc),
+                 choices = LETTERS,
+                 empty.ok = FALSE)
+    assert_set_equal(x = colnames(desc), y = colnames(ass), ordered = TRUE)
+  }
+
+  # body ====
+  # create empty object
+  cat_canon <- sapply(X = colnames(ass), FUN = function(x) NULL)
+
+  for (p in names(cat_canon)) {
+    max_cats <- LETTERS[LETTERS %in% unlist(strsplit(x = ass[, p], split = ""))]
+    # this used to be more complicated
+    # we decided that described, but never assigned categories should be omitted.
+    # See note in docs.
+    max_cats <- max_cats[order(max_cats)]  # just in case, this makes results nicer to cross-check
+
+    # now we can create the logical matrix of appropriate rank
+    m <- matrix(data = NA,
+                nrow = nrow(ass),
+                ncol = length(max_cats),
+                dimnames = list(items = rownames(ass), categories = max_cats))
+
+    catsplit <- strsplit(x = ass[, p],
+                         split = "")
+
+    for (i in rownames(m)) {
+      if (anyNA(catsplit[[i]])) {
+        m[i, ] <- NA  # these are the items that participant never saw
+      } else {
+        m[i, ] <- max_cats %in% catsplit[[i]]
+      }
+    }
+    better_desc <- desc[, p]  # these are the descriptions of current persons
+    names(better_desc) <- rownames(desc)
+    # let's retain the simple LETTERS, even if they are meaningless, they help with debugging at least
+    m <- psOpenSort(assignments = m, descriptions = better_desc[max_cats])  # here kill all the unassigned, but described cats. sad.
+    cat_canon[[p]] <- m
+  }
+  cat_canon <- psOpenSorts(open_sorts = cat_canon)
+  return(cat_canon)
+}
+
+
 # singular; single matrix of assignments and descriptions ====
 
-#' @describeIn psOpenSorts Creates *individual* open sort.
+#' @describeIn psOpenSorts creates *individual* open sort.
 #'
 #' @param assignments
 #' a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
@@ -307,154 +420,6 @@ summary.psOpenSort <- function(object, ...) {
     n_of_t_by_item = rowSums(object),
     n_of_t_by_cat = colSums(object)
   )
-}
-
-
-
-# import helper
-
-#' @describeIn psOpenSorts descriptions and *logical* assignments from convenient, but messy format
-#'
-#' @export
-#'
-#' @param assignments_messy a character matrix with rows as items, columns as participants and  **logical category assignments** as character strings in cells.
-#' Categories are identified by a subset from `LETTERS`, same as in `descriptions_messy`.
-#' Assignments must be the same subset of `LETTERS` as the column names in `descriptions_messy`.
-#' Rows and columns must be named.
-#'
-#' For example, if some participant assigned her (self-described) categories `A`, `D` and `Z` to some item, the cell for that item and participant would read `"A, D, Z"`.
-#' Order and punctuation are ignored.
-#'
-#' See `note`.
-#'
-#' @param descriptions_messy a character matrix with rows as category indices, columns as participants and **category descriptions** in cells.
-#' Rows *must* be named by a subset of `LETTERS` to conveniently enter, and identify them from `assignments_messy`.
-#' The row names are arbitrary identifiers, but will be retained for the canonical form.
-#' Columns *must* be named as participants.
-#'
-#' Defaults to `NULL`, in which case no descriptions are available.
-#'
-#' Notice category description in one row have *nothing in common* other than their *indices*:
-#' For example, the category descriptions in a row named `'B'` are all by different participants, and may refer to entirely different aspects.
-#' They are only conveniently entered in a table, and all share the fact that they were the *second* description provided.
-#'
-#' When some category has not been defined by the participant, the value in the cell should be `NA`.
-#' Empty strings `""` will also be considered `NA`.
-#'
-#' @details
-#' The canonical representation of open sorts in [psOpenSorts()] can be cumbersome to enter manually.
-#' For *logical* (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of `descriptions_messy` and `assignments_messy`.
-#'
-#' @examples
-#'
-#' # create psOpenSorts from convenient input
-#' ass <- matrix(data = c("A, B",
-#'                        # meaning A and B are assigned
-#'                        "",
-#'                        # meaning no category assigned
-#'                        "B",
-#'                        # only B assigned
-#'                        NA),
-#'                        # item never considered for assignment across *all* categories or vice versa
-#'                        nrow = 2,
-#'                        ncol = 2,
-#'                        dimnames = list(items = c("cat", "dog"),
-#'                        people = c("tony", "amy")))
-#' desc <- matrix(data = c("",
-#'                         # will be treated as NA
-#'                         NA,
-#'                         # participant provided no description, but assigned the category
-#'                         "lives in cage",
-#'                         # described, but never assigned
-#'                         NA,
-#'                         # never assigned, never described will be removed
-#'                         "actually a predator!",
-#'                         "lives on a farm"
-#'                         # described, but never assigned
-#'                         ),
-#'                         nrow = 3,
-#'                         dimnames = list(categories = c("A", "B", "C"),
-#'                         people = c("tony", "amy")))
-#' # notice how individual *nominal* categories are pasted together in cells here;
-#' # this convenient form *only* works for nominally-scaled data
-#' osorts_example <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
-#'
-#' @note
-#' When category is assigned, but never described, it is `TRUE` in the respective logical matrix entries and their description is `NA`:
-#' This is still considered valuable, if incomplete information.
-#' When a category is described, but never assigned, it is omitted from the data entirely.
-#'
-#' When *no* category was assigned to some item in `assignments_messay`, an empty character string `""` should be in the respective cell.
-#'
-#' An `NA` value implies that the given participant never considered the given items *at all*, across *all* her categories.
-#' Notice this implies *limited scenarios of `NA`* for data entered in this messy, convenient form.
-#' The more complicated cases, where a participant did consider *some*, but *not all* items in the assignment of a category, or -- equivalently -- all categories in their assessment of all items, cannot be recorded in this convenience format.
-#' Such more granular `NA` records can, however, be recorded in the canonical data representation, where the respective cell of the items x category logical matrix would be `NA`.
-#' If your data gathering procedure produces such granular `NA` records, do not use this convenience function.
-import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL) {
-  # variable names are too long
-  ass <- assignments_messy
-  desc <- descriptions_messy
-
-  # Input validation ====
-  assert_matrix(x = ass,
-                mode = "character",
-                any.missing = TRUE,
-                all.missing = FALSE,
-                row.names = "strict",
-                col.names = "strict",
-                null.ok = FALSE)
-
-  if (!is.null(desc)) {
-    desc[desc == ""] <- NA  # empty strings are considered NAs
-    assert_matrix(x = desc,
-                  mode = "character",
-                  any.missing = TRUE,
-                  all.missing = FALSE,
-                  null.ok = FALSE,
-                  row.names = "strict",
-                  col.names = "strict")
-    check_subset(x = rownames(desc),
-                 choices = LETTERS,
-                 empty.ok = FALSE)
-    assert_set_equal(x = colnames(desc), y = colnames(ass), ordered = TRUE)
-  }
-
-  # body ====
-  # create empty object
-  cat_canon <- sapply(X = colnames(ass), FUN = function(x) NULL)
-
-  for (p in names(cat_canon)) {
-    max_cats <- LETTERS[LETTERS %in% unlist(strsplit(x = ass[, p], split = ""))]
-    # this used to be more complicated
-    # we decided that described, but never assigned categories should be omitted.
-    # See note in docs.
-    max_cats <- max_cats[order(max_cats)]  # just in case, this makes results nicer to cross-check
-
-    # now we can create the logical matrix of appropriate rank
-    m <- matrix(data = NA,
-                nrow = nrow(ass),
-                ncol = length(max_cats),
-                dimnames = list(items = rownames(ass), categories = max_cats))
-
-    catsplit <- strsplit(x = ass[, p],
-                         split = "")
-
-    for (i in rownames(m)) {
-      if (anyNA(catsplit[[i]])) {
-        m[i, ] <- NA  # these are the items that participant never saw
-      } else {
-        m[i, ] <- max_cats %in% catsplit[[i]]
-      }
-    }
-    better_desc <- desc[, p]  # these are the descriptions of current persons
-    names(better_desc) <- rownames(desc)
-    # let's retain the simple LETTERS, even if they are meaningless, they help with debugging at least
-    m <- psOpenSort(assignments = m, descriptions = better_desc[max_cats])  # here kill all the unassigned, but described cats. sad.
-    cat_canon[[p]] <- m
-  }
-  cat_canon <- psOpenSorts(open_sorts = cat_canon)
-  return(cat_canon)
 }
 
 #' @rdname psOpenSorts
