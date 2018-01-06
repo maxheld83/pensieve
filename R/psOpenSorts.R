@@ -442,7 +442,7 @@ tidy.psOpenSorts <- function(x) {
 # #' @describeIn psOpenSorts plots Summary
 #'
 #' @examples
-#' ggplot2::autoplot(object = osorts_example)
+#' ggplot2::autoplot(object = open_sorts)
 #'
 #' @export
 autoplot.psOpenSorts <- function(object) {

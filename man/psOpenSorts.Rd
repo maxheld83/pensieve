@@ -171,37 +171,29 @@ open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca 
 
 
 # create psOpenSorts from convenient input ====
+# this is just to wrangle the above canonical data into the messy, but convenient form
+# users never have to do this part; it's just for illustration
+# instead, users can input the result in a spreadsheet program
+ass <- sapply(X = open_sorts, FUN = function(part) {
+  apply(X = part, MARGIN = 1, FUN = function(x) {
+    paste(LETTERS[1:length(x)][x], collapse = ", ")
+  })
+})
+ass  # this is easy to enter in a spreadsheet program
 
-ass <- matrix(data = c("A, B",
-                       # meaning A and B are assigned
-                       "",
-                       # meaning no category assigned
-                       "B",
-                       # only B assigned
-                       NA),
-                       # item never considered for assignment across *all* categories or vice versa
-                       nrow = 2,
-                       ncol = 2,
-                       dimnames = list(items = c("cat", "dog"),
-                       people = c("tony", "amy")))
-desc <- matrix(data = c("",
-                        # will be treated as NA
-                        NA,
-                        # participant provided no description, but assigned the category
-                        "lives in cage",
-                        # described, but never assigned
-                        NA,
-                        # never assigned, never described will be removed
-                        "actually a predator!",
-                        "lives on a farm"
-                        # described, but never assigned
-                        ),
-                        nrow = 3,
-                        dimnames = list(categories = c("A", "B", "C"),
-                        people = c("tony", "amy")))
-# notice how individual *nominal* categories are pasted together in cells here;
-# this convenient form *only* works for logical data
-osorts_example <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+maxlength <- 3
+l <- sapply(X = open_sorts, simplify = TRUE, FUN = function(x) {
+  vec <- unlist(attr(x = x, which = "descriptions"))
+  length(vec) <- maxlength
+  return(vec)
+})
+desc <- do.call(what = cbind, args = l)
+rownames(desc) <- LETTERS[1:nrow(desc)]
+desc <- cbind(desc, NA)
+colnames(desc) <- names(open_sorts)
+desc  # this is easy to enter in a spreadsheet program
+
+open_sorts_from_messy <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)
 
@@ -215,7 +207,7 @@ library(ggraph)  # must be attached while running below
 ggplot2::autoplot(object = peter, edge_codings = petercodes)
 summary(peter)
 
-ggplot2::autoplot(object = osorts_example)
+ggplot2::autoplot(object = open_sorts)
 
 }
 \seealso{
