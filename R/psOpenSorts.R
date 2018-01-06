@@ -172,6 +172,29 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL) {
   return(cat_canon)
 }
 
+# stupid helper just to make messy format out of clean
+make_messy <- function(open_sorts) {
+  ass <- sapply(X = open_sorts, FUN = function(part) {
+    apply(X = part, MARGIN = 1, FUN = function(x) {
+      paste(LETTERS[1:length(x)][x], collapse = ", ")
+    })
+  })
+
+  maxlength <- max(sapply(X = open_sorts, function(x) ncol(x)))
+  l <- sapply(X = open_sorts, simplify = FALSE, FUN = function(x) {
+    vec <- unlist(attr(x = x, which = "descriptions"))
+    if (is.null(vec)) {
+      vec <- NA
+    }
+    length(vec) <- maxlength
+    vec
+    return(vec)
+  })
+  desc <- do.call(what = cbind, args = l)
+  rownames(desc) <- LETTERS[1:nrow(desc)]
+
+  return(list(ass = ass, desc = desc))
+}
 
 # singular; single matrix of assignments and descriptions ====
 

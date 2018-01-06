@@ -171,27 +171,12 @@ open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca 
 
 
 # create psOpenSorts from convenient input ====
-# this is just to wrangle the above canonical data into the messy, but convenient form
-# users never have to do this part; it's just for illustration
-# instead, users can input the result in a spreadsheet program
-ass <- sapply(X = open_sorts, FUN = function(part) {
-  apply(X = part, MARGIN = 1, FUN = function(x) {
-    paste(LETTERS[1:length(x)][x], collapse = ", ")
-  })
-})
-ass  # this is easy to enter in a spreadsheet program
-
-maxlength <- 3
-l <- sapply(X = open_sorts, simplify = TRUE, FUN = function(x) {
-  vec <- unlist(attr(x = x, which = "descriptions"))
-  length(vec) <- maxlength
-  return(vec)
-})
-desc <- do.call(what = cbind, args = l)
-rownames(desc) <- LETTERS[1:nrow(desc)]
-desc <- cbind(desc, NA)
-colnames(desc) <- names(open_sorts)
-desc  # this is easy to enter in a spreadsheet program
+# recreate messy format from canonical form (don't do this at home)
+ass <- pensieve:::make_messy(open_sorts = open_sorts)$ass
+desc <- pensieve:::make_messy(open_sorts = open_sorts)$desc
+# these two can be conveniently entered in a spreadsheet program
+ass
+desc
 
 open_sorts_from_messy <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
 ggplot2::autoplot(object = lisa)
