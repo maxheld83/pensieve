@@ -98,7 +98,7 @@ Once all items have been considered for the category in question, the index of t
 All cards are then mixed again, placed in the center of the table, and the process begins again, with a new pair of similar items.
 
 ```{r process-pics, echo=FALSE, out.width="100%", fig.cap=c("Participant considers all items.", "Participant chooses two similar items, names category.", "Participant applies categories to all items.", "All items are categorized as TRUE or FALSE."), dpi = 72, fig.show = "asis"}
-knitr::include_graphics(path = c("q-cat-stage-0.png", "q-cat-stage-1.png", "q-cat-stage-2.png", "q-cat-stage-3.png"))
+knitr::include_graphics(path = c("q-cat-stage-0.jpg", "q-cat-stage-1.jpg", "q-cat-stage-2.jpg", "q-cat-stage-3.jpg"))
 ```
 
 Ensuring that any one category is assessed for *all* items can be mentally taxing for the participants, but is essential for the downstream analysis.
