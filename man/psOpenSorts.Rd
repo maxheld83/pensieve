@@ -56,7 +56,7 @@ They are only conveniently entered in a table, and all share the fact that they 
 When some category has not been defined by the participant, the value in the cell should be \code{NA}.
 Empty strings \code{""} will also be considered \code{NA}.}
 
-\item{assignments}{a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
+\item{assignments}{a matrix with items as rows, open dimensions as columns, and open sort value in cells.
 Matrix must be either
 \itemize{
 \item \code{logical} for \emph{nominal}-scaled sort, where an open dimension applies (\code{TRUE}) or does not apply (\code{FALSE}),
@@ -64,7 +64,9 @@ Matrix must be either
 \item \code{numeric} for \emph{interval} or \emph{ratio}-scaled sort, where an open dimension applies to some item \emph{by some amount more or less} (say \code{2.4} units) than to another item.
 }
 
-If columns are named, they must be the same as the names in \code{descriptions}.
+If rows are named (by item handles), names must be valid R names.
+
+If columns are named, they must be valid R names and they must be the same as the names in \code{descriptions}.
 Either way, \code{assignments} and \code{descriptions} are always \emph{matched by index only}: the first column from \code{assignments}, must be the first element of \code{description}, and so forth.}
 
 \item{descriptions}{a character vector giving the open-ended dimension description provided by the participant.
@@ -138,7 +140,7 @@ To get consistent code aesthetics, consider applying \code{\link[ggraph:scale_ed
 \examples{
 # create single open sort ====
 
-# Lisas open sort, matching descriptions by index
+# Lisas open sort, unnamed descriptions (matched by index)
 assignments <- matrix(
   data = c(TRUE, FALSE, FALSE, TRUE),
   nrow = 2,
@@ -149,7 +151,7 @@ descriptions <- c(
 )
 lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
 
-# Peters open sort, descriptions are named, but still matched by index
+# Peters open sort, named descriptions (*also* matched by index)
 assignments <- matrix(
   data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
   nrow = 2,
@@ -183,6 +185,7 @@ ass
 desc
 
 open_sorts_from_messy <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)
 

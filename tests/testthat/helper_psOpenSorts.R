@@ -1,6 +1,6 @@
 # create single open sort ====
 
-# Lisas open sort, matching descriptions by index
+# Lisas open sort, unnamed descriptions (matched by index)
 assignments <- matrix(
   data = c(TRUE, FALSE, FALSE, TRUE),
   nrow = 2,
@@ -11,7 +11,7 @@ descriptions <- c(
 )
 lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
 
-# Peters open sort, descriptions are named, but still matched by index
+# Peters open sort, named descriptions (*also* matched by index)
 assignments <- matrix(
   data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
   nrow = 2,
@@ -45,3 +45,4 @@ ass
 desc
 
 open_sorts_from_messy <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+

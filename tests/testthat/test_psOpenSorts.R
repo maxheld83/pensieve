@@ -17,6 +17,7 @@ test_that(desc = "construction of multiple open sort list works", code = {
 context("Import functions for messy open sort data")
 
 test_that(desc = "recreate canonical form", code = {
+  # only equivalent, because make_messy function always retains "spurious" "A", "B" names etc.
   expect_equivalent(object = open_sorts_from_messy$lisa, expected = open_sorts$lisa)
   # expect_equivalent(object = open_sorts_from_messy$peter, expected = open_sorts$peter)
   # expect_equal(object = open_sorts_from_messy$rebecca, expected = open_sorts$rebecca)

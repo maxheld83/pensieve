@@ -200,13 +200,15 @@ make_messy <- function(open_sorts) {
 #' @describeIn psOpenSorts creates *individual* open sort.
 #'
 #' @param assignments
-#' a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
+#' a matrix with items as rows, open dimensions as columns, and open sort value in cells.
 #' Matrix must be either
 #' - `logical` for *nominal*-scaled sort, where an open dimension applies (`TRUE`) or does not apply (`FALSE`),
 #' - `integer` for *ordinally*-scaled sort, where an open dimension applies to some item *more* (`2nd` rank) *or less* (`3rd` rank) than to another other item,
 #' - `numeric` for *interval* or *ratio*-scaled sort, where an open dimension applies to some item *by some amount more or less* (say `2.4` units) than to another item.
 #'
-#' If columns are named, they must be the same as the names in `descriptions`.
+#' If rows are named (by item handles), names must be valid R names.
+#'
+#' If columns are named, they must be valid R names and they must be the same as the names in `descriptions`.
 #' Either way, `assignments` and `descriptions` are always *matched by index only*: the first column from `assignments`, must be the first element of `description`, and so forth.
 #'
 #' @param descriptions
@@ -216,13 +218,7 @@ make_messy <- function(open_sorts) {
 #'
 #' @export
 psOpenSort <- function(assignments, descriptions = NULL) {
-  if (!is.null(descriptions)) {
-    # prepare descriptions; must always be named LIST
-    if (is.null(names(descriptions))) {
-      names(descriptions) <- as.character(1:length(descriptions))
-    }
-    descriptions <- as.list(descriptions)
-  }
+  descriptions <- as.list(descriptions)
 
   validate_psOpenSort(new_psOpenSort(
     assignments = assignments,
@@ -231,24 +227,9 @@ psOpenSort <- function(assignments, descriptions = NULL) {
 
 # constructor
 new_psOpenSort <- function(assignments, descriptions) {
-  # remember that matching is ALWAYS by index only, the rest is fluff
-
-  # must protect against NO colnames or rownames, make "fake" ones out of integers, because all of the downstream expects colnames
-  # also, description attributes must always be indexed by character, so this makes that easier too
-  if (is.null(colnames(assignments))) {
-    safe_colnames <- as.character(1:ncol(assignments))
-  } else {
-    safe_colnames <- colnames(assignments)
-  }
-  if (is.null(rownames(assignments))) {
-    safe_rownames <- as.character(1:nrow(assignments))
-  } else {
-    safe_rownames <- rownames(assignments)
-  }
-
   do.call(what = structure, args = append(
     x = list(.Data = assignments,
-             dimnames = list(items = safe_rownames, dimensions = safe_colnames),
+             dimnames = list(items = rownames(assignments), dimensions = colnames(assignments)),
              class = c("psOpenSort", "matrix")),
     values = list(descriptions = descriptions)))
 }
@@ -258,10 +239,10 @@ validate_psOpenSort <- function(assignments) {
 
   # validate assignments
   assert_matrix(x = assignments,
-                row.names = "strict",
-                # col.names = "strict",  # TODO re-enable this
                 null.ok = FALSE)
   assert_set_equal(x = names(dimnames(assignments)), y = c("items", "dimensions"))
+  assert_names2(x = colnames(assignments))
+  assert_names2(x = rownames(assignments))
 
   descriptions <- attributes(assignments)$descriptions
   if (length(descriptions) == 0) {  # recreate NULL assignment, when there are none in attr
@@ -275,19 +256,16 @@ validate_psOpenSort <- function(assignments) {
                 any.missing = TRUE,
                 all.missing = TRUE,
                 unique = FALSE,  # oddly, duplicate NAs count as non-unique, hence extra test below
-                names = "unique", # strict fails on "1" etc
                 null.ok = FALSE,
                 len = ncol(assignments)) # this already validates against assignments
+    assert_names2(names(descriptions))
 
     # must test if non-NAs are at least unique
     assert_list(x = descriptions[!(is.na(descriptions))],
                 unique = TRUE)
 
-    if (!is.null(colnames(assignments))) {
+    if (!is.null(colnames(assignments)) & !is.null(names(descriptions))) {
       # validate descriptions AND assignments
-      assert_names(x = colnames(assignments),
-                   type = "unique")
-
       assert_set_equal(x = names(descriptions),
                        y = colnames(assignments),
                        ordered = TRUE)
@@ -308,10 +286,13 @@ tidy.psOpenSort <- function(x) {
   #TODO replace this with a real asserter, once available
   invisible(validate_psOpenSort(assignments = x))
 
+  # give x safe row and colnames so that downstream functions have meaningful names
+  rownames(x) <- rownames(x = x, do.NULL = FALSE, prefix = "it")
+  colnames(x) <- colnames(x = x, do.NULL = FALSE, prefix = "dim")
+
   # prep EDGE data ====
   # melt the edges
   edge_df <- reshape2::melt(data = x, as.is = TRUE)
-  edge_df[[2]] <- as.character(edge_df[[2]])
   edge_df <- edge_df[!(is.na(edge_df$value)), ]  # kill NAs
   edge_df <- edge_df[edge_df$value, ]  # take only TRUEs
   edge_df <- edge_df[, c("items", "dimensions")]
@@ -320,19 +301,23 @@ tidy.psOpenSort <- function(x) {
   edge_df <- edge_df[!(is.na(edge_df$dimensions) | is.na(edge_df$items)), ]
   # this implies that missing sub- and supercodes must LATER be added again via the ggplot scale_color function, so that the legend is always complete and color schemes are comparable.
 
+  # prep safe rownames of x
+
   # prep NODE VERTICES DATA ====
-  fulldesc <- unlist(attributes(x)$descriptions[colnames(x)])
+  fulldesc <- unlist(attributes(x)$descriptions[])
+
+  # but for dims, sometimes there *are* descriptions
   if (is.null(fulldesc)) {
-    node_df <- data.frame(name = c(colnames(x), rownames(x)),
-                          type = c(rep(FALSE, ncol(x)), rep(TRUE, nrow(x))),
-                          labels = c(rep(NA, ncol(x)), rownames(x)),
-                          stringsAsFactors = FALSE)
+    labels <- c(rownames(x), colnames(x))
   } else {
-    node_df <- data.frame(name = c(colnames(x), rownames(x)),
-                          type = c(rep(FALSE, ncol(x)), rep(TRUE, nrow(x))),
-                          labels = c(fulldesc, rownames(x)),
-                          stringsAsFactors = FALSE)
+    labels <- c(rownames(x), fulldesc)
   }
+  node_df <- data.frame(
+    name = c(rownames(x), colnames(x = x)),
+    type = c(rep(TRUE, nrow(x)), rep(FALSE, ncol(x))),
+    labels = labels,
+    stringsAsFactors = FALSE
+  )
 
   return(list(edge_df = edge_df, node_df = node_df))
 }

@@ -192,3 +192,15 @@ check_named_array <- function(x) {
   return(res)
 }
 
+# helper: if there are names, make sure they are strict
+check_names2 <- function(x, type = "strict", ...) {
+  if (is.null(x)) {
+    return(TRUE)
+  } else {
+    check_names(x = x, type = type, ...)
+  }
+}
+assert_names2 <- checkmate::makeAssertionFunction(check.fun = check_names2)
+test_names2 <- checkmate::makeTestFunction(check.fun = check_names2)
+expect_names2 <- checkmate::makeExpectationFunction(check.fun = check_names2)
+
