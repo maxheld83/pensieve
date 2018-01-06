@@ -1,14 +1,17 @@
-#' @title Construct *single* and *multiple* open sort matrix.
-#'
-#' @export
-#'
-#' @template construction_helpers
+# plural; list of multiple open sort matrices ====
+
+#' @title Store open sorts in a psOpenSort list.
 #'
 #' @details
-#' Open sorting categorizations *cannot* be compared between participants, because each participants defines her own categories.
+#' Open sorting categorizations *cannot* be compared between participants, because each participants defines her own dimensions.
 #' **The canonical representation of open sorting data** is therefore a *list* of matrices, one for each participant.
 #' Every *individual* matrix is a [psOpenSort()] object, and together, they form a [psOpenSorts()] list.
-#' The rows in these matrices are the items, the columns are the category, and cells are the assignment.
+#' The rows in these matrices are the items, the columns are the dimensions, and cells are the assignment.
+#' Optional dimension descriptions are included as attributes of the matrices.
+#'
+#' @param open_sorts
+#' A list of matrices, one for each participant.
+#' Matrices must be [psOpenSort()] object, or coercable to [psOpenSort()].
 #'
 #' @examples
 #' # Lisas open sort, matching by index
@@ -41,8 +44,49 @@
 #' # now let's combine the individual sort into a list
 #' open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
 #'
-#' @name psOpenSorts
-NULL
+#' @return Object of class `psOpenSorts`.
+#'
+#' @template construction_helpers
+#'
+#' @export
+psOpenSorts <- function(open_sorts) {
+  validate_psOpenSorts(new_psOpenSorts(open_sorts = open_sorts))
+}
+
+# constructor
+new_psOpenSorts <- function(open_sorts) {
+  structure(
+    .Data = open_sorts,
+    class = c("psOpenSorts")
+  )
+}
+
+# validator
+validate_psOpenSorts <- function(open_sorts) {
+  assert_list(x = open_sorts,
+              any.missing = TRUE,
+              all.missing = TRUE,
+              names = "strict",
+              types = "matrix")
+
+  # for no particular reason, we make the first in the list the benchmark
+  data_type <- mode(open_sorts[[1]])
+  n_items <- nrow(open_sorts[[1]])
+  item_handles <- rownames(open_sorts[[1]])
+
+  assert_choice(x = data_type, choices = c("logical", "integer", "numeric"))
+  lapply(X = open_sorts, FUN = function(x) {
+    validate_psOpenSort(assignments = x)
+    assert_matrix(x = x,
+                  mode = data_type,
+                  nrows = n_items,
+                  row.names = "strict")
+    assert_set_equal(x = rownames(x),
+                     y = item_handles,
+                     ordered = TRUE)
+  })
+  return(open_sorts)
+}
 
 #' @describeIn psOpenSorts Creates *individual* open sort.
 #'
@@ -290,48 +334,7 @@ summary.psOpenSort <- function(object, ...) {
   )
 }
 
-#' @describeIn psOpenSorts *Combine* individual open sorts in a list.
-#'
-#' @param open_sorts named list of matrices created by [psOpenSort()], one for each participant.
-#' Must all be of equal data type and all have the same rows and rownames.
-psOpenSorts <- function(open_sorts) {
-  validate_psOpenSorts(new_psOpenSorts(open_sorts = open_sorts))
-}
 
-# constructor
-new_psOpenSorts <- function(open_sorts) {
-  structure(
-    .Data = open_sorts,
-    class = c("psOpenSorts")
-  )
-}
-
-# validator
-validate_psOpenSorts <- function(open_sorts) {
-  assert_list(x = open_sorts,
-              any.missing = TRUE,
-              all.missing = TRUE,
-              names = "strict",
-              types = "matrix")
-
-  # for no particular reason, we make the first in the list the benchmark
-  data_type <- mode(open_sorts[[1]])
-  n_items <- nrow(open_sorts[[1]])
-  item_handles <- rownames(open_sorts[[1]])
-
-  assert_choice(x = data_type, choices = c("logical", "integer", "numeric"))
-  lapply(X = open_sorts, FUN = function(x) {
-    validate_psOpenSort(assignments = x)
-    assert_matrix(x = x,
-                  mode = data_type,
-                  nrows = n_items,
-                  row.names = "strict")
-    assert_set_equal(x = rownames(x),
-                     y = item_handles,
-                     ordered = TRUE)
-  })
-  return(open_sorts)
-}
 
 # import helper
 

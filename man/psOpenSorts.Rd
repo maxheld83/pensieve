@@ -9,8 +9,10 @@
 \alias{import_psOpenSorts}
 \alias{tidy.psOpenSorts}
 \alias{autoplot.psOpenSorts}
-\title{Construct \emph{single} and \emph{multiple} open sort matrix.}
+\title{Store open sorts in a psOpenSort list.}
 \usage{
+psOpenSorts(open_sorts)
+
 psOpenSort(assignments, descriptions = NULL)
 
 \method{tidy}{psOpenSort}(x)
@@ -20,8 +22,6 @@ psOpenSort(assignments, descriptions = NULL)
 
 \method{summary}{psOpenSort}(object, ...)
 
-psOpenSorts(open_sorts)
-
 import_psOpenSorts(assignments_messy, descriptions_messy = NULL)
 
 \method{tidy}{psOpenSorts}(x)
@@ -29,6 +29,9 @@ import_psOpenSorts(assignments_messy, descriptions_messy = NULL)
 \method{autoplot}{psOpenSorts}(object)
 }
 \arguments{
+\item{open_sorts}{A list of matrices, one for each participant.
+Matrices must be \code{\link[=psOpenSort]{psOpenSort()}} object, or coercable to \code{\link[=psOpenSort]{psOpenSort()}}.}
+
 \item{assignments}{a matrix with item-handles as row names, arbitrary or empty column names, and open sort value in cells.
 Matrix must be either
 \itemize{
@@ -66,9 +69,6 @@ Useful for long descriptions.}
 
 \item{...}{further arguments passed to methods.}
 
-\item{open_sorts}{named list of matrices created by \code{\link[=psOpenSort]{psOpenSort()}}, one for each participant.
-Must all be of equal data type and all have the same rows and rownames.}
-
 \item{assignments_messy}{a character matrix with rows as items, columns as participants and  \strong{logical category assignments} as character strings in cells.
 Categories are identified by a subset from \code{LETTERS}, same as in \code{descriptions_messy}.
 Assignments must be the same subset of \code{LETTERS} as the column names in \code{descriptions_messy}.
@@ -93,14 +93,18 @@ They are only conveniently entered in a table, and all share the fact that they 
 When some category has not been defined by the participant, the value in the cell should be \code{NA}.
 Empty strings \code{""} will also be considered \code{NA}.}
 }
+\value{
+Object of class \code{psOpenSorts}.
+}
 \description{
 Constructs S3 class for pensieve.
 }
 \details{
-Open sorting categorizations \emph{cannot} be compared between participants, because each participants defines her own categories.
+Open sorting categorizations \emph{cannot} be compared between participants, because each participants defines her own dimensions.
 \strong{The canonical representation of open sorting data} is therefore a \emph{list} of matrices, one for each participant.
 Every \emph{individual} matrix is a \code{\link[=psOpenSort]{psOpenSort()}} object, and together, they form a \code{\link[=psOpenSorts]{psOpenSorts()}} list.
-The rows in these matrices are the items, the columns are the category, and cells are the assignment.
+The rows in these matrices are the items, the columns are the dimensions, and cells are the assignment.
+Optional dimension descriptions are included as attributes of the matrices.
 
 The canonical representation of open sorts in \code{\link[=psOpenSorts]{psOpenSorts()}} can be cumbersome to enter manually.
 For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of \code{descriptions_messy} and \code{assignments_messy}.
@@ -108,8 +112,6 @@ For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format 
 \section{Functions}{
 \itemize{
 \item \code{psOpenSort}: Creates \emph{individual} open sort.
-
-\item \code{psOpenSorts}: \emph{Combine} individual open sorts in a list.
 
 \item \code{import_psOpenSorts}: descriptions and \emph{logical} assignments from convenient, but messy format
 }}
