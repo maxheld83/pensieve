@@ -118,11 +118,11 @@ For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format 
 }}
 
 \note{
-When category is assigned, but never described, it is \code{TRUE} in the respective logical matrix entries and their description is \code{NA}:
+When a category is assigned, but never described, it is \code{TRUE} in the respective logical matrix entries and their description is \code{NA}:
 This is still considered valuable, if incomplete information.
 When a category is described, but never assigned, it is omitted from the data entirely.
 
-When \emph{no} category was assigned to some item in \code{assignments_messay}, an empty character string \code{""} should be in the respective cell.
+When \emph{no} category was assigned to some item in \code{assignments_messy}, an empty character string \code{""} should be in the respective cell.
 
 An \code{NA} value implies that the given participant never considered the given items \emph{at all}, across \emph{all} her categories.
 Notice this implies \emph{limited scenarios of \code{NA}} for data entered in this messy, convenient form.

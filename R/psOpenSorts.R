@@ -94,11 +94,11 @@ validate_psOpenSorts <- function(open_sorts) {
 #' For *logical* (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of `descriptions_messy` and `assignments_messy` using [import_psOpenSorts()].
 #'
 #' @note
-#' When category is assigned, but never described, it is `TRUE` in the respective logical matrix entries and their description is `NA`:
+#' When a category is assigned, but never described, it is `TRUE` in the respective logical matrix entries and their description is `NA`:
 #' This is still considered valuable, if incomplete information.
 #' When a category is described, but never assigned, it is omitted from the data entirely.
 #'
-#' When *no* category was assigned to some item in `assignments_messay`, an empty character string `""` should be in the respective cell.
+#' When *no* category was assigned to some item in `assignments_messy`, an empty character string `""` should be in the respective cell.
 #'
 #' An `NA` value implies that the given participant never considered the given items *at all*, across *all* her categories.
 #' Notice this implies *limited scenarios of `NA`* for data entered in this messy, convenient form.
