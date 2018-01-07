@@ -144,10 +144,11 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL, kee
   cat_canon <- sapply(X = colnames(ass), FUN = function(x) NULL)
 
   for (p in names(cat_canon)) {
-    max_cats <- LETTERS[LETTERS %in% unlist(strsplit(x = ass[, p], split = ""))]
-    # this used to be more complicated
-    # we decided that described, but never assigned categories should be omitted.
-    # See note in docs.
+    # we take *all* categories, either assigned OR defined
+    max_cats <- unique(c(
+      LETTERS[LETTERS %in% unlist(strsplit(x = ass[, p], split = ""))],
+      names(desc[,p][!is.na(desc[,p])])
+    ))
     max_cats <- max_cats[order(max_cats)]  # just in case, this makes results nicer to cross-check
 
     # now we can create the logical matrix of appropriate rank

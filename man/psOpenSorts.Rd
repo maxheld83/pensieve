@@ -166,7 +166,7 @@ assignments <- matrix(
 descriptions <- c(
   in_homes = "Animal found in peoples homes.",
   quiet = "Does not make a lot of noise.",
-  herbivore = "Eats plants.")  # defined, but never assigned (not a problem)
+  herbivore = "Eats plants.")  # defined, but never TRUE (not a problem)
 peter <- psOpenSort(assignments = assignments, descriptions = descriptions)
 
 # Rebeccas open sort, without any descriptions provided
