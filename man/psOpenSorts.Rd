@@ -13,7 +13,8 @@
 \usage{
 psOpenSorts(open_sorts)
 
-import_psOpenSorts(assignments_messy, descriptions_messy = NULL)
+import_psOpenSorts(assignments_messy, descriptions_messy = NULL,
+  keep_LETTERS = TRUE)
 
 psOpenSort(assignments, descriptions = NULL)
 
@@ -55,6 +56,9 @@ They are only conveniently entered in a table, and all share the fact that they 
 
 When some category has not been defined by the participant, the value in the cell should be \code{NA}.
 Empty strings \code{""} will also be considered \code{NA}.}
+
+\item{keep_LETTERS}{a logical flag.
+Defaults to \code{TRUE}, in which case the \code{LETTERS} for the category descriptions and assignments are retained as names, even though they are just indices and not actual meaningful names (useful for debugging).}
 
 \item{assignments}{a matrix with items as rows, open dimensions as columns, and open sort value in cells.
 Matrix must be either
@@ -184,7 +188,10 @@ desc <- pensieve:::make_messy(open_sorts = los)$desc
 ass
 desc
 
-los_from_messy <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+los_from_messy <- import_psOpenSorts(
+  assignments_messy = ass,
+  descriptions_messy = desc,
+  keep_LETTERS = FALSE)
 
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)

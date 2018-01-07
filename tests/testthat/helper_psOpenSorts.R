@@ -44,5 +44,8 @@ desc <- pensieve:::make_messy(open_sorts = los)$desc
 ass
 desc
 
-los_from_messy <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+los_from_messy <- import_psOpenSorts(
+  assignments_messy = ass,
+  descriptions_messy = desc,
+  keep_LETTERS = FALSE)
 

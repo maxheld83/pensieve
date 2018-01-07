@@ -89,6 +89,9 @@ validate_psOpenSorts <- function(open_sorts) {
 #' When some category has not been defined by the participant, the value in the cell should be `NA`.
 #' Empty strings `""` will also be considered `NA`.
 #'
+#' @param keep_LETTERS a logical flag.
+#' Defaults to `TRUE`, in which case the `LETTERS` for the category descriptions and assignments are retained as names, even though they are just indices and not actual meaningful names (useful for debugging).
+#'
 #' @details
 #' The canonical representation of open sorts in [psOpenSorts()] can be cumbersome to enter manually.
 #' For *logical* (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of `descriptions_messy` and `assignments_messy` using [import_psOpenSorts()].
@@ -105,7 +108,7 @@ validate_psOpenSorts <- function(open_sorts) {
 #' The more complicated cases, where a participant did consider *some*, but *not all* items in the assignment of a category, or -- equivalently -- all categories in their assessment of all items, cannot be recorded in this convenience format.
 #' Such more granular `NA` records can, however, be recorded in the canonical data representation, where the respective cell of the items x category logical matrix would be `NA`.
 #' If your data gathering procedure produces such granular `NA` records, do not use this convenience function.
-import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL) {
+import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL, keep_LETTERS = TRUE) {
   # variable names are too long
   ass <- assignments_messy
   desc <- descriptions_messy
@@ -133,6 +136,8 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL) {
                  empty.ok = FALSE)
     assert_set_equal(x = colnames(desc), y = colnames(ass), ordered = TRUE)
   }
+
+  assert_flag(x = keep_LETTERS)
 
   # body ====
   # create empty object
@@ -163,8 +168,15 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL) {
     }
     better_desc <- desc[, p]  # these are the descriptions of current persons
     names(better_desc) <- rownames(desc)
-    # let's retain the simple LETTERS, even if they are meaningless, they help with debugging at least
-    m <- psOpenSort(assignments = m, descriptions = better_desc[max_cats])  # here kill all the unassigned, but described cats. sad.
+    final_desc <- better_desc[max_cats]
+    if (keep_LETTERS) {
+      # let's retain the simple LETTERS, even if they are meaningless, they help with debugging at least
+    } else {
+      # we can actually always kill them, because as per the convenient input format, they are always meaningless
+      colnames(m) <- NULL
+      names(final_desc) <- NULL
+    }
+    m <- psOpenSort(assignments = m, descriptions = final_desc)  # here kill all the unassigned, but described cats. sad.
     cat_canon[[p]] <- m
   }
   cat_canon <- psOpenSorts(open_sorts = cat_canon)
