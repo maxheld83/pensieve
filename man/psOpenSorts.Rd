@@ -173,18 +173,18 @@ assignments <- matrix(
 rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 
 # now let's combine the individual sorts into a list ====
-open_sorts <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
+los <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
 
 
 # create psOpenSorts from convenient input ====
 # recreate messy format from canonical form (don't do this at home)
-ass <- pensieve:::make_messy(open_sorts = open_sorts)$ass
-desc <- pensieve:::make_messy(open_sorts = open_sorts)$desc
+ass <- pensieve:::make_messy(open_sorts = los)$ass
+desc <- pensieve:::make_messy(open_sorts = los)$desc
 # these two can be conveniently entered in a spreadsheet program
 ass
 desc
 
-open_sorts_from_messy <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
+los_from_messy <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
 
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)
@@ -199,7 +199,7 @@ library(ggraph)  # must be attached while running below
 ggplot2::autoplot(object = peter, edge_codings = petercodes)
 summary(peter)
 
-ggplot2::autoplot(object = open_sorts)
+ggplot2::autoplot(object = los)
 
 }
 \seealso{

@@ -10,7 +10,7 @@ test_that(desc = "construction of single open sort works", code = {
 context("psOpenSorts")
 
 test_that(desc = "construction of multiple open sort list works", code = {
-  expect_s3_class(object = open_sorts, class = c("psOpenSorts"))
+  expect_s3_class(object = los, class = c("psOpenSorts"))
 })
 
 
@@ -18,7 +18,7 @@ context("Import functions for messy open sort data")
 
 test_that(desc = "recreate canonical form", code = {
   # only equivalent, because make_messy function always retains "spurious" "A", "B" names etc.
-  expect_equivalent(object = open_sorts_from_messy$lisa, expected = open_sorts$lisa)
+  expect_equivalent(object = los_from_messy$lisa, expected = los$lisa)
   # expect_equivalent(object = open_sorts_from_messy$peter, expected = open_sorts$peter)
   # expect_equal(object = open_sorts_from_messy$rebecca, expected = open_sorts$rebecca)
   # expect_equivalent(object = open_sorts_from_messy, expected = open_sorts)
