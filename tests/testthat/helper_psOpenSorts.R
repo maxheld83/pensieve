@@ -2,21 +2,21 @@
 
 # Lisas open sort, unnamed descriptions (matched by index)
 assignments <- matrix(
-  data = c(TRUE, FALSE, FALSE, TRUE),
-  nrow = 2,
-  dimnames = list(items = c("cat", "dog")))
+  data = c(TRUE, FALSE, FALSE, FALSE, TRUE, FALSE),
+  nrow = 3,
+  dimnames = list(items = c("cat", "dog", "cow")))
 descriptions <- c(
   "a pet which largely takes care of itself",
   NA  # dimension is assigned, but not described (not a problem)
 )
 lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
 
-# Peters open sort, named descriptions (*also* matched by index)
+# Peters open sort, named descriptions (*also* only matched by index)
 assignments <- matrix(
-  data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
-  nrow = 2,
+  data = c(TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, TRUE),
+  nrow = 3,
   dimnames = list(
-    items = c("cat", "dog"),
+    items = c("cat", "dog", "cow"),
     categories = c("in_homes", "quiet", "herbivore")
 ))
 descriptions <- c(
@@ -27,9 +27,9 @@ peter <- psOpenSort(assignments = assignments, descriptions = descriptions)
 
 # Rebeccas open sort, without any descriptions provided
 assignments <- matrix(
-  data = c(FALSE, FALSE, TRUE, TRUE),
-  nrow = 2,
-  dimnames = list(handles = c("cat", "dog")))
+  data = c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE),
+  nrow = 3,
+  dimnames = list(handles = c("cat", "dog", "cow")))
 rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
 
 # now let's combine the individual sorts into a list ====
@@ -48,4 +48,3 @@ los_from_messy <- import_psOpenSorts(
   assignments_messy = ass,
   descriptions_messy = desc,
   keep_LETTERS = FALSE)
-

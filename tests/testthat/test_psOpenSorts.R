@@ -27,25 +27,28 @@ test_that(desc = "recreate canonical form", code = {
     object = los_from_messy$peter,
     expected = los$peter,
     info = "Must be equivalent (only), because tidy form has meaningful names.")
-  # expect_equal(object = open_sorts_from_messy$rebecca, expected = open_sorts$rebecca)
-  # expect_equivalent(object = open_sorts_from_messy, expected = open_sorts)
+  expect_equivalent(object = los_from_messy$rebecca, expected = los$rebecca)
+  expect_equivalent(object = los_from_messy, expected = los)
 })
 
 test_that(desc = "works with komki csvs",
           code = {
-  desc <- read.csv(file = "komki_messy/cat_desc.csv",
+  komki_path <- "komki_messy"
+  if (!dir.exists(paths = komki_path)) {
+    komki_path <- file.path("tests", "testthat", "komki_messy")  # for local testing
+  }
+  desc <- read.csv(file = file.path(komki_path, "cat_desc.csv"),
                    header = TRUE,
                    stringsAsFactors = FALSE,
                    row.names = 1)
   desc <- as.matrix(desc)
-  ass <- read.csv(file = "komki_messy/cat_ass.csv",
+  ass <- read.csv(file = file.path(komki_path, "cat_ass.csv"),
                   header = TRUE,
                   stringsAsFactors = FALSE,
                   row.names = 1)
   ass <- as.matrix(ass)
   rownames(ass) <- lettercase::make_names(names = rownames(ass))  # old csv has bad names
   canon_cat <- import_psOpenSorts(assignments_messy = ass, descriptions_messy = desc)
-  canon_cat$Willy
 
   expect_list(x = canon_cat,
               types = c("matrix", "logical"),

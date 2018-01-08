@@ -170,6 +170,34 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL, kee
     better_desc <- desc[, p]  # these are the descriptions of current persons
     names(better_desc) <- rownames(desc)
     final_desc <- better_desc[max_cats]
+
+    # now set zero-var columns to NA (just for convenience)
+    # TODO this might live better in a coercion function
+    for (c in 1:ncol(m)) {
+      if (stats::sd(m[,c], na.rm = TRUE) == 0) {
+        if (!is.null(desc) & !is.na(final_desc[c])) {
+          # if there is at least a description, we keep the column and NA it
+          m[,c] <- NA
+          warning(paste(
+            "Column",
+            colnames(x = m, do.NULL = FALSE)[c],
+            "has no variance, but there is a corresponding description.",
+            "The description has been retained, and the column set to all 'NA's."
+          ))
+        } else {
+          warning(paste(
+            "Column",
+            colnames(x = m, do.NULL = FALSE)[c],
+            "has been dropped, because it has no variance or description."
+          ))
+          m <- m[,-c]  # kill column
+          if (!is.null(desc)) {
+            final_desc <- final_desc[-c]
+          }
+        }
+      }
+    }
+
     if (keep_LETTERS) {
       # let's retain the simple LETTERS, even if they are meaningless, they help with debugging at least
     } else {
@@ -257,6 +285,20 @@ validate_psOpenSort <- function(assignments) {
   assert_names2(x = colnames(assignments))
   assert_names2(x = rownames(assignments))
 
+  # there is no meaningful information in this case
+  for (c in 1:ncol(assignments)) {
+    if (isTRUE(stats::sd(assignments[,c], na.rm = TRUE) == 0)) {  # this should cover all cases
+      stop(
+        paste(
+          "Column",
+          colnames(x = assignments, do.NULL = FALSE)[c],
+          "has zero variance."
+        ),
+        call. = TRUE
+      )
+    }
+  }
+
   descriptions <- attributes(assignments)$descriptions
   if (length(descriptions) == 0) {  # recreate NULL assignment, when there are none in attr
     descriptions <- NULL
@@ -278,7 +320,7 @@ validate_psOpenSort <- function(assignments) {
                 unique = TRUE)
 
     if (!is.null(colnames(assignments)) & !is.null(names(descriptions))) {
-      # validate descriptions AND assignments
+      # validate descriptions AND assignments (but matching is always by index only)
       assert_set_equal(x = names(descriptions),
                        y = colnames(assignments),
                        ordered = TRUE)
