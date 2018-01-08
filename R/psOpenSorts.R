@@ -174,7 +174,7 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL, kee
     # now set zero-var columns to NA (just for convenience)
     # TODO this might live better in a coercion function
     for (c in 1:ncol(m)) {
-      if (stats::sd(m[,c], na.rm = TRUE) == 0) {
+      if (!test_var(m[,c])) {
         if (!is.null(desc) & !is.na(final_desc[c])) {
           # if there is at least a description, we keep the column and NA it
           m[,c] <- NA
@@ -191,7 +191,7 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL, kee
             "has been dropped, because it has no variance or description."
           ))
           m <- m[,-c]  # kill column
-          if (!is.null(desc)) {
+          if (!is.null(desc)) {  # if applicable, also remove corresponding desc
             final_desc <- final_desc[-c]
           }
         }
@@ -287,16 +287,10 @@ validate_psOpenSort <- function(assignments) {
 
   # there is no meaningful information in this case
   for (c in 1:ncol(assignments)) {
-    if (isTRUE(stats::sd(assignments[,c], na.rm = TRUE) == 0)) {  # this should cover all cases
-      stop(
-        paste(
-          "Column",
-          colnames(x = assignments, do.NULL = FALSE)[c],
-          "has zero variance."
-        ),
-        call. = TRUE
-      )
-    }
+    assert_var(
+      x = assignments[,c],
+      .var.name = colnames(x = assignments, do.NULL = FALSE, prefix = "Column ")[c]
+    )
   }
 
   descriptions <- attributes(assignments)$descriptions

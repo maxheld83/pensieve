@@ -106,6 +106,7 @@ report_checks <- function(res, info = NULL) {
   }
 }
 
+# custom checks ====
 
 # helper: check whether table has at least one none-NA entry per row
 check_nna_row <- function(x) {
@@ -121,7 +122,7 @@ test_nna_row <- checkmate::makeTestFunction(check.fun = check_nna_row)
 assert_nna_row <- checkmate::makeAssertionFunction(check.fun = check_nna_row)
 
 
-# helper: check unique by column ===
+# helper: check unique by column
 check_unique_in_column <- function(x) {
   duplicates <- apply(X = x, MARGIN = 2, FUN = function(x) {
     duplicated(x = x, incomparables = NA)
@@ -176,7 +177,7 @@ expect_unique_in_column <- checkmate::makeExpectationFunction(check.fun = check_
 # }
 
 
-# helper: check whether some array is all named ====
+# helper: check whether some array is all named
 check_named_array <- function(x) {
   res <- NULL
 
@@ -204,3 +205,15 @@ assert_names2 <- checkmate::makeAssertionFunction(check.fun = check_names2)
 test_names2 <- checkmate::makeTestFunction(check.fun = check_names2)
 expect_names2 <- checkmate::makeExpectationFunction(check.fun = check_names2)
 
+# helper: check whether vector has 0 variance
+# this is sometimes happens, and makes no sense for our purposes
+check_var <- function(x) {
+  if (isTRUE(stats::var(x = x, na.rm = TRUE) == 0)) {
+    return("must have non-zero variance")
+  } else {
+    return(TRUE)
+  }
+}
+assert_var <- checkmate::makeAssertionFunction(check.fun = check_var)
+test_var <- checkmate::makeTestFunction(check.fun = check_var)
+expect_var <- checkmate::makeExpectationFunction(check.fun = check_var)
