@@ -48,7 +48,7 @@ validate_psOpenSorts <- function(open_sorts) {
 
   assert_choice(x = data_type, choices = c("logical", "integer", "numeric"))
   lapply(X = open_sorts, FUN = function(x) {
-    validate_psOpenSort(assignments = x)
+    validate_psOpenSort(osort = x)
     assert_matrix(x = x,
                   mode = data_type,
                   nrows = n_items,
@@ -180,7 +180,7 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL, kee
       names(final_desc) <- NULL
     }
 
-    cat_canon[[p]] <- as_psOpenSort(assignments = m, descriptions = final_desc)
+    cat_canon[[p]] <- as_psOpenSort(osort = m, descriptions = final_desc)
   }
   cat_canon <- psOpenSorts(open_sorts = cat_canon)
   return(cat_canon)

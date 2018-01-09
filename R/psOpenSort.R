@@ -1,17 +1,19 @@
 # helper ====
 #' @title psOpenSort Store *individual* sort and dimension description by *one* participant.
 #'
-#' @param assignments
+#' @param osort
 #' a matrix with items as rows, open dimensions as columns, and open sort value in cells.
 #' Matrix must be either
 #' - `logical` for *nominal*-scaled sort, where an open dimension applies (`TRUE`) or does not apply (`FALSE`),
 #' - `integer` for *ordinally*-scaled sort, where an open dimension applies to some item *more* (`2nd` rank) *or less* (`3rd` rank) than to another other item,
 #' - `numeric` for *interval* or *ratio*-scaled sort, where an open dimension applies to some item *by some amount more or less* (say `2.4` units) than to another item.
 #'
+#' Currently only `logical` is allowed.
+#'
 #' If rows are named (by item handles), names must be valid R names.
 #'
 #' If columns are named, they must be valid R names and they must be the same as the names in `descriptions`.
-#' Either way, `assignments` and `descriptions` are always *matched by index only*: the first column from `assignments`, must be the first element of `description`, and so forth.
+#' Either way, `osort` and `descriptions` are always *matched by index only*: the first column from `osort`, must be the first element of `description`, and so forth.
 #'
 #' @param descriptions
 #' a character vector giving the open-ended dimension description provided by the participant.
@@ -25,45 +27,46 @@
 #' @template construction_helpers
 #'
 #' @export
-psOpenSort <- function(assignments, descriptions = NULL) {
+psOpenSort <- function(osort, descriptions = NULL) {
   descriptions <- as.list(descriptions)
 
   validate_psOpenSort(new_psOpenSort(
-    assignments = assignments,
+    osort = osort,
     descriptions = descriptions))
 }
 
 # parent constructor
-new_psOpenSort <- function(assignments, descriptions) {
+new_psOpenSort <- function(osort, descriptions) {
   # base type validation
   # TODO add this here, now oddly in coercion
-  assert_matrix(x = assignments,
-                null.ok = FALSE)
+  assert_matrix(x = osort,
+                null.ok = FALSE,
+                mode = "logical")  # for now, only logical is allowed
 
   do.call(what = structure, args = append(
-    x = list(.Data = assignments,
-             dimnames = list(items = rownames(assignments), dimensions = colnames(assignments)),
+    x = list(.Data = osort,
+             dimnames = list(items = rownames(osort), dimensions = colnames(osort)),
              class = c("psOpenSort", "matrix")),
     values = list(descriptions = descriptions)))
 }
 
 # parent validator
-validate_psOpenSort <- function(assignments) {
+validate_psOpenSort <- function(osort) {
 
-  # validate assignments
-  assert_set_equal(x = names(dimnames(assignments)), y = c("items", "dimensions"))
-  assert_names2(x = colnames(assignments))
-  assert_names2(x = rownames(assignments))
+  # validate osort
+  assert_set_equal(x = names(dimnames(osort)), y = c("items", "dimensions"))
+  assert_names2(x = colnames(osort))
+  assert_names2(x = rownames(osort))
 
   # there is no meaningful information in this case
-  for (c in 1:ncol(assignments)) {
+  for (c in 1:ncol(osort)) {
     assert_var(
-      x = assignments[,c],
-      .var.name = colnames(x = assignments, do.NULL = FALSE, prefix = "Column ")[c]
+      x = osort[,c],
+      .var.name = colnames(x = osort, do.NULL = FALSE, prefix = "Column ")[c]
     )
   }
 
-  descriptions <- attributes(assignments)$descriptions
+  descriptions <- attributes(osort)$descriptions
   if (length(descriptions) == 0) {  # recreate NULL assignment, when there are none in attr
     descriptions <- NULL
   }
@@ -76,21 +79,21 @@ validate_psOpenSort <- function(assignments) {
                 all.missing = TRUE,
                 unique = FALSE,  # oddly, duplicate NAs count as non-unique, hence extra test below
                 null.ok = FALSE,
-                len = ncol(assignments)) # this already validates against assignments
+                len = ncol(osort)) # this already validates against osort
     assert_names2(names(descriptions))
 
     # must test if non-NAs are at least unique
     assert_list(x = descriptions[!(is.na(descriptions))],
                 unique = TRUE)
 
-    if (!is.null(colnames(assignments)) & !is.null(names(descriptions))) {
-      # validate descriptions AND assignments (but matching is always by index only)
+    if (!is.null(colnames(osort)) & !is.null(names(descriptions))) {
+      # validate descriptions AND osort names (but matching is always by index only)
       assert_set_equal(x = names(descriptions),
-                       y = colnames(assignments),
+                       y = colnames(osort),
                        ordered = TRUE)
     }
   }
-  return(assignments)
+  return(osort)
 }
 
 # coercion ====
@@ -98,20 +101,20 @@ validate_psOpenSort <- function(assignments) {
 #' @rdname psOpenSort
 #'
 #' @export
-as_psOpenSort <- function(assignments, descriptions = NULL) {
-  UseMethod(generic = "as_psOpenSort", object = assignments)
+as_psOpenSort <- function(osort, descriptions = NULL) {
+  UseMethod(generic = "as_psOpenSort", object = osort)
 }
 
 #' @export
-as_psOpenSort.default <- function(assignments, descriptions = NULL) {
-  stop_coercion(x = assignments, class = "psOpenSort")
+as_psOpenSort.default <- function(osort, descriptions = NULL) {
+  stop_coercion(x = osort, class = "psOpenSort")
 }
 
 #' @export
-as_psOpenSort.psOpenSort <- function(assignments, descriptions = NULL) {
+as_psOpenSort.psOpenSort <- function(osort, descriptions = NULL) {
 
-  # these are already in assignments, as is plausibe for psOpenSort objects (!)
-  desc_in_ass <- unlist(attributes(assignments)$descriptions[])
+  # these are already in osort, as is plausibe for psOpenSort objects (!)
+  desc_in_ass <- unlist(attributes(osort)$descriptions[])
   if (is.null(descriptions)) {
     descriptions <- desc_in_ass
   } else {
@@ -119,24 +122,24 @@ as_psOpenSort.psOpenSort <- function(assignments, descriptions = NULL) {
       # no problem here, b/c they are the same
     } else {
       warning(paste(
-        "Existing descriptions in 'assignments' overwritten with 'descriptions' argument."
+        "Existing descriptions in 'osort' overwritten with 'descriptions' argument."
       ))
     }
   }
 
-  psOpenSort(assignments = assignments, descriptions = descriptions)
+  psOpenSort(osort = osort, descriptions = descriptions)
 }
 
 #' @describeIn psOpenSort coerce matrix to psOpenSort
 #'
 #' @export
-as_psOpenSort.matrix <- function(assignments, descriptions = NULL) {
+as_psOpenSort.matrix <- function(osort, descriptions = NULL) {
   # take care of data frame inputs
-  assignments <- as.matrix(assignments)
+  osort <- as.matrix(osort)
 
   # input validation ===
   assert_matrix(
-    x = assignments,
+    x = osort,
     mode = "logical",
     null.ok = FALSE
   )
@@ -149,7 +152,7 @@ as_psOpenSort.matrix <- function(assignments, descriptions = NULL) {
   assert_names2(x = names(descriptions), type = "strict")
 
   # now set zero-var columns to NA (just for convenience)
-  m <- assignments
+  m <- osort
   desc <- descriptions
   for (c in 1:ncol(m)) {
     if (!test_var(m[,c])) {
@@ -176,7 +179,7 @@ as_psOpenSort.matrix <- function(assignments, descriptions = NULL) {
     }
   }
 
-  psOpenSort(assignments = m, descriptions = desc)
+  psOpenSort(osort = m, descriptions = desc)
 }
 
 #' @describeIn psOpenSort coerce data.frame to psOpenSort
@@ -196,7 +199,7 @@ tidy.psOpenSort <- function(x) {
   # input validation ====
   assert_class(x = x, classes = "psOpenSort", null.ok = FALSE)
   #TODO replace this with a real asserter, once available
-  invisible(validate_psOpenSort(assignments = x))
+  invisible(validate_psOpenSort(osort = x))
 
   # give x safe row and colnames so that downstream functions have meaningful names
   rownames(x) <- rownames(x = x, do.NULL = FALSE, prefix = "it")

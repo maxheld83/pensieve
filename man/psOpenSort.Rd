@@ -10,13 +10,13 @@
 \alias{summary.psOpenSort}
 \title{psOpenSort Store \emph{individual} sort and dimension description by \emph{one} participant.}
 \usage{
-psOpenSort(assignments, descriptions = NULL)
+psOpenSort(osort, descriptions = NULL)
 
-as_psOpenSort(assignments, descriptions = NULL)
+as_psOpenSort(osort, descriptions = NULL)
 
-\method{as_psOpenSort}{matrix}(assignments, descriptions = NULL)
+\method{as_psOpenSort}{matrix}(osort, descriptions = NULL)
 
-\method{as_psOpenSort}{data.frame}(assignments, descriptions = NULL)
+\method{as_psOpenSort}{data.frame}(osort, descriptions = NULL)
 
 \method{tidy}{psOpenSort}(x)
 
@@ -26,7 +26,7 @@ as_psOpenSort(assignments, descriptions = NULL)
 \method{summary}{psOpenSort}(object, ...)
 }
 \arguments{
-\item{assignments}{a matrix with items as rows, open dimensions as columns, and open sort value in cells.
+\item{osort}{a matrix with items as rows, open dimensions as columns, and open sort value in cells.
 Matrix must be either
 \itemize{
 \item \code{logical} for \emph{nominal}-scaled sort, where an open dimension applies (\code{TRUE}) or does not apply (\code{FALSE}),
@@ -34,10 +34,12 @@ Matrix must be either
 \item \code{numeric} for \emph{interval} or \emph{ratio}-scaled sort, where an open dimension applies to some item \emph{by some amount more or less} (say \code{2.4} units) than to another item.
 }
 
+Currently only \code{logical} is allowed.
+
 If rows are named (by item handles), names must be valid R names.
 
 If columns are named, they must be valid R names and they must be the same as the names in \code{descriptions}.
-Either way, \code{assignments} and \code{descriptions} are always \emph{matched by index only}: the first column from \code{assignments}, must be the first element of \code{description}, and so forth.}
+Either way, \code{osort} and \code{descriptions} are always \emph{matched by index only}: the first column from \code{osort}, must be the first element of \code{description}, and so forth.}
 
 \item{descriptions}{a character vector giving the open-ended dimension description provided by the participant.
 Can be named.
@@ -88,7 +90,7 @@ To get consistent code aesthetics, consider applying \code{\link[ggraph:scale_ed
 # create single open sort ====
 
 # Lisas open sort, unnamed descriptions (matched by index)
-assignments <- matrix(
+osort <- matrix(
   data = c(TRUE, FALSE, FALSE, FALSE, TRUE, FALSE),
   nrow = 3,
   dimnames = list(items = c("cat", "dog", "cow")))
@@ -96,10 +98,10 @@ descriptions <- c(
   "a pet which largely takes care of itself",
   NA  # dimension is assigned, but not described (not a problem)
 )
-lisa <- psOpenSort(assignments = assignments, descriptions = descriptions)
+lisa <- psOpenSort(osort = osort, descriptions = descriptions)
 
 # Peters open sort, named descriptions (*also* only matched by index)
-assignments <- matrix(
+osort <- matrix(
   data = c(TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, TRUE),
   nrow = 3,
   dimnames = list(
@@ -110,16 +112,18 @@ descriptions <- c(
   in_homes = "Animal found in peoples homes.",
   quiet = "Does not make a lot of noise.",
   herbivore = "Eats plants.")  # defined, but never TRUE (not a problem)
-peter <- psOpenSort(assignments = assignments, descriptions = descriptions)
-peter_m <- as_psOpenSort(assignments = as.matrix(x = assignments), descriptions = descriptions)
-peter_df <- as_psOpenSort(assignments = as.data.frame(x = assignments), descriptions = descriptions)
+peter <- psOpenSort(osort = osort, descriptions = descriptions)
+
+# coercion methods
+peter_m <- as_psOpenSort(osort = as.matrix(x = osort), descriptions = descriptions)
+peter_df <- as_psOpenSort(osort = as.data.frame(x = osort), descriptions = descriptions)
 
 # Rebeccas open sort, without any descriptions provided
-assignments <- matrix(
+osort <- matrix(
   data = c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE),
   nrow = 3,
   dimnames = list(handles = c("cat", "dog", "cow")))
-rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
+rebecca <- psOpenSort(osort = osort, descriptions = NULL)
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)
 
