@@ -3,11 +3,6 @@
 \name{psOpenSorts}
 \alias{psOpenSorts}
 \alias{import_psOpenSorts}
-\alias{psOpenSort}
-\alias{as_psOpenSort}
-\alias{tidy.psOpenSort}
-\alias{autoplot.psOpenSort}
-\alias{summary.psOpenSort}
 \alias{tidy.psOpenSorts}
 \alias{autoplot.psOpenSorts}
 \title{Store open sorts in a psOpenSort list.}
@@ -16,17 +11,6 @@ psOpenSorts(open_sorts)
 
 import_psOpenSorts(assignments_messy, descriptions_messy = NULL,
   keep_LETTERS = TRUE)
-
-psOpenSort(assignments, descriptions = NULL)
-
-as_psOpenSort(assignments, descriptions = NULL)
-
-\method{tidy}{psOpenSort}(x)
-
-\method{autoplot}{psOpenSort}(object, edge_codings = NULL,
-  str_wrap_width = 30)
-
-\method{summary}{psOpenSort}(object, ...)
 
 \method{tidy}{psOpenSorts}(x)
 
@@ -63,44 +47,9 @@ Empty strings \code{""} will also be considered \code{NA}.}
 \item{keep_LETTERS}{a logical flag.
 Defaults to \code{TRUE}, in which case the \code{LETTERS} for the category descriptions and assignments are retained as names, even though they are just indices and not actual meaningful names (useful for debugging).}
 
-\item{assignments}{a matrix with items as rows, open dimensions as columns, and open sort value in cells.
-Matrix must be either
-\itemize{
-\item \code{logical} for \emph{nominal}-scaled sort, where an open dimension applies (\code{TRUE}) or does not apply (\code{FALSE}),
-\item \code{integer} for \emph{ordinally}-scaled sort, where an open dimension applies to some item \emph{more} (\code{2nd} rank) \emph{or less} (\code{3rd} rank) than to another other item,
-\item \code{numeric} for \emph{interval} or \emph{ratio}-scaled sort, where an open dimension applies to some item \emph{by some amount more or less} (say \code{2.4} units) than to another item.
-}
+\item{x}{a \link{psOpenSorts}, created by \code{\link[=psOpenSorts]{psOpenSorts()}}.}
 
-If rows are named (by item handles), names must be valid R names.
-
-If columns are named, they must be valid R names and they must be the same as the names in \code{descriptions}.
-Either way, \code{assignments} and \code{descriptions} are always \emph{matched by index only}: the first column from \code{assignments}, must be the first element of \code{description}, and so forth.}
-
-\item{descriptions}{a character vector giving the open-ended dimension description provided by the participant.
-Can be named.
-Defaults to \code{NULL}, in which case no user-provided dimension descriptions are available (not recommended).}
-
-\item{x}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
-
-\item{object}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
-
-\item{edge_codings}{a tibble with category description indeces in the first column, and arbitrary metadata \emph{about the descriptions} in limited later columns:
-\itemize{
-\item 2nd column will be mapped to line color,
-\item 3rd column will be mapped to line type (and must be discrete).
-Later columns will be ignored.
-Useful if participants or researchers have coded the open-ended descriptions in some way.
-Category description indeces must be a subset of the column names in \code{x}.
-If more then one code applies to a category, multiple rows with identical categories can exist, and multiple, "fanned-out" edges will be drawn between the respective nodes.
-See note.
-Defaults to \code{NULL}.
-}}
-
-\item{str_wrap_width}{integer scalar, giving the maximum number of characters after which to insert a newline, passed on to \code{\link[stringr:str_wrap]{stringr::str_wrap()}}.
-Defaults to \code{30}.
-Useful for long descriptions.}
-
-\item{...}{further arguments passed to methods.}
+\item{object}{a \link{psOpenSorts}, created by \code{\link[=psOpenSorts]{psOpenSorts()}}.}
 }
 \value{
 Object of class \code{psOpenSorts}.
@@ -122,8 +71,6 @@ For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format 
 \section{Functions}{
 \itemize{
 \item \code{import_psOpenSorts}: descriptions and \emph{logical} assignments from convenient, but messy format
-
-\item \code{psOpenSort}: creates \emph{individual} open sort.
 }}
 
 \note{
@@ -138,11 +85,6 @@ Notice this implies \emph{limited scenarios of \code{NA}} for data entered in th
 The more complicated cases, where a participant did consider \emph{some}, but \emph{not all} items in the assignment of a category, or -- equivalently -- all categories in their assessment of all items, cannot be recorded in this convenience format.
 Such more granular \code{NA} records can, however, be recorded in the canonical data representation, where the respective cell of the items x category logical matrix would be \code{NA}.
 If your data gathering procedure produces such granular \code{NA} records, do not use this convenience function.
-
-To render the resulting \code{ggplot} object, you must \emph{manually} call \code{library(ggraph)} somewhere in your script (as per \href{https://github.com/thomasp85/ggraph/issues/85}{this limitation}).
-
-If \code{codings} are added, the aesthetics are set \emph{for each individual \link{psOpenSort} separately}, which may make it hard to compare plots across participants.
-To get consistent code aesthetics, consider applying \code{\link[ggraph:scale_edge_color_manual]{ggraph::scale_edge_color_manual()}} and friends.
 }
 \examples{
 # create single open sort ====
@@ -165,7 +107,7 @@ assignments <- matrix(
   dimnames = list(
     items = c("cat", "dog", "cow"),
     categories = c("in_homes", "quiet", "herbivore")
-))
+  ))
 descriptions <- c(
   in_homes = "Animal found in peoples homes.",
   quiet = "Does not make a lot of noise.",
@@ -180,12 +122,11 @@ assignments <- matrix(
   nrow = 3,
   dimnames = list(handles = c("cat", "dog", "cow")))
 rebecca <- psOpenSort(assignments = assignments, descriptions = NULL)
-
-# now let's combine the individual sorts into a list ====
+# Creation ====
+# you can combine individual sorts into a list ====
 los <- psOpenSorts(open_sorts = list(lisa = lisa, peter = peter, rebecca = rebecca))
 
-
-# create psOpenSorts from convenient input ====
+# or create psOpenSorts from a more convenient input ====
 # recreate messy format from canonical form (don't do this at home)
 ass <- pensieve:::make_messy(open_sorts = los)$ass
 desc <- pensieve:::make_messy(open_sorts = los)$desc
@@ -197,19 +138,6 @@ los_from_messy <- import_psOpenSorts(
   assignments_messy = ass,
   descriptions_messy = desc,
   keep_LETTERS = FALSE)
-ggplot2::autoplot(object = lisa)
-ggplot2::autoplot(object = rebecca)
-
-# no with codes
-petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herbivore"),
-                             reference = c("location", "human interaction", NA, "animal diet"),
-                             length = c("medium", "medium", "medium", "short")
-                             # notice the duplicates to allow for multiple codes
-                             )
-library(ggraph)  # must be attached while running below
-ggplot2::autoplot(object = peter, edge_codings = petercodes)
-summary(peter)
-
 ggplot2::autoplot(object = los)
 
 }
@@ -218,7 +146,7 @@ Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{correlate}}, \code{\link{extract}},
   \code{\link{make_grid}}, \code{\link{psConcourse}},
-  \code{\link{psItems}}, \code{\link{psPeople}},
-  \code{\link{score}}
+  \code{\link{psItems}}, \code{\link{psOpenSort}},
+  \code{\link{psPeople}}, \code{\link{score}}
 }
 \concept{S3 classes from `pensieve`}

@@ -99,8 +99,8 @@ Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
   \code{\link{QPreSorts}}, \code{\link{QSorts}},
   \code{\link{extract}}, \code{\link{make_grid}},
   \code{\link{psConcourse}}, \code{\link{psItems}},
-  \code{\link{psOpenSorts}}, \code{\link{psPeople}},
-  \code{\link{score}}
+  \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
+  \code{\link{psPeople}}, \code{\link{score}}
 
 Other validation functions: \code{\link{QSorts}},
   \code{\link{check}}, \code{\link{extract}},
