@@ -42,7 +42,7 @@ If columns are named, they must be valid R names and they must be the same as th
 Either way, \code{osort} and \code{descriptions} are always \emph{matched by index only}: the first column from \code{osort}, must be the first element of \code{description}, and so forth.}
 
 \item{descriptions}{a character vector giving the open-ended dimension description provided by the participant.
-Can be named.
+If elements are named, names must be valid R names.
 Defaults to \code{NULL}, in which case no user-provided dimension descriptions are available (not recommended).}
 
 \item{x}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}

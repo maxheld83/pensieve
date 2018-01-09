@@ -17,7 +17,7 @@
 #'
 #' @param descriptions
 #' a character vector giving the open-ended dimension description provided by the participant.
-#' Can be named.
+#' If elements are named, names must be valid R names.
 #' Defaults to `NULL`, in which case no user-provided dimension descriptions are available (not recommended).
 #'
 #' @return Object of class `psOpenSort`.
@@ -37,12 +37,6 @@ psOpenSort <- function(osort, descriptions = NULL) {
 
 # parent constructor
 new_psOpenSort <- function(osort, descriptions) {
-  # base type validation
-  # TODO add this here, now oddly in coercion
-  assert_matrix(x = osort,
-                null.ok = FALSE,
-                mode = "logical")  # for now, only logical is allowed
-
   do.call(what = structure, args = append(
     x = list(.Data = osort,
              dimnames = list(items = rownames(osort), dimensions = colnames(osort)),
@@ -52,6 +46,12 @@ new_psOpenSort <- function(osort, descriptions) {
 
 # parent validator
 validate_psOpenSort <- function(osort) {
+  # validate base type
+  assert_matrix(x = osort,
+                any.missing = TRUE,
+                all.missing = TRUE,
+                null.ok = FALSE,
+                mode = "logical")  # for now, only logical is allowed
 
   # validate osort
   assert_set_equal(x = names(dimnames(osort)), y = c("items", "dimensions"))
@@ -66,13 +66,14 @@ validate_psOpenSort <- function(osort) {
     )
   }
 
+  # recreate descriptions
   descriptions <- attributes(osort)$descriptions
   if (length(descriptions) == 0) {  # recreate NULL assignment, when there are none in attr
     descriptions <- NULL
   }
 
+  # validate descriptions
   if (!is.null(descriptions)) {
-    # validate descriptions
     assert_list(x = descriptions,
                 types = "character",
                 any.missing = TRUE,
@@ -136,20 +137,6 @@ as_psOpenSort.psOpenSort <- function(osort, descriptions = NULL) {
 as_psOpenSort.matrix <- function(osort, descriptions = NULL) {
   # take care of data frame inputs
   osort <- as.matrix(osort)
-
-  # input validation ===
-  assert_matrix(
-    x = osort,
-    mode = "logical",
-    null.ok = FALSE
-  )
-
-  assert_character(
-    x = descriptions,
-    any.missing = TRUE,
-    null.ok = TRUE
-  )
-  assert_names2(x = names(descriptions), type = "strict")
 
   # now set zero-var columns to NA (just for convenience)
   m <- osort
