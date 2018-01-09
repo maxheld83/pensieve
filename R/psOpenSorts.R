@@ -171,33 +171,6 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL, kee
     names(better_desc) <- rownames(desc)
     final_desc <- better_desc[max_cats]
 
-    # now set zero-var columns to NA (just for convenience)
-    # TODO this might live better in a coercion function
-    for (c in 1:ncol(m)) {
-      if (!test_var(m[,c])) {
-        if (!is.null(desc) & !is.na(final_desc[c])) {
-          # if there is at least a description, we keep the column and NA it
-          m[,c] <- NA
-          warning(paste(
-            "Column",
-            colnames(x = m, do.NULL = FALSE)[c],
-            "has no variance, but there is a corresponding description.",
-            "The description has been retained, and the column set to all 'NA's."
-          ))
-        } else {
-          warning(paste(
-            "Column",
-            colnames(x = m, do.NULL = FALSE)[c],
-            "has been dropped, because it has no variance or description."
-          ))
-          m <- m[,-c]  # kill column
-          if (!is.null(desc)) {  # if applicable, also remove corresponding desc
-            final_desc <- final_desc[-c]
-          }
-        }
-      }
-    }
-
     if (keep_LETTERS) {
       # let's retain the simple LETTERS, even if they are meaningless, they help with debugging at least
     } else {
@@ -205,8 +178,8 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL, kee
       colnames(m) <- NULL
       names(final_desc) <- NULL
     }
-    m <- psOpenSort(assignments = m, descriptions = final_desc)  # here kill all the unassigned, but described cats. sad.
-    cat_canon[[p]] <- m
+
+    cat_canon[[p]] <- as_psOpenSort(assignments = m, descriptions = final_desc)
   }
   cat_canon <- psOpenSorts(open_sorts = cat_canon)
   return(cat_canon)
@@ -322,6 +295,98 @@ validate_psOpenSort <- function(assignments) {
   }
   return(assignments)
 }
+
+# coercion ====
+
+#' @rdname psOpenSorts
+#'
+#' @export
+as_psOpenSort <- function(assignments, descriptions = NULL) {
+  UseMethod(generic = "as_psOpenSort", object = assignments)
+}
+
+#' @export
+as_psOpenSort.default <- function(assignments, descriptions = NULL) {
+  stop_coercion(x = assignments, class = "psOpenSort")
+}
+
+#' @export
+as_psOpenSort.psOpenSort <- function(assignments, descriptions = NULL) {
+
+  # these are already in assignments, as is plausibe for psOpenSort objects (!)
+  desc_in_ass <- unlist(attributes(assignments)$descriptions[])
+  if (is.null(descriptions)) {
+    descriptions <- desc_in_ass
+  } else {
+    if (identical(x = descriptions, y = desc_in_ass)) {
+      # no problem here, b/c they are the same
+    } else {
+      warning(paste(
+        "Existing descriptions in 'assignments' overwritten with 'descriptions' argument."
+      ))
+    }
+  }
+
+  psOpenSort(assignments = assignments, descriptions = descriptions)
+}
+
+#' @describeIn psOpenSort coerce matrix to psOpenSort
+#'
+#' @export
+as_psOpenSort.matrix <- function(assignments, descriptions = NULL) {
+  # take care of data frame inputs
+  assignments <- as.matrix(assignments)
+
+  # input validation ===
+  assert_matrix(
+    x = assignments,
+    mode = "logical",
+    null.ok = FALSE
+  )
+
+  assert_character(
+    x = descriptions,
+    any.missing = TRUE,
+    null.ok = TRUE
+  )
+  assert_names2(x = names(descriptions), type = "strict")
+
+  # now set zero-var columns to NA (just for convenience)
+  m <- assignments
+  desc <- descriptions
+  for (c in 1:ncol(m)) {
+    if (!test_var(m[,c])) {
+      if (!is.null(desc) & !is.na(desc[c])) {
+        # if there is at least a description, we keep the column and NA it
+        m[,c] <- NA
+        warning(paste(
+          "Column",
+          colnames(x = m, do.NULL = FALSE)[c],
+          "has no variance, but there is a corresponding description.",
+          "The description has been retained, and the column set to all 'NA's."
+        ))
+      } else {
+        warning(paste(
+          "Column",
+          colnames(x = m, do.NULL = FALSE)[c],
+          "has been dropped, because it has no variance nor description."
+        ))
+        m <- m[,-c]  # kill column
+        if (!is.null(desc)) {  # if applicable, also remove corresponding desc
+          desc <- desc[-c]
+        }
+      }
+    }
+  }
+
+  psOpenSort(assignments = m, descriptions = desc)
+}
+
+#' @describeIn psOpenSort coerce data.frame to psOpenSort
+#'
+#' @export
+as_psOpenSort.data.frame <- as_psOpenSort.matrix
+
 
 #' @rdname psOpenSorts
 # #' @describeIn psOpenSorts Prepare *individual* open sort for bipartite plotting.

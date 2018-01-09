@@ -110,3 +110,16 @@ requireNamespace2 <- function(x, error = TRUE, msg = NULL) {
     return(TRUE)
   }
 }
+
+stop_coercion <- function(x, class) {
+  stop(
+    paste(
+      "Sorry, don't know how to coerce object of class",
+      class(x),
+      "into a",
+      class,
+      "."
+    ),
+   call. = FALSE
+   )
+}

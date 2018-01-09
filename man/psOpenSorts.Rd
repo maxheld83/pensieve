@@ -4,6 +4,7 @@
 \alias{psOpenSorts}
 \alias{import_psOpenSorts}
 \alias{psOpenSort}
+\alias{as_psOpenSort}
 \alias{tidy.psOpenSort}
 \alias{autoplot.psOpenSort}
 \alias{summary.psOpenSort}
@@ -17,6 +18,8 @@ import_psOpenSorts(assignments_messy, descriptions_messy = NULL,
   keep_LETTERS = TRUE)
 
 psOpenSort(assignments, descriptions = NULL)
+
+as_psOpenSort(assignments, descriptions = NULL)
 
 \method{tidy}{psOpenSort}(x)
 
@@ -168,6 +171,8 @@ descriptions <- c(
   quiet = "Does not make a lot of noise.",
   herbivore = "Eats plants.")  # defined, but never TRUE (not a problem)
 peter <- psOpenSort(assignments = assignments, descriptions = descriptions)
+peter_m <- as_psOpenSort(assignments = as.matrix(x = assignments), descriptions = descriptions)
+peter_df <- as_psOpenSort(assignments = as.data.frame(x = assignments), descriptions = descriptions)
 
 # Rebeccas open sort, without any descriptions provided
 assignments <- matrix(

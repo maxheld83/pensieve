@@ -99,7 +99,7 @@ You can also \strong{coerce} other, more convenient forms via \code{\link[=as_ps
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{as_psConcourse}: coerce matrices to psConcourse
+\item \code{as_psConcourse}: coerce matrix to psConcourse
 
 \item \code{as_psConcourse}: coerce data.frames to psConcourse
 

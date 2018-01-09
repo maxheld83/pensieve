@@ -190,12 +190,7 @@ as_psConcourse <- function(concourse,
 
 #' @export
 as_psConcourse.default <- function(concourse, type, markup, babel, img_dir, languages, handles) {
-  stop(
-    "Sorry, don't know how to coerce object of class ",
-    paste(class(concourse), collapse = "/"),
-    " into a psConcourse.",
-    call. = FALSE
-  )
+  stop_coercion(x = concourse, class = "psConcourse")
 }
 
 #' @export
@@ -203,7 +198,7 @@ as_psConcourse.psConcourse <- function(concourse, type, markup, babel, img_dir, 
   psConcourse(concourse)
 }
 
-#' @describeIn psConcourse coerce matrices to psConcourse
+#' @describeIn psConcourse coerce matrix to psConcourse
 #'
 #' @export
 as_psConcourse.matrix <- function(concourse,
