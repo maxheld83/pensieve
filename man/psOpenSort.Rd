@@ -2,11 +2,14 @@
 % Please edit documentation in R/psOpenSort.R
 \name{psOpenSort}
 \alias{psOpenSort}
+\alias{psLogicalOpenSort}
+\alias{psOrdinalOpenSort}
+\alias{psIntervalOpenSort}
 \alias{as_psOpenSort}
 \alias{as_psOpenSort.matrix}
 \alias{as_psOpenSort.data.frame}
-\alias{tidy.psOpenSort}
-\alias{autoplot.psOpenSort}
+\alias{tidy.psLogicalOpenSort}
+\alias{autoplot.psLogicalOpenSort}
 \alias{summary.psOpenSort}
 \title{psOpenSort Store \emph{individual} sort and dimension description by \emph{one} participant.}
 \usage{
@@ -18,9 +21,9 @@ as_psOpenSort(osort, descriptions = NULL, scale = NULL)
 
 \method{as_psOpenSort}{data.frame}(osort, descriptions = NULL, scale = NULL)
 
-\method{tidy}{psOpenSort}(x)
+\method{tidy}{psLogicalOpenSort}(x)
 
-\method{autoplot}{psOpenSort}(object, edge_codings = NULL,
+\method{autoplot}{psLogicalOpenSort}(object, edge_codings = NULL,
   str_wrap_width = 30)
 
 \method{summary}{psOpenSort}(object, ...)
@@ -54,9 +57,9 @@ Defaults to \code{NULL}, in which case the scale is inferred from the implicit c
 
 Currently only \code{logical} is supported.}
 
-\item{x}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
+\item{x}{a \link{psLogicalOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
 
-\item{object}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
+\item{object}{a \link{psLogicalOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
 
 \item{edge_codings}{a tibble with category description indeces in the first column, and arbitrary metadata \emph{about the descriptions} in limited later columns:
 \itemize{

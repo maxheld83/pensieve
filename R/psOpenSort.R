@@ -1,6 +1,8 @@
 # helper ====
 #' @title psOpenSort Store *individual* sort and dimension description by *one* participant.
 #'
+#' @aliases psLogicalOpenSort psOrdinalOpenSort psIntervalOpenSort
+#'
 #' @param osort
 #' a matrix with items as rows, open dimensions as columns, and open sort value in cells.
 #'
@@ -236,12 +238,12 @@ as_psOpenSort.data.frame <- as_psOpenSort.matrix
 #' @rdname psOpenSort
 # #' @describeIn psOpenSorts Prepare *individual* open sort for bipartite plotting.
 #'
-#' @param x a [psOpenSort], created by [psOpenSort()].
+#' @param x a [psLogicalOpenSort], created by [psOpenSort()].
 #'
 #' @export
-tidy.psOpenSort <- function(x) {
+tidy.psLogicalOpenSort <- function(x) {
   # input validation ====
-  assert_class(x = x, classes = "psOpenSort", null.ok = FALSE)
+  assert_class(x = x, classes = c("psLogicalOpenSort", "psOpenSort"), null.ok = FALSE)
   #TODO replace this with a real asserter, once available
   invisible(validate_psOpenSort(osort = x))
 
@@ -285,7 +287,7 @@ tidy.psOpenSort <- function(x) {
 #' @rdname psOpenSort
 # #' @describeIn psOpenSorts Create bipartite plot from *individual* open sort.
 #'
-#' @param object a [psOpenSort], created by [psOpenSort()].
+#' @param object a [psLogicalOpenSort], created by [psOpenSort()].
 #'
 #' @param edge_codings a tibble with category description indeces in the first column, and arbitrary metadata *about the descriptions* in limited later columns:
 #' - 2nd column will be mapped to line color,
@@ -320,11 +322,11 @@ tidy.psOpenSort <- function(x) {
 #' library(ggraph)  # must be attached while running below
 #' ggplot2::autoplot(object = peter, edge_codings = petercodes)
 #' @export
-autoplot.psOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 30) {
+autoplot.psLogicalOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 30) {
   requireNamespace2("ggraph")
   requireNamespace2("igraph")
 
-  dataprep <- tidy.psOpenSort(x = object)
+  dataprep <- tidy.psLogicalOpenSort(x = object)
   edge_df <- dataprep$edge_df
   node_df <- dataprep$node_df
 
