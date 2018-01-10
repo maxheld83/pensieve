@@ -382,14 +382,14 @@ autoplot.psLogicalOpenSort <- function(object, edge_codings = NULL, str_wrap_wid
 #'
 #' @export
 summary.psLogicalOpenSort <- function(object, ...) {
-  n_of_cat <- ncol(object)
-  n_of_t <- sum(object)
+  n_dim <- ncol(object)
+  n_true <- sum(object, na.rm = TRUE)
 
   list(
-    n_of_cat = n_of_cat,
-    n_of_t = n_of_t,
-    avg_t_per_cat = n_of_t / n_of_cat,
-    n_of_t_by_item = rowSums(object),
-    n_of_t_by_cat = colSums(object)
+    n_dim = n_dim,
+    n_true = n_true,
+    true_per_dim = n_true / n_dim,
+    n_true_by_item = rowSums(object, na.rm = TRUE),
+    n_true_by_dim = colSums(object, na.rm = TRUE)
   )
 }
