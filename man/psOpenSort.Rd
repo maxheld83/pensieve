@@ -12,11 +12,11 @@
 \usage{
 psOpenSort(osort, descriptions = NULL, scale = NULL)
 
-as_psOpenSort(osort, descriptions = NULL)
+as_psOpenSort(osort, descriptions = NULL, scale = NULL)
 
-\method{as_psOpenSort}{matrix}(osort, descriptions = NULL)
+\method{as_psOpenSort}{matrix}(osort, descriptions = NULL, scale = NULL)
 
-\method{as_psOpenSort}{data.frame}(osort, descriptions = NULL)
+\method{as_psOpenSort}{data.frame}(osort, descriptions = NULL, scale = NULL)
 
 \method{tidy}{psOpenSort}(x)
 

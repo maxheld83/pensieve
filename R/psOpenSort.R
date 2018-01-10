@@ -155,17 +155,17 @@ validate_psOpenSort <- function(osort) {
 #' @rdname psOpenSort
 #'
 #' @export
-as_psOpenSort <- function(osort, descriptions = NULL) {
+as_psOpenSort <- function(osort, descriptions = NULL, scale = NULL) {
   UseMethod(generic = "as_psOpenSort", object = osort)
 }
 
 #' @export
-as_psOpenSort.default <- function(osort, descriptions = NULL) {
+as_psOpenSort.default <- function(osort, descriptions = NULL, scale = NULL) {
   stop_coercion(x = osort, class = "psOpenSort")
 }
 
 #' @export
-as_psOpenSort.psOpenSort <- function(osort, descriptions = NULL) {
+as_psOpenSort.psOpenSort <- function(osort, descriptions = NULL, scale = NULL) {
 
   # these are already in osort, as is plausibe for psOpenSort objects (!)
   desc_in_ass <- unlist(attributes(osort)$descriptions[])
@@ -181,13 +181,13 @@ as_psOpenSort.psOpenSort <- function(osort, descriptions = NULL) {
     }
   }
 
-  psOpenSort(osort = osort, descriptions = descriptions)
+  psOpenSort(osort = osort, descriptions = descriptions, scale = scale)
 }
 
 #' @describeIn psOpenSort coerce matrix to psOpenSort
 #'
 #' @export
-as_psOpenSort.matrix <- function(osort, descriptions = NULL) {
+as_psOpenSort.matrix <- function(osort, descriptions = NULL, scale = NULL) {
   # take care of data frame inputs
   m <- as.matrix(osort)
 
@@ -223,7 +223,7 @@ as_psOpenSort.matrix <- function(osort, descriptions = NULL) {
     }
   }
 
-  psOpenSort(osort = m, descriptions = desc)
+  psOpenSort(osort = m, descriptions = desc, scale = scale)
 }
 
 #' @describeIn psOpenSort coerce data.frame to psOpenSort
