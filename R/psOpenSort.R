@@ -136,12 +136,13 @@ as_psOpenSort.psOpenSort <- function(osort, descriptions = NULL) {
 #' @export
 as_psOpenSort.matrix <- function(osort, descriptions = NULL) {
   # take care of data frame inputs
-  osort <- as.matrix(osort)
+  m <- as.matrix(osort)
 
   # now set zero-var columns to NA (just for convenience)
-  m <- osort
   desc <- descriptions
+  kill_cs <- NULL
   for (c in 1:ncol(m)) {
+    # TODO a proper cbind method might do this better.
     if (!test_var(m[,c])) {
       if (!is.null(desc) & !is.na(desc[c])) {
         # if there is at least a description, we keep the column and NA it
@@ -158,11 +159,14 @@ as_psOpenSort.matrix <- function(osort, descriptions = NULL) {
           colnames(x = m, do.NULL = FALSE)[c],
           "has been dropped, because it has no variance nor description."
         ))
-        m <- m[,-c]  # kill column
-        if (!is.null(desc)) {  # if applicable, also remove corresponding desc
-          desc <- desc[-c]
-        }
+        kill_cs <- c(kill_cs, c)  # kill these columns
       }
+    }
+  }
+  if (!is.null(kill_cs)) {
+    m <- as.matrix(m[, -kill_cs])
+    if (!is.null(desc)) {  # if applicable, also remove corresponding desc
+      desc <- desc[-kill_cs]
     }
   }
 

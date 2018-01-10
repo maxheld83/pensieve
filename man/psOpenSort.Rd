@@ -124,6 +124,24 @@ osort <- matrix(
   nrow = 3,
   dimnames = list(handles = c("cat", "dog", "cow")))
 rebecca <- psOpenSort(osort = osort, descriptions = NULL)
+
+# Ira open sort, with some problems
+osort <- matrix(
+  data = c(
+    FALSE, FALSE, FALSE,  # this is dropped, b/c there is just no valuable information here,
+    TRUE, TRUE, TRUE,  # same problem; no variance
+    FALSE, FALSE, FALSE,
+    # also no variance, but there *is* a corresponding description,
+    # so we're setting column to NA and keeping the description
+    NA, TRUE, FALSE),  # you can also have *actual* NAs
+  nrow = 3,
+  byrow = FALSE,
+  dimnames = list(handles = c("cat", "dog", "cow"))
+)
+descriptions <- c(NA, NA, "mammals", NA)
+ira <- suppressWarnings(as_psOpenSort(osort = osort, descriptions = descriptions))
+# this gives appropriate warning messages
+# psOpenSort() would error out; only coercion method will attempt fix
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)
 
