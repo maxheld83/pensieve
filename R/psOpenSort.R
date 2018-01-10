@@ -235,8 +235,7 @@ as_psOpenSort.data.frame <- as_psOpenSort.matrix
 
 
 # plotting ====
-#' @rdname psOpenSort
-# #' @describeIn psOpenSorts Prepare *individual* open sort for bipartite plotting.
+#' @describeIn psOpenSort Prepare *individual* open sort for bipartite plotting.
 #'
 #' @param x a [psLogicalOpenSort], created by [psOpenSort()].
 #'
@@ -284,8 +283,7 @@ tidy.psLogicalOpenSort <- function(x) {
 }
 
 
-#' @rdname psOpenSort
-# #' @describeIn psOpenSorts Create bipartite plot from *individual* open sort.
+#' @describeIn psOpenSort Create bipartite plot from *individual* open sort.
 #'
 #' @param object a [psLogicalOpenSort], created by [psOpenSort()].
 #'
@@ -310,6 +308,7 @@ tidy.psLogicalOpenSort <- function(x) {
 #' To get consistent code aesthetics, consider applying [ggraph::scale_edge_color_manual()] and friends.
 #'
 #' @examples
+#' # plotting ====
 #' ggplot2::autoplot(object = lisa)
 #' ggplot2::autoplot(object = rebecca)
 #'

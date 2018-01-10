@@ -90,6 +90,10 @@ Constructs S3 class for pensieve.
 \item \code{as_psOpenSort}: coerce matrix to psOpenSort
 
 \item \code{as_psOpenSort}: coerce data.frame to psOpenSort
+
+\item \code{tidy}: Prepare \emph{individual} open sort for bipartite plotting.
+
+\item \code{autoplot}: Create bipartite plot from \emph{individual} open sort.
 }}
 
 \note{
@@ -169,6 +173,7 @@ roberta <- matrix(
 )
 roberta <- psOpenSort(osort = roberta)
 
+# plotting ====
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)
 
