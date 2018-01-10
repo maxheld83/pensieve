@@ -10,7 +10,7 @@
 \alias{as_psOpenSort.data.frame}
 \alias{tidy.psLogicalOpenSort}
 \alias{autoplot.psLogicalOpenSort}
-\alias{summary.psOpenSort}
+\alias{summary.psLogicalOpenSort}
 \title{psOpenSort Store \emph{individual} sort and dimension description by \emph{one} participant.}
 \usage{
 psOpenSort(osort, descriptions = NULL, scale = NULL)
@@ -26,7 +26,7 @@ as_psOpenSort(osort, descriptions = NULL, scale = NULL)
 \method{autoplot}{psLogicalOpenSort}(object, edge_codings = NULL,
   str_wrap_width = 30)
 
-\method{summary}{psOpenSort}(object, ...)
+\method{summary}{psLogicalOpenSort}(object, ...)
 }
 \arguments{
 \item{osort}{a matrix with items as rows, open dimensions as columns, and open sort value in cells.
@@ -94,6 +94,8 @@ Constructs S3 class for pensieve.
 \item \code{tidy}: Prepare \emph{individual} open sort for bipartite plotting.
 
 \item \code{autoplot}: Create bipartite plot from \emph{individual} open sort.
+
+\item \code{summary}: Summarise an \emph{individual} open sort.
 }}
 
 \note{

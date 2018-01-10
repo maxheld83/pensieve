@@ -373,7 +373,7 @@ autoplot.psLogicalOpenSort <- function(object, edge_codings = NULL, str_wrap_wid
 
 # summary ====
 
-#' @rdname psOpenSort
+#' @describeIn psOpenSort Summarise an *individual* open sort.
 #'
 #' @param ... further arguments passed to methods.
 #'
@@ -381,7 +381,7 @@ autoplot.psLogicalOpenSort <- function(object, edge_codings = NULL, str_wrap_wid
 #' summary(peter)
 #'
 #' @export
-summary.psOpenSort <- function(object, ...) {
+summary.psLogicalOpenSort <- function(object, ...) {
   n_of_cat <- ncol(object)
   n_of_t <- sum(object)
 
