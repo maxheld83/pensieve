@@ -3,12 +3,6 @@
 #'
 #' @param osort
 #' a matrix with items as rows, open dimensions as columns, and open sort value in cells.
-#' Matrix must be either
-#' - `logical` for *nominal*-scaled sort, where an open dimension applies (`TRUE`) or does not apply (`FALSE`),
-#' - `integer` for *ordinally*-scaled sort, where an open dimension applies to some item *more* (`2nd` rank) *or less* (`3rd` rank) than to another other item,
-#' - `numeric` for *interval* or *ratio*-scaled sort, where an open dimension applies to some item *by some amount more or less* (say `2.4` units) than to another item.
-#'
-#' Currently only `logical` is allowed.
 #'
 #' If rows are named (by item handles), names must be valid R names.
 #'
@@ -20,6 +14,21 @@
 #' If elements are named, names must be valid R names.
 #' Defaults to `NULL`, in which case no user-provided dimension descriptions are available (not recommended).
 #'
+#' @param scale a charater string giving the *scale* of the open sorts, must be one of:
+#' - `logical` for *nominally*-scaled sort, where an open dimension applies (`TRUE`) or does not apply (`FALSE`).
+#'   `osort` must be a logical matrix.
+#'   The subclass `"psLogicalOpenSort"` is prepended and validated.
+#' - `ordinal` for an *ordinally*-scaled sort, where an open dimension applies to some item *more* (`2nd` rank) *or less* (`3rd` rank) than to another other item.
+#'    `osort` must be an `integer` matrix.
+#'    The subclass `"psOrdinalOpenSort"` is prepended and validated.
+#' - `interval` for *interval* or *ratio*-scaled sort, where an open dimension applies to some item *by some amount more or less* (say `2.4` units) than to another item.
+#'    `osort` must be a `numeric` matrix.
+#'    The subclass `"psIntervalOpenSort"` is prepended and validated.
+#'
+#' Defaults to `NULL`, in which case the scale is inferred from the implicit class of `osort`.
+#'
+#' Currently only `logical` is supported.
+#'
 #' @return Object of class `psOpenSort`.
 #'
 #' @example tests/testthat/helper_psOpenSort.R
@@ -27,31 +36,62 @@
 #' @template construction_helpers
 #'
 #' @export
-psOpenSort <- function(osort, descriptions = NULL) {
+psOpenSort <- function(osort, descriptions = NULL, scale = NULL) {
   descriptions <- as.list(descriptions)
+
+  assert_string(x = scale, na.ok = FALSE, null.ok = TRUE)
+
+  # find implicit class
+  if (is.null(scale)) {
+    # switch on typeof or mode doesn't work; yields inconsistent results
+    if (is.logical(osort)) {
+      scale <- "logical"
+    } else if (is.integer(osort)) {
+      scale <- "ordinal"
+    } else if (is.numeric(osort)) {
+      scale <- "interval"
+    }
+  }
+
+  subclass <- switch(EXPR = scale,
+                     "logical" = "psLogicalOpenSort",
+                     "ordinal" = "psOrdinalOpenSort",
+                     "interval" = "psIntervalOpenSort")
 
   validate_psOpenSort(new_psOpenSort(
     osort = osort,
-    descriptions = descriptions))
+    descriptions = descriptions,
+    subclass = subclass))
 }
 
 # parent constructor
-new_psOpenSort <- function(osort, descriptions) {
+new_psOpenSort <- function(osort, descriptions, subclass) {
   do.call(what = structure, args = append(
     x = list(.Data = osort,
              dimnames = list(items = rownames(osort), dimensions = colnames(osort)),
-             class = c("psOpenSort", "matrix")),
+             class = c(subclass, "psOpenSort", "matrix")),
     values = list(descriptions = descriptions)))
 }
 
 # parent validator
 validate_psOpenSort <- function(osort) {
+  classvec <- class(osort)
+  if ("psLogicalOpenSort" %in% classvec) {
+    mode <- "logical"
+  } else if ("psOrdinalOpenSort" %in% classvec) {
+    mode <- "integer"
+  } else if ("psIntervalOpenSort" %in% classvec) {
+    mode <- "numeric"
+  } else {
+    stop("No valid subclass to 'psOpenSort' found.")
+  }
+
   # validate base type
   assert_matrix(x = osort,
                 any.missing = TRUE,
                 all.missing = TRUE,
                 null.ok = FALSE,
-                mode = "logical")  # for now, only logical is allowed
+                mode = mode)
 
   # validate osort
   assert_set_equal(x = names(dimnames(osort)), y = c("items", "dimensions"))
@@ -96,6 +136,19 @@ validate_psOpenSort <- function(osort) {
   }
   return(osort)
 }
+
+# subclass logical ====
+
+# see above
+
+# subclass ordinal ====
+
+# see above
+
+# subclass interval ====
+
+# see above
+
 
 # coercion ====
 

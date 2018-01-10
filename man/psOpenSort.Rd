@@ -10,7 +10,7 @@
 \alias{summary.psOpenSort}
 \title{psOpenSort Store \emph{individual} sort and dimension description by \emph{one} participant.}
 \usage{
-psOpenSort(osort, descriptions = NULL)
+psOpenSort(osort, descriptions = NULL, scale = NULL)
 
 as_psOpenSort(osort, descriptions = NULL)
 
@@ -27,14 +27,6 @@ as_psOpenSort(osort, descriptions = NULL)
 }
 \arguments{
 \item{osort}{a matrix with items as rows, open dimensions as columns, and open sort value in cells.
-Matrix must be either
-\itemize{
-\item \code{logical} for \emph{nominal}-scaled sort, where an open dimension applies (\code{TRUE}) or does not apply (\code{FALSE}),
-\item \code{integer} for \emph{ordinally}-scaled sort, where an open dimension applies to some item \emph{more} (\code{2nd} rank) \emph{or less} (\code{3rd} rank) than to another other item,
-\item \code{numeric} for \emph{interval} or \emph{ratio}-scaled sort, where an open dimension applies to some item \emph{by some amount more or less} (say \code{2.4} units) than to another item.
-}
-
-Currently only \code{logical} is allowed.
 
 If rows are named (by item handles), names must be valid R names.
 
@@ -44,6 +36,23 @@ Either way, \code{osort} and \code{descriptions} are always \emph{matched by ind
 \item{descriptions}{a character vector giving the open-ended dimension description provided by the participant.
 If elements are named, names must be valid R names.
 Defaults to \code{NULL}, in which case no user-provided dimension descriptions are available (not recommended).}
+
+\item{scale}{a charater string giving the \emph{scale} of the open sorts, must be one of:
+\itemize{
+\item \code{logical} for \emph{nominally}-scaled sort, where an open dimension applies (\code{TRUE}) or does not apply (\code{FALSE}).
+\code{osort} must be a logical matrix.
+The subclass \code{"psLogicalOpenSort"} is prepended and validated.
+\item \code{ordinal} for an \emph{ordinally}-scaled sort, where an open dimension applies to some item \emph{more} (\code{2nd} rank) \emph{or less} (\code{3rd} rank) than to another other item.
+\code{osort} must be an \code{integer} matrix.
+The subclass \code{"psOrdinalOpenSort"} is prepended and validated.
+\item \code{interval} for \emph{interval} or \emph{ratio}-scaled sort, where an open dimension applies to some item \emph{by some amount more or less} (say \code{2.4} units) than to another item.
+\code{osort} must be a \code{numeric} matrix.
+The subclass \code{"psIntervalOpenSort"} is prepended and validated.
+}
+
+Defaults to \code{NULL}, in which case the scale is inferred from the implicit class of \code{osort}.
+
+Currently only \code{logical} is supported.}
 
 \item{x}{a \link{psOpenSort}, created by \code{\link[=psOpenSort]{psOpenSort()}}.}
 
@@ -90,7 +99,7 @@ To get consistent code aesthetics, consider applying \code{\link[ggraph:scale_ed
 # create single open sort ====
 
 # Lisas open sort, unnamed descriptions (matched by index)
-osort <- matrix(
+losort <- matrix(
   data = c(TRUE, FALSE, FALSE, FALSE, TRUE, FALSE),
   nrow = 3,
   dimnames = list(items = c("cat", "dog", "cow")))
@@ -98,10 +107,10 @@ descriptions <- c(
   "a pet which largely takes care of itself",
   NA  # dimension is assigned, but not described (not a problem)
 )
-lisa <- psOpenSort(osort = osort, descriptions = descriptions)
+lisa <- psOpenSort(osort = losort, descriptions = descriptions)
 
 # Peters open sort, named descriptions (*also* only matched by index)
-osort <- matrix(
+losort <- matrix(
   data = c(TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, TRUE),
   nrow = 3,
   dimnames = list(
@@ -112,21 +121,21 @@ descriptions <- c(
   in_homes = "Animal found in peoples homes.",
   quiet = "Does not make a lot of noise.",
   herbivore = "Eats plants.")  # defined, but never TRUE (not a problem)
-peter <- psOpenSort(osort = osort, descriptions = descriptions)
+peter <- psOpenSort(osort = losort, descriptions = descriptions)
 
 # coercion methods
-peter_m <- as_psOpenSort(osort = as.matrix(x = osort), descriptions = descriptions)
-peter_df <- as_psOpenSort(osort = as.data.frame(x = osort), descriptions = descriptions)
+peter_m <- as_psOpenSort(osort = as.matrix(x = losort), descriptions = descriptions)
+peter_df <- as_psOpenSort(osort = as.data.frame(x = losort), descriptions = descriptions)
 
 # Rebeccas open sort, without any descriptions provided
-osort <- matrix(
+losort <- matrix(
   data = c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE),
   nrow = 3,
   dimnames = list(handles = c("cat", "dog", "cow")))
-rebecca <- psOpenSort(osort = osort, descriptions = NULL)
+rebecca <- psOpenSort(osort = losort, descriptions = NULL)
 
 # Ira open sort, with some problems
-osort <- matrix(
+losort <- matrix(
   data = c(
     FALSE, FALSE, FALSE,  # this is dropped, b/c there is just no valuable information here,
     TRUE, TRUE, TRUE,  # same problem; no variance
@@ -139,9 +148,24 @@ osort <- matrix(
   dimnames = list(handles = c("cat", "dog", "cow"))
 )
 descriptions <- c(NA, NA, "mammals", NA)
-ira <- suppressWarnings(as_psOpenSort(osort = osort, descriptions = descriptions))
+ira <- suppressWarnings(as_psOpenSort(osort = losort, descriptions = descriptions))
 # this gives appropriate warning messages
 # psOpenSort() would error out; only coercion method will attempt fix
+
+# ordinally and intervally scaled sorts are also possible, but currently unsupported
+tyler <- matrix(
+  data = as.integer(c(1, 2, 2, 1)),
+  nrow = 2,
+)
+tyler <- psOpenSort(
+  osort = tyler,
+  scale = "ordinal")  # defaults to implicit class of base type
+roberta <- matrix(
+  data = c(2.2, 4.3, -2.8, 0),
+  nrow = 2
+)
+roberta <- psOpenSort(osort = roberta)
+
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)
 
