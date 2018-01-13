@@ -6,7 +6,7 @@
 \alias{psOrdinalOpenSorts}
 \alias{psIntervalOpenSorts}
 \alias{import_psOpenSorts}
-\alias{tidy.psOpenSorts}
+\alias{tidy.psLogicalOpenSorts}
 \alias{autoplot.psOpenSorts}
 \title{Store \emph{multiple} open sorts in a psOpenSorts list.}
 \usage{
@@ -15,7 +15,7 @@ psOpenSorts(open_sorts)
 import_psOpenSorts(assignments_messy, descriptions_messy = NULL,
   keep_LETTERS = TRUE)
 
-\method{tidy}{psOpenSorts}(x)
+\method{tidy}{psLogicalOpenSorts}(x)
 
 \method{autoplot}{psOpenSorts}(object)
 }
@@ -52,7 +52,7 @@ Defaults to \code{TRUE}, in which case the \code{LETTERS} for the category descr
 
 \item{x}{a \link{psOpenSorts}, created by \code{\link[=psOpenSorts]{psOpenSorts()}}.}
 
-\item{object}{a \link{psOpenSorts}, created by \code{\link[=psOpenSorts]{psOpenSorts()}}.}
+\item{object}{a \link{psLogicalOpenSorts}, created by \code{\link[=psOpenSorts]{psOpenSorts()}}.}
 }
 \value{
 Object of class \code{psOpenSorts}.

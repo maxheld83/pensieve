@@ -224,13 +224,13 @@ make_messy <- function(open_sorts) {
 #' @param x a [psOpenSorts], created by [psOpenSorts()].
 #'
 #' @export
-tidy.psOpenSorts <- function(x) {
-  by_person <- sapply(X = x, FUN = function(x) unlist(summary(x)[1:3]), simplify = TRUE, USE.NAMES = FALSE)
+tidy.psLogicalOpenSorts <- function(x) {
+  by_person <- sapply(X = x, FUN = function(x) unlist(summary.psLogicalOpenSort(x)[1:3]), simplify = TRUE, USE.NAMES = FALSE)
   by_person <- as.data.frame(t(by_person))
   by_person$name <- rownames(by_person)
 
   # below two are dicey, because n of cat and n of t is different, so these are unweighted sums
-  by_both <- sapply(X = x, FUN = function(x) summary(x)$n_true_by_item)
+  by_both <- sapply(X = x, FUN = function(x) summary.psLogicalOpenSort(x)$n_true_by_item)
   by_item <- rowSums(x = by_both, na.rm = TRUE)
 
   return(by_person)
@@ -239,27 +239,28 @@ tidy.psOpenSorts <- function(x) {
 #' @rdname psOpenSorts
 # #' @describeIn psOpenSorts plots Summary
 #'
-#' @param object a [psOpenSorts], created by [psOpenSorts()].
+#' @param object a [psLogicalOpenSorts], created by [psOpenSorts()].
 #'
 #' @examples
 #' ggplot2::autoplot(object = los)
 #'
 #' @export
 autoplot.psOpenSorts <- function(object) {
-  by_person <- tidy.psOpenSorts(x = object)
+  by_person <- tidy.psLogicalOpenSorts(x = object)
 
   g <- ggplot(data = by_person,
               mapping = aes_string(x = 'n_dim', y = 'n_true', label = 'name'))
+  g <- g + geom_smooth(method = "lm", show.legend = TRUE)
   g <- g + geom_point()
-  g <- g + xlab("Number of Categories")
-  g <- g + ylab("Number of Assignments")
+  g <- g + xlab("Number of Dimensions (Categories)")
+  g <- g + ylab("Number of Assignments (TRUEs)")
+  g <- g + geom_rug()
 
   if (requireNamespace("ggrepel", quietly = TRUE)) {
     # repel labels
     g <- g + ggrepel::geom_label_repel()
   } else {
     warning("Package 'ggrepel' is not installed, labels might overplot.")
-    g <- g + geom_label()
   }
   g
 }
