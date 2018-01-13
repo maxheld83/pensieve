@@ -1,0 +1,862 @@
+% -*- program: xelatex -*-
+% above tells latexing to use xelatex, which is necessary for custom fonts
+\documentclass[english]{beamer}
+\usepackage{../latexstyles/pres}
+%\setbeameroption{show notes on second screen=right}
+%\setbeamertemplate{note page}[]
+
+
+% Preamble ========x
+\title[New Tools for Q
+  Programmatic Extensibility Enhances Q Methodology
+}
+\subtitle[New Functions]{
+  New Functions for the \textbf{\texttt{qmethod}} R Package
+}
+
+\author[Held \& Zabala]{
+  \texorpdfstring{
+    \begin{columns}
+      \usebeamercolor[white]{author}  % this should be unnecessary as per https://github.com/matze/mtheme/issues/130
+      \column{.45\linewidth}
+      %\centering
+      Maximilian Held\\
+      \href{mailto:info@maxheld.de}{info@maxheld.de}\\
+      \href{http://www.maxheld.de}{www.maxheld.de}\\
+      @maxheld
+      \column{.45\linewidth}
+      %\centering
+      Aiora Zabala\\
+      \href{mailto:aiora.zabala@gmail.com}{aiora.zabala@gmail.com}\\
+      \href{http://people.ds.cam.ac.uk/az296/}{people.ds.cam.ac.uk/az296/}\\
+      @aiorazabala
+    \end{columns}
+  }{
+    Maximilian Held %\inst{1}
+    \and
+    Aiora Zabala %\inst{2}
+  }
+}
+\institute[Jacobs and Cambridge]{
+  \texorpdfstring{
+    \begin{columns}
+      \usebeamercolor[white]{institute}  % this should be unnecessary as per https://github.com/matze/mtheme/issues/130
+      \column{.45\linewidth}
+      %\centering
+      \href{http://www.jacobs-university.de}{Jacobs University Bremen}\\
+      Focus Area Diversity\\
+      \column{.45\linewidth}
+      %\centering
+      \href{http://www.cam.ac.uk}{University of Cambridge}\\
+      Department of Land Economy
+    \end{columns}
+  }{
+	 Jacobs University Bremen
+	 \and
+	 University of Cambridge
+  }
+}
+\date[Q2015]{
+  \usebeamercolor[white]{institute}  % this should be unnecessary as per https://github.com/matze/mtheme/issues/130
+  31st Annual Q Conference, Ancona (Italy)\\
+  \#i4s15
+}
+
+\subject{}
+\keywords{}
+
+\addbibresource{../held-library/held_library.bib}
+
+
+% Front Matter ==========
+\begin{document}
+
+\bgroup
+	\usebackgroundtemplate{
+	 	\begin{tikzpicture}[remember picture, overlay, background rectangle/.style={fill=black}, show background rectangle]
+	 		\node[opacity=.66] at (current page.center) {\includegraphics[height=\paperheight]{hal.jpg}};
+	 	\end{tikzpicture}
+	 }
+	\metroset{background=dark}
+	\maketitle
+\egroup
+
+\note{
+  \begin{abstract}
+    \tiny{
+    While in service to abductive interpretation, Q methodology also requires and produces a lot of data.
+    On both the input and output side, additional functions to the qmethod package for the R statistical language \parencite{Zabala-2014} can help to strengthen rigor and holism in Q studies.
+
+    As an input, Q methodology takes a sample (Q-set) from a wider body of statements on a given topic (concourse), both of which usually require careful sourcing, repeated editing and cooperation with other researchers.
+    Positioned at the root of the method, sample and concourse composition should be transparently and systematically documented.
+    The import functions of the qmethod package let users read in and sample items from raw text files, improving reproducibility.
+    In conjunction with the git source control program, and popular open source conventions, a Q sample and concourse may be developed publicly and in open collaboration with others, much in line with the tenets of the concourse theory of communication.
+    In addition, such a setup may facilitate cumulative Q studies, sharing concourse and sample between different P-sets or conditions of instruction.
+
+    As an output, Q methodology produces several statistical tables, from which information must first be patched together before a factor interpretation can commence.
+    Visualization functions such as a factor array, a factor composition and factor space plots currently under development for the qmethod package conveniently assemble numerical results into readily interpretable panels.
+    Programmatic visualization can enable researcher's judgment on rotations, flagging and other methodological decisions by allowing them to quickly explore alternative downstream results.
+    Q-specific visualizations can also strengthen holism by presenting numerical results in the appropriate context, while also incorporating additional statistical information.
+
+    The functions under development and suggestions for best practice will be presented, feedback will be sought and further contributions invited.
+
+    In summary, while superficially alien to a scientific study of human subjectivity, current data science practices have much to add to Q methodology.
+    Technological concerns need not crowd out human interpretation, but specialized software may instead greatly complement the researcher's abductive faculties.
+    }
+  \end{abstract}
+}
+
+
+% Main Matter =============
+
+\metroset{background = dark}
+\section[Introduction]{Introduction} % =====================
+
+
+\metroset{background = light}
+{
+  \usebackgroundtemplate{
+    \begin{tikzpicture}[remember picture, overlay, background rectangle/.style={fill=black}, show background rectangle]
+      \node[opacity=.9] at (current page.center) {\includegraphics[width=\paperwidth]{hal-sorry.jpg}};
+    \end{tikzpicture}
+   }
+  \plain{
+    \vspace{-4em}
+    \begin{quote}
+      \onslide<1->{I'm Sorry Dave, I'm Afraid \ldots \\}
+      %\pause
+      \onslide<2->{\ldots I can do that better!}
+    \end{quote}
+    \onslide<1->{
+      --- HAL 9000
+    }
+    \note{
+      \begin{itemize}
+        \item Experience: Skepticism towards Technology
+        \item Brown: dwelling on tech like looking under the street light
+        \item Reminded me of this scene in Kubrick's 2001: Odyssee in Space
+        \item Maybe, sometimes tech can just do things better
+        \item in Brown's street light analogy: they're not the point, but they are \emph{very} helpful
+      \end{itemize}
+    }
+  }
+}
+
+
+\begin{frame}{Table of Contents}
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents[hideallsubsections]
+  \note{
+    \begin{itemize}
+      \item In that spirit: present some examples
+      \item \alert{list the examples!}
+      \item none of this would be possible without Aiora's work
+      \item these kinds of extensibility are data science mainstream, and available in R
+      \item all of this is open source, that is free as in beer, and free as in freedom
+      \item also want to thank Peter Schmolck's for his thoughtful feedback, from which many here i believe have benefited, and so has this program
+      \item a model of work and dedication to emulate
+    \end{itemize}
+  }
+\end{frame}
+
+
+\section{Administration} % ===========
+\note{
+  Let's start with something simple: the administration
+}
+
+
+\begin{frame}[fragile]{Managing the Concourse and Q Sample}
+  \metroset{block=fill}
+  \begin{block}{\texttt{labor-no-commodity.tex}}
+    \texttt{Labor is not a commodity.}
+  \end{block}
+  \begin{block}{\texttt{sampling-structure.csv}}
+    \texttt{labor-no-commodity, growth-trumps-equality,} \ldots
+  \end{block}
+  \begin{block}{Directory structure}
+    \begin{verbatim}
+      sample
+        |-- concourse
+        |   |-- labor-no-commodity.tex
+        |   |-- ...
+        |   |-- historical-materialism.tex
+        |-- sampling-structure.csv
+    \end{verbatim}
+  \end{block}
+  \note{
+    \begin{itemize}
+      \item Wouldn't it be nice if you could document the concourse generation and q sampling?
+      \item and \emph{keep the full concourse close}, that is \emph{in R}?
+      \item nested structure:
+      \begin{enumerate}
+        \item Formulate concourse in text files
+        \item Sample Q set from concourse
+        \item Name text file according to short handle
+      \end{enumerate}
+      \item Notice that any given Q study or Q sort is always defined by a particular Q set (or Q sample), which in turn, is defined by a particular concourse.
+    \end{itemize}
+  }
+\end{frame}
+
+
+{
+  \usebackgroundtemplate{
+    \begin{tikzpicture}[remember picture, overlay, background rectangle/.style={fill=black}, show background rectangle]
+      \node[opacity=1] at (current page.center) {\includegraphics[height=\paperheight]{qcards-closeup.jpg}};
+    \end{tikzpicture}
+   }
+  \plain{\color{black}Printing Q Cards is \emph{Easy} \ldots}
+  \note{
+    \begin{itemize}
+      \item iterating over Q cards is key, especially with pre-tests
+      \item I'm a fan of paper-based Q cards (easiest to handle, notion that users compare them all)
+      \item if only the cutting wasn't that hard ...
+      \item take above object
+      \item plug it into function
+      \item get pdf
+      \item profit
+    \end{itemize}
+  }
+}
+
+
+{
+  \usebackgroundtemplate{
+    \begin{tikzpicture}[remember picture, overlay, background rectangle/.style={fill=black}, show background rectangle]
+      \node[opacity=.8] at (current page.center) {\includegraphics[width=\paperwidth]{hal-room.jpg}};
+    \end{tikzpicture}
+  }
+  \plain{
+    \pause
+    \vspace{9em}
+    Lost in Iteration?
+    \note{
+      \begin{itemize}
+        \item Statement formulation is more craft than science
+        \item \emph{many} iterations and pre-tests
+        \item Easy to get lost!
+        \item be \emph{sure} which wording a participant used
+      \end{itemize}
+    }
+  }
+}
+
+
+{
+  \usebackgroundtemplate{
+    \begin{tikzpicture}[remember picture, overlay, background rectangle/.style={fill=black}, show background rectangle]
+      \node[opacity=1] at (current page.center) {\includegraphics[height=\paperheight]{qcards-codes.jpg}};
+    \end{tikzpicture}
+   }
+  \plain{\color{black}Identifying Statements is \emph{Easy} \ldots}
+  \note{
+    \begin{itemize}
+      \item checksum, or a hash
+      \item any time the wording changes, the hash changes
+      \item wording can be identified from hash
+      \item hash is \emph{not} meaningful to users
+      \item recognized automatically by import functions
+    \end{itemize}
+  }
+}
+
+
+\begin{frame}{Importing Q-Sorts and Feedback from Raw Data}
+  \begin{columns}
+    \column{.5\textwidth}
+    \begin{enumerate}
+      \vfill
+      \item Turn over Q cards
+      \vfill
+      \item Copy into spreadsheet in \emph{raw} form
+      \vfill
+      \item Import into R
+      \vfill
+    \end{enumerate}
+    \column{.5\textwidth}
+    \includegraphics[width=.9\textwidth]{qcards-turn-crop.png}\\
+    \includegraphics[width=.9\textwidth]{tablescreenshot.png}\\
+    \includegraphics[width=.9\textwidth]{data-screenshot.png}
+  \end{columns}
+  \note{
+    \begin{itemize}
+      \item I'm a fan of paper-based q-sorts, but they are a pain to enter
+      \item entering transposed is \emph{hard}
+      \item import function does all sorts of consistency checks
+      \item Notice: you can also import from HTML5Q and FlashQ as well as PQMethod
+    \end{itemize}
+  }
+\end{frame}
+
+
+\begin{frame}{There's More \ldots}
+  \begin{itemize}
+    \item multiple conditions
+    \item time series
+    \item multiple languages
+    \item import open feedback
+    \item integrate with \emph{proper} version-control software (VCS) such as Git(Hub)
+    \item allow public contributions to the concourse
+    \item \ldots
+  \end{itemize}
+  \note{
+    \begin{itemize}
+      \item find out more on these functions on the wiki
+    \end{itemize}
+  }
+\end{frame}
+
+
+\begin{frame}{Software-Powered Q Research Can Be \ldots}
+  \setbeamercolor{alerted text}{fg = info-blue, bg = white}
+  \begin{alertblock}{\color{info-blue}reproducible, by documenting \ldots}
+    \begin{itemize}
+      \item \ldots gathering, sourcing and editing of the \alert{concourse}
+      \item \ldots \alert{Q sampling}, justifications
+      \item \ldots procedures from \alert{raw data to results}
+    \end{itemize}
+  \end{alertblock}
+  \pause
+  \setbeamercolor{alerted text}{fg = success-green, bg = white}
+  \begin{alertblock}{\color{success-green}cumulative, by allowing \ldots}
+  variations in \alert{sample}, \alert{concourse}, \alert{P-Set}, \ldots
+  \end{alertblock}
+  \pause
+  \setbeamercolor{alerted text}{fg = warning-orange, bg = white}
+  \begin{alertblock}{\color{warning-orange}systematic, by \ldots}
+    \begin{itemize}
+      \item giving \alert{access} to other researchers and the public
+      \item \alert{readily retrieving} full concourse, feedback
+      \item allowing \alert{many iterations} (on items)
+    \end{itemize}
+  \end{alertblock}
+
+  \note{
+    \begin{itemize}
+      \item \emph{Why all this fuss?}
+      \item these not exactly street lights, more like \emph{plumbing} to stay with the infrastructure analogy
+      \item \textbf{Reproducibility}
+      \begin{itemize}
+        \item Q sampling and concourse is contentious
+        \item maybe no test/retest reliability, but this
+      \end{itemize}
+      \item \textbf{Cumulativeness}
+      \begin{itemize}
+        \item Concourse theory is cumulative! \parencite{Stephenson1978}
+      \end{itemize}
+      \item \textbf{Systematicity}
+      \begin{itemize}
+        \item iterate on items in a \emph{robust} way
+      \end{itemize}
+      \item spirit of openness, cooperation, preliminary
+    \end{itemize}
+  }
+\end{frame}
+
+
+\section{Plots} % ==========
+%TODO(maxheld) sort out caching, this is taking too long
+%TODO(maxheld) avoid duplicate code in the below in a robust ways
+
+<<setup-pres, include = FALSE, echo=FALSE, warning = TRUE, cache = FALSE>>=
+library(knitr)
+opts_knit$set(dev = 'tikz')
+# knit(input = "tax-democracy.Rmd")
+# source(purl("tax-democracy.Rmd"))  # either of those should really do it
+library(devtools)
+library(rmarkdown)
+library(grid)  # needed, for, well, grids and arrows
+library(gridExtra)  # needed for more grids
+library(reshape2)
+library(plyr)
+library(ggplot2)
+install.packages(repos = NULL, type = "source", INSTALL_opts = c('--no-lock'), pkgs = c("qmethod"))
+library(qmethod)
+q_distribution <- as.integer(c(  # set up distribution
+  "-7" = 1,  # these names are crap, they don't really work, maybe rather make this a matrix if you really want names
+  "-6" = 1,
+  "-5" = 2,
+  "-4" = 4,
+  "-3" = 6,
+  "-2" = 9,
+  "-1" = 10,
+  "0" = 11,
+   "1" = 10,
+   "2" = 9,
+   "3" = 6,
+   "4" = 4,
+   "5" = 2,
+   "6" = 1,
+   "7" = 1
+))
+q_concourse <- import.q.concourse(  # import concourse
+  q.concourse.dir = "keyneson/keyneson-sample/keyneson-concourse/",
+  languages = c("english", "german")
+)
+q_sampling_structure <- read.csv(  # read in sampling structure
+  file = "keyneson/keyneson-sample/sampling-structure.csv"
+)
+q_set <- build.q.set(
+  q.concourse = q_concourse,
+  q.sample = q_sampling_structure$handle,
+  q.distribution = q_distribution
+)
+q_sorts <- import.q.sorts(
+  q.sorts.dir = "keyneson/qsorts/",
+  q.set = q_set,
+  q.distribution = q_distribution,
+  conditions = c("before","after"),
+  manual.lookup = as.matrix(
+    read.csv(
+      "keyneson/keyneson-sample/keyneson-concourse/ids.csv",
+      row.names=2
+    )
+  ),
+  header = FALSE
+)
+q_feedback <- import.q.feedback(
+  q.feedback.dir = "keyneson/feedback/",
+  q.sorts = q_sorts,
+  q.set = q_set,
+  manual.lookup = as.matrix(
+    read.csv(
+      "keyneson/keyneson-sample/keyneson-concourse/ids.csv",
+      row.names=2
+    )
+  )
+)
+q_sorts <- q_sorts[ , !colnames(q_sorts) == "Wolfgang", ]  # delete researcher
+q_sorts <- q_sorts[ , !colnames(q_sorts) == "Uwe", ]  # left conference for personal reasons
+q_feedback <- q_feedback[ , !colnames(q_feedback) == "Wolfgang", ]  # delete researcher
+q_feedback <- q_feedback[ , !colnames(q_feedback) == "Uwe", ]  # incomplete
+keyneson <- list("before" = c(), "after"= c ())
+#keyneson$before <- list("pearson"=c(), "kendall"=c(), "spearman"=c())
+keyneson$before <- qmethod(
+  dataset = q_sorts[,,"before"],
+  nfactors = 3,
+  rotation = "varimax",
+  forced = TRUE
+  , cor.method = "spearman"
+  , reorder = FALSE
+)
+keyneson$after <- qmethod(
+  dataset = q_sorts[,,"after"],
+  nfactors = 3,
+  rotation = "varimax",
+  forced = TRUE
+  , cor.method = "spearman"
+  , reorder = FALSE
+)
+keyneson$before <- q.fnames(keyneson$before, fnames = c("resentment", "radical", "moderate"))
+keyneson$before <- q.fcolors(keyneson$before)
+keyneson.plots <- list("before" = c(), "after"= c ())
+keyneson.plots$before <- q.scoreplot(results = keyneson$before)
+keyneson$after <- q.fnames(keyneson$after, fnames = c("decommodifying", "critical", "pragmatic"))
+keyneson$after <- q.fcolors(results = keyneson$after, color.scheme = "Set3")
+keyneson.plots$after <- q.scoreplot(results = keyneson$after)
+keyneson.plots$after$pragmatic
+@
+
+
+\begin{frame}[fragile]{Correlation Matrix Heatman}
+<<cormat, echo = FALSE, warning = FALSE, out.height='1\\textheight,keepaspectratio'>>=
+q.corrplot(corr.matrix = cor(x = q_sorts[,,"before"], method = "spearman"))
+@
+\note{
+  \begin{itemize}
+    \item gives you a first indication
+    \item no negative loadings, that is strange
+    \item also available for residuals
+  \end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}[fragile]{Understanding PCA: Positively Correlated Q-Pair}
+<<eigen-examples, include = FALSE, echo = FALSE,>>=
+source(file = "source/q.eigenpair.R")  # this produces all the example objects
+eigen.examples <- Eigen.Illustrate(data = q_sorts[,,"before"])
+# do.call("grid.arrange", c(t(eigen.examples[,c(4,6)]), list(nrow = 4, ncol = 2)))  # too small to be informative
+@
+<<eigen-ex-print-pos, echo = FALSE, out.width = '1\\textwidth, keepaspectratio'>>=
+do.call("grid.arrange", c(t(eigen.examples[c("positive"),c(4,6)]), list(nrow = 1, ncol = 2)))
+@
+\note{
+  \begin{itemize}
+    \item start with some examples,
+    \item hard to wrap your head around PCA in Q
+    \item might be helpful for teaching
+    \item start with 2 Q sorts at a time, manageable dimensions for dimensionality reduction
+    \item pos
+  \end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}[fragile]{Understanding PCA: Negatively Correlated Q-Pair}
+<<eigen-ex-print-neg, echo = FALSE, out.width = '1\\textwidth, keepaspectratio'>>=
+do.call("grid.arrange", c(t(eigen.examples[c("negative"),c(4,6)]), list(nrow = 1, ncol = 2)))
+@
+\end{frame}
+
+
+\begin{frame}[fragile]{Understanding PCA: Least Correlated Q-Pair}
+<<eigen-ex-print-low, echo = FALSE, out.width = '1\\textwidth, keepaspectratio'>>=
+do.call("grid.arrange", c(t(eigen.examples[c("lowest"),c(4,6)]), list(nrow = 1, ncol = 2)))
+@
+\end{frame}
+
+
+\begin{frame}[fragile]{Understanding PCA: Identity Q-Pair}
+<<eigen-ex-print-id, echo = FALSE, out.width = '1\\textwidth, keepaspectratio'>>=
+do.call("grid.arrange", c(t(eigen.examples[c("identity"),c(4,6)]), list(nrow = 1, ncol = 2)))
+@
+\end{frame}
+
+
+\begin{frame}[fragile]{Factor Retention Criteria: Scree Plot}
+<<nfac, echo = FALSE, warning = FALSE, include = FALSE>>=
+nfac <- q.nfactors(dataset = q_sorts[,,"before"], q.matrix = cor(x = q_sorts[,,"before"], method = "spearman"), quietly = TRUE)
+@
+<<scree, echo = FALSE, warning = FALSE, out.height='1\\textheight,keepaspectratio'>>=
+nfac$screeplot
+@
+\note{
+  \begin{itemize}
+    \item yes, it should be components
+    \item don't want to get into trouble
+    \item runs parallel analysis in the back and a couple of other stuff
+    \item maybe offers you the kind of overview you like
+  \end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}[fragile]{Factor Retention Criteria: Communalities Plot}
+<<comp, echo = FALSE, warning = FALSE, out.height='1\\textheight,keepaspectratio'>>=
+nfac$commplot
+@
+\note{
+  \begin{itemize}
+    \item this is the stuff I got into trouble on the email list
+  \end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}[fragile]{Loadings Plot}
+<<loaplot, echo = FALSE, warning = FALSE, out.height='1\\textheight,keepaspectratio'>>=
+loaplots <- invisible(q.loaplot(results = keyneson$before, quietly = TRUE))
+loaplots$resentment$critical
+@
+\note{
+  \begin{itemize}
+    \item names
+    \item factor names
+    \item colors
+    \begin{itemize}
+      \item it's easy to get lost if you iterate
+      \item it's important to have an immediate, visual impression
+      \item so we made it open, and automatic
+    \end{itemize}
+    \item you can also look at all at once \alert{next}
+  \end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}[fragile]{Loadings Plot (ctd.)}
+<<loaplotall, echo = FALSE, warning = FALSE, out.height='1\\textheight,keepaspectratio'>>=
+q.loaplot(results = keyneson$before)
+
+@
+\note{
+  \begin{itemize}
+    \item combinations are always the same
+  \end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}[fragile]{Factor Composition Plot (Brown 1980)}
+<<compplot, echo = FALSE, warning = FALSE, out.height='1\\textheight,keepaspectratio'>>=
+q.compplot(results = keyneson$before)
+@
+\note{
+  \begin{itemize}
+    \item neat summary
+    \item with great colors
+    \item same information as loadings plot
+  \end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}{Visualizations are Key to Abductive Subjectivity}
+  \setbeamercolor{alerted text}{fg = info-blue, bg = white}
+  \begin{alertblock}{\color{info-blue}User Interface \ldots}
+  Visualizations \emph{are} the UI to guide researchers to \alert{engage} their data.
+  \end{alertblock}
+  \pause
+  \setbeamercolor{alerted text}{fg = success-green, bg = white}
+  \begin{alertblock}{\color{success-green}Iterative Abduction}
+  To go back and forth between data, models and hunches \alert{informative summaries} are needed.
+  \end{alertblock}
+  \pause
+  \setbeamercolor{alerted text}{fg = warning-orange, bg = white}
+  \begin{alertblock}{\color{warning-orange}Return Data to Original Form}
+  \alert{Ideal-typical viewpoints} as they were entered.
+  \end{alertblock}
+
+  \note{
+    \begin{itemize}
+      \item \emph{Why all this shiny stuff?}
+      \item first of all, because \emph{this} is the UI that Peter Schmolck and Bob Braswell talked about
+      \item second: interpretation is hard
+      \item iteration requires some kind of immediate feedback
+      \item but wouldn't it be nice if we could get quite close to the original data?
+    \end{itemize}
+  }
+\end{frame}
+
+
+\begin{frame}[fragile]{Factor Scores Plot}
+<<scoreplot, echo = FALSE, warning = FALSE, fig.width=12, fig.height=10, out.width='1\\textwidth,keepaspectratio'>>=
+q.scoreplot(results = keyneson$before, quietly = TRUE, label.scale = 500)$resentment
+@
+\note{
+  \begin{itemize}
+    \item interpret results in \emph{original} form
+    \item item handles, could be full wording
+    \item needs big screen
+    \item shade: standard deviation on that factor, weighted, flagged
+      \begin{itemize}
+        \item it's unlikely that an item is highly dispersed an in the extreme
+        \item but that IS possible in the middle
+        \item \alert{give example}
+        \item scaled over \emph{all} factors in the current model
+        \item plug in bootstrapping
+      \end{itemize}
+    \item lines: qdc, with significance, scaled per factor
+    \item crib sheet: all in one from Watts/Stenner, look at items with only lines on the right
+  \end{itemize}
+}
+\end{frame}
+
+
+\section{Manual Rotation} % ==========
+
+<<anirot, echo = FALSE, warning = FALSE, eval = FALSE, include = FALSE>>=
+combs <- combn(x = colnames(keyneson$before$loa), m = 2, simplify = TRUE)  # these are the combinations, duplicate code to other functions
+combs <- t(combs)  # this is the stuff from which to rotate
+combs <- as.data.frame(combs, stringsAsFactors = FALSE)
+rownames(combs) <- apply(X = combs, MARGIN = 1, FUN = paste, collapse = "-")
+combs <- cbind(combs, 1:nrow(combs))  # just for easy access
+colnames(combs) <- c("x-horizontal", "y-vertical", "row number")
+pair <- 1
+
+i <- NULL
+aniplots.loa <- NULL
+aniplots.loa.all <- NULL
+aniplots.rotplot <- NULL
+aniplots.rotplot.cor <- NULL
+
+pb <- txtProgressBar(min = 1, max = 360, style = 3)
+tenths <- seq(from = 1, to = 360, by = 10)
+for (i in tenths) {
+  Sys.sleep(0.1)
+  # update progress bar
+  setTxtProgressBar(pb, i)
+  angle <- i
+  rot.mat.angle <- diag(3)
+  colnames(rot.mat.angle) <- colnames(keyneson$before$loa)
+  rownames(rot.mat.angle) <- colnames(keyneson$before$loa)
+  radians <- angle * pi / 180 # because rotation matrices are build from radians, not
+  rot.mat.angle[combs[pair,"y-vertical"], combs[pair,"y-vertical"]] <- cos(radians)
+  rot.mat.angle[combs[pair,"y-vertical"], combs[pair,"x-horizontal"]] <- -sin(radians)
+  rot.mat.angle[combs[pair,"x-horizontal"], combs[pair,"y-vertical"]] <- sin(radians)
+  rot.mat.angle[combs[pair,"x-horizontal"], combs[pair,"x-horizontal"]] <- cos(radians)
+  res.rot <- q.mrot.do(results = keyneson$before, rot.mat = rot.mat.angle, quietly = TRUE)
+  #cur.loaplot <- q.loaplot(results = res.rot, quietly = TRUE)
+  #aniplots.loa.all[[i]] <- arrangeGrob(cur.loaplot$resentment$critical, cur.loaplot$resentment$moderate, cur.loaplot$critical$moderate, ncol = 2)
+  #aniplots.loa[[i]] <- cur.loaplot[[combs[pair,"x-horizontal"]]][[combs[pair, "y-vertical"]]]
+  cur.rotplot <- q.rotplot(results = res.rot, quietly = TRUE, label.scale = 200)
+  aniplots.rotplot[[i]] <- cur.rotplot$pairs[[rownames(combs[pair, ])]]
+  #cur.rotplot.cor <- q.rotplot(results = res.rot, quietly = TRUE, label.scale = 500, cor.color = TRUE)
+  #aniplots.rotplot.cor[[i]] <- cur.rotplot.cor$pairs[[rownames(combs[pair, ])]]
+}
+library(animation)
+saveVideo(expr = print(aniplots.loa), interval = 1/60, ani.width = 1280, ani.height = 720, video.name = "rotvideo-loaplot.mp4")  # gimmick
+saveVideo(expr = {
+  for (i in 1:length(aniplots.loa.all)) {
+    plot(aniplots.loa.all[[i]])
+  }
+}, interval = 1/60, ani.width = 1280, ani.height = 720, video.name = "rotvideo-loaplot-all.mp4")  # gimmick
+saveVideo(expr = {
+  for (i in 1:length(aniplots.rotplot)) {
+    plot(aniplots.rotplot[[i]])
+  }
+}, interval = 1/30, ani.width = 1920, ani.height = 1080, video.name = "rotvideo-rotplot.gif")  # gimmick
+saveGIF(expr = {
+  for (i in 1:length(aniplots.rotplot)) {
+    plot(aniplots.rotplot[[i]])
+  }
+}, movie.name = "rotvideo-rotplot.gif", ani.width = 1920, ani.height = 1080)  # gimmick
+saveVideo(expr = {
+  for (i in 1:length(aniplots.rotplot.cor)) {
+    plot(aniplots.rotplot.cor[[i]])
+  }
+}, interval = 1/30, ani.width = 1920, ani.height = 1080, video.name = "rotvideo-rotplot-cor.mp4")  # gimmick
+@
+
+
+\begin{frame}{Manual Rotation: Loadings}
+  \note{
+    \begin{itemize}
+      \item arguably the most important feature that was lacking from qmethod, compared to PQMethod
+      \item really engage your data
+      \item works based on any rotation, just plug it in, and rotate away
+    \end{itemize}
+  }
+\end{frame}
+
+
+\begin{frame}{Manual Rotation: All Loadings}
+  \note{
+    \begin{itemize}
+      \item sometimes this is interesting to look at them all
+      \item these are the permutations of possible factors, automatically for any number of factors
+    \end{itemize}
+  }
+\end{frame}
+
+
+\begin{frame}{Manual Rotation is Hard}
+  \setbeamercolor{alerted text}{fg = info-blue, bg = white}
+  \begin{alertblock}{\color{info-blue}Order Matters}
+  Rotations (matrix multiplication) is \alert{non-commutative}.
+  \end{alertblock}
+  \pause
+  \setbeamercolor{alerted text}{fg = success-green, bg = white}
+  \begin{alertblock}{\color{success-green}Save the Recipe!}
+  The \alert{rotation matrix} is returned from every manual rotation, always stored as a \alert{recipe} alongside the results.
+  \end{alertblock}
+  \pause
+  \setbeamercolor{alerted text}{fg = warning-orange, bg = white}
+  \begin{alertblock}{\color{warning-orange}Abductive Iterations Welcome}
+  Users can \alert{iterate} back and forth.
+  \end{alertblock}
+
+  \note{
+    \begin{itemize}
+      \item but wouldn't it be nice if we could get some more data, some more context to make this meaningful?
+    \end{itemize}
+  }
+\end{frame}
+
+
+\begin{frame}{Manual Rotation: Complete Q-Method Results}
+  \note{
+    \begin{itemize}
+      \item this requires a \emph{very} big screen
+      \item notice sometimes the thing turns all blue
+      \item flagging is (unfortunately) still automatic, agree with Peter Schmolck
+      \item remember one remaining problem: high interfactor correlations
+    \end{itemize}
+  }
+\end{frame}
+
+
+\begin{frame}{Manual Rotation: Complete Q-Method Results with Interfactor Correlations}
+  % \includemedia[
+  %   width=\paperwidth,
+  %   height=0.3\linewidth,
+  %   activate=pageopen,
+  %   addresource=rotvideo-rotplot-cor.mp4,
+  %   flashvars={
+  %     source=rotvideo-rotplot-cor.mp4
+  %     &loop=true
+  %     &autoPlay=TRUE}
+  % ]{}{VPlayer.swf}
+  %\movie[width=3cm, height=2cm, loop]{}{rotvideo-rotplot-cor.mp4}
+  \note{
+    \begin{itemize}
+      \item notice sometimes the thing turns all blue
+    \end{itemize}
+  }
+\end{frame}
+
+
+{
+  \usebackgroundtemplate{
+    \begin{tikzpicture}[remember picture, overlay, background rectangle/.style={fill=black}, show background rectangle]
+      \node[opacity=.7] at (current page.center) {\includegraphics[height=\paperheight]{q-sorting2.jpg}};
+    \end{tikzpicture}
+  }
+  \section{Summary} % ==========
+}
+
+\note{
+  \begin{itemize}
+    \item approach me for a demo or workshop
+    \item functions on their way to CRAN, download beta right now
+    \item do not recommend online version for the plots
+    \item we are just getting started
+    \item some great ideas out there
+    \item Bob has started on centrod
+    \item work in the bootstrapping procedures
+    \item come to my talk on thursday if you'd like to know more about these weird, long items
+  \end{itemize}
+  }
+
+
+{
+  \usebackgroundtemplate{
+    \begin{tikzpicture}[remember picture, overlay, background rectangle/.style={fill=black}, show background rectangle]
+      \node[opacity=.7] at (current page.center) {\includegraphics[height=\paperheight]{q-sorting3.jpg}};
+    \end{tikzpicture}
+  }
+  \plain{Q against the Machine?!}
+  \note{
+    \begin{itemize}
+      \item final comment:
+      \item maybe this antagonism between humanism and subjectivity, technology and software need not be, as is suggested in the movie
+      \item technology can help us, and maybe, with open source, we can bend the streetlight and make it shine where we need it to.
+  }
+}
+
+%TODO weichzeichner in beamer might be nice, or glassy-effect
+
+{
+  \usebackgroundtemplate{
+    \begin{tikzpicture}[remember picture, overlay, background rectangle/.style={fill=black}, show background rectangle]
+      \node[opacity=1] at (current page.center) {\includegraphics[width=\paperwidth]{hal-deactivate.jpg}};
+    \end{tikzpicture}
+   }
+  \plain{
+    \vspace{-6em}
+    Join us at \href{https://github.com/aiorazabala/qmethod}{\url{github.com/aiorazabala/qmethod}}
+  }
+}
+
+\bgroup
+  \usebackgroundtemplate{
+    \begin{tikzpicture}[remember picture, overlay, background rectangle/.style={fill=black}, show background rectangle]
+      \node[opacity=.5] at (current page.center) {\includegraphics[height=\paperheight]{q-sorting2.jpg}};
+    \end{tikzpicture}
+   }
+  \metroset{background=dark}
+  \maketitle
+\egroup
+
+% Back Matter =========
+\appendix
+
+\begin{frame}[allowframebreaks]
+  \frametitle{References}
+  \printbibliography
+\end{frame}
+
+
+\end{document}
