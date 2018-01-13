@@ -68,12 +68,9 @@ validate_psOpenSorts <- function(open_sorts) {
 }
 
 # coercion ====
-
-#' @describeIn psOpenSorts descriptions and *logical* assignments from convenient, but messy format
+#' @rdname psOpenSorts
 #'
-#' @export
-#'
-#' @param assignments_messy a character matrix with rows as items, columns as participants and  **logical category assignments** as character strings in cells.
+#' @param logical_open_sorts a character matrix with rows as items, columns as participants and  **logical category assignments** as character strings in cells.
 #' Categories are identified by a subset from `LETTERS`, same as in `descriptions_messy`.
 #' Assignments must be the same subset of `LETTERS` as the column names in `descriptions_messy`.
 #' Rows and columns must be named.
@@ -83,8 +80,27 @@ validate_psOpenSorts <- function(open_sorts) {
 #'
 #' See `note`.
 #'
+#' @param ... further arguments passed to or from other methods.
+#'
+#' @export
+as_psLogicalOpenSorts <- function(logical_open_sorts, ...) {
+  UseMethod(generic = "as_psLogicalOpenSorts")
+}
+
+#' @export
+as_psLogicalOpenSorts.default <- function(logical_open_sorts, ...) {
+  stop_coercion(x = logical_open_sorts, class = "psLogicalOpenSorts")
+}
+
+#' @export
+as_psLogicalOpenSorts.psLogicalOpenSorts <- function(logical_open_sorts, ...) {
+  validate_psOpenSorts(open_sorts = logical_open_sorts)
+}
+
+#' @describeIn psOpenSorts coerce messy, but convenient format to psLogicalOpenSorts
+#'
 #' @param descriptions_messy a character matrix with rows as category indices, columns as participants and **category descriptions** in cells.
-#' Rows *must* be named by a subset of `LETTERS` to conveniently enter, and identify them from `assignments_messy`.
+#' Rows *must* be named by a subset of `LETTERS` to conveniently enter, and identify them from `logical_open_sort`.
 #' The row names are arbitrary identifiers, but will be retained for the canonical form.
 #' Columns *must* be named as participants.
 #'
@@ -102,23 +118,28 @@ validate_psOpenSorts <- function(open_sorts) {
 #'
 #' @details
 #' The canonical representation of open sorts in [psOpenSorts()] can be cumbersome to enter manually.
-#' For *logical* (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of `descriptions_messy` and `assignments_messy` using [import_psOpenSorts()].
+#' For *logical* (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of `descriptions_messy` and `logical_open_sorts` using [as_psLogicalOpenSorts()].
 #'
 #' @note
 #' When a category is assigned, but never described, it is `TRUE` in the respective logical matrix entries and their description is `NA`:
 #' This is still considered valuable, if incomplete information.
 #' When a category is described, but never assigned, it is omitted from the data entirely.
 #'
-#' When *no* category was assigned to some item in `assignments_messy`, an empty character string `""` should be in the respective cell.
+#' When *no* category was assigned to some item in `logical_open_sorts`, an empty character string `""` should be in the respective cell.
 #'
 #' An `NA` value implies that the given participant never considered the given items *at all*, across *all* her categories.
 #' Notice this implies *limited scenarios of `NA`* for data entered in this messy, convenient form.
 #' The more complicated cases, where a participant did consider *some*, but *not all* items in the assignment of a category, or -- equivalently -- all categories in their assessment of all items, cannot be recorded in this convenience format.
 #' Such more granular `NA` records can, however, be recorded in the canonical data representation, where the respective cell of the items x category logical matrix would be `NA`.
 #' If your data gathering procedure produces such granular `NA` records, do not use this convenience function.
-import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL, keep_LETTERS = TRUE) {
+#'
+#' @export
+as_psLogicalOpenSorts.matrix <- function(logical_open_sorts,
+                                         descriptions_messy = NULL,
+                                         keep_LETTERS = TRUE,
+                                         ...) {
   # variable names are too long
-  ass <- assignments_messy
+  ass <- logical_open_sorts
   desc <- descriptions_messy
 
   # Input validation ====
@@ -192,6 +213,10 @@ import_psOpenSorts <- function(assignments_messy, descriptions_messy = NULL, kee
   cat_canon <- psOpenSorts(open_sorts = cat_canon)
   return(cat_canon)
 }
+
+#' @describeIn psOpenSorts coerce data.frame of *all* sorts to psLogicalOpenSorts
+#' @export
+as_psLogicalOpenSorts.data.frame <- as_psLogicalOpenSorts.matrix
 
 # stupid helper just to make messy format out of clean
 make_messy <- function(open_sorts) {

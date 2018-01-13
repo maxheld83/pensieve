@@ -10,7 +10,7 @@ desc <- pensieve:::make_messy(open_sorts = los)$desc
 ass
 desc
 
-los_from_messy <- import_psOpenSorts(
-  assignments_messy = ass,
+los_from_messy <- as_psLogicalOpenSorts(
+  logical_open_sorts = ass,
   descriptions_messy = desc,
   keep_LETTERS = FALSE)

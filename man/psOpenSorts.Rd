@@ -5,15 +5,22 @@
 \alias{psLogicalOpenSorts}
 \alias{psOrdinalOpenSorts}
 \alias{psIntervalOpenSorts}
-\alias{import_psOpenSorts}
+\alias{as_psLogicalOpenSorts}
+\alias{as_psLogicalOpenSorts.matrix}
+\alias{as_psLogicalOpenSorts.data.frame}
 \alias{tidy.psLogicalOpenSorts}
 \alias{autoplot.psOpenSorts}
 \title{Store \emph{multiple} open sorts in a psOpenSorts list.}
 \usage{
 psOpenSorts(open_sorts)
 
-import_psOpenSorts(assignments_messy, descriptions_messy = NULL,
-  keep_LETTERS = TRUE)
+as_psLogicalOpenSorts(logical_open_sorts, ...)
+
+\method{as_psLogicalOpenSorts}{matrix}(logical_open_sorts,
+  descriptions_messy = NULL, keep_LETTERS = TRUE, ...)
+
+\method{as_psLogicalOpenSorts}{data.frame}(logical_open_sorts,
+  descriptions_messy = NULL, keep_LETTERS = TRUE, ...)
 
 \method{tidy}{psLogicalOpenSorts}(x)
 
@@ -23,7 +30,7 @@ import_psOpenSorts(assignments_messy, descriptions_messy = NULL,
 \item{open_sorts}{A list of matrices, one for each participant.
 Matrices must be \code{\link[=psOpenSort]{psOpenSort()}} objects, or coercable via \code{\link[=as_psOpenSort]{as_psOpenSort()}}.}
 
-\item{assignments_messy}{a character matrix with rows as items, columns as participants and  \strong{logical category assignments} as character strings in cells.
+\item{logical_open_sorts}{a character matrix with rows as items, columns as participants and  \strong{logical category assignments} as character strings in cells.
 Categories are identified by a subset from \code{LETTERS}, same as in \code{descriptions_messy}.
 Assignments must be the same subset of \code{LETTERS} as the column names in \code{descriptions_messy}.
 Rows and columns must be named.
@@ -33,8 +40,10 @@ Order and punctuation are ignored.
 
 See \code{note}.}
 
+\item{...}{further arguments passed to or from other methods.}
+
 \item{descriptions_messy}{a character matrix with rows as category indices, columns as participants and \strong{category descriptions} in cells.
-Rows \emph{must} be named by a subset of \code{LETTERS} to conveniently enter, and identify them from \code{assignments_messy}.
+Rows \emph{must} be named by a subset of \code{LETTERS} to conveniently enter, and identify them from \code{logical_open_sort}.
 The row names are arbitrary identifiers, but will be retained for the canonical form.
 Columns \emph{must} be named as participants.
 
@@ -69,11 +78,13 @@ The rows in these matrices are the items, the columns are the dimensions, and ce
 Optional dimension descriptions are included as attributes of the matrices.
 
 The canonical representation of open sorts in \code{\link[=psOpenSorts]{psOpenSorts()}} can be cumbersome to enter manually.
-For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of \code{descriptions_messy} and \code{assignments_messy} using \code{\link[=import_psOpenSorts]{import_psOpenSorts()}}.
+For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of \code{descriptions_messy} and \code{logical_open_sorts} using \code{\link[=as_psLogicalOpenSorts]{as_psLogicalOpenSorts()}}.
 }
-\section{Functions}{
+\section{Methods (by generic)}{
 \itemize{
-\item \code{import_psOpenSorts}: descriptions and \emph{logical} assignments from convenient, but messy format
+\item \code{as_psLogicalOpenSorts}: coerce messy, but convenient format to psLogicalOpenSorts
+
+\item \code{as_psLogicalOpenSorts}: coerce data.frame of \emph{all} sorts to psLogicalOpenSorts
 }}
 
 \note{
@@ -81,7 +92,7 @@ When a category is assigned, but never described, it is \code{TRUE} in the respe
 This is still considered valuable, if incomplete information.
 When a category is described, but never assigned, it is omitted from the data entirely.
 
-When \emph{no} category was assigned to some item in \code{assignments_messy}, an empty character string \code{""} should be in the respective cell.
+When \emph{no} category was assigned to some item in \code{logical_open_sorts}, an empty character string \code{""} should be in the respective cell.
 
 An \code{NA} value implies that the given participant never considered the given items \emph{at all}, across \emph{all} her categories.
 Notice this implies \emph{limited scenarios of \code{NA}} for data entered in this messy, convenient form.
@@ -172,8 +183,8 @@ desc <- pensieve:::make_messy(open_sorts = los)$desc
 ass
 desc
 
-los_from_messy <- import_psOpenSorts(
-  assignments_messy = ass,
+los_from_messy <- as_psLogicalOpenSorts(
+  logical_open_sorts = ass,
   descriptions_messy = desc,
   keep_LETTERS = FALSE)
 ggplot2::autoplot(object = los)
