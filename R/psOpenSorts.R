@@ -27,16 +27,8 @@ psOpenSorts <- function(open_sorts) {
   open_sorts <- lapply(X = open_sorts, FUN = function(x) as_psOpenSort(x))
 
   # for no particular reason, we make the first in the list the benchmark
-  classvec <- class(open_sorts[[1]])
-  if ("psLogicalOpenSort" %in% classvec) {
-    subclass <- "psLogicalOpenSorts"
-  } else if ("psOrdinalOpenSort" %in% classvec) {
-    subclass <- "psOrdinalOpenSorts"
-  } else if ("psIntervalOpenSort" %in% classvec) {
-    subclass <- "psIntervalOpenSorts"
-  } else {
-    stop("No valid subclass to 'psOpenSort' found.")
-  }
+  which_cl <- as.logical(inherits(x = open_sorts[[1]], what = os_subcl$class_singular, which = TRUE))
+  subclass <- os_subcl[which_cl, "class_plural"]
 
   validate_psOpenSorts(new_psOpenSorts(open_sorts = open_sorts, subclass = subclass))
 }
@@ -51,17 +43,6 @@ new_psOpenSorts <- function(open_sorts, subclass = NULL) {
 
 # validator
 validate_psOpenSorts <- function(open_sorts) {
-  classvec <- class(open_sorts[[1]])
-  if ("psLogicalOpenSort" %in% classvec) {
-    mode <- "logical"
-  } else if ("psOrdinalOpenSort" %in% classvec) {
-    mode <- "integer"
-  } else if ("psIntervalOpenSort" %in% classvec) {
-    mode <- "numeric"
-  } else {
-    stop("No valid subclass to 'psOpenSort' found.")
-  }
-
   assert_list(x = open_sorts,
               any.missing = TRUE,
               all.missing = FALSE,
@@ -70,14 +51,15 @@ validate_psOpenSorts <- function(open_sorts) {
   # for no particular reason, we make the first in the list the benchmark
   n_items <- nrow(open_sorts[[1]])
   item_handles <- rownames(open_sorts[[1]])
+  which_cl <- as.logical(inherits(x = open_sorts[[1]], what = os_subcl$class_singular, which = TRUE))
+  mode <- os_subcl[which_cl, "mode"]
 
   # TODO a c or list method might be a better approach than these ugly
   lapply(X = open_sorts, FUN = function(x) {
     validate_psOpenSort(osort = x)
     assert_matrix(x = x,
                   mode = mode,
-                  nrows = n_items,
-                  row.names = "strict")
+                  nrows = n_items)
     assert_set_equal(x = rownames(x),
                      y = item_handles,
                      ordered = TRUE)

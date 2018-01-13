@@ -55,10 +55,7 @@ psOpenSort <- function(osort, descriptions = NULL, scale = NULL) {
     }
   }
 
-  subclass <- switch(EXPR = scale,
-                     "logical" = "psLogicalOpenSort",
-                     "ordinal" = "psOrdinalOpenSort",
-                     "interval" = "psIntervalOpenSort")
+  subclass <- os_subcl[os_subcl$scale == scale, "class_singular"]
 
   validate_psOpenSort(new_psOpenSort(
     osort = osort,
@@ -77,18 +74,14 @@ new_psOpenSort <- function(osort, descriptions, subclass) {
 
 # parent validator
 validate_psOpenSort <- function(osort) {
-  classvec <- class(osort)
-  if ("psLogicalOpenSort" %in% classvec) {
-    mode <- "logical"
-  } else if ("psOrdinalOpenSort" %in% classvec) {
-    mode <- "integer"
-  } else if ("psIntervalOpenSort" %in% classvec) {
-    mode <- "numeric"
-  } else {
-    stop("No valid subclass to 'psOpenSort' found.")
+  # validate subclasses
+  which_cl <- as.logical(inherits(x = osort, what = os_subcl$class_singular, which = TRUE))
+  if (!any(which_cl)) {
+    stop("No valid subclass found.")
   }
 
-  # validate base type
+  # check base type
+  mode <- os_subcl[which_cl, "mode"]
   assert_matrix(x = osort,
                 any.missing = TRUE,
                 all.missing = TRUE,
@@ -150,6 +143,16 @@ validate_psOpenSort <- function(osort) {
 # subclass interval ====
 
 # see above
+
+# setting up all the names to avoid repetitions
+os_subcl <- data.frame(
+  scale = c("logical", "ordinal", "interval"),
+  mode = c("logical", "integer", "numeric"),
+  class_singular = c("psLogicalOpenSort", "psOrdinalOpenSort", "psIntervalOpenSort"),
+  stringsAsFactors = FALSE
+)
+os_subcl$class_plural <- paste0(os_subcl$class_singular, "s")
+os_subcl
 
 
 # coercion ====
