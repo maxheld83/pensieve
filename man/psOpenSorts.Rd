@@ -82,9 +82,13 @@ For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format 
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{as_psLogicalOpenSorts}: coerce messy, but convenient format to psLogicalOpenSorts
+\item \code{as_psLogicalOpenSorts}: 
 
-\item \code{as_psLogicalOpenSorts}: coerce data.frame of \emph{all} sorts to psLogicalOpenSorts
+\item \code{as_psLogicalOpenSorts}: coerce messy, but convenient data.frame or matrix with \emph{all} sorts to psLogicalOpenSorts
+
+\item \code{tidy}: \emph{Summarize} list of open sorts
+
+\item \code{autoplot}: plots Summary
 }}
 
 \note{

@@ -97,7 +97,7 @@ as_psLogicalOpenSorts.psLogicalOpenSorts <- function(logical_open_sorts, ...) {
   validate_psOpenSorts(open_sorts = logical_open_sorts)
 }
 
-#' @describeIn psOpenSorts coerce messy, but convenient format to psLogicalOpenSorts
+#' @describeIn psOpenSorts
 #'
 #' @param descriptions_messy a character matrix with rows as category indices, columns as participants and **category descriptions** in cells.
 #' Rows *must* be named by a subset of `LETTERS` to conveniently enter, and identify them from `logical_open_sort`.
@@ -214,7 +214,7 @@ as_psLogicalOpenSorts.matrix <- function(logical_open_sorts,
   return(cat_canon)
 }
 
-#' @describeIn psOpenSorts coerce data.frame of *all* sorts to psLogicalOpenSorts
+#' @describeIn psOpenSorts coerce messy, but convenient data.frame or matrix with *all* sorts to psLogicalOpenSorts
 #' @export
 as_psLogicalOpenSorts.data.frame <- as_psLogicalOpenSorts.matrix
 
@@ -243,8 +243,7 @@ make_messy <- function(open_sorts) {
 }
 
 # plotting ====
-#' @rdname psOpenSorts
-# #' @describeIn psOpenSorts *Summarize* list of open sorts
+#' @describeIn psOpenSorts *Summarize* list of open sorts
 #'
 #' @param x a [psOpenSorts], created by [psOpenSorts()].
 #'
@@ -261,8 +260,7 @@ tidy.psLogicalOpenSorts <- function(x) {
   return(by_person)
 }
 
-#' @rdname psOpenSorts
-# #' @describeIn psOpenSorts plots Summary
+#' @describeIn psOpenSorts plots Summary
 #'
 #' @param object a [psLogicalOpenSorts], created by [psOpenSorts()].
 #'
