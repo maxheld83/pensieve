@@ -68,7 +68,12 @@ validate_psOpenSorts <- function(open_sorts) {
 }
 
 # coercion ====
-#' @rdname psOpenSorts
+#' @title Coerce messy, but convenient format of *all* logical sorts to a `psOpenSorts` object.
+#'
+#' @description
+#' Only available for *logical* open sorts.
+#' Should only be used for hand-entered open sorts, administered on paper.
+#' This format has limitations; see `note`.
 #'
 #' @param logical_open_sorts a character matrix with rows as items, columns as participants and  **logical category assignments** as character strings in cells.
 #' Categories are identified by a subset from `LETTERS`, same as in `descriptions_messy`.
@@ -77,8 +82,6 @@ validate_psOpenSorts <- function(open_sorts) {
 #'
 #' For example, if some participant assigned her (self-described) categories `A`, `D` and `Z` to some item, the cell for that item and participant would read `"A, D, Z"`.
 #' Order and punctuation are ignored.
-#'
-#' See `note`.
 #'
 #' @param ... further arguments passed to or from other methods.
 #'
@@ -97,7 +100,7 @@ as_psLogicalOpenSorts.psLogicalOpenSorts <- function(logical_open_sorts, ...) {
   validate_psOpenSorts(open_sorts = logical_open_sorts)
 }
 
-#' @describeIn psOpenSorts
+#' @describeIn as_psLogicalOpenSorts coerce matrix or data.frame of all logical sorts to psLogicalOpenSorts
 #'
 #' @param descriptions_messy a character matrix with rows as category indices, columns as participants and **category descriptions** in cells.
 #' Rows *must* be named by a subset of `LETTERS` to conveniently enter, and identify them from `logical_open_sort`.
@@ -214,7 +217,7 @@ as_psLogicalOpenSorts.matrix <- function(logical_open_sorts,
   return(cat_canon)
 }
 
-#' @describeIn psOpenSorts coerce messy, but convenient data.frame or matrix with *all* sorts to psLogicalOpenSorts
+#' @describeIn as_psLogicalOpenSorts coerce messy, but convenient data.frame or matrix with *all* sorts to psLogicalOpenSorts
 #' @export
 as_psLogicalOpenSorts.data.frame <- as_psLogicalOpenSorts.matrix
 

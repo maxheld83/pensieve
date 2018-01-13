@@ -5,22 +5,11 @@
 \alias{psLogicalOpenSorts}
 \alias{psOrdinalOpenSorts}
 \alias{psIntervalOpenSorts}
-\alias{as_psLogicalOpenSorts}
-\alias{as_psLogicalOpenSorts.matrix}
-\alias{as_psLogicalOpenSorts.data.frame}
 \alias{tidy.psLogicalOpenSorts}
 \alias{autoplot.psOpenSorts}
 \title{Store \emph{multiple} open sorts in a psOpenSorts list.}
 \usage{
 psOpenSorts(open_sorts)
-
-as_psLogicalOpenSorts(logical_open_sorts, ...)
-
-\method{as_psLogicalOpenSorts}{matrix}(logical_open_sorts,
-  descriptions_messy = NULL, keep_LETTERS = TRUE, ...)
-
-\method{as_psLogicalOpenSorts}{data.frame}(logical_open_sorts,
-  descriptions_messy = NULL, keep_LETTERS = TRUE, ...)
 
 \method{tidy}{psLogicalOpenSorts}(x)
 
@@ -29,35 +18,6 @@ as_psLogicalOpenSorts(logical_open_sorts, ...)
 \arguments{
 \item{open_sorts}{A list of matrices, one for each participant.
 Matrices must be \code{\link[=psOpenSort]{psOpenSort()}} objects, or coercable via \code{\link[=as_psOpenSort]{as_psOpenSort()}}.}
-
-\item{logical_open_sorts}{a character matrix with rows as items, columns as participants and  \strong{logical category assignments} as character strings in cells.
-Categories are identified by a subset from \code{LETTERS}, same as in \code{descriptions_messy}.
-Assignments must be the same subset of \code{LETTERS} as the column names in \code{descriptions_messy}.
-Rows and columns must be named.
-
-For example, if some participant assigned her (self-described) categories \code{A}, \code{D} and \code{Z} to some item, the cell for that item and participant would read \code{"A, D, Z"}.
-Order and punctuation are ignored.
-
-See \code{note}.}
-
-\item{...}{further arguments passed to or from other methods.}
-
-\item{descriptions_messy}{a character matrix with rows as category indices, columns as participants and \strong{category descriptions} in cells.
-Rows \emph{must} be named by a subset of \code{LETTERS} to conveniently enter, and identify them from \code{logical_open_sort}.
-The row names are arbitrary identifiers, but will be retained for the canonical form.
-Columns \emph{must} be named as participants.
-
-Defaults to \code{NULL}, in which case no descriptions are available.
-
-Notice category description in one row have \emph{nothing in common} other than their \emph{indices}:
-For example, the category descriptions in a row named \code{'B'} are all by different participants, and may refer to entirely different aspects.
-They are only conveniently entered in a table, and all share the fact that they were the \emph{second} description provided.
-
-When some category has not been defined by the participant, the value in the cell should be \code{NA}.
-Empty strings \code{""} will also be considered \code{NA}.}
-
-\item{keep_LETTERS}{a logical flag.
-Defaults to \code{TRUE}, in which case the \code{LETTERS} for the category descriptions and assignments are retained as names, even though they are just indices and not actual meaningful names (useful for debugging).}
 
 \item{x}{a \link{psOpenSorts}, created by \code{\link[=psOpenSorts]{psOpenSorts()}}.}
 
@@ -76,34 +36,14 @@ Open sorting categorizations \emph{cannot} be compared between participants, bec
 Every \emph{individual} matrix is a \code{\link[=psOpenSort]{psOpenSort()}} object, and together, they form a \code{\link[=psOpenSorts]{psOpenSorts()}} list.
 The rows in these matrices are the items, the columns are the dimensions, and cells are the assignment.
 Optional dimension descriptions are included as attributes of the matrices.
-
-The canonical representation of open sorts in \code{\link[=psOpenSorts]{psOpenSorts()}} can be cumbersome to enter manually.
-For \emph{logical} (nominally-scaled) open sorts, a simpler, but messier format can be conveniently entered as two separate spreadsheets of \code{descriptions_messy} and \code{logical_open_sorts} using \code{\link[=as_psLogicalOpenSorts]{as_psLogicalOpenSorts()}}.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{as_psLogicalOpenSorts}: 
-
-\item \code{as_psLogicalOpenSorts}: coerce messy, but convenient data.frame or matrix with \emph{all} sorts to psLogicalOpenSorts
-
 \item \code{tidy}: \emph{Summarize} list of open sorts
 
 \item \code{autoplot}: plots Summary
 }}
 
-\note{
-When a category is assigned, but never described, it is \code{TRUE} in the respective logical matrix entries and their description is \code{NA}:
-This is still considered valuable, if incomplete information.
-When a category is described, but never assigned, it is omitted from the data entirely.
-
-When \emph{no} category was assigned to some item in \code{logical_open_sorts}, an empty character string \code{""} should be in the respective cell.
-
-An \code{NA} value implies that the given participant never considered the given items \emph{at all}, across \emph{all} her categories.
-Notice this implies \emph{limited scenarios of \code{NA}} for data entered in this messy, convenient form.
-The more complicated cases, where a participant did consider \emph{some}, but \emph{not all} items in the assignment of a category, or -- equivalently -- all categories in their assessment of all items, cannot be recorded in this convenience format.
-Such more granular \code{NA} records can, however, be recorded in the canonical data representation, where the respective cell of the items x category logical matrix would be \code{NA}.
-If your data gathering procedure produces such granular \code{NA} records, do not use this convenience function.
-}
 \examples{
 # create single open sort ====
 
