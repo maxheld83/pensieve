@@ -2,10 +2,13 @@
 % Please edit documentation in R/psOpenSorts.R
 \name{psOpenSorts}
 \alias{psOpenSorts}
+\alias{psLogicalOpenSorts}
+\alias{psOrdinalOpenSorts}
+\alias{psIntervalOpenSorts}
 \alias{import_psOpenSorts}
 \alias{tidy.psOpenSorts}
 \alias{autoplot.psOpenSorts}
-\title{Store open sorts in a psOpenSort list.}
+\title{Store \emph{multiple} open sorts in a psOpenSorts list.}
 \usage{
 psOpenSorts(open_sorts)
 
@@ -18,7 +21,7 @@ import_psOpenSorts(assignments_messy, descriptions_messy = NULL,
 }
 \arguments{
 \item{open_sorts}{A list of matrices, one for each participant.
-Matrices must be \code{\link[=psOpenSort]{psOpenSort()}} objects.}
+Matrices must be \code{\link[=psOpenSort]{psOpenSort()}} objects, or coercable via \code{\link[=as_psOpenSort]{as_psOpenSort()}}.}
 
 \item{assignments_messy}{a character matrix with rows as items, columns as participants and  \strong{logical category assignments} as character strings in cells.
 Categories are identified by a subset from \code{LETTERS}, same as in \code{descriptions_messy}.

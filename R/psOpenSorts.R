@@ -1,6 +1,7 @@
 # helper ====
-
-#' @title Store open sorts in a psOpenSort list.
+#' @title Store *multiple* open sorts in a psOpenSorts list.
+#'
+#' @aliases psLogicalOpenSorts psOrdinalOpenSorts psIntervalOpenSorts
 #'
 #' @details
 #' Open sorting categorizations *cannot* be compared between participants, because each participants defines her own dimensions.
@@ -12,7 +13,7 @@
 #'
 #' @param open_sorts
 #' A list of matrices, one for each participant.
-#' Matrices must be [psOpenSort()] objects.
+#' Matrices must be [psOpenSort()] objects, or coercable via [as_psOpenSort()].
 #'
 #' @example tests/testthat/helper_psOpenSort.R
 #' @example tests/testthat/helper_psOpenSorts.R
@@ -23,34 +24,58 @@
 #'
 #' @export
 psOpenSorts <- function(open_sorts) {
-  validate_psOpenSorts(new_psOpenSorts(open_sorts = open_sorts))
+  open_sorts <- lapply(X = open_sorts, FUN = function(x) as_psOpenSort(x))
+
+  # for no particular reason, we make the first in the list the benchmark
+  classvec <- class(open_sorts[[1]])
+  if ("psLogicalOpenSort" %in% classvec) {
+    subclass <- "psLogicalOpenSorts"
+  } else if ("psOrdinalOpenSort" %in% classvec) {
+    subclass <- "psOrdinalOpenSorts"
+  } else if ("psIntervalOpenSort" %in% classvec) {
+    subclass <- "psIntervalOpenSorts"
+  } else {
+    stop("No valid subclass to 'psOpenSort' found.")
+  }
+
+  validate_psOpenSorts(new_psOpenSorts(open_sorts = open_sorts, subclass = subclass))
 }
 
 # constructor
-new_psOpenSorts <- function(open_sorts) {
+new_psOpenSorts <- function(open_sorts, subclass = NULL) {
   structure(
     .Data = open_sorts,
-    class = c("psOpenSorts")
+    class = c(subclass, "psOpenSorts")
   )
 }
 
 # validator
 validate_psOpenSorts <- function(open_sorts) {
+  classvec <- class(open_sorts[[1]])
+  if ("psLogicalOpenSort" %in% classvec) {
+    mode <- "logical"
+  } else if ("psOrdinalOpenSort" %in% classvec) {
+    mode <- "integer"
+  } else if ("psIntervalOpenSort" %in% classvec) {
+    mode <- "numeric"
+  } else {
+    stop("No valid subclass to 'psOpenSort' found.")
+  }
+
   assert_list(x = open_sorts,
               any.missing = TRUE,
               all.missing = FALSE,
               types = "matrix")
 
   # for no particular reason, we make the first in the list the benchmark
-  data_type <- mode(open_sorts[[1]])
   n_items <- nrow(open_sorts[[1]])
   item_handles <- rownames(open_sorts[[1]])
 
-  assert_choice(x = data_type, choices = c("logical", "integer", "numeric"))
+  # TODO a c or list method might be a better approach than these ugly
   lapply(X = open_sorts, FUN = function(x) {
     validate_psOpenSort(osort = x)
     assert_matrix(x = x,
-                  mode = data_type,
+                  mode = mode,
                   nrows = n_items,
                   row.names = "strict")
     assert_set_equal(x = rownames(x),

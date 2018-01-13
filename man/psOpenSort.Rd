@@ -11,7 +11,7 @@
 \alias{tidy.psLogicalOpenSort}
 \alias{autoplot.psLogicalOpenSort}
 \alias{summary.psLogicalOpenSort}
-\title{psOpenSort Store \emph{individual} sort and dimension description by \emph{one} participant.}
+\title{Store \emph{individual} sort and dimension description by \emph{one} participant.}
 \usage{
 psOpenSort(osort, descriptions = NULL, scale = NULL)
 

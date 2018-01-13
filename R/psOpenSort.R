@@ -1,5 +1,5 @@
 # helper ====
-#' @title psOpenSort Store *individual* sort and dimension description by *one* participant.
+#' @title Store *individual* sort and dimension description by *one* participant.
 #'
 #' @aliases psLogicalOpenSort psOrdinalOpenSort psIntervalOpenSort
 #'
