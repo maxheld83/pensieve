@@ -277,9 +277,8 @@ autoplot.psOpenSorts <- function(object) {
   g <- g + geom_point()
   g <- g + xlab("Number of Dimensions (Categories)")
   g <- g + ylab("Number of Assignments (TRUEs) per Dimension (Category)")
-  g <- g + xlim(0, NA)
   g <- g + ylim(0, NA)
-  g <- g + scale_x_continuous(breaks = c(1:max(df$n_dim)))
+  g <- g + scale_x_continuous(breaks = c(1:max(df$n_dim)), limits = c(0, NA))
 
   if (requireNamespace("ggrepel", quietly = TRUE)) {
     # repel labels
