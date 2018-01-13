@@ -1,7 +1,7 @@
 Package: pensieve
 Type: Package
 Title: Tools for the Scientific Study of Operant Subjectivity
-Version: 0.0.0.9021
+Version: 0.0.0.9022
 Roxygen: list(markdown = TRUE)
 Authors@R: 
   person("Maximilian", "Held", email = "info@maxheld.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4703-5388"))

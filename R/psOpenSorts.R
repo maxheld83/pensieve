@@ -254,7 +254,6 @@ autoplot.psOpenSorts <- function(object) {
   g <- g + geom_point()
   g <- g + xlab("Number of Dimensions (Categories)")
   g <- g + ylab("Number of Assignments (TRUEs)")
-  g <- g + geom_rug()
 
   if (requireNamespace("ggrepel", quietly = TRUE)) {
     # repel labels
