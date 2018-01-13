@@ -246,14 +246,17 @@ tidy.psLogicalOpenSorts <- function(x) {
 #'
 #' @export
 autoplot.psOpenSorts <- function(object) {
-  by_person <- tidy.psLogicalOpenSorts(x = object)
+  df <- tidy.psLogicalOpenSorts(x = object)
 
-  g <- ggplot(data = by_person,
-              mapping = aes_string(x = 'n_dim', y = 'n_true', label = 'name'))
+  g <- ggplot(data = df,
+              mapping = aes_string(x = 'n_dim', y = 'true_per_dim', label = 'name'))
   g <- g + geom_smooth(method = "lm", show.legend = TRUE)
   g <- g + geom_point()
   g <- g + xlab("Number of Dimensions (Categories)")
-  g <- g + ylab("Number of Assignments (TRUEs)")
+  g <- g + ylab("Number of Assignments (TRUEs) per Dimension (Category)")
+  g <- g + xlim(0, NA)
+  g <- g + ylim(0, NA)
+  g <- g + scale_x_continuous(breaks = c(1:max(df$n_dim)))
 
   if (requireNamespace("ggrepel", quietly = TRUE)) {
     # repel labels
