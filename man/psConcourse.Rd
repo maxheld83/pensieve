@@ -191,12 +191,12 @@ from_vec <- as_psConcourse(vec, languages = "english")
 knitr::knit_print(x = multilingual_text, use_js = TRUE, options = NULL)
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}},
-  \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{make_grid}}, \code{\link{psItems}},
-  \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
-  \code{\link{psPeople}}, \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{correlate}},
+  \code{\link{extract}}, \code{\link{make_grid}},
+  \code{\link{psItems}}, \code{\link{psOpenSorts}},
+  \code{\link{psOpenSort}}, \code{\link{psPeople}},
+  \code{\link{score}}
 }
 \concept{S3 classes from `pensieve`}
 \concept{print functions}

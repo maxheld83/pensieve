@@ -64,15 +64,15 @@ check(x = sorts)
 plot(x = sorts)
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
-  \code{\link{QPreSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{psConcourse}}, \code{\link{psItems}},
-  \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
-  \code{\link{psPeople}}, \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}, \code{\link{psConcourse}},
+  \code{\link{psItems}}, \code{\link{psOpenSorts}},
+  \code{\link{psOpenSort}}, \code{\link{psPeople}},
+  \code{\link{score}}
 
-Other import helpers: \code{\link{QItemStrata}},
-  \code{\link{QPreSorts}}, \code{\link{anonymize}}
+Other import helpers: \code{\link{QPreSorts}},
+  \code{\link{anonymize}}
 
 Other validation functions: \code{\link{check}},
   \code{\link{correlate}}, \code{\link{extract}},

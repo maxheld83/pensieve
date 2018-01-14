@@ -312,37 +312,6 @@ latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right
   )
 }
 
-# pensieveItemStrata ====
-# logical array of n dimensions, items as rows, arbitrary dimensions,
-#' @title Check and make QItemStrata
-#'
-#' @export
-#'
-#' @description Checks and makes QItemStrata, the item sampling structure
-#'
-#' @param strata A logical array of arbitrary dimensions, with first dimension (rows) as item handles, and higher dimensions as orthogonal sampling strata.
-#'
-#' @template construct
-#'
-#' @family import helpers
-QItemStrata <- produce_class_constructor(classname = "QItemStrata", fun = function(strata) {
-  return(strata)
-})
-
-#' @export
-#' @rdname check
-check.QItemStrata <- function(x) {
-  res <- NULL
-  res$array <- check_array(x = x,
-                           mode = "logical",
-                           any.missing = FALSE,
-                           min.d = 1,
-                           null.ok = FALSE)
-  res <- c(res, check_named_array(x = x))  # via external helper
-  return(report_checks(res = res, info = "QItemStrata"))
-}
-
-
 # Drafts and Helpers ====
 # helper: check QLookup
 check_QLookup <- check_lookup <- function(x){

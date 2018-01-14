@@ -135,11 +135,11 @@ ggplot2::autoplot(object = los)
 
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QItemStrata}},
-  \code{\link{QPreSorts}}, \code{\link{QSorts}},
-  \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{make_grid}}, \code{\link{psConcourse}},
-  \code{\link{psItems}}, \code{\link{psOpenSort}},
-  \code{\link{psPeople}}, \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
+  \code{\link{QSorts}}, \code{\link{correlate}},
+  \code{\link{extract}}, \code{\link{make_grid}},
+  \code{\link{psConcourse}}, \code{\link{psItems}},
+  \code{\link{psOpenSort}}, \code{\link{psPeople}},
+  \code{\link{score}}
 }
 \concept{S3 classes from `pensieve`}
