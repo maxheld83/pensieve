@@ -258,38 +258,54 @@ tidy.psLogicalOpenSorts <- function(x) {
 
   # below two are dicey, because n of cat and n of t is different, so these are unweighted sums
   by_both <- sapply(X = x, FUN = function(x) summary.psLogicalOpenSort(x)$n_true_by_item)
-  by_item <- rowSums(x = by_both, na.rm = TRUE)
+  by_item <- data.frame(count = rowSums(x = by_both, na.rm = TRUE))
+  by_item$item <- rownames(by_item)
 
-  return(by_person)
+  return(list(person = by_person, item = by_item))
 }
 
 #' @describeIn psOpenSorts plots Summary
 #'
 #' @param object a [psLogicalOpenSorts], created by [psOpenSorts()].
 #'
+#' @param by a character string, must be one of:
+#' - `person` for a comparison by participants
+#' - `item` for a comparison by items.
+#'
+#'
 #' @examples
 #' ggplot2::autoplot(object = los)
 #'
 #' @export
-autoplot.psOpenSorts <- function(object) {
-  df <- tidy.psLogicalOpenSorts(x = object)
+autoplot.psLogicalOpenSorts <- function(object, by = "item") {
+  if (by == "person") {
+    df <- tidy.psLogicalOpenSorts(x = object)$person
 
-  g <- ggplot(data = df,
-              mapping = aes_string(x = 'n_dim', y = 'true_per_dim', label = 'name'))
-  g <- g + geom_smooth(method = "lm", show.legend = TRUE)
-  g <- g + geom_point()
-  g <- g + xlab("Number of Dimensions (Categories)")
-  g <- g + ylab("Number of Assignments (TRUEs) per Dimension (Category)")
-  g <- g + ylim(0, NA)
-  g <- g + scale_x_continuous(breaks = c(1:max(df$n_dim)), limits = c(0, NA))
+    g <- ggplot(data = df,
+                mapping = aes_string(x = 'n_dim', y = 'true_per_dim', label = 'name'))
+    g <- g + geom_smooth(method = "lm", show.legend = TRUE)
+    g <- g + geom_point()
+    g <- g + xlab("Number of Dimensions (Categories)")
+    g <- g + ylab("Number of Assignments (TRUEs) per Dimension (Category)")
+    g <- g + ylim(0, NA)
+    g <- g + scale_x_continuous(breaks = c(1:max(df$n_dim)), limits = c(0, NA))
 
-  if (requireNamespace("ggrepel", quietly = TRUE)) {
-    # repel labels
-    g <- g + ggrepel::geom_label_repel()
-  } else {
-    warning("Package 'ggrepel' is not installed, labels might overplot.")
+    if (requireNamespace("ggrepel", quietly = TRUE)) {
+      # repel labels
+      g <- g + ggrepel::geom_label_repel()
+    } else {
+      warning("Package 'ggrepel' is not installed, labels might overplot.")
+    }
+    return(g)
+  } else if (by == "item") {
+    df <- tidy.psLogicalOpenSorts(x = object)$item
+
+    g <- ggplot(data = df,
+                mapping = aes_string(x = 'item', y = 'count'))
+    g <- g + geom_bar(stat = "identity")
+    g <- g + coord_flip()
+    g
   }
-  g
 }
 
 
