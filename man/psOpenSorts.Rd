@@ -6,14 +6,14 @@
 \alias{psOrdinalOpenSorts}
 \alias{psIntervalOpenSorts}
 \alias{tidy.psLogicalOpenSorts}
-\alias{autoplot.psOpenSorts}
+\alias{autoplot.psLogicalOpenSorts}
 \title{Store \emph{multiple} open sorts in a psOpenSorts list.}
 \usage{
 psOpenSorts(open_sorts)
 
 \method{tidy}{psLogicalOpenSorts}(x)
 
-\method{autoplot}{psOpenSorts}(object)
+\method{autoplot}{psLogicalOpenSorts}(object, by = "item")
 }
 \arguments{
 \item{open_sorts}{A list of matrices, one for each participant.
@@ -22,6 +22,12 @@ Matrices must be \code{\link[=psOpenSort]{psOpenSort()}} objects, or coercable v
 \item{x}{a \link{psOpenSorts}, created by \code{\link[=psOpenSorts]{psOpenSorts()}}.}
 
 \item{object}{a \link{psLogicalOpenSorts}, created by \code{\link[=psOpenSorts]{psOpenSorts()}}.}
+
+\item{by}{a character string, must be one of:
+\itemize{
+\item \code{person} for a comparison by participants
+\item \code{item} for a comparison by items.
+}}
 }
 \value{
 Object of class \code{psOpenSorts}.

@@ -6,8 +6,6 @@
 #' There must be as many rows as rows in [psConcourse()], and in the same order.
 #' If there is a first column named `items`, it must be the same as the rownames of [psConcourse()].
 #'
-#' @details
-#'
 #' @return A tibble of class `psConcourseExtra`
 #'
 #' @export
