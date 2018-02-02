@@ -65,15 +65,15 @@ Defaults to \code{NULL}, in which case languages are expected as (column) names 
 \item{handles}{character vector as an alternative way to give the item handles.
 Defaults to \code{NULL}, in which case items are expected as (row) names from \code{concourse}.}
 
-\item{x}{an R object to be printed}
+\item{x}{An R object to be printed}
 
 \item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the printed result should be returned.
 Applicable only to HTML-outputs.
 Defaults to \code{NULL}, in which case the appropriate output is inferred from the runtime environment.}
 
-\item{...}{additional arguments passed to the S3 method (currently ignored,
+\item{...}{Additional arguments passed to the S3 method. Currently ignored,
 except two optional arguments \code{options} and \code{inline}; see
-the references below)}
+the references below.}
 }
 \value{
 Object of class \code{psConcourse}.
@@ -82,7 +82,7 @@ Object of class \code{psConcourse}.
 Constructs S3 class for pensieve.
 }
 \details{
-Storing \strong{full items} can enable deployment and convencience functions, as well as enhance the presentation of results.
+Storing \strong{full items} can enable deployment and convenience functions, as well as enhance the presentation of results.
 
 \strong{Canonically}, \code{\link[=psConcourse]{psConcourse()}} stores the concourse as a matrix with:
 \itemize{

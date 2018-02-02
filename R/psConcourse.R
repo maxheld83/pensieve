@@ -2,7 +2,7 @@
 #' @title Store all **full items** in a psConcourse matrix.
 #'
 #' @details
-#' Storing **full items** can enable deployment and convencience functions, as well as enhance the presentation of results.
+#' Storing **full items** can enable deployment and convenience functions, as well as enhance the presentation of results.
 #'
 #' **Canonically**, [psConcourse()] stores the concourse as a matrix with:
 #' - researcher-facing **item handles** as row names,
