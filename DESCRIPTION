@@ -31,6 +31,7 @@ Suggests:
   ggraph (>= 1.0.0),
   igraph (>= 1.1.2),
   lettercase (>= 0.13.1),
+  markdown (>= 0.8),
   pkgdown (>= 0.1.0.9000),
   printr (>= 0.1),
   pryr (>= 0.1.2),
