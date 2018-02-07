@@ -236,7 +236,7 @@ as_psConcourse.matrix <- function(concourse,
       x = handles,
       any.missing = FALSE,
       unique = TRUE,
-      len = ncol(concourse))
+      len = nrow(concourse))
     assert_names(x = handles, type = "strict")
   }
 
