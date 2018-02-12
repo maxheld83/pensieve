@@ -101,7 +101,7 @@ makeNeed <- function(x, res, label) {
 #'
 #' @noRd
 report_checks <- function(res, info = NULL) {
-  msg <- discard(.x = res$babel_language, .p = isTRUE)
+  msg <- purrr::discard(.x = res$babel_language, .p = isTRUE)
 
   # report msg here
   # use map_if here to cut code
@@ -126,8 +126,8 @@ res <- list(
   )
 )
 flatten_msg_hrz <- function(msg) {
-  msg <- discard(.x = msg, .p = isTRUE)
-  msg <- imap_chr(.x = msg, .f = function(x, y) {
+  msg <- purrr::discard(.x = msg, .p = isTRUE)
+  msg <- purrr::imap_chr(.x = msg, .f = function(x, y) {
     if (test_character(x = y,
                        min.chars = 1,
                        any.missing = FALSE,
@@ -152,10 +152,10 @@ flatten_msg_hrz <- function(msg) {
 }
 
 flatten_msg_ver <- function(msg) {
-  depth <- vec_depth(msg)
+  depth <- purrr::vec_depth(msg)
   while (depth > 2) {
-    msg <- modify_depth(.x = res, .depth = 5, .f = is.null, .ragged = TRUE)
-    depth <- vec_depth(msg)
+    msg <- purrr::modify_depth(.x = res, .depth = 5, .f = is.null, .ragged = TRUE)
+    depth <- purrr::vec_depth(msg)
   }
   flatten_msg_hrz(msg)
   return(msg)
