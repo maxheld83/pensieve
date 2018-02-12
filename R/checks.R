@@ -86,25 +86,81 @@ makeNeed <- function(x, res, label) {
   }
 }
 
-# helper: report first error in results, used inside custom checks
+#' @title Report checks
+#'
+#' @description Turns (nested) list of error messages into a check.
+#'
+#' @param res A (nested) list of error messages.
+#'
+#' @param info A character string, name of the object or additional information.
+#'
+#' @details
+#' If elements are named, that name will be included in the check as the offending object.
+#' If elements are unnamed, they will be itemized.
+#' Each nesting level will be intended.
+#'
+#' @noRd
 report_checks <- function(res, info = NULL) {
-  checks <- sapply(X = res, FUN = function(x) {
-    isTRUE(x)
-  })
-  if (all(checks)) {
-    return(TRUE)
-  } else {
-    msg <- paste(if (!(is.null(info))) info,
-                 "check on",
-                 names(res[!checks][1]),
-                 "says:",
-                 res[!checks][[1]])
-    # below will return extra info as name of string, dicey
-        # msg <- structure(res[!checks][[1]],
-    #                  names = names(res[!checks][1]))
-    return(msg)
-  }
+  msg <- discard(.x = res$babel_language, .p = isTRUE)
+
+  # report msg here
+  # use map_if here to cut code
 }
+# example error msg
+res <- list(
+  a = TRUE,
+  b = "error msg 1",
+  c = list(
+    TRUE,
+    "error msg 2"
+  ),
+  d = list(
+    e = "error msg 3",
+    "error msg 4",  # no name for this list item
+    f = list(
+      g = list(
+        h = "error msg 5",
+        i = TRUE
+      )
+    )
+  )
+)
+flatten_msg_hrz <- function(msg) {
+  msg <- discard(.x = msg, .p = isTRUE)
+  msg <- imap_chr(.x = msg, .f = function(x, y) {
+    if (test_character(x = y,
+                       min.chars = 1,
+                       any.missing = FALSE,
+                       all.missing = FALSE,
+                       len = 1,
+                       null.ok = FALSE)) {
+      if (is.null(x)) {
+        return(collapse(y))
+      } else {
+        return(glue(y, ": ", x))
+      }
+    } else {
+      if (is.null(x)) {
+        return("crickets!")
+      } else {
+        return(x)
+      }
+    }
+  })
+  msg <- glue::collapse(x = msg, sep = ",")
+  return(msg)
+}
+
+flatten_msg_ver <- function(msg) {
+  depth <- vec_depth(msg)
+  while (depth > 2) {
+    msg <- modify_depth(.x = res, .depth = 5, .f = is.null, .ragged = TRUE)
+    depth <- vec_depth(msg)
+  }
+  flatten_msg_hrz(msg)
+  return(msg)
+}
+# remember that rapply does not work, b/c it never knows the name of the object
 
 # custom checks ====
 
