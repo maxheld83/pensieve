@@ -32,6 +32,10 @@
 #' Defaults to `NULL`, in which case images are expected at the working directory root [base::getwd()].
 #' Ignored unless `type = "image"`.
 #'
+#' @example tests/testthat/helper_psItemContent.R
+#'
+#' @family S3 classes from `pensieve`
+#'
 #' @return A character vector of class `psItems`.
 #'
 #' @export
@@ -110,7 +114,7 @@ new_psItemContentText <- function(items, markup, babel_language) {
     items = items,
     markup = markup,
     babel_language = babel_language,
-    subclass = "psItemsText"
+    subclass = "psItemContentText"
   )
 }
 
@@ -136,7 +140,7 @@ new_psItemContentImage <- function(items, img_dir) {
   new_psItemContent(
     items = items,
     img_dir = img_dir,
-    subclass = "psItemsImage"
+    subclass = "psItemContentImage"
   )
 }
 

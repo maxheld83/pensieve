@@ -144,8 +144,8 @@ ggplot2::autoplot(object = los)
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{psConcourse}}, \code{\link{psItems}},
-  \code{\link{psOpenSort}}, \code{\link{psPeople}},
-  \code{\link{score}}
+  \code{\link{psConcourse}}, \code{\link{psItemContent}},
+  \code{\link{psItems}}, \code{\link{psOpenSort}},
+  \code{\link{psPeople}}, \code{\link{score}}
 }
 \concept{S3 classes from `pensieve`}

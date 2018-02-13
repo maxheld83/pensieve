@@ -24,8 +24,8 @@ people <- psPeople(data.frame(Name = c("Ann", "Kim", "Joe"),
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{psConcourse}}, \code{\link{psItems}},
-  \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
-  \code{\link{score}}
+  \code{\link{psConcourse}}, \code{\link{psItemContent}},
+  \code{\link{psItems}}, \code{\link{psOpenSorts}},
+  \code{\link{psOpenSort}}, \code{\link{score}}
 }
 \concept{S3 classes from `pensieve`}
