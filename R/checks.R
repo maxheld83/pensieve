@@ -1,5 +1,26 @@
-#' @title Validate S3 classes from this package.
+#' @title Validate S3 classes from pensieve
+#'
 #' @description Use `check()`, `test()`, `assert()`, `expect()` and `need()` to validate  classed objects from this package.
+#'
+#' @export
+#' @inheritParams checkmate::makeAssertion
+#' @inheritParams checkmate::makeExpectation
+#' @template check
+check_S3 <- function(x) {
+  UseMethod(generic = "check_S3")
+}
+
+check_S3.default <- function(x) {
+  stop(
+    "Can't find a validation method for this class. ",
+    "Maybe this is not a class from pensieve?",
+    call. = FALSE)
+}
+
+#' @title Validate S3 classes from pensieve
+#'
+#' @description Use `check()`, `test()`, `assert()`, `expect()` and `need()` to validate  classed objects from this package.
+#'
 #' @export
 #' @inheritParams checkmate::makeAssertion
 #' @inheritParams checkmate::makeExpectation

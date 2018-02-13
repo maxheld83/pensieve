@@ -103,8 +103,9 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{psPeople}}, \code{\link{score}}
 
 Other validation functions: \code{\link{QSorts}},
-  \code{\link{check}}, \code{\link{extract}},
-  \code{\link{make_grid}}, \code{\link{score}}
+  \code{\link{check_S3}}, \code{\link{check}},
+  \code{\link{extract}}, \code{\link{make_grid}},
+  \code{\link{score}}
 
 Other plotting functions: \code{\link{QSorts}},
   \code{\link{extract}}

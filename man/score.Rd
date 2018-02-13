@@ -70,8 +70,9 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{psOpenSort}}, \code{\link{psPeople}}
 
 Other validation functions: \code{\link{QSorts}},
-  \code{\link{check}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}}
+  \code{\link{check_S3}}, \code{\link{check}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}
 }
 \concept{S3 classes from `pensieve`}
 \concept{analysis functions}
