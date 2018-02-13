@@ -90,9 +90,10 @@ validate_psItemContent <- function(items) {
   )
 
   assert_names2(
-    x = items,
+    x = names(items),
     type = "strict",
-    add = coll
+    add = coll,
+    .var.name = "items"
   )
 
 
