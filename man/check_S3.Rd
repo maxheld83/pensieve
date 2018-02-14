@@ -20,5 +20,22 @@ check_S3(x, ...)
 \item{ps_coll}{error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
 }
 \description{
-Use \code{check()}, \code{test()}, \code{assert()}, \code{expect()} and \code{need()} to validate  classed objects from this package.
+Use \code{check_S3()}, \code{test()}, \code{assert()}, \code{expect()} and \code{need()} to validate  classed objects from this package.
 }
+\details{
+The validation functions all use the same underlying \code{\link[=check_S3]{check_S3()}} methods, but return their results in one of several forms:
+\itemize{
+\item \strong{\href{https://github.com/mllg/checkmate}{checkmate}} package extensions:
+\itemize{
+\item \code{check_S3()} returns \code{TRUE} or the error message as a character string,
+\item \code{assert()} returns \code{x} invisibly or throws an error,
+\item \code{test()} returns \code{TRUE} or \code{FALSE},
+\item \code{expect()} always returns an \code{\link[testthat:expectation]{testthat::expectation()}} for internal use with testing via \href{https://github.com/hadley/testthat}{testthat}).
+}
+\item \strong{\href{https://shiny.rstudio.com}{shiny}} validation:
+\itemize{
+\item \code{need()} returns \code{NULL} or the error message for interal use with the accio web frontend inside \code{\link[shiny:validate]{shiny::validate()}}.
+}
+}
+}
+\concept{validation functions}

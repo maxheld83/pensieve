@@ -1,10 +1,22 @@
 #' @title Validate S3 classes from pensieve
 #'
-#' @description Use `check()`, `test()`, `assert()`, `expect()` and `need()` to validate  classed objects from this package.
+#' @description Use `check_S3()`, `test()`, `assert()`, `expect()` and `need()` to validate  classed objects from this package.
+#'
+#' @details
+#' The validation functions all use the same underlying [check_S3()] methods, but return their results in one of several forms:
+#' - **[checkmate](https://github.com/mllg/checkmate)** package extensions:
+#'   - `check_S3()` returns `TRUE` or the error message as a character string,
+#'   - `assert()` returns `x` invisibly or throws an error,
+#'   - `test()` returns `TRUE` or `FALSE`,
+#'   - `expect()` always returns an [testthat::expectation()] for internal use with testing via [`testthat`](https://github.com/hadley/testthat)).
+#' - **[shiny](https://shiny.rstudio.com)** validation:
+#'   - `need()` returns `NULL` or the error message for interal use with the accio web frontend inside [shiny::validate()].
 #'
 #' @param x An object created by soem constructor function.
 #'
 #' @param ... further arguments to be passed to methods.
+#'
+#' @family validation functions
 #'
 #' @export
 check_S3 <- function(x, ...) {

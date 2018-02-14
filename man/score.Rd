@@ -32,12 +32,6 @@ Construct S3 class for pensieve.
 
 Check S3 class.
 }
-\details{
-\code{check()}, \code{test()}, \code{assert()} and \code{expect()} are extensions the family of functions from the \href{https://github.com/mllg/checkmate}{checkmate} package.
-\code{check()} returns \code{TRUE} or the error message, \code{assert()} only returns a message in case of an error, \code{test()} returns \code{TRUE} or \code{FALSE}.
-\code{expect()} is for internal use with testing via \href{https://github.com/hadley/testthat}{testthat}).
-\code{need()} returns \code{NULL} or the error message and is for interal use with the accio web frontend inside \code{\link[shiny:validate]{shiny::validate()}}.
-}
 \section{Methods (by generic)}{
 \itemize{
 \item \code{check}: validation
@@ -50,11 +44,6 @@ loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")  # preparatory step
 scores <- score(loas = loas, sorts = sorts)
 # this just assigns the class, without validation (not recommended)
 scores <- QScores(scores = scores, validate = FALSE)
-# check object and friends ...
-# check(x)  # returns TRUE or error message
-# test(x)  # returns TRUE or FALSE
-# assert(x)  # returns error or silently object
-# need(x)  # returns NULL or error message
 # this validates the class
 check(x = scores)
 }
@@ -68,12 +57,7 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{psConcourse}}, \code{\link{psItemContent}},
   \code{\link{psItems}}, \code{\link{psOpenSorts}},
   \code{\link{psOpenSort}}, \code{\link{psPeople}}
-
-Other validation functions: \code{\link{QSorts}},
-  \code{\link{check}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}}
 }
 \concept{S3 classes from `pensieve`}
 \concept{analysis functions}
 \concept{scoring functions}
-\concept{validation functions}

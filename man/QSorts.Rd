@@ -39,12 +39,6 @@ Check S3 class.
 
 Plot S3 class.
 }
-\details{
-\code{check()}, \code{test()}, \code{assert()} and \code{expect()} are extensions the family of functions from the \href{https://github.com/mllg/checkmate}{checkmate} package.
-\code{check()} returns \code{TRUE} or the error message, \code{assert()} only returns a message in case of an error, \code{test()} returns \code{TRUE} or \code{FALSE}.
-\code{expect()} is for internal use with testing via \href{https://github.com/hadley/testthat}{testthat}).
-\code{need()} returns \code{NULL} or the error message and is for interal use with the accio web frontend inside \code{\link[shiny:validate]{shiny::validate()}}.
-}
 \section{Methods (by generic)}{
 \itemize{
 \item \code{check}: validation
@@ -53,11 +47,6 @@ Plot S3 class.
 }}
 
 \examples{
-# check object and friends ...
-# check(x)  # returns TRUE or error message
-# test(x)  # returns TRUE or FALSE
-# assert(x)  # returns error or silently object
-# need(x)  # returns NULL or error message
 sorts <- civicon_2014$qData$sorts[,,"before"]
 sorts <- QSorts(sorts = sorts, validate = FALSE)
 check(x = sorts)
@@ -74,14 +63,9 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
 Other import helpers: \code{\link{QPreSorts}},
   \code{\link{anonymize}}
 
-Other validation functions: \code{\link{check}},
-  \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{make_grid}}, \code{\link{score}}
-
 Other plotting functions: \code{\link{correlate}},
   \code{\link{extract}}
 }
 \concept{S3 classes from `pensieve`}
 \concept{import helpers}
 \concept{plotting functions}
-\concept{validation functions}
