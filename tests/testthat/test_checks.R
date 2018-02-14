@@ -1,8 +1,5 @@
 context(desc = "type validation")
 
-good_obj <- items_text_en
-bad_obj <- structure(.Data = 1L, class = "psItemContent") # must be character
-
 test_that(desc = "check errors out on unknown class", code = {
   expect_error(object = check_S3(x = "foo"))
   expect_error(object = check_S3(x = NULL))

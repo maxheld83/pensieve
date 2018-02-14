@@ -18,6 +18,8 @@
 #'
 #' @family validation functions
 #'
+#' @example tests/testthat/helper_checks.R
+#'
 #' @export
 check_S3 <- function(x, ...) {
   # this will be passed to all methods to fill
@@ -27,7 +29,9 @@ check_S3 <- function(x, ...) {
 
 #' @describeIn check_S3 default
 #'
-#'@param ps_coll error collection via [checkmate::makeAssertCollection()], for internal use.
+#' @param ps_coll error collection via [checkmate::makeAssertCollection()], for internal use.
+#'
+#' @export
 #'
 #' @noRd
 check_S3.default <- function(x, ps_coll = NULL, ...) {
