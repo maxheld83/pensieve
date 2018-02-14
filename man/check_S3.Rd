@@ -2,13 +2,10 @@
 % Please edit documentation in R/checks.R, R/psItemContent.R
 \name{check_S3}
 \alias{check_S3}
-\alias{check_S3.default}
 \alias{check_S3.psItemContent}
 \title{Validate S3 classes from pensieve}
 \usage{
 check_S3(x, ...)
-
-\method{check_S3}{default}(x, ps_coll = NULL, ...)
 
 \method{check_S3}{psItemContent}(x, ...)
 }
@@ -16,8 +13,6 @@ check_S3(x, ...)
 \item{x}{An object created by soem constructor function.}
 
 \item{...}{further arguments to be passed to methods.}
-
-\item{ps_coll}{error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
 }
 \description{
 Use \code{check_S3()}, \code{test()}, \code{assert()}, \code{expect()} and \code{need()} to validate  classed objects from this package.

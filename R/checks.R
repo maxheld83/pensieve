@@ -25,11 +25,11 @@ check_S3 <- function(x, ...) {
   UseMethod(generic = "check_S3")
 }
 
-#' @rdname check_S3
+#' @describeIn check_S3 default
 #'
-#' @param ps_coll error collection via [checkmate::makeAssertCollection()], for internal use.
+#'@param ps_coll error collection via [checkmate::makeAssertCollection()], for internal use.
 #'
-#' @export
+#' @noRd
 check_S3.default <- function(x, ps_coll = NULL, ...) {
   # this is just a precaution in case this default is called directly, and there is no coll
   if (is.null(ps_coll)) {
