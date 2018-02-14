@@ -81,9 +81,9 @@ new_psItemContent <- function(items, ..., subclass = NULL) {
 }
 
 # parent validator
-#' @rdname check_S3
+#' @noRd
 #' @export
-check_S3.psItemContent <- function(x, ...) {
+check_S3.psItemContent <- function(x, ps_coll = NULL, ...) {
   assert_character(
     x = x,
     any.missing = TRUE,
@@ -103,7 +103,6 @@ check_S3.psItemContent <- function(x, ...) {
 
   NextMethod(ps_coll = ps_coll)
 }
-
 
 validate_psItemContent <- function(items) {
   coll <- makeAssertCollection()
@@ -140,6 +139,26 @@ new_psItemContentText <- function(items, markup, babel_language) {
     babel_language = babel_language,
     subclass = "psItemContentText"
   )
+}
+
+# parent validator
+#' @rdname check_S3
+#' @export
+check_S3.psItemContentText <- function(x, ...) {
+  assert_choice(
+    x = attr(x = x, which = "markup"),
+    choices = c("plain"),
+    null.ok = FALSE,
+    .var.name = "markup",
+    add = ps_coll
+  )
+  assert_choice(
+    x = attr(x = x, which = "babel_language"),
+    choices = latex$options$babel,
+    null.ok = TRUE,
+    add = ps_coll
+  )
+  NextMethod(ps_coll = ps_coll)
 }
 
 validate_psItemContentText <- function(x) {

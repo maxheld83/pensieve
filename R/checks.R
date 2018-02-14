@@ -58,7 +58,9 @@ check_S3.default <- function(x, ps_coll = NULL, ...) {
   } else if (ps_coll$isEmpty()) {
     return(TRUE)
   } else {
-    return(ps_coll$getMessages())
+    msg <- paste0("* ", ps_coll$getMessages())
+    msg <- glue::collapse(x = msg, sep = "\n")
+    return(msg)
   }
 }
 

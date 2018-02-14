@@ -2,12 +2,12 @@
 % Please edit documentation in R/checks.R, R/psItemContent.R
 \name{check_S3}
 \alias{check_S3}
-\alias{check_S3.psItemContent}
+\alias{check_S3.psItemContentText}
 \title{Validate S3 classes from pensieve}
 \usage{
 check_S3(x, ...)
 
-\method{check_S3}{psItemContent}(x, ...)
+\method{check_S3}{psItemContentText}(x, ...)
 }
 \arguments{
 \item{x}{An object created by soem constructor function.}
@@ -35,8 +35,15 @@ The validation functions all use the same underlying \code{\link[=check_S3]{chec
 }
 \examples{
 # just for testing; never build objects like this by hand
-good_obj <- structure(.Data = "I am an item.", class = "psItemContent")
-bad_obj <- structure(.Data = 1L, class = "psItemContent") # must be character
+good_obj <- structure(
+  .Data = "I am an item.",
+  class = c("psItemContentText", "psItemContent", "character"),
+  markup = "plain"
+)
+bad_obj <- structure(
+  .Data = 1L,
+  class = c("psItemContentText", "psItemContent", "character") # must be character
+)
 
 check_S3(good_obj)
 check_S3(bad_obj)
