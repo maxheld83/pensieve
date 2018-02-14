@@ -74,10 +74,9 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
 Other import helpers: \code{\link{QPreSorts}},
   \code{\link{anonymize}}
 
-Other validation functions: \code{\link{check_S3}},
-  \code{\link{check}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{score}}
+Other validation functions: \code{\link{check}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}, \code{\link{score}}
 
 Other plotting functions: \code{\link{correlate}},
   \code{\link{extract}}

@@ -2,19 +2,48 @@
 #'
 #' @description Use `check()`, `test()`, `assert()`, `expect()` and `need()` to validate  classed objects from this package.
 #'
+#' @param x An object created by soem constructor function.
+#'
+#' @param ... further arguments to be passed to methods.
+#'
 #' @export
-#' @inheritParams checkmate::makeAssertion
-#' @inheritParams checkmate::makeExpectation
-#' @template check
-check_S3 <- function(x) {
+check_S3 <- function(x, ...) {
+  # this will be passed to all methods to fill
+  ps_coll <- checkmate::makeAssertCollection()
   UseMethod(generic = "check_S3")
 }
 
-check_S3.default <- function(x) {
-  stop(
-    "Can't find a validation method for this class. ",
-    "Maybe this is not a class from pensieve?",
-    call. = FALSE)
+#' @rdname check_S3
+#'
+#' @param ps_coll error collection via [checkmate::makeAssertCollection()], for internal use.
+#'
+#' @export
+check_S3.default <- function(x, ps_coll = NULL, ...) {
+  # this is just a precaution in case this default is called directly, and there is no coll
+  if (is.null(ps_coll)) {
+    ps_coll <- makeAssertCollection()
+  }
+
+  # TODO this might well be a global object, no reason to do this at runtime
+  classes <- utils::methods(generic.function = check_S3)
+  classes <- stringr::str_replace(
+    string = classes,
+    pattern = "check_S3.",
+    replacement = "")
+
+  # this is hack job necessary, because we need this default to do work *other* than erroring out
+  checked <- any(class(x) %in% classes)
+  if (!(checked)) {
+    stop(
+      "Can't find a validation method for this class. ",
+      "Maybe this is not a class from pensieve?",
+      call. = FALSE
+    )
+  } else if (ps_coll$isEmpty()) {
+    return(TRUE)
+  } else {
+    return(ps_coll$getMessages())
+  }
 }
 
 #' @title Validate S3 classes from pensieve

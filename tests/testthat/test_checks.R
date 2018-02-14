@@ -1,3 +1,24 @@
+context(desc = "type validation")
+
+good_obj <- items_text_en
+bad_obj <- structure(.Data = 1L, class = "psItemContent") # must be character
+
+test_that(desc = "check errors out on unknown class", code = {
+  expect_error(object = check_S3(x = "foo"))
+  expect_error(object = check_S3(x = NULL))
+})
+test_that(desc = "check returns 'TRUE' or character string", code = {
+  expect_character(
+    x = check_S3(x = bad_obj),
+    any.missing = FALSE,
+    len = 1,
+    null.ok = FALSE
+  )
+  expect_true(
+    object = check_S3(x = good_obj)
+  )
+})
+
 # context("Type validation")
 #
 # good_obj <- ItemConcourse(

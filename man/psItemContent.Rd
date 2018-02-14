@@ -89,6 +89,9 @@ items_image <- psItemContent(
   type = "image",
   img_dir = img_dir
 )
+
+# checking an item
+# check_S3(x = structure(.Data = 1L, class = "psItemContent"))
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},

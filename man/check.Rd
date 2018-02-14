@@ -73,8 +73,7 @@ Check S3 class.
 }
 \seealso{
 Other validation functions: \code{\link{QSorts}},
-  \code{\link{check_S3}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{score}}
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{make_grid}}, \code{\link{score}}
 }
 \concept{validation functions}

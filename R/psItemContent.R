@@ -81,6 +81,30 @@ new_psItemContent <- function(items, ..., subclass = NULL) {
 }
 
 # parent validator
+#' @rdname check_S3
+#' @export
+check_S3.psItemContent <- function(x, ...) {
+  assert_character(
+    x = x,
+    any.missing = TRUE,
+    all.missing = TRUE,
+    unique = TRUE,
+    null.ok = FALSE,
+    add = ps_coll,
+    .var.name = "items"
+  )
+
+  assert_names2(
+    x = names(x),
+    type = "strict",
+    add = ps_coll,
+    .var.name = "items"
+  )
+
+  NextMethod(ps_coll = ps_coll)
+}
+
+
 validate_psItemContent <- function(items) {
   coll <- makeAssertCollection()
 

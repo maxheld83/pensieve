@@ -6,3 +6,5 @@
 #' @importFrom broom tidy
 #' @importFrom knitr knit_print
 "_PACKAGE"
+# appease R CMD check
+utils::globalVariables(c("ps_coll"))
