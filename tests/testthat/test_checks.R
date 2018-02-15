@@ -5,15 +5,44 @@ test_that(desc = "check errors out on unknown class", code = {
   expect_error(object = check_S3(x = NULL))
 })
 test_that(desc = "check returns 'TRUE' or character string", code = {
+  expect_true(
+    object = check_S3(x = good_obj)
+  )
   expect_character(
     x = check_S3(x = bad_obj),
     any.missing = FALSE,
     len = 1,
     null.ok = FALSE
   )
-  expect_true(
-    object = check_S3(x = good_obj)
+})
+test_that(desc = "test returns 'TRUE' or 'FALSE'", code = {
+  expect_true(object = test_S3(x = good_obj))
+  expect_false(object = test_S3(x = bad_obj))
+})
+test_that(desc = "expect returns expectation", code = {
+  expect_success(expr = expect_S3(x = good_obj))
+  expect_failure(expr = expect_S3(x = bad_obj))
+})
+test_that(desc = "assert returns 'x' invisibly or error", code = {
+  expect_silent(object = assert_S3(x = good_obj))
+  expect_error(object = assert_S3(x = bad_obj))
+})
+test_that(desc = "need returns 'NULL' or character string", code = {
+  expect_null(object = need_S3(x = good_obj))
+  expect_character(
+    x = need_S3(x = bad_obj),
+    any.missing = FALSE,
+    all.missing = FALSE,
+    len = 1,
+    null.ok = FALSE
   )
+})
+test_that(desc = "validate returns 'x' visibly or error", code = {
+  expect_identical(
+    object = validate_S3(x = good_obj),
+    expected = good_obj
+  )
+  expect_error(object = validate_S3(x = bad_obj))
 })
 
 # context("Type validation")

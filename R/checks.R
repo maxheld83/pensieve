@@ -11,8 +11,10 @@
 #'   - `expect()` always returns an [testthat::expectation()] for internal use with testing via [`testthat`](https://github.com/hadley/testthat)).
 #' - **[shiny](https://shiny.rstudio.com)** validation:
 #'   - `need()` returns `NULL` or the error message for interal use with the accio web frontend inside [shiny::validate()].
+#' - **validation** inside pensieve:
+#'   - `validate_S3()` returns `x` visibly or throws an error.
 #'
-#' @param x An object created by soem constructor function.
+#' @param x An object with one of the pensieve S3 classes.
 #'
 #' @param ... further arguments to be passed to methods.
 #'
@@ -27,12 +29,9 @@ check_S3 <- function(x, ...) {
   UseMethod(generic = "check_S3")
 }
 
-#' @describeIn check_S3 default
-#'
-#' @param ps_coll error collection via [checkmate::makeAssertCollection()], for internal use.
-#'
+#' @rdname check_S3
+#' @param [`AssertCollection`] ps_coll error collection via [checkmate::makeAssertCollection()], for internal use.
 #' @export
-#'
 #' @noRd
 check_S3.default <- function(x, ps_coll = NULL, ...) {
   # this is just a precaution in case this default is called directly, and there is no coll
@@ -63,6 +62,79 @@ check_S3.default <- function(x, ps_coll = NULL, ...) {
     return(msg)
   }
 }
+
+#' @rdname check_S3
+#' @export
+test_S3 <- function(x) {
+  UseMethod(generic = "test_S3")
+}
+
+#' @rdname check_S3
+#' @noRd
+#' @export
+test_S3.default <- function(x) {
+  res <- check_S3(x)
+  return(makeTest(res = res))
+}
+
+#' @rdname check_S3
+#' @inheritParams checkmate::makeExpectation
+#' @export
+expect_S3 <- function(x, info = NULL, label = NULL) {
+  UseMethod(generic = "expect_S3")
+}
+
+#' @rdname check_S3
+#' @noRd
+#' @export
+expect_S3.default <- function(x, info = NULL, label = paste(class(x)[1], "S3 class")) {
+  res <- check_S3(x)
+  return(makeExpectation(x = x, res = res, info = info, label = label))
+}
+
+#' @rdname check_S3
+#' @inheritParams checkmate::makeAssertion
+#' @export
+assert_S3 <- function(x, collection = NULL, var.name = NULL) {
+  UseMethod(generic = "assert_S3")
+}
+
+#' @rdname check_S3
+#' @noRd
+#' @export
+assert_S3.default <- function(x, collection = NULL, var.name = paste(class(x)[1], "S3 class")) {
+  res <- check_S3(x)
+  return(makeAssertion(x = x, res = res, var.name = var.name, collection = collection))
+}
+
+#' @rdname check_S3
+#' @export
+need_S3 <- function(x, label = NULL) {
+  UseMethod(generic = "need_S3")
+}
+
+#' @rdname check_S3
+#' @noRd
+#' @export
+need_S3.default <- function(x, label = NULL) {
+  res <- check_S3(x)
+  return(makeNeed(x = x, res = res, label = label))
+}
+
+#' @rdname check_S3
+#' @export
+validate_S3 <- function(x, collection = NULL, var.name = paste(class(x)[1], "S3 class")) {
+  UseMethod(generic = "validate_S3")
+}
+
+#' @rdname check_S3
+#' @noRd
+#' @export
+validate_S3.default <- function(x, collection = NULL, var.name = paste(class(x)[1], "S3 class")) {
+  assert_S3(x, collection = collection, var.name = var.name)
+  return(x)
+}
+
 
 #' @title Validate S3 classes from pensieve
 #'

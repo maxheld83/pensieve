@@ -143,6 +143,7 @@ new_psItemContentText <- function(items, markup, babel_language) {
 
 # parent validator
 #' @rdname check_S3
+#' @noRd
 #' @export
 check_S3.psItemContentText <- function(x, ...) {
   assert_choice(
