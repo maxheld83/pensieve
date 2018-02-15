@@ -104,6 +104,9 @@ assert_S3 <- function(x, collection = NULL, var.name = NULL) {
 #' @export
 assert_S3.default <- function(x, collection = NULL, var.name = paste(class(x)[1], "S3 class")) {
   res <- check_S3(x)
+  if (!isTRUE(res)) {  # only muck with the string unless res is TRUE
+    res <- glue::glue("\n \n", res)  # necessary to get the look right
+  }
   return(makeAssertion(x = x, res = res, var.name = var.name, collection = collection))
 }
 
