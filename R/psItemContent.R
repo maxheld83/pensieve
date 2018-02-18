@@ -60,12 +60,11 @@ psItemContent <- function(items,
     )
   }
 
-  validate_psItemContent(items = items)
+  assert_S3(x = items)
 
   return(items)
 }
 
-# parent constructor
 new_psItemContent <- function(items, ..., subclass = NULL) {
   assert_character(
     x = items,
@@ -80,10 +79,10 @@ new_psItemContent <- function(items, ..., subclass = NULL) {
   )
 }
 
-# parent validator
-#' @noRd
+#' @describeIn psItemContent Validation
+#' @inheritParams validate_S3
 #' @export
-check_S3.psItemContent <- function(x, ps_coll = NULL, ...) {
+validate_S3.psItemContent <- function(x, ps_coll = NULL, ...) {
   assert_character(
     x = x,
     any.missing = TRUE,
@@ -104,32 +103,6 @@ check_S3.psItemContent <- function(x, ps_coll = NULL, ...) {
   NextMethod(ps_coll = ps_coll)
 }
 
-validate_psItemContent <- function(items) {
-  coll <- makeAssertCollection()
-
-  assert_character(
-    x = items,
-    any.missing = TRUE,
-    all.missing = TRUE,
-    unique = TRUE,
-    null.ok = FALSE,
-    add = coll
-  )
-
-  assert_names2(
-    x = names(items),
-    type = "strict",
-    add = coll,
-    .var.name = "items"
-  )
-
-
-  # validate subclasses
-  # TODO
-
-  reportAssertions(collection = coll)
-  return(items)
-}
 
 # subclass text ====
 new_psItemContentText <- function(items, markup, babel_language) {
@@ -141,11 +114,10 @@ new_psItemContentText <- function(items, markup, babel_language) {
   )
 }
 
-# parent validator
-#' @rdname check_S3
-#' @noRd
+#' @describeIn psItemContent Validation
+#' @inheritParams validate_S3
 #' @export
-check_S3.psItemContentText <- function(x, ...) {
+validate_S3.psItemContentText <- function(x, ...) {
   assert_choice(
     x = attr(x = x, which = "markup"),
     choices = c("plain"),
@@ -162,24 +134,7 @@ check_S3.psItemContentText <- function(x, ...) {
   NextMethod(ps_coll = ps_coll)
 }
 
-validate_psItemContentText <- function(x) {
-  coll <- makeAssertCollection()
-  assert_choice(
-    x = attr(x = x, which = "markup"),
-    choices = c("plain"),
-    null.ok = FALSE,
-    .var.name = "markup",
-    add = coll
-  )
-  assert_choice(
-    x = attr(x = x, which = "babel_language"),
-    choices = latex$options$babel,
-    null.ok = TRUE,
-    add = coll
-  )
-  return(x)
-}
-
+# subclass images ====
 new_psItemContentImage <- function(items, img_dir) {
   new_psItemContent(
     items = items,
@@ -188,13 +143,20 @@ new_psItemContentImage <- function(items, img_dir) {
   )
 }
 
-validate_psItemContentImage <- function(x) {
-  coll <- makeAssertCollection()
+#' @describeIn psItemContent Validation
+#' @inheritParams validate_S3
+#' @export
+validate_S3.psItemContentImage <- function(x, ...) {
   img_dir <- attr(x = x, which = "img_dir")
 
-  assert_string(x = img_dir, na.ok = FALSE, null.ok = TRUE, add = coll)
+  assert_string(
+    x = img_dir,
+    na.ok = FALSE,
+    null.ok = TRUE,
+    add = ps_coll)
+
   if (!is.null(img_dir)) {
-    assert_directory_exists(x = img_dir, access = "r", add = coll)
+    assert_directory_exists(x = img_dir, access = "r", add = ps_coll)
     files <- file.path(img_dir, as.vector(x))
   } else {
     files <- file.path(as.vector(x))
@@ -204,5 +166,7 @@ validate_psItemContentImage <- function(x) {
     extension = c("png", "jpg", "jpeg", "svg"),
     access = "r",
     .var.name = "file names",
-    add = coll)
+    add = ps_coll)
+
+  NextMethod(ps_coll = ps_coll)
 }

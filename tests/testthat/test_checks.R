@@ -1,8 +1,18 @@
 context(desc = "type validation")
-
-test_that(desc = "check errors out on unknown class", code = {
-  expect_error(object = check_S3(x = "foo"))
-  expect_error(object = check_S3(x = NULL))
+test_that(desc = "validate errors out on unknown class", code = {
+  expect_error(object = validate_S3(x = "foo"))
+  expect_error(object = validate_S3(x = NULL))
+})
+test_that(desc = "validate returns 'NULL' or character vector", code = {
+  expect_null(object = validate_S3(x = good_obj))
+  expect_character(
+    x = validate_S3(x = bad_obj),
+    min.chars = 1,
+    any.missing = FALSE,
+    all.missing = FALSE,
+    null.ok = FALSE,
+    len = 2
+  )
 })
 test_that(desc = "check returns 'TRUE' or character string", code = {
   expect_true(
@@ -36,13 +46,6 @@ test_that(desc = "need returns 'NULL' or character string", code = {
     len = 1,
     null.ok = FALSE
   )
-})
-test_that(desc = "validate returns 'x' visibly or error", code = {
-  expect_identical(
-    object = validate_S3(x = good_obj),
-    expected = good_obj
-  )
-  expect_error(object = validate_S3(x = bad_obj))
 })
 
 # context("Type validation")

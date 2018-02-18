@@ -2,10 +2,19 @@
 % Please edit documentation in R/psItemContent.R
 \name{psItemContent}
 \alias{psItemContent}
+\alias{validate_S3.psItemContent}
+\alias{validate_S3.psItemContentText}
+\alias{validate_S3.psItemContentImage}
 \title{Store item content as character strings}
 \usage{
 psItemContent(items, type = "text", markup = "plain",
   babel_language = NULL, img_dir = NULL)
+
+\method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
+
+\method{validate_S3}{psItemContentText}(x, ...)
+
+\method{validate_S3}{psItemContentImage}(x, ...)
 }
 \arguments{
 \item{items}{A character vector giving the \emph{participant-facing} \strong{item content}.
@@ -39,6 +48,12 @@ Must be relative path \emph{from the working directory}.
 Best constructed with \code{\link[base:file.path]{base::file.path()}}.
 Defaults to \code{NULL}, in which case images are expected at the working directory root \code{\link[base:getwd]{base::getwd()}}.
 Ignored unless \code{type = "image"}.}
+
+\item{x}{An object with one of the pensieve S3 classes.}
+
+\item{ps_coll}{\code{\link{AssertCollection}} ps_coll error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
+
+\item{...}{further arguments to be passed to methods.}
 }
 \value{
 A character vector of class \code{psItems}.
@@ -47,6 +62,15 @@ A character vector of class \code{psItems}.
 Simple helper function to append and validate \code{psItemContent} class.
 This class is used as a column class in \code{psItems}.
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{validate_S3}: Validation
+
+\item \code{validate_S3}: Validation
+
+\item \code{validate_S3}: Validation
+}}
+
 \examples{
 # text items with handles
 items_text_en <- psItemContent(
