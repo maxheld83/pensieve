@@ -115,7 +115,7 @@ new_psItemContentText <- function(items, markup, babel_language) {
 }
 
 #' @describeIn psItemContent Validation
-#' @inheritParams validate_S3
+#' @noRd
 #' @export
 validate_S3.psItemContentText <- function(x, ...) {
   assert_choice(
@@ -144,7 +144,7 @@ new_psItemContentImage <- function(items, img_dir) {
 }
 
 #' @describeIn psItemContent Validation
-#' @inheritParams validate_S3
+#' @noRd
 #' @export
 validate_S3.psItemContentImage <- function(x, ...) {
   img_dir <- attr(x = x, which = "img_dir")

@@ -3,18 +3,12 @@
 \name{psItemContent}
 \alias{psItemContent}
 \alias{validate_S3.psItemContent}
-\alias{validate_S3.psItemContentText}
-\alias{validate_S3.psItemContentImage}
 \title{Store item content as character strings}
 \usage{
 psItemContent(items, type = "text", markup = "plain",
   babel_language = NULL, img_dir = NULL)
 
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
-
-\method{validate_S3}{psItemContentText}(x, ...)
-
-\method{validate_S3}{psItemContentImage}(x, ...)
 }
 \arguments{
 \item{items}{A character vector giving the \emph{participant-facing} \strong{item content}.
@@ -64,10 +58,6 @@ This class is used as a column class in \code{psItems}.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{validate_S3}: Validation
-
-\item \code{validate_S3}: Validation
-
 \item \code{validate_S3}: Validation
 }}
 
