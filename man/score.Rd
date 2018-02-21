@@ -54,8 +54,7 @@ Other analysis functions: \code{\link{correlate}},
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{psConcourse}}, \code{\link{psItemContent}},
-  \code{\link{psItems}}, \code{\link{psOpenSorts}},
+  \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
   \code{\link{psOpenSort}}, \code{\link{psPeople}}
 }
 \concept{S3 classes from `pensieve`}

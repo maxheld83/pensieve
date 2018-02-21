@@ -366,3 +366,25 @@ check_var <- function(x) {
 assert_var <- checkmate::makeAssertionFunction(check.fun = check_var)
 test_var <- checkmate::makeTestFunction(check.fun = check_var)
 expect_var <- checkmate::makeExpectationFunction(check.fun = check_var)
+
+
+#' @title Check whether system dependency is available
+#' @noRd
+check_sysdep <- function(x) {
+  sys_test <- test_character(
+    x = Sys.which(x),
+    min.chars = 2,
+    any.missing = FALSE,
+    all.missing = FALSE,
+    len = 1,
+    null.ok = FALSE
+  )
+  if (sys_test) {
+    return(TRUE)
+  } else {
+    return(glue::glue("Could not find", x, "system dependency. Try installing it", .sep = " "))
+  }
+}
+assert_sysdep <- makeAssertionFunction(check.fun = check_sysdep)
+test_sysdep <- makeTestFunction(check.fun = check_sysdep)
+expect_sysdep <- makeExpectationFunction(check.fun = check_sysdep)

@@ -5,43 +5,38 @@
 \alias{validate_S3.psItemContent}
 \title{Store item content as character strings}
 \usage{
-psItemContent(items, type = "text", markup = "plain",
-  babel_language = NULL, img_dir = NULL)
+psItemContent(items, type = "text", lang = NULL, img_dir = NULL)
 
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
 }
 \arguments{
-\item{items}{A character vector giving the \emph{participant-facing} \strong{item content}.
+\item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
 Can be named to provide a short, \emph{researcher-facing} \strong{item handles}.}
 
-\item{type}{a character string giving the \emph{kind} of item content, must be one of:
+\item{type}{\code{[character(1)]} giving the \emph{kind} of item content, must be one of:
 \itemize{
 \item \code{"text"} (default) for textual item, in which case \code{items} must be text.
+Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
 An additional subclass \code{"psItemContentText"} is prepended and validated.
 \item \code{"image"} for imate items, in which case \code{items} must be file paths, relative from \code{img_dir}.
 Images must be \code{*.png}, \code{*.jpg}, \code{*.jpeg} or \code{*.svg}.
 An additional subclass \code{"psItemContentImage"} is prepended and validated.
 }}
 
-\item{markup}{a character string giving the markup for \code{type = "text"}, must be one of:
-\itemize{
-\item \code{"plain"} (default) fpr plain text.
-Ignored unless \code{type = "text"}.
-}}
-
-\item{babel_language}{a character string giving the language used by \href{https://ctan.org/pkg/babel}{LaTeX's babel package} for multilingual typesetting support.
+\item{lang}{\code{[character(1)]} giving a language code for \emph{all} items, such as \code{en-US}.
+Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package}.
 Must be one of:
 \itemize{
 \item \code{NULL} (default), in which case there is no multilingual typesetting support.
-\item a \href{http://ctan.math.washington.edu/tex-archive/macros/latex/required/babel/base/babel.pdf}{valid babel languages}.
+\item a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code}.
 Ignored unless \code{type = "text"}.
 }}
 
 \item{img_dir}{a character string giving the directory for \code{type = "image"}s.
-Must be relative path \emph{from the working directory}.
-Best constructed with \code{\link[base:file.path]{base::file.path()}}.
 Defaults to \code{NULL}, in which case images are expected at the working directory root \code{\link[base:getwd]{base::getwd()}}.
-Ignored unless \code{type = "image"}.}
+Ignored unless \code{type = "image"}.
+Must be relative path \emph{from the working directory}.
+Best constructed with \code{\link[base:file.path]{base::file.path()}}.}
 
 \item{x}{An object with one of the pensieve S3 classes.}
 
@@ -56,6 +51,9 @@ A character vector of class \code{psItems}.
 Simple helper function to append and validate \code{psItemContent} class.
 This class is used as a column class in \code{psItems}.
 }
+\details{
+Storing \strong{full items} can enable deployment and convenience functions, as well as enhance the presentation of results.
+}
 \section{Methods (by generic)}{
 \itemize{
 \item \code{validate_S3}: Validation
@@ -69,8 +67,7 @@ items_text_en <- psItemContent(
     "work_2_live" = "Man works to live."
   ),
   type = "text",
-  markup = "plain",
-  babel_language = "english"
+  lang = "english"
 )
 
 # text items without handles
@@ -79,7 +76,7 @@ items_text_de <- psItemContent(
     "Man lebt um zu arbeiten.",
     "Man arbeitet, um zu leben."
   ),
-  babel_language = "ngerman"
+  lang = "ngerman"
 )
 
 # text items without multilingual typographic support
@@ -88,7 +85,7 @@ items_text_esperanto <- psItemContent(
     "Viro vivas por labori.",
     "Viro laboras vivi."
   ),
-  babel_language = NULL
+  lang = NULL
 )
 
 # image items
@@ -108,7 +105,6 @@ items_image <- psItemContent(
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{psConcourse}}, \code{\link{psItems}},
   \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
   \code{\link{psPeople}}, \code{\link{score}}
 }

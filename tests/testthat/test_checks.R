@@ -11,7 +11,7 @@ test_that(desc = "validate returns 'NULL' or character vector", code = {
     any.missing = FALSE,
     all.missing = FALSE,
     null.ok = FALSE,
-    len = 2
+    len = 1
   )
 })
 test_that(desc = "check returns 'TRUE' or character string", code = {

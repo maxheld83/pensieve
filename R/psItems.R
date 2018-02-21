@@ -1,32 +1,3 @@
-# items ====
-
-#' @title Construct list of item-related objects
-#'
-#' @export
-#'
-#' @param ps_concourse object returned by [psConcourse()]
-#'
-#' @template construction_helpers
-psItems <- function(ps_concourse) {
-  validate_psItems(new_psItems(ps_concourse = ps_concourse))
-}
-
-# constructor
-new_psItems <- function(ps_concourse) {
-  structure(
-    .Data = list(
-      concourse = ps_concourse
-    ),
-    class = c("psItems")
-  )
-}
-
-# validator
-validate_psItems <- function(ps_items) {
-  validate_psConcourse(ps_items$concourse)  # this also validates subclass, must not be null
-  return(ps_items)
-}
-
 # Drafts and Helpers ====
 # helper: check QLookup
 check_QLookup <- check_lookup <- function(x){

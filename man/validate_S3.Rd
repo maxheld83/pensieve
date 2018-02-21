@@ -73,12 +73,11 @@ Five alternative generics use the same underlying \code{\link[=validate_S3]{vali
 # just for testing; never build objects like this by hand
 good_obj <- structure(
   .Data = "I am an item.",
-  class = c("psItemContentText", "psItemContent", "character"),
-  markup = "plain"
+  class = c("psItemContentText", "psItemContent", "character")
 )
 bad_obj <- structure(
-  .Data = 1L,
-  class = c("psItemContentText", "psItemContent", "character") # must be character
+  .Data = 1L, # must be character
+  class = c("psItemContentText", "psItemContent", "character")
 )
 
 validate_S3(good_obj)

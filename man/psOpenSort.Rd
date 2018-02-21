@@ -194,8 +194,7 @@ summary(peter)
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
   \code{\link{extract}}, \code{\link{make_grid}},
-  \code{\link{psConcourse}}, \code{\link{psItemContent}},
-  \code{\link{psItems}}, \code{\link{psOpenSorts}},
+  \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
   \code{\link{psPeople}}, \code{\link{score}}
 }
 \concept{S3 classes from `pensieve`}

@@ -5,8 +5,7 @@ items_text_en <- psItemContent(
     "work_2_live" = "Man works to live."
   ),
   type = "text",
-  markup = "plain",
-  babel_language = "english"
+  lang = "english"
 )
 
 # text items without handles
@@ -15,7 +14,7 @@ items_text_de <- psItemContent(
     "Man lebt um zu arbeiten.",
     "Man arbeitet, um zu leben."
   ),
-  babel_language = "ngerman"
+  lang = "ngerman"
 )
 
 # text items without multilingual typographic support
@@ -24,7 +23,7 @@ items_text_esperanto <- psItemContent(
     "Viro vivas por labori.",
     "Viro laboras vivi."
   ),
-  babel_language = NULL
+  lang = NULL
 )
 
 # image items

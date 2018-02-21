@@ -5,32 +5,34 @@
 #' Simple helper function to append and validate `psItemContent` class.
 #' This class is used as a column class in `psItems`.
 #'
+#' @details
+#' Storing **full items** can enable deployment and convenience functions, as well as enhance the presentation of results.
+#'
 #' @param items
-#' A character vector giving the *participant-facing* **item content**.
+#' `[character()]` giving the *participant-facing* **item content**.
 #' Can be named to provide a short, *researcher-facing* **item handles**.
 #'
-#' @param type a character string giving the *kind* of item content, must be one of:
+#' @param type
+#' `[character(1)]` giving the *kind* of item content, must be one of:
 #' - `"text"` (default) for textual item, in which case `items` must be text.
+#'   Items can be marked up using [Pandoc Markdown](https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html).
 #'   An additional subclass `"psItemContentText"` is prepended and validated.
 #' - `"image"` for imate items, in which case `items` must be file paths, relative from `img_dir`.
 #'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
 #'   An additional subclass `"psItemContentImage"` is prepended and validated.
 #'
-#' @param markup a character string giving the markup for `type = "text"`, must be one of:
-#' - `"plain"` (default) fpr plain text.
-#' Ignored unless `type = "text"`.
-#'
-#' @param babel_language a character string giving the language used by [LaTeX's babel package](https://ctan.org/pkg/babel) for multilingual typesetting support.
+#' @param lang `[character(1)]` giving a language code for *all* items, such as `en-US`.
+#' Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel).
 #' Must be one of:
 #' - `NULL` (default), in which case there is no multilingual typesetting support.
-#' - a [valid babel languages](http://ctan.math.washington.edu/tex-archive/macros/latex/required/babel/base/babel.pdf).
+#' - a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47).
 #' Ignored unless `type = "text"`.
 #'
 #' @param img_dir a character string giving the directory for `type = "image"`s.
-#' Must be relative path *from the working directory*.
-#' Best constructed with [base::file.path()].
 #' Defaults to `NULL`, in which case images are expected at the working directory root [base::getwd()].
 #' Ignored unless `type = "image"`.
+#' Must be relative path *from the working directory*.
+#' Best constructed with [base::file.path()].
 #'
 #' @example tests/testthat/helper_psItemContent.R
 #'
@@ -41,8 +43,7 @@
 #' @export
 psItemContent <- function(items,
                           type = "text",
-                          markup = "plain",
-                          babel_language = NULL,
+                          lang = NULL,
                           img_dir = NULL) {
   assert_string(x = type, na.ok = FALSE, null.ok = FALSE)
 
@@ -50,8 +51,7 @@ psItemContent <- function(items,
   if (type == "text") {
     items <- new_psItemContentText(
       items = items,
-      markup = markup,
-      babel_language = babel_language
+      lang = lang
     )
   } else if (type == "image") {
     items <- new_psItemContentImage(
@@ -105,11 +105,10 @@ validate_S3.psItemContent <- function(x, ps_coll = NULL, ...) {
 
 
 # subclass text ====
-new_psItemContentText <- function(items, markup, babel_language) {
+new_psItemContentText <- function(items, lang) {
   new_psItemContent(
     items = items,
-    markup = markup,
-    babel_language = babel_language,
+    lang = lang,
     subclass = "psItemContentText"
   )
 }
@@ -118,19 +117,7 @@ new_psItemContentText <- function(items, markup, babel_language) {
 #' @noRd
 #' @export
 validate_S3.psItemContentText <- function(x, ...) {
-  assert_choice(
-    x = attr(x = x, which = "markup"),
-    choices = c("plain"),
-    null.ok = FALSE,
-    .var.name = "markup",
-    add = ps_coll
-  )
-  assert_choice(
-    x = attr(x = x, which = "babel_language"),
-    choices = latex$options$babel,
-    null.ok = TRUE,
-    add = ps_coll
-  )
+  # TODO validate lang here
   NextMethod(ps_coll = ps_coll)
 }
 
@@ -172,62 +159,227 @@ validate_S3.psItemContentImage <- function(x, ...) {
 }
 
 # rendering ====
-
-make_cards <- function(item_text,
-                       item_handle,
-                       template = "simple_rect.Rnw",
-                       output_dir = tempdir(),
-                       fontsize = "normalsize",
-                       language = NULL,
-                       paperwidth = 16,
-                       paperheight = 9,
-                       top = 1,
-                       bottom = 1,
-                       left = 1,
-                       right = 1,
-                       units = "cm",
-                       extra_preamb_args = NULL,
-                       alignment = "justified") {
-
-  # Input validation
-  checkmate::assert_string(x = item_text, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
-  checkmate::assert_string(x = item_handle, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
-  checkmate::assert_choice(x = template, choices = c("simple_rect.Rnw"), null.ok = FALSE)
-  checkmate::assert_directory(x = output_dir, access = "w")
-  # other inputs are validated in downstream functions
-
-  # find template
-  in_build_path <- file.path("templates", "cards", template)
-  in_source_path <- file.path("inst", in_build_path)
-  # this is just to make debugging easier; if run from pensieve source dir, then use source template
-  if (file.exists(in_source_path)) {
-    input_path <- in_source_path
-  } else {
-    input_path <- file.path(system.file(package = "pensieve"), in_build_path)
-  }
-
-  # other prep
-  assets <- NULL
-  assets$paths <- NULL
-  assets$bin <- NULL
-  assets$paths$latex <- file.path(output_dir, paste0(item_handle, ".tex"))
-  assets$paths$pdf <- file.path(output_dir, paste0(item_handle, ".pdf"))
-  assets$paths$svg <- file.path(output_dir, paste0(item_handle, ".svg"))
-
-  # render
-  knitr::knit(input = input_path, output = assets$paths$latex)
-  assets$bin$latex <- readr::read_file(assets$paths$latex)
-  withr::with_dir(new = output_dir, code = {
-    # changing wd with with_dir is sadly necessary because below utilities do not offer convenient output paths
-    # setwd(output_dir)
-    tools::texi2pdf(file = assets$paths$latex)
-    assets$bin$pdf <- readr::read_file_raw(file = assets$paths$pdf)
-    pdf2svg(pdf_input = paste0(item_handle, ".pdf"))
-    assets$bin$svg <- readr::read_file(file = assets$paths$svg)
-    # setwd("/Users/max/GitHub/pensieve/")
-  })
-  return(assets)
+#' @title Render text items to pdf and svg.
+#'
+#' @description
+#' Renders character vectors of items to a pdf, using pandoc and latex, then converts pdf to svg using pdf2svg.
+#'
+#' @details
+#' It is often helpful to have an authoritative, and professionally typeset version of items.
+#' This function produces renders items.
+#' When `items` are named with item handles, such handles are used as file names.
+#' Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
+#'
+#' @inheritParams psItemContent
+#'
+#' @param output_dir `[character(1)]`
+#' giving directory relative from working directory root [base::getwd()].
+#' Best constructed with [base::file.path()].
+#' Defaults to `NULL`, in which case items are rendered to the working directory root.
+#'
+#' @param fontsize `[character(1)]`
+#' giving a [LaTeX fontsize](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text) for *all* items.
+#' See `pensieve:::latex$options$fontsize` for valid options.
+#' Defaults to `NULL`, in which case the maximum possible fontsize is sought and chosen, by which *all* items still fit on one page.
+#'
+#' @param paperwidth `[numeric(1)]` giving the width of cards in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
+#' Defaults to `8.5`.
+#' @param paperheight `[numeric(1)]` giving the height of cards in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
+#' Defaults to `5.4`.
+#'
+#' @param top `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' Defaults to `0.5`.
+#' @param bottom `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' Defaults to `0.5`.
+#' @param left `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' Defaults to `0.5`.
+#' @param right `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' Defaults to `0.5`.
+#'
+#' @param units `[character(1)]` giving the units for the above dimensions, must be one of:
+#' - "cm" for metric system,
+#' - "in" for inches.
+#' Defaults to `"cm"`.
+#'
+#' @param alignment `[character(1)]` giving the alignment for the text, must be one of:
+#' - "justified",
+#' - "left",
+#' - "right" or
+#' - "center".
+#' Defaults to `"left"`.
+#'
+#' @export
+render_items <- function(items,
+                         lang,
+                         output_dir = NULL,
+                         fontsize = NULL,
+                         paperwidth = 8.5,
+                         paperheight = 5.4,
+                         top = 0.5,
+                         bottom = 0.5,
+                         left = 0.5,
+                         right = 0.5,
+                         units = "cm",
+                         alignment = "left") {
 }
+
+item2latex <- function(item_text,
+                       item_handle,
+                       lang,
+                       output_dir,
+                       fontsize,
+                       paperwidth,
+                       paperheight,
+                       top,
+                       bottom,
+                       left,
+                       right,
+                       units,
+                       alignment) {
+
+  # input validation
+  assert_string(x = item_text, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
+  assert_string(x = item_handle, na.ok = FALSE, min.chars = 1, null.ok = TRUE)
+  # TODO remember to test lang
+  assert_directory(x = output_dir, access = "w")
+  # other arguments are treated downstream
+
+  # check dependencies
+  assert_sysdep(x = "pandoc")
+
+  # render string to latex
+  system2(
+    command = "pandoc",
+    input = c(
+      latex$set$fontsize(fontsize = fontsize),
+      latex$set$alignment(alignment = alignment),
+      item_text
+    ),
+    args = c(
+      "--from=markdown",  # this is pandoc's extended markdown
+      "--output=test.pdf",  # for file output, necessary for pdf
+      "--verbose",  # for debugging
+
+      # geometry options
+      latex$set$geometry(
+        paperwidth = paperwidth,
+        paperheight = paperheight,
+        top = top,
+        bottom = bottom,
+        left = left,
+        right = right,
+        units = units,
+        vcentering = TRUE,
+        hcentering = TRUE),
+
+      # other latex options
+      "-V pagestyle=empty",
+
+      # babel
+      "-V lang=de"
+    ),
+    stdout = FALSE,
+    wait = TRUE
+  )
+}
+
+# helpers to create latex formatting instructions
+latex <- list(set = NULL, # these are the functions
+              options = NULL) # these are the available options
+
+#' @title Generate pandoc geometry options
+#' @inheritParams render_item
+#' @param vcentering `[logical(1)]` whether to center vertically, does not currently work.
+#' @param vcentering `[logical(1)]` whether to center horizontally, does not currently work.
+#' @noRd
+latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right, units, vcentering, hcentering) {
+  # input validation
+  assert_string(x = units, na.ok = FALSE, null.ok = FALSE)
+  assert_choice(x = units, choices = c("cm", "in"))
+  assert_flag(x = vcentering, na.ok = FALSE, null.ok = FALSE)
+  assert_flag(x = hcentering, na.ok = FALSE, null.ok = FALSE)
+
+  num_arguments <- list(
+    paperwidth = paperwidth,
+    paperheight = paperheight,
+    top = top,
+    bottom = bottom,
+    left = left,
+    right = right
+  )
+  res <- purrr::map2_chr(
+    .x = num_arguments,
+    .y = names(num_arguments),
+    .f = function(x, y) {
+      # this is input validation
+      assert_numeric(x = x, lower = 0, finite = TRUE, any.missing = FALSE, len = 1, null.ok = FALSE, .var.name = y)
+
+      # this is the actual paste job
+      paste0(
+        "-V geometry:",
+        y,
+        "=",
+        x,
+        units
+      )
+    }
+  )
+  if (vcentering) res <- c(res, vcentering = "-V geometry:vcentering")
+  if (hcentering) res <- c(res, hcentering = "-V geometry:hcentering")
+  return(res)
+}
+
+latex$options$fontsize <- c(
+  # this list is from https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text
+  # must remain in ascending order!
+  "tiny",
+  "scriptsize",
+  "footnotesize",
+  "small",
+  "normalsize",
+  "large",
+  "Large",
+  "LARGE",
+  "huge",
+  "Huge"
+)
+#' @title Generate latex fontsize command
+#' @inheritParams render_item
+#' @noRd
+latex$set$fontsize <- function(fontsize) {
+  checkmate::assert_character(x = fontsize, any.missing = FALSE, len = 1)
+  checkmate::assert_choice(x = fontsize, choices = latex$options$fontsize, null.ok = FALSE)
+
+  paste0("\\", fontsize)
+}
+
+# insert arbitrary alignment
+latex$options$alignment <- c(
+  # this list is from https://www.sharelatex.com/learn/Text_alignment
+  # we're only using vanilla latex, no extra package
+  "justified",
+  "left",
+  "right",
+  "center"
+)
+#' @title Generate latex alignment command
+#' @inheritParams render_item
+#' @noRd
+latex$set$alignment <- function(alignment = "justified") {
+  # alignment <- "justified"
+  checkmate::assert_character(x = alignment, any.missing = FALSE, len = 1)
+  checkmate::assert_choice(x = alignment, choices = latex$options$alignment, null.ok = FALSE)
+
+  switch(
+    EXPR = alignment,
+    left = return("\\raggedright"),
+    right = return("\\raggedleft"),
+    center = return("\\centering")
+  )
+}
+
 
 # helper to convert pdf to svg
 pdf2svg <- function(pdf_input) {
@@ -245,215 +397,4 @@ pdf2svg <- function(pdf_input) {
                    svg_output,
                    "1"),
           stderr = "")  # only take 1st page
-}
-
-
-# helpers to create latex formatting instructions
-latex <- list(set = NULL, # these are the functions
-              options = NULL) # these are the available options
-
-# insert arbitrary fontsize
-
-latex$options$fontsize <- c(
-  # this list is from https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text
-  # must remain in ascending order!
-  "tiny",
-  "scriptsize",
-  "footnotesize",
-  "small",
-  "normalsize",
-  "large",
-  "Large",
-  "LARGE",
-  "huge",
-  "Huge"
-)
-
-latex$set$fontsize <- function(fontsize) {
-  # fontsize <- "tiny"
-  checkmate::assert_character(x = fontsize, any.missing = FALSE, len = 1)
-  checkmate::assert_choice(x = fontsize, choices = latex$options$fontsize, null.ok = FALSE)
-
-  cat("\\", fontsize, "\n", sep = "")
-}
-
-# insert arbitrary alignment
-latex$options$alignment <- c(
-  # this list is from https://www.sharelatex.com/learn/Text_alignment
-  # we're only using vanilla latex, no extra package
-  "justified",
-  "left",
-  "right",
-  "center"
-)
-
-latex$set$alignment <- function(alignment = "justified") {
-  # alignment <- "justified"
-  checkmate::assert_character(x = alignment, any.missing = FALSE, len = 1)
-  checkmate::assert_choice(x = alignment, choices = latex$options$alignment, null.ok = FALSE)
-
-  switch(
-    EXPR = alignment,
-    left = cat("\\raggedright \n "),
-    right = cat("\\raggedleft \n "),
-    center = cat("\\centering \n ")
-  )
-}
-
-# add arbitrary commands to preamble
-latex$set$extra_preamb_args <- function(extra_preamb_args) {
-  # type faces can be found here: http://www.tug.dk/FontCatalogue/universalisadfstandard/
-
-  checkmate::assert_character(x = extra_preamb_args, any.missing = FALSE)
-
-  cat(extra_preamb_args, sep = "\n")
-}
-
-# add arbitrary babel invocation
-latex$options$babel <- c(
-  # this list is from http://ctan.math.washington.edu/tex-archive/macros/latex/required/babel/base/babel.pdf
-  English = "english",
-  `English (US)` = "USenglish",
-  `English (America)` = "american",
-  `English (UK)` = "UKenglish",
-  `English (Britain)` = "british",
-  `English (Canada)` = "canadian",
-  `English (Australia)` = "australian",
-  `English (New Zealand)` = "newzealand",
-
-  Afrikaans = "afrikaans",
-  Azerbaijani = "azerbaijani",
-  Basque = "basque",
-  Breton = "breton",
-  Bulgarian = "bulgarian",
-  Catalan = "catalan",
-  Croatian = "croatian",
-  Czech = "czech",
-  Danish = "danish",
-  Dutch = "dutch",
-
-  Esperanto = "esperanto",
-  Estonian = "estonian",
-  Finnish = "finnish",
-
-  # french
-  French = "french",
-  `French (Canada)` = "canadien",
-  `French (Acadian)` = "acadian",
-
-  Galician = "galician",
-
-  # german
-  `German (Austria)` = "austrian",
-  German = "german",
-  `German (DACH)` = "germanb",
-  `German (Germany New)` = "ngerman",
-  `German (Austria New)` = "naustrian",
-
-  # greek
-  Greek = "greek",
-  `Greek (Polutonik Accents)` = "polutonikogreek",
-
-  Hebrew = "hebrew",
-  Icelandic = "icelandic",
-
-  # indonesian
-  `Indonesian` = "indonesian",
-  `Indonesian (Bahasa)` = "bahasa",
-  `Indonesian (Indon)` = "indon",
-  `Indonesian (Bahasai)` = "bahasai",
-
-  Interlingua = "interlingua",
-  `Irish (Gaelic)` = "irish",
-  Italian = "italian",
-  Latin = "latin",
-  `Lower Sorbian` = "lowersorbian",
-
-  # malay
-  `Malay (Bahasam)` = "bahasam",
-  Malay = "malay",
-  `Malay (Melayu)` = "melayu",
-
-  Samin = "samin",
-
-  # norwegian
-  `Norwegian (Norks)` = "norks",
-  `Norwegian (Nynorks)` = "nynorsk",
-
-  Polish = "polish",
-
-  # portuguese
-  # "portuges",
-  Portuguese = "portuguese",
-  `Portuguese (Brazil)` = "brazilian",
-  # "brazil",
-
-  Romanian = "romanian",
-  Russian = "russian",
-  Scottish = "scottish",
-  Spanish = "spanish",
-  Slovak = "slovak",
-  Slovene = "slovene",
-  Swedish = "swedish",
-  Serbian = "serbian",
-  Turkish = "turkish",
-  Ukrainian = "ukrainian",
-  `Upper Sorbian` = "uppersorbian",
-  Welsh = "welsh"
-)
-
-latex$set$babel <- function(language) {
-  checkmate::assert_character(x = language, any.missing = FALSE, len = 1)
-  checkmate::assert_choice(x = language, choices = latex$options$babel, null.ok = FALSE)
-
-  cat(
-    "\\usepackage[",
-    language,
-    "]{babel}",
-    "\n",
-    sep = ""
-  )
-}
-
-
-# set arbitrary dimensions
-latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right, units) {
-  checkmate::assert_character(x = units, any.missing = FALSE, len = 1)
-  checkmate::assert_choice(x = units, choices = c("cm", "in"), null.ok = FALSE)
-
-  all_args <- as.list(environment())
-  num_args <- all_args[!(names(all_args) == "units")]
-
-  mapply(FUN = checkmate::assert_numeric,
-         x = num_args,
-         .var.name = names(num_args),
-         MoreArgs = list(
-           lower = 0,
-           finite = TRUE,
-           any.missing = FALSE,
-           len = 1,
-           null.ok = FALSE
-         )
-  )
-
-  opts <- sapply(
-    X = names(num_args),
-    FUN = function(x) {
-      return(paste0(
-        x,
-        "=",
-        num_args[[x]],
-        units
-      ))
-    }
-  )
-  opts <- c(opts, "vcentering", "hcentering")  # add vertical, horizontal center just to be safe
-
-  cat(
-    "\\usepackage[",
-    paste(opts, collapse = ", "),
-    "]{geometry}",
-    "\n",
-    sep = ""
-  )
 }
