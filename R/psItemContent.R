@@ -398,3 +398,26 @@ pdf2svg <- function(pdf_input) {
                    "1"),
           stderr = "")  # only take 1st page
 }
+
+# generally, the BCP 47 standard allows all manner of language, region combinations (and more), e.g. "de_AT"
+# however, only a subset is allowed in pandoc and translated to panglossia or babel
+# this is (unfortunately) transcribed from the haskell script inside pandoc
+# https://github.com/jgm/pandoc/blob/b8ffd834cff717fe424f22e506351f2ecec4655a/src/Text/Pandoc/Writers/LaTeX.hs#L1354-L1480
+langs <- readr::read_delim(
+  file = "inst/lang.csv",
+  col_names = TRUE,
+  delim = ";",
+  col_types = "ccccll"
+)
+# this can't be right
+langs <- purrr::pmap(.l = langs[,c("lang_short", "var_short", "lang_long", "var_long")], .f = function(lang_short, var_short, lang_long, var_long) {
+  short <- glue::glue('{lang_short}_{var_short}')
+  if (is.na(var_long)) {
+    long <- glue::glue(lang_long)
+  } else {
+    long <- glue::glue('{lang_long} ({var_long})')
+  }
+  names(short) <- long
+  return(short)
+})
+langs <- purrr::as_vector(langs)
