@@ -23,12 +23,13 @@ Images must be \code{*.png}, \code{*.jpg}, \code{*.jpeg} or \code{*.svg}.
 An additional subclass \code{"psItemContentImage"} is prepended and validated.
 }}
 
-\item{lang}{\code{[character(1)]} giving a language code for \emph{all} items, such as \code{en-US}.
+\item{lang}{\code{[character(1)]} giving a language code for \emph{all} items, such as \code{en_US}.
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package}.
 Must be one of:
 \itemize{
 \item \code{NULL} (default), in which case there is no multilingual typesetting support.
-\item a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code}.
+\item a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} supported by pandoc.
+See \code{pensieve:::langs} for all available languages.
 Ignored unless \code{type = "text"}.
 }}
 
@@ -67,7 +68,7 @@ items_text_en <- psItemContent(
     "work_2_live" = "Man works to live."
   ),
   type = "text",
-  lang = "english"
+  lang = "en_US"
 )
 
 # text items without handles
@@ -76,7 +77,7 @@ items_text_de <- psItemContent(
     "Man lebt um zu arbeiten.",
     "Man arbeitet, um zu leben."
   ),
-  lang = "ngerman"
+  lang = "de_DE"
 )
 
 # text items without multilingual typographic support

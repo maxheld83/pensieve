@@ -21,11 +21,12 @@
 #'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
 #'   An additional subclass `"psItemContentImage"` is prepended and validated.
 #'
-#' @param lang `[character(1)]` giving a language code for *all* items, such as `en-US`.
+#' @param lang `[character(1)]` giving a language code for *all* items, such as `en_US`.
 #' Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel).
 #' Must be one of:
 #' - `NULL` (default), in which case there is no multilingual typesetting support.
-#' - a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47).
+#' - a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) supported by pandoc.
+#'   See `pensieve:::langs` for all available languages.
 #' Ignored unless `type = "text"`.
 #'
 #' @param img_dir a character string giving the directory for `type = "image"`s.
@@ -117,7 +118,12 @@ new_psItemContentText <- function(items, lang) {
 #' @noRd
 #' @export
 validate_S3.psItemContentText <- function(x, ...) {
-  # TODO validate lang here
+  assert_choice(
+    x = attr(x = x, which = "lang"),
+    choices = langs,
+    null.ok = TRUE,
+    .var.name = "lang")
+
   NextMethod(ps_coll = ps_coll)
 }
 
@@ -212,7 +218,7 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #'
 #' @export
 render_items <- function(items,
-                         lang,
+                         lang = NULL,
                          output_dir = NULL,
                          fontsize = NULL,
                          paperwidth = 8.5,
@@ -277,8 +283,8 @@ item2latex <- function(item_text,
       # other latex options
       "-V pagestyle=empty",
 
-      # babel
-      "-V lang=de"
+      # language
+      glue::glue("-V lang={lang}")
     ),
     stdout = FALSE,
     wait = TRUE
@@ -404,16 +410,20 @@ pdf2svg <- function(pdf_input) {
 # this is (unfortunately) transcribed from the haskell script inside pandoc
 # https://github.com/jgm/pandoc/blob/b8ffd834cff717fe424f22e506351f2ecec4655a/src/Text/Pandoc/Writers/LaTeX.hs#L1354-L1480
 langs <- readr::read_delim(
-  file = "R/lang.csv",
+  file = system.file("extdata", "langs.csv", package = "pensieve"),
   col_names = TRUE,
-  delim = ";",
+  delim = ",",
   col_types = "ccccll"
 )
 # this can't be right
 langs <- purrr::pmap(.l = langs[,c("lang_short", "var_short", "lang_long", "var_long")], .f = function(lang_short, var_short, lang_long, var_long) {
-  short <- glue::glue('{lang_short}_{var_short}')
+  if (is.na(var_short)) {
+    short <- lang_short
+  } else {
+    short <- glue::glue('{lang_short}_{var_short}')
+  }
   if (is.na(var_long)) {
-    long <- glue::glue(lang_long)
+    long <- lang_long
   } else {
     long <- glue::glue('{lang_long} ({var_long})')
   }

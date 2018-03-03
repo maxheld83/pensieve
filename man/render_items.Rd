@@ -4,7 +4,7 @@
 \alias{render_items}
 \title{Render text items to pdf and svg.}
 \usage{
-render_items(items, lang, output_dir = NULL, fontsize = NULL,
+render_items(items, lang = NULL, output_dir = NULL, fontsize = NULL,
   paperwidth = 8.5, paperheight = 5.4, top = 0.5, bottom = 0.5,
   left = 0.5, right = 0.5, units = "cm", alignment = "left")
 }
@@ -12,12 +12,13 @@ render_items(items, lang, output_dir = NULL, fontsize = NULL,
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
 Can be named to provide a short, \emph{researcher-facing} \strong{item handles}.}
 
-\item{lang}{\code{[character(1)]} giving a language code for \emph{all} items, such as \code{en-US}.
+\item{lang}{\code{[character(1)]} giving a language code for \emph{all} items, such as \code{en_US}.
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package}.
 Must be one of:
 \itemize{
 \item \code{NULL} (default), in which case there is no multilingual typesetting support.
-\item a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code}.
+\item a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} supported by pandoc.
+See \code{pensieve:::langs} for all available languages.
 Ignored unless \code{type = "text"}.
 }}
 
