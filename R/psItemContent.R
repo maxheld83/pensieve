@@ -404,7 +404,7 @@ pdf2svg <- function(pdf_input) {
 # this is (unfortunately) transcribed from the haskell script inside pandoc
 # https://github.com/jgm/pandoc/blob/b8ffd834cff717fe424f22e506351f2ecec4655a/src/Text/Pandoc/Writers/LaTeX.hs#L1354-L1480
 langs <- readr::read_delim(
-  file = "inst/lang.csv",
+  file = "R/lang.csv",
   col_names = TRUE,
   delim = ";",
   col_types = "ccccll"
