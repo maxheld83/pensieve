@@ -48,5 +48,4 @@ Other parallel-analysis: \code{\link{run_parallel}}
 \author{
 Maximilian Held
 }
-\concept{parallel-analysis}
 \keyword{internal}

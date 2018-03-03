@@ -4,9 +4,10 @@
 \name{pensieve}
 \alias{pensieve}
 \alias{pensieve-package}
+\alias{pensieve-package}
 \title{pensieve.}
 \description{
-Provides tools for the scientific study of human subjectivity.
+pensieve.
 }
 \seealso{
 Useful links:

@@ -31,7 +31,7 @@ Applies only to \code{"honeycomb"} and \code{"brickwall"} patterns.}
 \item{grid}{A logical matrix giving the available cells for Q sorting.}
 
 \item{validate}{a logical flag, indicating whether the object will be validated on construction.
-Defaults to \code{TRUE}.}
+Defaults to `TRUE`.}
 
 \item{x}{class object created by respective constructor function.}
 }
@@ -64,6 +64,3 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
   \code{\link{psPeople}}, \code{\link{score}}
 }
-\concept{S3 classes from `pensieve`}
-\concept{design functions}
-\concept{survey functions}

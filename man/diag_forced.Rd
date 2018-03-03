@@ -33,5 +33,4 @@ diag_forced(sorts = sorts,
             grid = diag_distro_max(sorts))
 
 }
-\concept{distribution diagnostic functions}
 \keyword{internal}
