@@ -15,4 +15,5 @@ setup.R
 ^inst/accio/\.git$
 ^docs$
 logo.*
-vignettes/\.drafts$
+vignettes/q-cat.Rmd
+vignettes/.drafts/
