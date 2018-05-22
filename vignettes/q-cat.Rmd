@@ -20,10 +20,7 @@ abstract: >
   
   To spontaneously and ideosyncratically categorise things and ideas encountered in the world, is perhaps a definiting operation of the human mind.
   Here too, using the right approach, we can distill shared, categorical viewpoints on these items, extending the scientific study of human subjectivity to new formats and realms.
-output:
-  rmarkdown::html_fragment:
-    toc: true
-    toc_float: true
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Logical Open Sorts}
   %\VignetteEngine{knitr::rmarkdown}
