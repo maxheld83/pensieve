@@ -1,0 +1,31 @@
+---
+title: "Q Methodology as a Deliberative Technology"
+author: "Maximilian Held, Sabine Pfeiffer"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+How, in spite of it all, can we understand one another?
+Both Q Methodology and the theory of Deliberative Democracy grapple with this, perhaps defining, challenge in our time of ideological strife.
+As outgrowths of American Pragmatism -- especially the proto-deliberative theorist and Stephenson influence John Dewey -- both enterprises also share conceptual roots.
+They both reject radical constructivism (e.g. Glasersfeld 1995), and presume that meaning *can* be "conscired" (Stephenson 1978), but that such mutual understanding is always contingent and provisional (Habermas 1984).
+Q's emphasis on "referential" subjectivity is also mirrored by the emphasis on authentic expression in deliberative practice.
+
+This common outlook has been noted by some researchers, including especially Dryzek and Niemeyer (2007), who suggest Q as a method to measure the quality of deliberative fora.
+For deliberative theory, operationalisation remains a thorny problem: measures of deliberative quality must not be substantive, lest they collapse procedural prescription and substantive theory of justice, but entirely procedural standards risk becoming empty and formulaic.
+Conventional, often deductive survey measures are often too closed for necessarily open-ended deliberation, while purely qualitative approaches scale poorly and easily import researchers biases.
+As an abductive approach, with both qualitative and quantitative Q methodology appears to fit the bill, as Dryzek and Niemeyer have shown.
+
+In this paper, we present alternative operationalizations for deliberative quality inspired by Dryzek and Niemeyer, but using alternative statistical procedures, including n-dimensional matrix decomposition, a rigorous within-subjects design and a conceptualisation of beliefs, values and preferences borrowed from game theory.
+
+Using data gathered from over 80 participants on the topic on their desired and expected future work lives, as well as from a smaller citizen conference in Germany, we extract, interpret and publish multidimensional patterns of shared subjectivities.
+Results indicate that, using appropriate items, completing a Q-sort can in itself serve as a deliberative intervention, and that engaging resulting viewpoints may strengthen intellectual humility.
+Tentative (small-n) results from a rigorous within-subjects design for deliberative treatment effects also show some improvement in viewpoint structuration, as well as greater substantive consistence in line with hopes for deliberative democracy.
+
+We also discuss how to draft and sample items as part of an operationalisation of deliberative discourse.
+
+Q methodology, as perhaps any single intervention, is unlikely to be a panacea for our fractured public debate, but imperfect though it may be, it could just the next best thing to a thoughtful, personal conversation with a friend with whom you vigorously disagree.

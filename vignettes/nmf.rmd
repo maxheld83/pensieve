@@ -1,0 +1,36 @@
+---
+title: "NMF"
+author: "Maximilian Held"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Dimensionality reduction in Q analysis is conventionally accomplished with Principal Component Analysis (PCA), Centroid Factor Analysis (CFA) or other exploratory factor analysis (EFA) algorithms.
+These algorithms differ in significant ways: how they treat communalities, and whether their optimisation is deterministic or not (CFA).
+However, as orthogonal factorisation methods, they also share a central tenet: factors must, *as far as possible*, be uncorrelated.
+This constraint sometimes causes problems with some Q datasets, especially apparent when the number of participants is high.
+In such cases, automatic rotation procedures face frustrating tradeoffs.
+Under varimax rotation, factor loadings are widely spread out, but highly correlated, resulting in poor, if any, distinguishing statements and generally "washed out" viewpoints.
+Under quartimax rotation, correlations are minimal and factors sharply defined, but loadings accumulate mostly on the first factor.
+With affected datasets, this phenomenon cannot be avoided by other orthogonal rotations, including judgmental rotations -- researchers can only choose alternative balances between these equally unattractive extremes.
+Ex-post oblique rotations can alleviate the problem, but their results can be hard to interpret.
+
+Using Non-Negative Matrix factorizations (NNM), as they are frequently employed in chemistry and biostatistics, offers a fundamental solution to this problem. 
+In NMF, factor loadings are allowed to correlate already in unrotated form, but they can only non-negative.
+
+Both theoretically and intuitively, there appears to be no reason why correlated and non-negative viewpoints should be any less permissible than uncorrelated and bipolar factors.
+In fact, given the substance of many Q studies, we might *expect* factors to be largely non-negative, but somewhat correlated.
+In Q, and perhaps beyond, viewpoints tend not to be diametric opposites, nor entirely unrelated.
+
+We present secondary analyses from several Q studies, ranging from several dozen to several hundred participants, comparing conventional (PCA) and NMF factor loadings and scores.
+Results indicate that, by theoretical and pragmatic standards, NMF scores can often be easier to interpret, though some work remains to be done to interpret and implement NMF in the context of Q.
+Preliminary functions and visualisations from the pensieve package are presented.
+
+We also report on NMF as a possible fix for "bipolar" factors, though the argument for using it is less clear in this context.
+
+Finally, we recommend that apparent data anomalies under orthogonal factorizations be considered substantive findings, hinting at an incoherence between what the empirical patterns among Q sorters and the strictures of the chosen algorithm.
+We suggest that perhaps, rather than bending the data and factor interpretations to the algorithms, we should choose the algorithms according to which best fits the subjectivity expressed by participants.
