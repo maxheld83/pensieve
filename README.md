@@ -1,4 +1,4 @@
-[![Travis CI Build Status](https://travis-ci.org/maxheld83/pensieve.svg?branch=master)](https://travis-ci.org/maxheld83/pensieve)
+[![Travis CI Build Status](https://travis-ci.com/maxheld83/pensieve.svg?branch=master)](https://travis-ci.com/maxheld83/pensieve)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/9ip5xkw34mkfcewu/branch/master?svg=true)](https://ci.appveyor.com/project/maxheld83/pensieve/branch/master)
 [![codecov](https://codecov.io/gh/maxheld83/pensieve/branch/master/graph/badge.svg)](https://codecov.io/gh/maxheld83/pensieve)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
