@@ -8,16 +8,23 @@ language: r
 r:
   - oldrel
   - devel
-
 os:
   - linux
   - osx
+env:
+  # default to no deploy for all matrix cells
+  DEPLOY=false
 
 node_js:
   - "lts/*"
 
 matrix:
   fast_finish: true
+  include:
+  - r: oldrel
+    os: linux
+    env: DEPLOY=true
+    # only deploy this matrix cell
   allow_failures:
     - r: devel
 
@@ -64,14 +71,14 @@ git:
   submodules: false
 
 before_install:
+  # auth machine for github to get accio submodule
   - echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
   - git submodule update --init
 
 # SCRIPT ====
 # part of r default
 
-# remember that after_success and after_script stages do not fail the build, but before_deploy does, so that is better suited
-
+# all in the below would fail the build (not if done via after_success or after_script, so this is better)
 before_deploy:
   - R CMD INSTALL .
   - Rscript -e 'install.packages("pkgdown")'
