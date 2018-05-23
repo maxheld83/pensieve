@@ -75,6 +75,7 @@ before_install:
 
 before_deploy:
   - R CMD INSTALL .
+  - Rscript -e 'install.packages("pkgdown")'
   - Rscript -e 'covr::codecov()'
   - Rscript -e 'pkgdown::build_site()'
   - npm install netlify-cli -g

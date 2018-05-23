@@ -36,7 +36,6 @@ Suggests:
   igraph (>= 1.1.2),
   lettercase (>= 0.13.1),
   markdown (>= 0.8),
-  pkgdown (>= 1.0.0),
   printr (>= 0.1),
   pryr (>= 0.1.2),
   rsconnect (>= 0.8),
