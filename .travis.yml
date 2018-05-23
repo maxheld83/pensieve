@@ -21,10 +21,15 @@ node_js:
 matrix:
   fast_finish: true
   include:
+  # only deploy this matrix cell...
   - r: oldrel
     os: linux
     env: DEPLOY=true
-    # only deploy this matrix cell
+  exclude:
+  # ... but don't do it twice
+  - r: oldrel
+    os: linux
+    env: DEPLOY=false
   allow_failures:
     - r: devel
 
@@ -95,13 +100,13 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = oldrel"
+      condition: "$DEPLOY"
   - provider: script
     script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', appName = 'accio-${TRAVIS_BRANCH}')"
     skip_cleanup: true
     on:
       all_branches: true
-      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = oldrel && $TRAVIS_BRANCH != master"
+      condition: "$DEPLOY && $TRAVIS_BRANCH != master"
 
   # _site
   - provider: script
@@ -109,11 +114,11 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = oldrel"
+      condition: "$DEPLOY"
   - provider: pages
     github_token: $GITHUB_PAT
     local_dir: docs/
     skip_cleanup: true
     on:
       branch: dev
-      condition: "$TRAVIS_OS_NAME = linux && $TRAVIS_R_VERSION_STRING = oldrel"
+      condition: "$DEPLOY"
