@@ -100,13 +100,13 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-      condition: "$DEPLOY"
+      condition: "$DEPLOY = true"
   - provider: script
     script: Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', appName = 'accio-${TRAVIS_BRANCH}')"
     skip_cleanup: true
     on:
       all_branches: true
-      condition: "$DEPLOY && $TRAVIS_BRANCH != master"
+      condition: "$DEPLOY = true && $TRAVIS_BRANCH != master"
 
   # _site
   - provider: script
@@ -114,11 +114,11 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-      condition: "$DEPLOY"
+      condition: "$DEPLOY = true"
   - provider: pages
     github_token: $GITHUB_PAT
     local_dir: docs/
     skip_cleanup: true
     on:
       branch: dev
-      condition: "$DEPLOY"
+      condition: "$DEPLOY = true"
