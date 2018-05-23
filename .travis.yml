@@ -7,7 +7,7 @@ language: r
 
 r:
   - oldrel
-  - release
+  - 3.4.4
   - devel
 
 os:
