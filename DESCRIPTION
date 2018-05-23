@@ -10,7 +10,7 @@ URLNote: https://github.com/maxheld83/pensieve
 BugReports: https://github.com/maxheld83/pensieve/issues
 Description: Provides tools for the scientific study of human subjectivity.
 Depends:
-  R (>= 3.3.3)
+  R (>= 3.3.0)
 License: AGPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
