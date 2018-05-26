@@ -31,11 +31,11 @@ matrix:
     os: linux
     env: DEPLOY=false
   allow_failures:
-    - r: devel
+  - r: devel
 
 # general settings ====
 
-warnings_are_errors: false
+warnings_are_errors: true
 
 cache:
   packages: yes
