@@ -73,18 +73,17 @@ brew_packages:
 # part of R default
 
 git:
+  # accio submodule is used only for deploy, so skip generally
   submodules: false
-
-before_install:
-  # auth machine for github to get accio submodule
-  - echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
-  - git submodule update --init
 
 # SCRIPT ====
 # part of r default
 
 # all in the below would fail the build (not if done via after_success or after_script, so this is better)
 before_deploy:
+  # auth machine for github to get accio submodule
+  - echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
+  - git submodule update --init
   - R CMD INSTALL .
   - Rscript -e 'install.packages("pkgdown")'
   - Rscript -e 'covr::codecov()'
