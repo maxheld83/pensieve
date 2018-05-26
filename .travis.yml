@@ -65,7 +65,6 @@ addons:
 disable_homebrew: false
 
 brew_packages:
-  - openssl
   - pandoc
 
 
