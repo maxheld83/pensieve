@@ -97,7 +97,9 @@ before_deploy:
   # deploy shiny
   - Rscript -e 'install.packages("rsconnect")'
   - npm install netlify-cli -g
-  #- Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
+  # repeated install is necessary, because packrat otherwise does not know where pensieve came from
+  - Rscript -e 'install.packages("devtools")'
+  - Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
   - Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
 
 deploy:
