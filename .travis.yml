@@ -83,10 +83,17 @@ before_deploy:
   # auth machine for github to get accio submodule
   - echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
   - git submodule update --init
+
   - R CMD INSTALL .
-  - Rscript -e 'install.packages("pkgdown")'
+
+  # test coverage
+  - Rscript -e 'install.packages("covr")'
   - Rscript -e 'covr::codecov()'
+
+  # make website
+  - Rscript -e 'install.packages("pkgdown")'
   - Rscript -e 'pkgdown::build_site()'
+
   - npm install netlify-cli -g
   - Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
   - Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
