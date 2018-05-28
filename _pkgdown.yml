@@ -1,3 +1,4 @@
+url: https://pensieve.maxheld.de
 template:
   params:
     ganalytics: UA-48816137-13
@@ -25,5 +26,5 @@ navbar:
       href: https://maxheld83.shinyapps.io/accio/
     - icon: fa-github
       href: https://github.com/maxheld83/pensieve
-url: https://pensieve.maxheld.de
 theme: cosmo
+
