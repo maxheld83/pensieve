@@ -2,6 +2,9 @@ url: https://pensieve.maxheld.de
 template:
   params:
     ganalytics: UA-48816137-13
+    docsearch:
+      api_key: 3cb428b0eb896bffce7bf64509cf7054
+      index_name: pensieve
 navbar:
   title: "pensieve"
   type: inverse
