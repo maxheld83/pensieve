@@ -1,4 +1,7 @@
 url: https://pensieve.maxheld.de
+authors:
+  Maximilian Held:
+    href: http://www.maxheld.de
 template:
   params:
     ganalytics: UA-48816137-13
@@ -17,17 +20,13 @@ navbar:
       menu:
         - text: "Introduction"
           href: articles/introduction.html
+        - text: "-----"
         - text: "Design"
         - text: "Items"
           href: articles/items.html
-        - text: "-----"
-        - text: "Open Sorting"
-        - text: "Logical Open Sort"
-          href: articles/q-cat.html
   right:
     - icon: fa-cloud
       href: https://maxheld83.shinyapps.io/accio/
     - icon: fa-github
       href: https://github.com/maxheld83/pensieve
 theme: cosmo
-
