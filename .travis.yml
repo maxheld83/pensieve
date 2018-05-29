@@ -66,6 +66,7 @@ brew_packages:
 # script is part of base travis R
 
 jobs:
+  fast_finish: true
   include:
     - stage: deploy
       os: linux
@@ -108,9 +109,9 @@ jobs:
         - provider: script
           script:
             - echo "foo"
-            - npm install netlify-cli -g
+            #- npm install netlify-cli -g
             - echo "bar"
-            - netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT} -e production
+            #- netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT} -e production
           skip_cleanup: true
           on:
             branch: master
