@@ -126,9 +126,11 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
+      condition: "$DEPLOY = true"
   - provider: pages
     github_token: $GITHUB_PAT
     local_dir: docs/
     skip_cleanup: true
     on:
       branch: dev
+      condition: "$DEPLOY = true"
