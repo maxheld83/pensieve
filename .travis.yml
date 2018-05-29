@@ -67,16 +67,16 @@ jobs:
       os: linux
       r: oldrel
       script:
-        # run test coverage
-        - Rscript -e 'covr::codecov()'
         # auth machine for github to get accio submodule
         - echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
         - git submodule update --init
-        - R CMD INSTALL .
+        - Rscript -e 'devtools::install()'
+        # test coverage
+        - Rscript -e 'covr::codecov()'
         # make website
         - Rscript -e 'pkgdown::build_site()'
         # repeated install is necessary, because packrat otherwise does not know where pensieve came from
-        - Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
+        #- Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
         # auth shiny
         - Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
       deploy:
