@@ -12,3 +12,4 @@ _site/
 vignettes/*.html
 vignettes/*.R
 docs/
+inst/doc

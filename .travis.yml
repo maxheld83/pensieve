@@ -97,12 +97,9 @@ jobs:
             all_branches: true
             condition: "$TRAVIS_BRANCH != master"
         # site
-        - provider: script
-          script:
-            - ls
-            #- npm install netlify-cli -g
-            - echo "bar"
-            #- netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT} -e production
+        - provider: firebase
+          token: $FIREBASE_TOKEN
+          project: pensieve-169bf
           skip_cleanup: true
           on:
             branch: master

@@ -1,5 +1,4 @@
 ^.*\.Rproj$
-^.*\.sublime-project$
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^appveyor\.yml$
@@ -11,9 +10,8 @@
 ^man-roxygen$
 setup.R
 ^_pkgdown\.yml$
-^\.netlify$
+firebase.json
 ^inst/accio/\.git$
 ^docs$
 logo.*
 vignettes/q-cat.Rmd
-vignettes/.drafts/
