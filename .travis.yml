@@ -45,7 +45,8 @@ git:
   submodules: false
   depth: 3
 
-# these need not be in pensieve DESCRIPTION, but when loaded this way, they are cached
+# these need not be in pensieve DESCRIPTION, but are still needed for deploy
+# when mentioned here, they get cached
 r_packages:
   - covr
   - pkgdown
