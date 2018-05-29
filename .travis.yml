@@ -75,10 +75,9 @@ jobs:
         - Rscript -e 'covr::codecov()'
 
         # auth machine for github to get accio submodule
-        - |
-          echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
-          git submodule update --init
-          R CMD INSTALL .
+        - echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
+        - git submodule update --init
+        - R CMD INSTALL .
 
         # make website
         - Rscript -e 'pkgdown::build_site()'
