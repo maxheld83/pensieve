@@ -33,6 +33,8 @@ cache:
 # these need not be in pensieve DESCRIPTION, but when loaded this way, they are cached
 r_packages:
   - covr
+  - pkgdown
+  - rsconnect
 
 notifications:
   email: false
@@ -71,6 +73,7 @@ jobs:
     env: DEPLOY = true
     script:
     - |
+      tree
       # auth machine for github to get accio submodule
       echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
       git submodule update --init
@@ -80,14 +83,11 @@ jobs:
       Rscript -e 'covr::codecov()'
 
       # make website
-      Rscript -e 'install.packages("pkgdown")'
       Rscript -e 'pkgdown::build_site()'
 
       # prepare shiny
-      Rscript -e 'install.packages("rsconnect")'
       npm install netlify-cli -g
       # repeated install is necessary, because packrat otherwise does not know where pensieve came from
-      Rscript -e 'install.packages("devtools")'
       Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
       Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
 
