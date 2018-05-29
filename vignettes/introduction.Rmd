@@ -2,9 +2,10 @@
 title: "Introduction"
 author: "Maximilian Held"
 date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
 bibliography: held_library.bib
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Introduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -26,7 +27,7 @@ This makes it akin to a [Domain Specific Language](https://en.wikipedia.org/wiki
 
 # The OO System
 
-One of the dirty secrets of quantitative work is that a good 80\% of the time is often spent on "cleaning and preparing" messy data [@dasu_exploratory_2003;as cited in @Wickham_2014_Tidy: 1].
+One of the dirty secrets of quantitative work is that a good 80\% of the time is often spent on "cleaning and preparing" messy data [@dasu_exploratory_2003 as cited in @Wickham_2014_Tidy: 1].
 This tedium affects the quantitative stages of studying human subjectivity as much as other analyses, and is best addressed head-on and as early as possible, to avoid downstream complications.
 
 To that end, `pensieve` prescribes a large number of standardized data formats, in which otherwise messy data can be tidily stored.[^not-tidy]
@@ -67,7 +68,7 @@ Most average users of `pensieve` will never be exposed to the OO system "behind 
 More advanced users with custom extensions should also not feel stifled; rather than restricting the extensibility of R, this validation infrastructure merely provides a well-defined interface *for* extending `pensieve`.
 With such a system in place, all users can rest assured that all reasonable precautions are taken to ensure the reliability and reproducibility of their results, as would be expected from any *scientific* study of human subjectivity.
 
-[^not-tidy]: @Wickham-2014 has suggested a formal definition of *tidy* datasets where each row is an observation, each column a variable and each table an observational unit.
+[^not-tidy]: @Wickham_2014_Tidy has suggested a formal definition of *tidy* datasets where each row is an observation, each column a variable and each table an observational unit.
     While much of `pensieve` follows this philosophy, not all Q objects are best represented as tidy `data.frame`s or `tibble`s. 
     Where rows and columns can be meaningfully transposed or where linear algebra operations are readily applicable, as is the case for Q-sorts and downstream results, data is instead stored in matrices and higher dimensional arrays.
     This is in line with recent recommendations for such non-tidy data by [[@leek_non-tidy_2016]](https://simplystatistics.org/2016/02/17/non-tidy-data/).

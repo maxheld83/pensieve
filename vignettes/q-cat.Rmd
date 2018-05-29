@@ -343,7 +343,7 @@ where cells cells are Pearson's correlation coefficients, each across some obser
 Since *both* the number of people *and* the number of item-pairs are too large to make sense of the data, we need to reduce the dimensionality.
 Specifically, we want to reduce the people to *fewer* ideal types, and then describe these ideal type's *ideal types* of co-occuring items, potentially yielding of shared, categorical subjectivities of participants.
 
-Since we are looking for a simple dimensionality reduction (not a causal or latent variable model), the n-mode generalisations of PCA, Candecomp/Parafac [PC, @carrol-chang-1970 and independently @harshman-1970] and the more involved Tucker procedures [@tucker-1966] apply here.
+Since we are looking for a simple dimensionality reduction (not a causal or latent variable model), the n-mode generalisations of PCA, Candecomp/Parafac [PC, @carrol-chang-1970 and independently @harshman-1970] and the more involved Tucker procedures [@Tucker-1966] apply here.
 
 
 

@@ -3,8 +3,9 @@ title: "NMF"
 author: "Maximilian Held"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+bibliography: held_library.bib
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{NMF}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

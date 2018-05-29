@@ -1,10 +1,13 @@
 ---
 title: "Q Methodology as a Deliberative Technology"
-author: "Maximilian Held, Sabine Pfeiffer"
+author:
+  - "Maximilian Held"
+  - "Sabine Pfeiffer"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+bibliography: held_library.bib
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Q Methodology as a Deliberative Technology}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
