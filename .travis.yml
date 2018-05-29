@@ -10,8 +10,6 @@ r:
 os:
   - linux
   - osx
-node_js:
-  - "lts/*"
 
 # general settings ====
 
