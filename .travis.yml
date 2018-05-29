@@ -30,6 +30,9 @@ cache:
   directories:
     - $HOME/bin
 
+# these need not be in pensieve DESCRIPTION, but when loaded this way, they are cached
+r_packages:
+  - covr
 
 notifications:
   email: false
@@ -74,7 +77,6 @@ jobs:
       R CMD INSTALL .
 
       # run test coverage
-      Rscript -e 'install.packages("covr")'
       Rscript -e 'covr::codecov()'
 
       # make website
