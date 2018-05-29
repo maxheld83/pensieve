@@ -105,6 +105,7 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
+      condition: "$DEPLOY = true"
   - provider: script
     script:
     - |
@@ -115,7 +116,7 @@ deploy:
     skip_cleanup: true
     on:
       all_branches: true
-      condition: "$TRAVIS_BRANCH != master"
+      condition: "$TRAVIS_BRANCH != master || $DEPLOY = true"
 
   # _site
   - provider: script
