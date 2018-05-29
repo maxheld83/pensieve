@@ -10,26 +10,13 @@ r:
 os:
   - linux
   - osx
-env:
-  - DEPLOY = false
 node_js:
   - "lts/*"
 
 matrix:
   fast_finish: true
   allow_failures:
-  - r: devel
-  # deploy from here
-  include:
-  - r: oldrel
-    # fix above back to release
-    os: linux
-    env: DEPLOY = true
-  # but do not repeat it
-  exclude:
-  - r: oldrel
-    os: linux
-    env: DEPLOY = false
+    - r: devel
 
 # general settings ====
 
@@ -78,59 +65,56 @@ brew_packages:
 
 # script is part of base travis R
 
-before_deploy:
-  # sadly this gets run for every deploy provider
-  # run test coverage
-  - Rscript -e 'covr::codecov()'
+jobs:
+  include:
+    - stage: deploy
+      os: linux
+      r: oldrel
+      script:
+        # run test coverage
+        - Rscript -e 'covr::codecov()'
 
-  # auth machine for github to get accio submodule
-  - |
-    echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
-    git submodule update --init
-    R CMD INSTALL .
+        # auth machine for github to get accio submodule
+        - |
+          echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
+          git submodule update --init
+          R CMD INSTALL .
 
-  # make website
-  - Rscript -e 'pkgdown::build_site()'
+        # make website
+        - Rscript -e 'pkgdown::build_site()'
 
+        # repeated install is necessary, because packrat otherwise does not know where pensieve came from
+        - Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
 
-deploy:
-  # accio
-  - provider: script
-    script:
-    - |
-      # repeated install is necessary, because packrat otherwise does not know where pensieve came from
-      Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
-      Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
-      Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', appName = 'accio')"
-    skip_cleanup: true
-    on:
-      branch: master
-      condition: "$DEPLOY = true"
-  - provider: script
-    script:
-    - |
-      # repeated install is necessary, because packrat otherwise does not know where pensieve came from
-      Rscript -e "devtools::install_github(repo = 'maxheld83/pensieve', force = TRUE, ref = '${TRAVIS_BRANCH}')"
-      Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
-      Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', appName = 'accio-${TRAVIS_BRANCH}')"
-    skip_cleanup: true
-    on:
-      all_branches: true
-      condition: "$TRAVIS_BRANCH != master && $DEPLOY = true"
+        # auth shiny
+        - Rscript -e "rsconnect::setAccountInfo(name='maxheld83', token='${SHINYAPPS_TOKEN}', secret='${SHINYAPPS_SECRET}')"
 
-  # _site
-  - provider: script
-    script:
-    - npm install netlify-cli -g
-    - netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT} -e production
-    skip_cleanup: true
-    on:
-      branch: master
-      condition: "$DEPLOY = true"
-  - provider: pages
-    github_token: $GITHUB_PAT
-    local_dir: docs/
-    skip_cleanup: true
-    on:
-      branch: dev
-      condition: "$DEPLOY = true"
+      deploy:
+        # accio
+        - provider: script
+          script:
+          - Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', appName = 'accio')"
+          skip_cleanup: true
+          on:
+          branch: master
+        - provider: script
+          script:
+            - Rscript -e "rsconnect::deployApp(appDir = 'inst/accio/', appName = 'accio-${TRAVIS_BRANCH}')"
+          skip_cleanup: true
+          on:
+            all_branches: true
+            condition: "$TRAVIS_BRANCH != master"
+        # site
+        - provider: script
+          script:
+            - npm install netlify-cli -g
+            - netlify deploy -s pensieve.netlify.com -t ${NETLIFY_PAT} -e production
+          skip_cleanup: true
+          on:
+            branch: master
+        - provider: pages
+          github_token: $GITHUB_PAT
+          local_dir: docs/
+          skip_cleanup: true
+          on:
+            branch: dev
