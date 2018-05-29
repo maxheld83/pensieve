@@ -63,7 +63,7 @@ git:
 jobs:
   include:
   - stage: deploy
-    os: osx
+    os: linux
     r: oldrel
     env: DEPLOY = true
     script:
