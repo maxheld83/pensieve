@@ -1,4 +1,4 @@
-context("psItemContent")
+context("psItemContent class")
 
 # object construction
 test_that(desc = "construction of text item works", code = {
@@ -49,4 +49,8 @@ test_that(desc = "pdf card is produced from string", code = {
   skip(message = "currently in dev")
   output <- pensieve:::make_cards(item_text = "foo", item_handle = "foo_handle")
   checkmate::expect_file_exists(x = output$paths$pdf)
+})
+
+test_that(desc = "pandoc works with all accepted languages", code = {
+
 })

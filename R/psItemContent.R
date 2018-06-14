@@ -17,7 +17,7 @@
 #' - `"text"` (default) for textual item, in which case `items` must be text.
 #'   Items can be marked up using [Pandoc Markdown](https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html).
 #'   An additional subclass `"psItemContentText"` is prepended and validated.
-#' - `"image"` for imate items, in which case `items` must be file paths, relative from `img_dir`.
+#' - `"image"` for image items, in which case `items` must be file paths, relative from `img_dir`.
 #'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
 #'   An additional subclass `"psItemContentImage"` is prepended and validated.
 #'
@@ -172,7 +172,7 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #'
 #' @details
 #' It is often helpful to have an authoritative, and professionally typeset version of items.
-#' This function produces renders items.
+#' This function renders items.
 #' When `items` are named with item handles, such handles are used as file names.
 #' Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 #'
@@ -231,25 +231,34 @@ render_items <- function(items,
                          alignment = "left") {
 }
 
-item2latex <- function(item_text,
-                       item_handle,
-                       lang,
-                       output_dir,
-                       fontsize,
-                       paperwidth,
-                       paperheight,
-                       top,
-                       bottom,
-                       left,
-                       right,
-                       units,
-                       alignment) {
+# test <- md2tex(
+#   text = "foo",
+#   lang = "en-US",
+#   fontsize = "normalsize",
+#   paperwidth = 8.5,
+#   paperheight = 5.4,
+#   top = 0.5,
+#   bottom = 0.5,
+#   left = 0.5,
+#   right = 0.5,
+#   units = "cm",
+#   alignment = "left")
+
+
+md2tex <- function(text,
+                   lang,
+                   fontsize,
+                   paperwidth,
+                   paperheight,
+                   top,
+                   bottom,
+                   left,
+                   right,
+                   units,
+                   alignment) {
 
   # input validation
-  assert_string(x = item_text, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
-  assert_string(x = item_handle, na.ok = FALSE, min.chars = 1, null.ok = TRUE)
-  # TODO remember to test lang
-  assert_directory(x = output_dir, access = "w")
+  assert_string(x = text, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
   # other arguments are treated downstream
 
   # check dependencies
@@ -261,12 +270,13 @@ item2latex <- function(item_text,
     input = c(
       latex$set$fontsize(fontsize = fontsize),
       latex$set$alignment(alignment = alignment),
-      item_text
+      text
     ),
     args = c(
       "--from=markdown",  # this is pandoc's extended markdown
-      "--output=test.pdf",  # for file output, necessary for pdf
+      "--to=latex",  # redirects to stdout
       "--verbose",  # for debugging
+      "--standalone",  # uses template
 
       # geometry options
       latex$set$geometry(
@@ -286,7 +296,8 @@ item2latex <- function(item_text,
       # language
       glue::glue("-V lang={lang}")
     ),
-    stdout = FALSE,
+    stdout = TRUE,
+    stderr = "",
     wait = TRUE
   )
 }
@@ -386,25 +397,6 @@ latex$set$alignment <- function(alignment = "justified") {
   )
 }
 
-
-# helper to convert pdf to svg
-pdf2svg <- function(pdf_input) {
-  # Input validation
-  checkmate::assert_file_exists(x = pdf_input, extension = "pdf")
-  checkmate::assert_character(x = pdf_input, any.missing = FALSE, unique = TRUE)
-  checkmate::assert_os(os = c("mac", "linux"))
-
-  svg_output <- paste0(
-    tools::file_path_sans_ext(pdf_input),
-    ".svg"
-  )
-  system2(command = "pdf2svg",
-          args = c(pdf_input,
-                   svg_output,
-                   "1"),
-          stderr = "")  # only take 1st page
-}
-
 # generally, the BCP 47 standard allows all manner of language, region combinations (and more), e.g. "de_AT"
 # however, only a subset is allowed in pandoc and translated to panglossia or babel
 # this is (unfortunately) transcribed from the haskell script inside pandoc
@@ -420,7 +412,7 @@ langs <- purrr::pmap(.l = langs[,c("lang_short", "var_short", "lang_long", "var_
   if (is.na(var_short)) {
     short <- lang_short
   } else {
-    short <- glue::glue('{lang_short}_{var_short}')
+    short <- glue::glue('{lang_short}-{var_short}')
   }
   if (is.na(var_long)) {
     long <- lang_long
@@ -431,3 +423,79 @@ langs <- purrr::pmap(.l = langs[,c("lang_short", "var_short", "lang_long", "var_
   return(short)
 })
 langs <- purrr::as_vector(langs)
+
+
+# in contrast to normal texi function, this returns the pdf as a raw vector
+texi2pdf_raw <- function(tex) {
+  requireNamespace2(x = "tools")
+  requireNamespace2(x = "fs")
+  requireNamespace2(x = "withr")
+
+  # make sure file gets deleted again
+  # this is not a tempfile, but just from wd, which might be helpful for debugging
+  withr::local_file(
+    file = c("item.tex", "item.pdf")
+  )
+
+  write(x = tex, file = "item.tex")
+  # availability of tex will ideally be checked in platform dependent way by texi2pdf
+  tools::texi2pdf(file = "item.tex", clean = TRUE, index = FALSE, quiet = TRUE)
+
+  readBin(
+    con = "item.pdf",
+    what = "raw",
+    n = fs::file_info("item.pdf")$size  # need to allocate size
+  )
+}
+
+#pdf_raw <- texi2pdf_raw(tex = test)
+#svg_raw <- pdf2svg_raw(pdf_raw = pdf_raw)
+
+check_pdf1page <- function(x) {
+  requireNamespace2(x = "pdftools")
+  infos <- pdftools::pdf_info(pdf = x)
+  if (infos$pages == 1) {
+    return(TRUE)
+  } else {
+    return("PDF must be 1 page long.")
+  }
+}
+assert_pdf1page <- checkmate::makeAssertionFunction(check.fun = check_pdf1page)
+test_pdf1page <- checkmate::makeTestFunction(check.fun = check_pdf1page)
+expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page)
+
+# helper to convert pdf to svg
+pdf2svg <- function(pdf_input) {
+  requireNamespace2(x = "fs")
+  requireNamespace2(x = "withr")
+  requireNamespace2(x = "tools")
+  # dependencies
+  checkmate::assert_os(os = c("mac", "linux"))
+  assert_sysdep(x = "pdf2svg")
+
+  # input validation
+  checkmate::assert_file_exists(x = pdf_input, extension = "pdf")
+  checkmate::assert_character(x = pdf_input, any.missing = FALSE, unique = TRUE)
+
+  svg_output <- paste0(
+    tools::file_path_sans_ext(pdf_input),
+    ".svg"
+  )
+  system2(command = "pdf2svg",
+          args = c(pdf_input,
+                   svg_output,
+                   "1"),
+          stderr = "")  # only take 1st page
+}
+pdf2svg_raw <- function(pdf_raw) {
+  withr::local_file(
+    file = c("item.pdf", "item.svg")
+  )
+  writeBin(object = pdf_raw, con = "item.pdf")
+  pdf2svg(pdf_input = "item.pdf")
+  readBin(
+    con = "item.svg",
+    what = "raw",
+    n = fs::file_info("item.svg")$size  # need to allocate size
+  )
+}

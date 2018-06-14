@@ -18,7 +18,7 @@ Can be named to provide a short, \emph{researcher-facing} \strong{item handles}.
 \item \code{"text"} (default) for textual item, in which case \code{items} must be text.
 Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
 An additional subclass \code{"psItemContentText"} is prepended and validated.
-\item \code{"image"} for imate items, in which case \code{items} must be file paths, relative from \code{img_dir}.
+\item \code{"image"} for image items, in which case \code{items} must be file paths, relative from \code{img_dir}.
 Images must be \code{*.png}, \code{*.jpg}, \code{*.jpeg} or \code{*.svg}.
 An additional subclass \code{"psItemContentImage"} is prepended and validated.
 }}
@@ -68,7 +68,7 @@ items_text_en <- psItemContent(
     "work_2_live" = "Man works to live."
   ),
   type = "text",
-  lang = "en_US"
+  lang = "en-US"
 )
 
 # text items without handles
@@ -77,7 +77,7 @@ items_text_de <- psItemContent(
     "Man lebt um zu arbeiten.",
     "Man arbeitet, um zu leben."
   ),
-  lang = "de_DE"
+  lang = "de-DE"
 )
 
 # text items without multilingual typographic support

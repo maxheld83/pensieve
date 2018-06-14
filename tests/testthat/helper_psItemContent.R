@@ -5,7 +5,7 @@ items_text_en <- psItemContent(
     "work_2_live" = "Man works to live."
   ),
   type = "text",
-  lang = "en_US"
+  lang = "en-US"
 )
 
 # text items without handles
@@ -14,7 +14,7 @@ items_text_de <- psItemContent(
     "Man lebt um zu arbeiten.",
     "Man arbeitet, um zu leben."
   ),
-  lang = "de_DE"
+  lang = "de-DE"
 )
 
 # text items without multilingual typographic support

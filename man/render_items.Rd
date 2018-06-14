@@ -73,7 +73,7 @@ Renders character vectors of items to a pdf, using pandoc and latex, then conver
 }
 \details{
 It is often helpful to have an authoritative, and professionally typeset version of items.
-This function produces renders items.
+This function renders items.
 When \code{items} are named with item handles, such handles are used as file names.
 Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 }
