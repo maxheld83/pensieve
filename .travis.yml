@@ -47,6 +47,7 @@ addons:
     packages:
       - pdf2svg
       - libudunits2-dev
+      - libpoppler-cpp-dev
 
 
 # macOS stuff ====
