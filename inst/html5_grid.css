@@ -1,3 +1,8 @@
 .ps-grid {
-  width: 100%;
+  width: 50%;
+}
+.ps-grid .cell {
+}
+.ps-grid .allowed {
+  border: 1px solid black;
 }

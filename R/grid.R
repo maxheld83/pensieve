@@ -77,6 +77,10 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE) {
 
 html5_grid_row <- function(rowvec) {
   purrr::map(.x = rowvec, .f = function(cell) {
-    htmltools::tags$td(cell)
+    cellout <- htmltools::tags$td(cell, class = "cell")
+    if (cell == TRUE) {
+      cellout <- htmltools::tagAppendAttributes(tag = cellout, class = "allowed")
+    }
+    return(cellout)
   })
 }
