@@ -32,6 +32,7 @@ Suggests:
   fs (>= 1.2.3),
   ggrepel (>= 0.6.5),
   ggraph (>= 1.0.0),
+  htmltools (>= 0.3.6),
   igraph (>= 1.1.2),
   lettercase (>= 0.13.1),
   markdown (>= 0.8),
