@@ -1,6 +1,6 @@
-# html5 grid ====
+# html5 ====
 
-write_html5grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE) {
+html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE) {
   # input verification
   assert_flag(x = browsable, na.ok = FALSE, null.ok = FALSE)
   assert_flag(x = header, na.ok = FALSE, null.ok = FALSE)
@@ -18,13 +18,23 @@ write_html5grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE
     all_files = TRUE,
     package = "pensieve"
   )
+  html5_grid_style <- htmltools::htmlDependency(
+    name = "html5_grid",
+    version = "0.0.9999",
+    src = "inst/",
+    stylesheet = "html5_grid.css",
+    all_files = TRUE,
+    package = "pensieve"
+  )
 
   # create output
   output <- htmltools::tagList(
     # dependencies
     bs,
+    html5_grid_style,
 
     htmltools::tags$table(
+      class = "ps-grid",
 
       # header
       if (header) {
@@ -51,7 +61,7 @@ write_html5grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE
       # body
       htmltools::tags$tbody(
         purrr::map(.x = rownames(grid), .f = function(rname) {
-          htmltools::tags$tr(write_html5grid_row(rowvec = grid[rname,]))
+          htmltools::tags$tr(html5_grid_row(rowvec = grid[rname,]))
         })
       )
     )
@@ -65,7 +75,7 @@ write_html5grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE
   }
 }
 
-write_html5grid_row <- function(rowvec) {
+html5_grid_row <- function(rowvec) {
   purrr::map(.x = rowvec, .f = function(cell) {
     htmltools::tags$td(cell)
   })
