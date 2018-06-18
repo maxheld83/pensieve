@@ -6,6 +6,9 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE) {
   assert_flag(x = header, na.ok = FALSE, null.ok = FALSE)
   assert_flag(x = footer, na.ok = FALSE, null.ok = FALSE)
 
+  rowheight <- 100/ncol(grid)
+  rowheight <- glue(rowheight, "%")
+
   # test dependencies
   requireNamespace2("htmltools")
 
@@ -61,7 +64,9 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE) {
       # body
       htmltools::tags$tbody(
         purrr::map(.x = rownames(grid), .f = function(rname) {
-          htmltools::tags$tr(html5_grid_row(rowvec = grid[rname,]))
+          htmltools::tags$tr(
+            html5_grid_row(rowvec = grid[rname,], rowheight = rowheight)
+          )
         })
       )
     )
@@ -75,9 +80,17 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE) {
   }
 }
 
-html5_grid_row <- function(rowvec) {
+html5_grid_row <- function(rowvec, rowheight) {
   purrr::map(.x = rowvec, .f = function(cell) {
-    cellout <- htmltools::tags$td(cell, class = "cell")
+    cellout <- htmltools::tags$td(
+      class = "cell",
+      style = htmltools::css(padding_top = rowheight),
+      htmltools::tags$div(
+        cell,
+        "lirum, larum",
+        class = "content"
+      )
+    )
     if (cell == TRUE) {
       cellout <- htmltools::tagAppendAttributes(tag = cellout, class = "allowed")
     }
