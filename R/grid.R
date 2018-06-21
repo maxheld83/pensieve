@@ -119,8 +119,6 @@ html5_grid_row <- function(rowvec, rowheight) {
       class = "cell",
       style = htmltools::css(padding_top = rowheight),
       htmltools::tags$div(
-        cell,
-        "lirum, larum",
         class = "content"
       )
     )
