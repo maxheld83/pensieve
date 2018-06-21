@@ -59,6 +59,12 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE, asp
     bs,
     jquery,
     html5_grid_style,
+    # add some more class declaration
+    htmltools::tags$head(
+      htmltools::tags$style(
+        glue::glue(".ps-grid .cell {{padding-top: ", rowheight, ";}}")
+      )
+    ),
 
     htmltools::tags$table(
       class = "ps-grid",
@@ -89,7 +95,7 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE, asp
       htmltools::tags$tbody(
         purrr::map(.x = rownames(grid), .f = function(rname) {
           htmltools::tags$tr(
-            html5_grid_row(rowvec = grid[rname,], rowheight = rowheight)
+            html5_grid_row(rowvec = grid[rname,])
           )
         })
       )
@@ -106,18 +112,15 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE, asp
 
 #' @title Write HTML grid for a single row of cells
 #' @param rowvec A logical vector giving the availability of cells.
-#' @param rowheight A character scalar, giving the height of cells/rows in valid CSS units.
 #' @return An [htmltools::tagList()].
 #' @noRd
-html5_grid_row <- function(rowvec, rowheight) {
+html5_grid_row <- function(rowvec) {
   # input validation
   assert_logical(x = rowvec, any.missing = FALSE, all.missing = FALSE, null.ok = FALSE)
-  assert_character(x = rowheight, min.chars = 1, len = 1, null.ok = FALSE)
 
   purrr::map(.x = rowvec, .f = function(cell) {
     cellout <- htmltools::tags$td(
       class = "cell",
-      style = htmltools::css(padding_top = rowheight),
       htmltools::tags$div(
         class = "content"
       )
