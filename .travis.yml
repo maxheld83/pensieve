@@ -56,6 +56,8 @@ disable_homebrew: false
 
 brew_packages:
   - pandoc
+  - cairo
+  - pdf2svg
 
 # script is part of base travis R
 
