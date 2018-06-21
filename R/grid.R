@@ -119,15 +119,24 @@ html5_grid_row <- function(rowvec) {
   assert_logical(x = rowvec, any.missing = FALSE, all.missing = FALSE, null.ok = FALSE)
 
   purrr::map(.x = rowvec, .f = function(cell) {
-    cellout <- htmltools::tags$td(
-      class = "cell",
-      htmltools::tags$div(
-        class = "content"
-      )
-    )
-    if (cell == TRUE) {
-      cellout <- htmltools::tagAppendAttributes(tag = cellout, class = "allowed")
-    }
-    return(cellout)
+    html5_grid_cell(allowed = cell, type = "empty")
   })
 }
+
+#' @title Write HTML grid for single cell
+#' @param allowed A logical flag whether cell is available
+#' @param type A character string, must be "empty"
+#' @noRd
+html5_grid_cell <- function(allowed = TRUE, type = "empty") {
+  cell <- htmltools::tags$td(
+    class = "cell",
+    htmltools::tags$div(
+      class = "content"
+    )
+  )
+  if (allowed == TRUE) {
+    cell <- htmltools::tagAppendAttributes(tag = cell, class = "allowed")
+  }
+  return(cell)
+}
+
