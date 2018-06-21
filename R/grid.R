@@ -1,6 +1,6 @@
 # html5 ====
 
-#' @title Write HTML5 markup for grid
+#' @title Write HTML5 markup for grid.
 #' @description This is a worker function to write out grids as HTML5 markup with dependencies.
 #' @param grid A logical matrix, giving the sorting grid, indicating whether the cells are allowed or not.
 #' @param browsable a logical flag.
@@ -11,7 +11,7 @@
 #' Defaults to standard business cards.
 #' @return An [htmltools::tagList()].
 #' @noRd
-html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE, aspect_ratio_cards = 54/85) {
+html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE, aspect_ratio_cards = 54/85, ...) {
   # test dependencies
   requireNamespace2("htmltools")
 
@@ -95,7 +95,7 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE, asp
       htmltools::tags$tbody(
         purrr::map(.x = rownames(grid), .f = function(rname) {
           htmltools::tags$tr(
-            html5_grid_row(rowvec = grid[rname,])
+            html5_grid_row(rowvec = grid[rname,], ...)
           )
         })
       )
@@ -114,29 +114,54 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE, asp
 #' @param rowvec A logical vector giving the availability of cells.
 #' @return An [htmltools::tagList()].
 #' @noRd
-html5_grid_row <- function(rowvec) {
-  # input validation
-  assert_logical(x = rowvec, any.missing = FALSE, all.missing = FALSE, null.ok = FALSE)
-
+html5_grid_row <- function(rowvec, ...) {
   purrr::map(.x = rowvec, .f = function(cell) {
-    html5_grid_cell(allowed = cell, type = "empty")
+    html5_grid_cell(allowed = cell, ...)
   })
 }
 
-#' @title Write HTML grid for single cell
+#' @title Write HTML for single cell
 #' @param allowed A logical flag whether cell is available
-#' @param type A character string, must be "empty"
 #' @noRd
-html5_grid_cell <- function(allowed = TRUE, type = "empty") {
-  cell <- htmltools::tags$td(
-    class = "cell",
-    htmltools::tags$div(
-      class = "content"
+html5_grid_cell <- function(allowed = TRUE, ...) {
+  # input validation
+  assert_flag(x = allowed, na.ok = FALSE, null.ok = FALSE)
+
+  if (allowed) {
+    cell <- htmltools::tags$td(
+      class = "cell allowed",
+      htmltools::tags$div(
+        class = "content",
+        html5_grid_cell_content(...)
+      )
     )
-  )
-  if (allowed == TRUE) {
-    cell <- htmltools::tagAppendAttributes(tag = cell, class = "allowed")
+  } else {
+    cell <- htmltools::tags$td(class = "cell")
   }
   return(cell)
+}
+
+#' @title Write HTML for single cell content
+#' @param type A string, must be one of:
+#' - `template` for empty template,
+#' - `input` for input fields.
+#' @noRd
+html5_grid_cell_content <- function(type = "template") {
+  # input validation
+  assert_string(x = type, na.ok = FALSE, null.ok = FALSE)
+  assert_choice(x = type, choices = c("template", "input"))
+
+  switch(
+    EXPR = type,
+    template = {
+      cell_content <- NULL
+    },
+    input = {
+      cell_content <- htmltools::tags$input(type = "text", name = "foo", value = "Pixie")
+    }
+    # add other types here
+  )
+
+  return(cell_content)
 }
 
