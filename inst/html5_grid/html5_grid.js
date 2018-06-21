@@ -7,6 +7,7 @@ $(window).bind("load resize orientationchange", function() {
 });
 
 function resizer(el) {
+  // this approach is inspired by https://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-resizing-html5-games/#disqus_thread
   // to be safe, this SHOULD be recalculated every time, b/c el MIGHT have stuff which does not resize dynamically, therefore altering aspect ratio
   var reqAspRatio = findAspectRatio(el);
   // this should respect parent width
@@ -14,7 +15,7 @@ function resizer(el) {
   // but for height, we only care about viewport limitations; users will have to scroll accordingly
   var availHeight = $(window).innerHeight();
   var availAspRat = availWidth / availHeight;
-  
+
   // remember that we ONLY write out width, rest is dealt with via css padding hack
   if (availAspRat > reqAspRatio) {
     // this is e.g. 4/3 in 16/9, needs boxes on the side, aka width based on height
