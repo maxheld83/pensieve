@@ -1,0 +1,6 @@
+{
+  "jquery": true,
+  "globals": {
+       "$": false
+   }
+}

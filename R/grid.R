@@ -35,12 +35,21 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE, asp
     all_files = TRUE,
     package = "pensieve"
   )
+  jquery <- htmltools::htmlDependency(
+    name = "jquery",
+    version = "1.12.4",
+    src = "inst/jQuery/",
+    script = "jquery-1.12.4.js",
+    all_files = FALSE,
+    package = "pensieve"
+  )
   html5_grid_style <- htmltools::htmlDependency(
     name = "html5_grid",
     version = "0.0.9999",
-    src = "inst/",
+    src = "inst/html5_grid/",
     stylesheet = "html5_grid.css",
     all_files = TRUE,
+    script = "html5_grid.js",
     package = "pensieve"
   )
 
@@ -48,6 +57,7 @@ html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE, asp
   output <- htmltools::tagList(
     # dependencies
     bs,
+    jquery,
     html5_grid_style,
 
     htmltools::tags$table(
