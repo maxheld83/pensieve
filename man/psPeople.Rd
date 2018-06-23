@@ -23,7 +23,7 @@ people <- psPeople(data.frame(Name = c("Ann", "Kim", "Joe"),
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{make_grid}},
+  \code{\link{extract}}, \code{\link{psGrid}},
   \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
   \code{\link{psOpenSort}}, \code{\link{score}}
 }

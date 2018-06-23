@@ -88,7 +88,7 @@ Other analysis functions: \code{\link{correlate}},
 
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{make_grid}}, \code{\link{psItemContent}},
+  \code{\link{psGrid}}, \code{\link{psItemContent}},
   \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
   \code{\link{psPeople}}, \code{\link{score}}
 

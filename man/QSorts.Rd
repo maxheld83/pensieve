@@ -55,7 +55,7 @@ plot(x = sorts)
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{make_grid}}, \code{\link{psItemContent}},
+  \code{\link{psGrid}}, \code{\link{psItemContent}},
   \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
   \code{\link{psPeople}}, \code{\link{score}}
 

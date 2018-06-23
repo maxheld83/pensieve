@@ -44,13 +44,18 @@ validate_S3.default <- function(x, ps_coll = NULL, ...) {
     string = classes,
     pattern = "validate_S3.",
     replacement = "")
+  # TODO this is a hotfix for https://github.com/maxheld83/pensieve/issues/384
+  # perhaps classes are not all available at this point
+  classes <- c(classes, "psGrid")
 
   # this hack job is necessary, because we need this default to do work *other* than erroring out
   checked <- any(class(x) %in% classes)
   if (!(checked)) {
     stop(
-      "Can't find a validation method for this class. ",
-      "Maybe this is not a class from pensieve?",
+      "Can't find a validation method for any of these classes: ",
+      glue::collapse(class(x), sep = ", ", last = " and "),
+      ". ",
+      "Maybe none of these are a class from pensieve?",
       call. = FALSE
     )
   }

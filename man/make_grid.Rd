@@ -2,16 +2,10 @@
 % Please edit documentation in R/design.R
 \name{make_grid}
 \alias{make_grid}
-\alias{QGrid}
-\alias{check.QGrid}
 \title{Create Q sorting grid.}
 \usage{
-make_grid(x_range = c(-5, 5), y_range = c(1, 5), pattern = "honeycomb",
+make_grid(x_range = c(-5, 5), y_range = c(1, 5), pattern = "chessboard",
   offset = "odd")
-
-QGrid(grid, pattern = "honeycomb", offset = "even", validate = TRUE)
-
-\method{check}{QGrid}(x)
 }
 \arguments{
 \item{x_range}{An integer vector of length two, giving the range on the x axis.
@@ -21,46 +15,16 @@ Defaults to \code{c(-5, 5)}.}
 Defaults to \code{c(1, 5)}.}
 
 \item{pattern}{A character string, giving the pattern of tesselation to use.
-Must be \code{"honeycomb"} (default), the only currently supported pattern.
-Defaults to \code{NULL}, in which case \code{pattern} is expected as an attribute of \code{grid}.}
+Must be \code{"chessboard"} (default), the only currently supported pattern.}
 
 \item{offset}{A character string, giving the rows to be offset.
-Must be \code{"even"} or \code{"odd"} (default).
-Applies only to \code{"honeycomb"} and \code{"brickwall"} patterns.}
-
-\item{grid}{A logical matrix giving the available cells for Q sorting.}
-
-\item{validate}{a logical flag, indicating whether the object will be validated on construction.
-Defaults to `TRUE`.}
-
-\item{x}{class object created by respective constructor function.}
+Must be \code{"even"}, \code{"odd"} or \code{NULL} (default).
+Applies only to \code{"honeycomb"} and \code{"brickwall"} patterns, otherwise ignored.}
 }
 \description{
 Creates a grid for Q sorting.
-
-Construct S3 class for pensieve.
-
-Check S3 class.
 }
-\section{Methods (by generic)}{
-\itemize{
-\item \code{check}: validation
-}}
-
 \examples{
 # this makes the grid, already assigns class
 grid <- make_grid(x_range = c(-5, 5), y_range = c(1,5), pattern = "honeycomb", offset = "odd")
-# make simple matrix by hand
-m <- matrix(data = c(TRUE, FALSE, FALSE, TRUE), nrow = 2, ncol = 2)
-# assign class, without validation (not recommended)
-grid <- QGrid(grid = m, pattern = "honeycomb", offset = "even", validate = FALSE)
-# validate the class
-check(grid)
-}
-\seealso{
-Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{psItemContent}},
-  \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
-  \code{\link{psPeople}}, \code{\link{score}}
 }
