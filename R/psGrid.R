@@ -29,6 +29,9 @@
 #' @return A logical matrix of class [psGrid][psGrid].
 #'
 #' @export
+# TODO it's not clear that we even need "honeycomb" or "brickwall"; perhaps *both* are saved as axial coordinates, and only the shape is slightly different https://www.redblobgames.com/grids/hexagons/#coordinates, proper term would be hexagonal binning
+# TODO is it really brickwall tesselation? what is the real term for this?
+# TODO in case of hex coord system, you might also need pointy top or flat top as a variable
 psGrid <- function(grid,
                    pattern = "chessboard",
                    offset = NULL) {
