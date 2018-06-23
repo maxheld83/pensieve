@@ -99,3 +99,41 @@ validate_S3.psGrid <- function(x, ps_coll = NULL, ...) {
 
   NextMethod(ps_coll = ps_coll)
 }
+
+as_psGrid <- function(x, ...) {
+  UseMethod("as_psGrid")
+}
+as_psGrid.default <- function(x, ...) {
+  stop(
+    "Sorry, don't know how to coerce object of class ",
+    class(x),
+    "."
+  )
+}
+as_psGrid.psGrid <- function(x, ...) {
+  x
+}
+as_psGrid.integer <- function(x, ...) {
+  # input validation
+  assert_integer(x = x, lower = 0, any.missing = FALSE, null.ok = FALSE)
+  assert_names2(x = names(x), type = "unique")
+
+  overall_height <- max(x)
+
+  # purrr isn't good for this job because it only returns tibbles; overkill here
+  m <- sapply(X = x, FUN = function(this_height) {
+    this_column <- c(rep(FALSE, overall_height - this_height), rep(TRUE, this_height))
+    return(this_column)
+  })
+
+  m <- matrix(data = m, nrow = max(x), ncol = length(x), dimnames = list(y = NULL, x = names(x)))
+
+  psGrid(grid =  m, ...)
+}
+as_psGrid.numeric <- function(x, ...) {
+  if (test_integerish(x = x)) {
+    as_psGrid(x = as.integer(x), ...)
+  } else {
+    NextMethod()
+  }
+}
