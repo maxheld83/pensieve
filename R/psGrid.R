@@ -22,10 +22,7 @@
 #' Must be `"even"`, `"odd"` or `NULL` (default).
 #' Applies only to `"honeycomb"` and `"brickwall"` patterns, otherwise ignored.
 #'
-#' @examples
-#' # make simple matrix by hand
-#' m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
-#' grid <- psGrid(grid = m, pattern = "chessboard")
+#' @example tests/testthat/helper_psGrid.R
 #'
 #' @family S3 classes from `pensieve`
 #'
@@ -103,10 +100,8 @@ validate_S3.psGrid <- function(x, ps_coll = NULL, ...) {
 #' @rdname psGrid
 #' @param obj
 #' An object which can be coerced to a logical matrix of class [psGrid][psGrid], currently one of:
-#' - an integer(ish) vector, giving the column height of `TRUE`s from the bottom.
-#' @examples
-#' # coerce grid from conventional distribution notation
-#' grid <- as_psGrid(obj = c(1,2,1))
+#' - an integer(ish) vector, giving the column height of `TRUE`s from the bottom,
+#' - a logical matrix, as per [psGrid].
 #' @export
 as_psGrid <- function(obj, ...) {
   UseMethod("as_psGrid")
@@ -148,4 +143,9 @@ as_psGrid.numeric <- function(obj, ...) {
   } else {
     NextMethod()
   }
+}
+#' @rdname psGrid
+#' @export
+as_psGrid.matrix <- function(obj, ...) {
+  psGrid(grid = obj, ...)
 }
