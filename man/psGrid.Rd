@@ -3,11 +3,20 @@
 \name{psGrid}
 \alias{psGrid}
 \alias{validate_S3.psGrid}
+\alias{as_psGrid}
+\alias{as_psGrid.integer}
+\alias{as_psGrid.numeric}
 \title{Store sorting grid as logical matrix}
 \usage{
 psGrid(grid, pattern = "chessboard", offset = NULL)
 
 \method{validate_S3}{psGrid}(x, ps_coll = NULL, ...)
+
+as_psGrid(obj, ...)
+
+\method{as_psGrid}{integer}(obj, ...)
+
+\method{as_psGrid}{numeric}(obj, ...)
 }
 \arguments{
 \item{grid}{A logical matrix giving the available cells for Q sorting.
@@ -26,9 +35,14 @@ Applies only to \code{"honeycomb"} and \code{"brickwall"} patterns, otherwise ig
 \item{ps_coll}{\code{\link{AssertCollection}} ps_coll error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
 
 \item{...}{further arguments to be passed to methods.}
+
+\item{obj}{An object which can be coerced to a logical matrix of class \link{psGrid}, currently one of:
+\itemize{
+\item an integer(ish) vector, giving the column height of \code{TRUE}s from the bottom.
+}}
 }
 \value{
-A logical matrix of class \code{psGrid}.
+A logical matrix of class \link{psGrid}.
 }
 \description{
 Stores sorting grid as logical matrix with sorting columns as columns, sorting rows as rows and \code{TRUE} (allowed) or \code{FALSE} (not allowed) in cells.
@@ -40,13 +54,17 @@ Even a free distribution must have a grid, giving the maximum indices of rows an
 \section{Methods (by generic)}{
 \itemize{
 \item \code{validate_S3}: Validation
+
+\item \code{as_psGrid}: Coercion
 }}
 
 \examples{
 # make simple matrix by hand
-m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2, ncol = 3)
+m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
 grid <- psGrid(grid = m, pattern = "chessboard")
 
+# coerce grid from conventional distribution notation
+grid <- as_psGrid(obj = c(1,2,1))
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},

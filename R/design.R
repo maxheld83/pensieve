@@ -24,12 +24,12 @@
 #'
 #' @examples
 #' # make simple matrix by hand
-#' m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2, ncol = 3)
+#' m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
 #' grid <- psGrid(grid = m, pattern = "chessboard")
 #'
 #' @family S3 classes from `pensieve`
 #'
-#' @return A logical matrix of class `psGrid`.
+#' @return A logical matrix of class [psGrid][psGrid].
 #'
 #' @export
 psGrid <- function(grid,
@@ -100,39 +100,51 @@ validate_S3.psGrid <- function(x, ps_coll = NULL, ...) {
   NextMethod(ps_coll = ps_coll)
 }
 
-as_psGrid <- function(x, ...) {
+#' @rdname psGrid
+#' @param obj
+#' An object which can be coerced to a logical matrix of class [psGrid][psGrid], currently one of:
+#' - an integer(ish) vector, giving the column height of `TRUE`s from the bottom.
+#' @examples
+#' # coerce grid from conventional distribution notation
+#' grid <- as_psGrid(obj = c(1,2,1))
+#' @export
+as_psGrid <- function(obj, ...) {
   UseMethod("as_psGrid")
 }
-as_psGrid.default <- function(x, ...) {
+as_psGrid.default <- function(obj, ...) {
   stop(
     "Sorry, don't know how to coerce object of class ",
-    class(x),
+    class(obj),
     "."
   )
 }
-as_psGrid.psGrid <- function(x, ...) {
-  x
+as_psGrid.psGrid <- function(obj, ...) {
+  obj
 }
-as_psGrid.integer <- function(x, ...) {
+#' @describeIn psGrid Coercion
+#' @export
+as_psGrid.integer <- function(obj, ...) {
   # input validation
-  assert_integer(x = x, lower = 0, any.missing = FALSE, null.ok = FALSE)
-  assert_names2(x = names(x), type = "unique")
+  assert_integer(x = obj, lower = 0, any.missing = FALSE, null.ok = FALSE)
+  assert_names2(x = names(obj), type = "unique")
 
-  overall_height <- max(x)
+  overall_height <- max(obj)
 
   # purrr isn't good for this job because it only returns tibbles; overkill here
-  m <- sapply(X = x, FUN = function(this_height) {
+  m <- sapply(X = obj, FUN = function(this_height) {
     this_column <- c(rep(FALSE, overall_height - this_height), rep(TRUE, this_height))
     return(this_column)
   })
 
-  m <- matrix(data = m, nrow = max(x), ncol = length(x), dimnames = list(y = NULL, x = names(x)))
+  m <- matrix(data = m, nrow = max(obj), ncol = length(obj), dimnames = list(y = NULL, x = names(obj)))
 
   psGrid(grid =  m, ...)
 }
-as_psGrid.numeric <- function(x, ...) {
-  if (test_integerish(x = x)) {
-    as_psGrid(x = as.integer(x), ...)
+#' @rdname psGrid
+#' @export
+as_psGrid.numeric <- function(obj, ...) {
+  if (test_integerish(x = obj)) {
+    as_psGrid(obj = as.integer(obj), ...)
   } else {
     NextMethod()
   }
