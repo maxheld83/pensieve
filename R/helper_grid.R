@@ -1,10 +1,8 @@
 # example grid to test print functions
-grid <- make_grid(x_range = c(-5, 5), y_range = c(1,5), pattern = "honeycomb", offset = "odd")
-grid[1:4,1] <- FALSE
-grid[1:3,2] <- FALSE
-grid[1:2,3] <- FALSE
-grid[1,4] <- FALSE
-grid[1,8] <- FALSE
-grid[1:2,9] <- FALSE
-grid[1:3, 10] <- FALSE
-grid[1:4, 11] <- FALSE
+grid <- make_grid(x_range = c(-7, 7), y_range = c(1,7), pattern = "honeycomb", offset = "odd")
+grid[1:6, c(1:2, 14:15)] <- FALSE
+grid[1:5, c(3, 13)] <- FALSE
+grid[1:3, c(4, 12)] <- FALSE
+grid[1:2, c(5, 11)] <- FALSE
+grid[1, c(6, 10)] <- FALSE
+grid
