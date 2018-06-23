@@ -10,7 +10,9 @@ psGrid(grid, pattern = "chessboard", offset = NULL)
 \method{validate_S3}{psGrid}(x, ps_coll = NULL, ...)
 }
 \arguments{
-\item{grid}{A logical matrix giving the available cells for Q sorting.}
+\item{grid}{A logical matrix giving the available cells for Q sorting.
+Accepts arbitrary dimnames from grid.
+If any dimnames are missing, sensible defaults will be set.}
 
 \item{pattern}{A character string, giving the pattern of tesselation to use.
 Must be \code{"chessboard"} (default), the only currently supported pattern.}
@@ -42,7 +44,7 @@ Even a free distribution must have a grid, giving the maximum indices of rows an
 
 \examples{
 # make simple matrix by hand
-m <- matrix(data = c(TRUE, FALSE, FALSE, TRUE), nrow = 2, ncol = 2)
+m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2, ncol = 3)
 grid <- psGrid(grid = m, pattern = "chessboard")
 
 }

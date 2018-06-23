@@ -1,3 +1,5 @@
+is_even <- function(x) x %% 2 == 0
+
 # capitalize first letter of word in string ====
 # useful for making S3 names
 # from http://stackoverflow.com/questions/6364783/capitalize-the-first-letter-of-both-words-in-a-two-word-string

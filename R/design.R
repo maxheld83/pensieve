@@ -1,65 +1,3 @@
-# CALCULATION ====
-#' @title Create Q sorting grid.
-#'
-#' @description Creates a grid for Q sorting.
-#'
-#' @export
-#'
-#' @param x_range
-#' An integer vector of length two, giving the range on the x axis.
-#' Defaults to `c(-5, 5)`.
-#'
-#' @param y_range
-#' An integer vector of length two, giving the range on the y axis.
-#' Defaults to `c(1, 5)`.
-#'
-#' @inherit psGrid params
-#'
-#' @family design functions
-#' @family survey functions
-#'
-#' @examples
-#' # this makes the grid, already assigns class
-#' grid <- make_grid(x_range = c(-5, 5), y_range = c(1,5), pattern = "honeycomb", offset = "odd")
-
-make_grid <- function(x_range = c(-5,5), y_range = c(1,5), pattern = "chessboard", offset = "odd") {
-  # Initialisation (for testing only) ====
-  if (FALSE) {
-    x_range <- c(-5,5)
-    y_range <- c(1,5)
-    pattern <- "honeycomb"
-    offset <- "even"
-  }
-
-  # Input validation ====
-
-  lapply(X = list(x_range, y_range), FUN = function(x) {
-    assert_vector(x = x,
-                  strict = FALSE,
-                  any.missing = FALSE,
-                  all.missing = FALSE,
-                  len = 2,
-                  unique = TRUE,
-                  null.ok = FALSE)
-    assert_integerish(x = x)
-    return(NULL)
-  })
-  assert_choice(x = pattern,
-                choices = c("chessboard", "honeycomb", "brickwall"))
-  assert_choice(x = offset,
-                choices = c("even", "odd"))
-
-  # Data preparation ====
-  x_values <- c(min(x_range):max(x_range))
-  y_values <- c(min(y_range):max(y_range))
-  m <- matrix(data = TRUE, nrow = length(y_values), ncol = length(x_values), dimnames = list(y = as.character(y_values), x = as.character(x_values)))
-
-  m <- psGrid(grid = m, pattern = pattern, offset = offset)
-
-  # Return object ====
-  return(m)
-}
-
 # helper ====
 #' @title Store sorting grid as logical matrix
 #'
@@ -70,7 +8,10 @@ make_grid <- function(x_range = c(-5,5), y_range = c(1,5), pattern = "chessboard
 #' *Every* sort must have a grid.
 #' Even a free distribution must have a grid, giving the maximum indices of rows and columns, but with all cells `TRUE`.
 #'
-#' @param grid A logical matrix giving the available cells for Q sorting.
+#' @param grid
+#' A logical matrix giving the available cells for Q sorting.
+#' Accepts arbitrary dimnames from grid.
+#' If any dimnames are missing, sensible defaults will be set.
 #'
 #' @param pattern
 #' A character string, giving the pattern of tesselation to use.
@@ -83,7 +24,7 @@ make_grid <- function(x_range = c(-5,5), y_range = c(1,5), pattern = "chessboard
 #'
 #' @examples
 #' # make simple matrix by hand
-#' m <- matrix(data = c(TRUE, FALSE, FALSE, TRUE), nrow = 2, ncol = 2)
+#' m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2, ncol = 3)
 #' grid <- psGrid(grid = m, pattern = "chessboard")
 #'
 #' @family S3 classes from `pensieve`
@@ -91,7 +32,21 @@ make_grid <- function(x_range = c(-5,5), y_range = c(1,5), pattern = "chessboard
 #' @return A logical matrix of class `psGrid`.
 #'
 #' @export
-psGrid <- function(grid, pattern = "chessboard", offset = NULL) {
+psGrid <- function(grid,
+                   pattern = "chessboard",
+                   offset = NULL) {
+  if (is.null(rownames(grid))) {
+    rownames(grid) <- LETTERS[1:nrow(grid)]
+  }
+  if (is.null(colnames(grid))) {
+    if (is_even(ncol(grid))) {
+      # this is awkward, seems legit only when unipolar sort, so we take 1:n
+      colnames(grid) <- as.character(1:ncol(grid))
+    } else {
+      extreme <- ncol(grid) %/% 2
+      colnames(grid) <- as.character(-extreme:extreme)
+    }
+  }
   grid <- new_psGrid(grid = grid, pattern = pattern, offset = offset)
   assert_S3(grid)
   return(grid)
@@ -123,6 +78,8 @@ validate_S3.psGrid <- function(x, ps_coll = NULL, ...) {
     add = ps_coll,
     .var.name = "grid"
   )
+  assert_names2(x = colnames(x), type = "unique", add = ps_coll, .var.name = "grid")
+  assert_names2(x = rownames(x), type = "unique", add = ps_coll, .var.name = "grid")
 
   assert_choice(
     x = attr(x = x, which = "pattern"),
