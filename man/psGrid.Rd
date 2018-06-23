@@ -41,7 +41,7 @@ Applies only to \code{"honeycomb"} and \code{"brickwall"} patterns, otherwise ig
 
 \item{obj}{An object which can be coerced to a logical matrix of class \link{psGrid}, currently one of:
 \itemize{
-\item an integer(ish) vector, giving the column height of \code{TRUE}s from the bottom,
+\item a (named) integer(ish) vector, giving the column height of \code{TRUE}s from the bottom (names are retained as column names),
 \item a logical matrix, as per \link{psGrid}.
 }}
 }

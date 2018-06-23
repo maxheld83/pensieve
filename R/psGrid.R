@@ -103,7 +103,7 @@ validate_S3.psGrid <- function(x, ps_coll = NULL, ...) {
 #' @rdname psGrid
 #' @param obj
 #' An object which can be coerced to a logical matrix of class [psGrid][psGrid], currently one of:
-#' - an integer(ish) vector, giving the column height of `TRUE`s from the bottom,
+#' - a (named) integer(ish) vector, giving the column height of `TRUE`s from the bottom (names are retained as column names),
 #' - a logical matrix, as per [psGrid].
 #' @export
 as_psGrid <- function(obj, ...) {
