@@ -1,167 +1,151 @@
-# html5 ====
-
-#' @title Write HTML5 markup for grid.
-#' @description This is a worker function to write out grids as HTML5 markup with dependencies.
-#' @param grid A logical matrix, giving the sorting grid, indicating whether the cells are allowed or not.
-#' @param browsable a logical flag.
-#' If `TRUE`, wraps results in [htmltools::browsable()].
-#' @param header a logical flag, defaults to `TRUE`, in which case column names  from `grid` are included as headers.
-#' @param footer a logical flag, defaults to `TRUE`, in which case column names  from `grid` are included as footers.
-#' @param aspect_ratio_cards a numeric scalar, giving the height in multiples of length.
-#' Defaults to standard business cards.
-#' @return An [htmltools::tagList()].
-#' @noRd
-html5_grid <- function(grid, browsable = TRUE, header = TRUE, footer = TRUE, aspect_ratio_cards = 54/85, ...) {
-  # test dependencies
-  requireNamespace2("htmltools")
-
-  # input verification
-  assert_flag(x = browsable, na.ok = FALSE, null.ok = FALSE)
-  assert_flag(x = header, na.ok = FALSE, null.ok = FALSE)
-  assert_flag(x = footer, na.ok = FALSE, null.ok = FALSE)
-  assert_scalar(x = aspect_ratio_cards, na.ok = FALSE, null.ok = FALSE)
-
-  # calculate height in css percent of parents for cells/rows (= same)
-  rowheight <- 100/ncol(grid)
-  rowheight <- rowheight * aspect_ratio_cards
-  rowheight <- glue(rowheight, "%")
-
-  # gather HTML5 dependencies
-  bs <- htmltools::htmlDependency(
-    name = "bootstrap",
-    version = "3.3.7",
-    src = "inst/bootstrap-3.3.7-dist/",
-    stylesheet = "css/bootstrap.min.css",
-    all_files = TRUE,
-    package = "pensieve"
-  )
-  jquery <- htmltools::htmlDependency(
-    name = "jquery",
-    version = "1.12.4",
-    src = "inst/jQuery/",
-    script = "jquery-1.12.4.js",
-    all_files = FALSE,
-    package = "pensieve"
-  )
-  html5_grid_style <- htmltools::htmlDependency(
-    name = "html5_grid",
-    version = "0.0.9999",
-    src = "inst/html5_grid/",
-    stylesheet = "html5_grid.css",
-    all_files = TRUE,
-    script = "html5_grid.js",
-    package = "pensieve"
-  )
-
-  # create output
-  output <- htmltools::tagList(
-    # dependencies
-    bs,
-    jquery,
-    html5_grid_style,
-    # add some more class declaration
-    htmltools::tags$head(
-      htmltools::tags$style(
-        glue::glue(".ps-grid .cell {{padding-top: ", rowheight, ";}}")
-      )
-    ),
-
-    htmltools::tags$table(
-      class = "ps-grid",
-
-      # header
-      if (header) {
-        htmltools::tags$thead(
-          htmltools::tags$tr(
-            purrr::map(.x = colnames(grid), .f = function(cname) {
-              htmltools::tags$th(cname)
-            })
-          )
-        )
-      },
-
-      # footer
-      if (footer) {
-        htmltools::tags$tfoot(
-          htmltools::tags$tr(
-            purrr::map(.x = colnames(grid), .f = function(cname) {
-              htmltools::tags$td(cname)
-            })
-          )
-        )
-      },
-
-      # body
-      htmltools::tags$tbody(
-        purrr::map(.x = rownames(grid), .f = function(rname) {
-          htmltools::tags$tr(
-            html5_grid_row(rowvec = grid[rname,], ...)
-          )
-        })
-      )
-    )
-  )
-
-  # return output
-  if (browsable) {
-    browsable(output)
-  } else {
-    output
+# helper ====
+#' @title Store sorting grid as logical matrix
+#'
+#' @description
+#' Stores sorting grid as logical matrix with sorting columns as columns, sorting rows as rows and `TRUE` (allowed) or `FALSE` (not allowed) in cells.
+#'
+#' @details
+#' *Every* sort must have a grid.
+#' Even a free distribution must have a grid, giving the maximum indices of rows and columns, but with all cells `TRUE`.
+#'
+#' @param grid
+#' A logical matrix giving the available cells for Q sorting.
+#' Accepts arbitrary dimnames from grid.
+#' If any dimnames are missing, sensible defaults will be set.
+#'
+#' @param pattern
+#' A character string, giving the pattern of tesselation to use.
+#' Must be `"chessboard"` (default), the only currently supported pattern.
+#'
+#' @param offset
+#' A character string, giving the rows to be offset.
+#' Must be `"even"`, `"odd"` or `NULL` (default).
+#' Applies only to `"honeycomb"` and `"brickwall"` patterns, otherwise ignored.
+#'
+#' @examples
+#' # make simple matrix by hand
+#' m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
+#' grid <- psGrid(grid = m, pattern = "chessboard")
+#'
+#' @family S3 classes from `pensieve`
+#'
+#' @return A logical matrix of class [psGrid][psGrid].
+#'
+#' @export
+psGrid <- function(grid,
+                   pattern = "chessboard",
+                   offset = NULL) {
+  if (is.null(rownames(grid))) {
+    rownames(grid) <- LETTERS[1:nrow(grid)]
   }
-}
-
-#' @title Write HTML grid for a single row of cells
-#' @param rowvec A logical vector giving the availability of cells.
-#' @return An [htmltools::tagList()].
-#' @noRd
-html5_grid_row <- function(rowvec, ...) {
-  purrr::map(.x = rowvec, .f = function(cell) {
-    html5_grid_cell(allowed = cell, ...)
-  })
-}
-
-#' @title Write HTML for single cell
-#' @param allowed A logical flag whether cell is available
-#' @noRd
-html5_grid_cell <- function(allowed = TRUE, ...) {
-  # input validation
-  assert_flag(x = allowed, na.ok = FALSE, null.ok = FALSE)
-
-  if (allowed) {
-    cell <- htmltools::tags$td(
-      class = "cell allowed",
-      htmltools::tags$div(
-        class = "content",
-        html5_grid_cell_content(...)
-      )
-    )
-  } else {
-    cell <- htmltools::tags$td(class = "cell")
-  }
-  return(cell)
-}
-
-#' @title Write HTML for single cell content
-#' @param type A string, must be one of:
-#' - `template` for empty template,
-#' - `input` for input fields.
-#' @noRd
-html5_grid_cell_content <- function(type = "template") {
-  # input validation
-  assert_string(x = type, na.ok = FALSE, null.ok = FALSE)
-  assert_choice(x = type, choices = c("template", "input"))
-
-  switch(
-    EXPR = type,
-    template = {
-      cell_content <- NULL
-    },
-    input = {
-      cell_content <- htmltools::tags$input(type = "text", name = "foo", value = "Pixie")
+  if (is.null(colnames(grid))) {
+    if (is_even(ncol(grid))) {
+      # this is awkward, seems legit only when unipolar sort, so we take 1:n
+      colnames(grid) <- as.character(1:ncol(grid))
+    } else {
+      extreme <- ncol(grid) %/% 2
+      colnames(grid) <- as.character(-extreme:extreme)
     }
-    # add other types here
-  )
-
-  return(cell_content)
+  }
+  grid <- new_psGrid(grid = grid, pattern = pattern, offset = offset)
+  assert_S3(grid)
+  return(grid)
 }
 
+# constructor
+new_psGrid <- function(grid, pattern, offset) {
+  assert_matrix(x = grid, mode = "logical")
+  assert_string(x = pattern)
+  assert_string(x = offset, null.ok = TRUE)
+
+  structure(
+    .Data = grid,
+    pattern = pattern,
+    offset = offset,
+    class = c("psGrid", "matrix"))
+}
+
+#' @describeIn psGrid Validation
+#' @inheritParams validate_S3
+#' @export
+validate_S3.psGrid <- function(x, ps_coll = NULL, ...) {
+  assert_matrix(
+    x = x,
+    mode = "logical",
+    any.missing = FALSE,
+    all.missing = FALSE,
+    null.ok = FALSE,
+    add = ps_coll,
+    .var.name = "grid"
+  )
+  assert_names2(x = colnames(x), type = "unique", add = ps_coll, .var.name = "grid")
+  assert_names2(x = rownames(x), type = "unique", add = ps_coll, .var.name = "grid")
+
+  assert_choice(
+    x = attr(x = x, which = "pattern"),
+    choices = c("honeycomb", "chessboard", "brickwall"),
+    null.ok = FALSE,
+    .var.name = "grid",
+    add = ps_coll
+  )
+
+  assert_choice(
+    x = attr(x = x, which = "offset"),
+    choices = c("even", "odd"),
+    null.ok = TRUE,
+    .var.name = "grid",
+    add = ps_coll
+  )
+
+  NextMethod(ps_coll = ps_coll)
+}
+
+#' @rdname psGrid
+#' @param obj
+#' An object which can be coerced to a logical matrix of class [psGrid][psGrid], currently one of:
+#' - an integer(ish) vector, giving the column height of `TRUE`s from the bottom.
+#' @examples
+#' # coerce grid from conventional distribution notation
+#' grid <- as_psGrid(obj = c(1,2,1))
+#' @export
+as_psGrid <- function(obj, ...) {
+  UseMethod("as_psGrid")
+}
+as_psGrid.default <- function(obj, ...) {
+  stop(
+    "Sorry, don't know how to coerce object of class ",
+    class(obj),
+    "."
+  )
+}
+as_psGrid.psGrid <- function(obj, ...) {
+  obj
+}
+#' @describeIn psGrid Coercion
+#' @export
+as_psGrid.integer <- function(obj, ...) {
+  # input validation
+  assert_integer(x = obj, lower = 0, any.missing = FALSE, null.ok = FALSE)
+  assert_names2(x = names(obj), type = "unique")
+
+  overall_height <- max(obj)
+
+  # purrr isn't good for this job because it only returns tibbles; overkill here
+  m <- sapply(X = obj, FUN = function(this_height) {
+    this_column <- c(rep(FALSE, overall_height - this_height), rep(TRUE, this_height))
+    return(this_column)
+  })
+
+  m <- matrix(data = m, nrow = max(obj), ncol = length(obj), dimnames = list(y = NULL, x = names(obj)))
+
+  psGrid(grid =  m, ...)
+}
+#' @rdname psGrid
+#' @export
+as_psGrid.numeric <- function(obj, ...) {
+  if (test_integerish(x = obj)) {
+    as_psGrid(obj = as.integer(obj), ...)
+  } else {
+    NextMethod()
+  }
+}
