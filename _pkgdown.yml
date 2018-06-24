@@ -22,6 +22,8 @@ navbar:
           href: articles/introduction.html
         - text: "-----"
         - text: "Design"
+        - text: "Grid"
+          href: articles/grid.html
         - text: "Items"
           href: articles/items.html
   right:

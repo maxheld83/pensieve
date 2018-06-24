@@ -2,7 +2,7 @@
 title: "Grid Generation and Plotting"
 author: "Maximilian Held"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::html_document
 bibliography: held_library.bib
 vignette: >
   %\VignetteIndexEntry{Design}
@@ -10,9 +10,59 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-You can easily print `psGrid` to html:
+***Notice: all visualisations in the below are currently dysfunctional on pensieve.maxheld.de due to a [bug in another package ](https://github.com/maxheld83/pensieve/issues/388)***.
+
+Closed sorts (or Q-sorts) are accomplished using 2-dimensional grids, usually for ranking items across the (horizontal) x-axis, with the (vertical) y-axis used to stack ties.^[In this sense, strictly speaking, the y-dimension of the grid is often meaningless.]
+
+*pensieve* records such grids as `psGrid`s, simple 2-dimensional matrices, where each cell is either `TRUE` or `FALSE` depending on whether the cell is allowed.
+It can be constructed by providing an arbitrary matrix.
 
 ```{r}
-grid <- pensieve::as_psGrid(obj = c(1,2,4,5,4,2,1))
+library(pensieve)
+m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
+grid <- psGrid(grid = m)
 grid
 ```
+
+In Q methodology, these grids are often specified in a shorthand way, by giving a *vector* of column heights (number of allowed ties) from the left to the right.
+This vector of heights --- somewhat akin to a histogram --- is sometimes also known as a *Q distribution*.
+*pensieve* offers a convenient method to coerce such vectors into `psGrid`s.
+
+
+### Vector Notation
+
+```{r}
+grid <- as_psGrid(obj = c(1,2,4,5,4,2,1))
+grid
+```
+
+The shorthand vector notation implies that there are never any *disallowed* cells at the bottom of the grid, or anywhere in the middle of other allowed cells.
+This makes sense when using rectangular grids with the allowed ties approximating a normal distribution, as is often the case.
+
+There is however no reason to assume that *all* sorts follow such strictures, and the logical `psGrid` is a more flexible generalisation. 
+
+### Forced and Free
+
+A `psGrid` implies two pieces of information about a sorting study:
+
+1. It specifies the *maximum* possible ranks (`r ncol(grid)` for the above example) and number or number of ties (`r nrow(grid)` for the above example) of a sort.
+2. In conjunction with the number of available items (such as from `psItems`), it specifies whether a distribution is *forced* or *free*.
+    Under a forced distribution, there will be exactly as many allowed cells (`TRUE`, `r sum(grid)` in the above example) as there are items, *forcing* participants to occupy every cell.
+    Under a free distribution, there will be more cells than items, and participants will be flexible in which of the allowed cells they actually use.
+
+Distributions are sometimes only reported for forced distributions, but it should be noted that *all* closed sorts use a grid.
+Even under a *completely* free distribution (with all cells `TRUE`), there is a *maximum* number of ranks and ties, if simply implied by the size of the table used.
+
+Most *pensieve* functions do not require a `psGrid`, but the design choices it stores can be helpful for validating data and enhance analysis and output methods.
+Specifying a `psGrid` is highly recommended.
+
+For optional arguments, see `??psGrid`.
+
+
+### Print Method
+
+*pensieve* offers a `knit_print()` method to visualise `psGrid`s from inside knitr chunks.
+You can type `knit_print(grid)`, or simply `grid` as in the above chunks.
+Currently only output *from* chunks (not inline) and *to* HTML-outputs (not PDF, Word or others) is supported.
+
+See help for details.
