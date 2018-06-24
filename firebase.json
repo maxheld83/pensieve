@@ -1,7 +1,5 @@
 {
   "hosting": {
-    "public": "docs",
-    "trailingSlash": false,
-    "cleanUrls": true
+    "public": "docs"
   }
 }
