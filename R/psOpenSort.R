@@ -166,7 +166,7 @@ as_psOpenSort <- function(osort, descriptions = NULL, scale = NULL) {
 
 #' @export
 as_psOpenSort.default <- function(osort, descriptions = NULL, scale = NULL) {
-  stop_coercion(x = osort, class = "psOpenSort")
+  stop_coercion(obj = osort, target_class = "psOpenSort")
 }
 
 #' @export

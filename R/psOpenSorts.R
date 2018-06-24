@@ -92,7 +92,7 @@ as_psLogicalOpenSorts <- function(logical_open_sorts, ...) {
 
 #' @export
 as_psLogicalOpenSorts.default <- function(logical_open_sorts, ...) {
-  stop_coercion(x = logical_open_sorts, class = "psLogicalOpenSorts")
+  stop_coercion(obj = logical_open_sorts, target_class = "psLogicalOpenSorts")
 }
 
 #' @export

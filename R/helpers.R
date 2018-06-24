@@ -128,15 +128,13 @@ requireNamespace2 <- function(x, error = TRUE, msg = NULL) {
   }
 }
 
-stop_coercion <- function(x, class) {
+#' @title Error out if no coercion method can be found.
+#' @param obj Arbitrary object to be coerced.
+#' @param target_class A character vector, target class to be coerced to.
+#' @noRd
+stop_coercion <- function(obj, target_class) {
   stop(
-    paste(
-      "Sorry, don't know how to coerce object of class",
-      class(x),
-      "into a",
-      class,
-      "."
-    ),
+    glue("Sorry, don't know how to coerce object of class {obj} into a {target_class}."),
    call. = FALSE
-   )
+  )
 }

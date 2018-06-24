@@ -111,11 +111,7 @@ as_psGrid <- function(obj, ...) {
   UseMethod("as_psGrid")
 }
 as_psGrid.default <- function(obj, ...) {
-  stop(
-    "Sorry, don't know how to coerce object of class ",
-    class(obj),
-    "."
-  )
+  stop_coercion(obj = obj, target_class = "psGrid")
 }
 as_psGrid.psGrid <- function(obj, ...) {
   obj
