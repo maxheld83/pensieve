@@ -7,6 +7,7 @@
 \alias{as_psGrid.integer}
 \alias{as_psGrid.numeric}
 \alias{as_psGrid.matrix}
+\alias{knit_print.psGrid}
 \title{Store sorting grid as logical matrix}
 \usage{
 psGrid(grid, pattern = "chessboard", offset = NULL)
@@ -20,6 +21,9 @@ as_psGrid(obj, ...)
 \method{as_psGrid}{numeric}(obj, ...)
 
 \method{as_psGrid}{matrix}(obj, ...)
+
+\method{knit_print}{psGrid}(x, header = TRUE, footer = TRUE,
+  aspect_ratio_cards = 85/54, inline = FALSE, ...)
 }
 \arguments{
 \item{grid}{A logical matrix giving the available cells for Q sorting.
@@ -44,6 +48,17 @@ Applies only to \code{"honeycomb"} and \code{"brickwall"} patterns, otherwise ig
 \item a (named) integer(ish) vector, giving the column height of \code{TRUE}s from the bottom (names are retained as column names),
 \item a logical matrix, as per \link{psGrid}.
 }}
+
+\item{header}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as headers.}
+
+\item{footer}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as footers.}
+
+\item{aspect_ratio_cards}{A numeric scalar, giving width divided by height of \emph{individual cards} (such as 16/9 for screen dimensions).
+Aspect ratio of \emph{cards} is required to appropriately set the resulting dimensions of the \emph{grid}.
+Defaults to standard business cards.}
+
+\item{inline}{A logical flag indicating whether knitr is called from \emph{inline} (\code{r 1+1}) or from a chunk.
+Defaults to \code{FALSE}.}
 }
 \value{
 A logical matrix of class \link{psGrid}.
@@ -60,6 +75,8 @@ Even a free distribution must have a grid, giving the maximum indices of rows an
 \item \code{validate_S3}: Validation
 
 \item \code{as_psGrid}: Coercion
+
+\item \code{knit_print}: Printing inside knitr chunks
 }}
 
 \examples{

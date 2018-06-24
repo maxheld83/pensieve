@@ -100,6 +100,7 @@ validate_S3.psGrid <- function(x, ps_coll = NULL, ...) {
   NextMethod(ps_coll = ps_coll)
 }
 
+# coercion ====
 #' @rdname psGrid
 #' @param obj
 #' An object which can be coerced to a logical matrix of class [psGrid][psGrid], currently one of:
@@ -151,4 +152,44 @@ as_psGrid.numeric <- function(obj, ...) {
 #' @export
 as_psGrid.matrix <- function(obj, ...) {
   psGrid(grid = obj, ...)
+}
+
+# print ====
+#' @describeIn psGrid Printing inside knitr chunks
+#' @param header A logical flag, defaults to `TRUE`, in which case column names  from `grid` are included as headers.
+#' @param footer A logical flag, defaults to `TRUE`, in which case column names  from `grid` are included as footers.
+#' @param aspect_ratio_cards
+#' A numeric scalar, giving width divided by height of *individual cards* (such as 16/9 for screen dimensions).
+#' Aspect ratio of *cards* is required to appropriately set the resulting dimensions of the *grid*.
+#' Defaults to standard business cards.
+#' @param inline
+#' A logical flag indicating whether knitr is called from *inline* (`r 1+1`) or from a chunk.
+#' Defaults to `FALSE`.
+#' @inheritParams knitr::knit_print
+#' @export
+knit_print.psGrid <- function(x,
+                              header = TRUE,
+                              footer = TRUE,
+                              aspect_ratio_cards = 85/54,
+                              inline = FALSE,
+                              ...) {
+  if (inline) {
+    #TODO this currently does not really work https://github.com/maxheld83/pensieve/issues/385
+    # makes no sense / is complicated to print html5_grid inline, so we pass on to default knit_print method for matrix
+    NextMethod()
+  } else {
+    if (knitr::is_html_output()) {
+      knitr::knit_print(
+        x = html5_grid(
+          grid = x,
+          header = header,
+          footer = footer,
+          aspect_ratio_cards = aspect_ratio_cards),
+        ...
+      )
+    } else {
+      # no special idea about this format, so pass it on
+      NextMethod()
+    }
+  }
 }

@@ -53,6 +53,21 @@ assert_n_infer_summarize <- function(summarize, x) {
 }
 
 
+# system dependency helpers ====
+#' @title find root path of current *built* pensieve, and append paths from there.
+#' @details
+#' Remember to never call this from the top NAMESPACE (outside of functions); that would hardcode an absolute path into the package which might not work on other machines.
+#' Notice further that [devtools::system.file()] automatically takes care of this working in a development environment, when [devtools::load_all()] is used, and dependencies are still inside `inst/`.
+#' When compiled, these move to the toplevel of the package.
+#' @param ... path to a system dependency, relative from `inst/`.
+#' @return Absolute path to file.
+#' @noRd
+pensieve_system_file <- function(...) {
+  requireNamespace2("fs")
+  file <- fs::path(...)
+  system.file(file, package = "pensieve")
+}
+
 # find path to *built* accio, always root of pensieve
 # this gives "" if folder does not exist
 accio_path <- system.file('accio', package = 'pensieve')

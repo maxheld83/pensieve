@@ -3,13 +3,10 @@
 #' @title Write HTML5 markup for grid.
 #' @description This is a worker function to write out grids as HTML5 markup with dependencies.
 #' @param grid A logical matrix, giving the sorting grid, indicating whether the cells are allowed or not.
-#' @param header a logical flag, defaults to `TRUE`, in which case column names  from `grid` are included as headers.
-#' @param footer a logical flag, defaults to `TRUE`, in which case column names  from `grid` are included as footers.
-#' @param aspect_ratio_cards a numeric scalar, giving the height in multiples of length.
-#' Defaults to standard business cards.
+#' @inheritParams psGrid
 #' @return An [htmltools::tagList()].
 #' @noRd
-html5_grid <- function(grid, header = TRUE, footer = TRUE, aspect_ratio_cards = 54/85, ...) {
+html5_grid <- function(grid, header, footer, aspect_ratio_cards, ...) {
   # test dependencies
   requireNamespace2("htmltools")
 
@@ -20,34 +17,40 @@ html5_grid <- function(grid, header = TRUE, footer = TRUE, aspect_ratio_cards = 
 
   # calculate height in css percent of parents for cells/rows (= same)
   rowheight <- 100/ncol(grid)
-  rowheight <- rowheight * aspect_ratio_cards
+  rowheight <- rowheight / aspect_ratio_cards
   rowheight <- glue(rowheight, "%")
 
   # gather HTML5 dependencies
   bs <- htmltools::htmlDependency(
     name = "bootstrap",
     version = "3.3.7",
-    src = "inst/bootstrap-3.3.7-dist/",
+    src = pensieve_system_file("bootstrap-3.3.7-dist"),
     stylesheet = "css/bootstrap.min.css",
-    all_files = TRUE,
-    package = "pensieve"
+    all_files = TRUE
   )
   jquery <- htmltools::htmlDependency(
     name = "jquery",
     version = "1.12.4",
-    src = "inst/jQuery/",
+    src = pensieve_system_file("jQuery"),
     script = "jquery-1.12.4.js",
-    all_files = FALSE,
-    package = "pensieve"
+    all_files = FALSE
   )
   html5_grid_style <- htmltools::htmlDependency(
     name = "html5_grid",
     version = "0.0.9999",
-    src = "inst/html5_grid/",
+    src = pensieve_system_file("html5_grid"),
     stylesheet = "html5_grid.css",
+    # we can't programmatically (easily) add the calculated padding-top to this .css, so we add it below in head.
+    # so NOTICE: this css is actually incomplete
     all_files = TRUE,
     script = "html5_grid.js",
-    package = "pensieve"
+    # add programmatically calculated padding-top to hack-fix row height
+    # must be place here so that is placed in the head even when called in knitr
+    head = htmltools::doRenderTags(
+      htmltools::tags$style(
+        glue::glue(".ps-grid ", ".cell ", "{{", htmltools::css(`padding-top` = rowheight), "}}")
+      )
+    )
   )
 
   # create output
@@ -56,12 +59,6 @@ html5_grid <- function(grid, header = TRUE, footer = TRUE, aspect_ratio_cards = 
     bs,
     jquery,
     html5_grid_style,
-    # add some more class declaration
-    htmltools::tags$head(
-      htmltools::tags$style(
-        glue::glue(".ps-grid .cell {{padding-top: ", rowheight, ";}}")
-      )
-    ),
 
     htmltools::tags$table(
       class = "ps-grid",
@@ -122,6 +119,7 @@ html5_grid_cell <- function(allowed = TRUE, ...) {
   if (allowed) {
     cell <- htmltools::tags$td(
       class = "cell allowed",
+      # style = "padding-top: 80px;",
       htmltools::tags$div(
         class = "content",
         html5_grid_cell_content(...)
