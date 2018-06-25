@@ -4,6 +4,8 @@
   /* later js might overwrite this width, in case the whole thing gets too high for viewport */
   table-layout: fixed;
   /* this makes cells fixed width, not dependening on content */
+  display: table;
+  /* this overrides css from pkgdown*/
 }
 .ps-grid .cell {
   /* having no width or height specified, these columns default to equal width */
