@@ -10,6 +10,7 @@
 .ps-grid .cell {
   /* having no width or height specified, these columns default to equal width */
   position: relative;
+  border: none;
   /* necessary for below content pos absolute */
   /* ATTENTION: style of cells is also set by R function, which pastes sth like below in here, with appropriate number of columns instead of 11 */
   /* padding-top: calc(100%/11); */
