@@ -15,7 +15,7 @@ HTMLWidgets.widget({
         var inan = $(el);
 
         // TODO: code to render the widget, e.g.
-        inan.prepend(createTable(x.grid));
+        inan.prepend(createTable(x.grid, x.colnames, x.rownames, x.header, x.footer, x.aspect_ratio_cards, x.rowheight));
 
       },
 

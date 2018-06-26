@@ -33,22 +33,44 @@ function findAspectRatio(el) {
 }
 
 // create table from json
-function createTable(tableData) {
+function createTable(tableData, colNames, rowNames, header, footer, aspectRatioCards, rowheight) {
   var table = document.createElement('table');
   var tableBody = document.createElement('tbody');
 
   tableData.forEach(function(rowData) {
-    var row = document.createElement('tr');
-
-    rowData.forEach(function(cellData) {
-      var cell = document.createElement('td');
-      cell.appendChild(document.createTextNode(cellData));
-      row.appendChild(cell);
-    });
+    var row = createTableRow(rowData, false);
 
     tableBody.appendChild(row);
   });
-
+  
+  // make header and footer
+  if (header) {
+    var tableHeader = document.createElement('thead');
+    tableHeader.appendChild(createTableRow(colNames, true))
+    table.appendChild(tableHeader);
+  }
+  if (footer) {
+    var tableFooter = document.createElement('tfoot');
+    tableFooter.appendChild(createTableRow(colNames, false))
+    table.appendChild(tableFooter);
+  }
+  
   table.appendChild(tableBody);
   return table
+}
+
+function createTableRow(rowData, header) {
+  var row = document.createElement('tr');
+  
+  rowData.forEach(function(cellData) {
+    if (header) {
+      var cell = document.createElement('th');
+    } else {
+      var cell = document.createElement('td');
+    }
+    cell.appendChild(document.createTextNode(cellData));
+    row.appendChild(cell);
+  });
+  
+  return row;
 }
