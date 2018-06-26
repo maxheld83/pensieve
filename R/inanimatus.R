@@ -1,10 +1,20 @@
-inanimatus <- function(grid = "placeholder", width = NULL, height = NULL) {
+#' @title HTML widget factory for sorting grids.
+#' @description
+#' Creates HTML widgets from sorting grids.
+#' Wraps pensieve's inanimatus.js.
+#' End users should use the convenient print method wrappers.
+#' @inheritParams psGrid
+#' @inheritParams htmlwidgets::createWidget
+#' @return An htmlwidget.
+#' @export
+inanimatus <- function(grid = matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), ncol = 2), width = NULL, height = NULL) {
   # dependencies
   requireNamespace2("htmlwidgets")
 
   # input validation
 
-  x <- list(grid = grid)
+  x <- list(grid = grid,
+            placeholder = "placeholderchen")
 
   # create the widget
   htmlwidgets::createWidget(

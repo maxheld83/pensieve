@@ -12,10 +12,11 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
-        var grid = x.grid;
+        var placeholder = x.placeholder;
 
         // TODO: code to render the widget, e.g.
-        el.innerText = grid;
+        el.innerText = placeholder;
+        el.innerText = x.grid;
 
       },
 
