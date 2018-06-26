@@ -7,14 +7,21 @@
 #' @inheritParams htmlwidgets::createWidget
 #' @return An htmlwidget.
 #' @export
-inanimatus <- function(grid = matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), ncol = 2), width = NULL, height = NULL) {
+inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
+                       header = TRUE,
+                       footer = TRUE,
+                       width = NULL,
+                       aspect_ratio = 16/9,
+                       height = NULL) {
   # dependencies
   requireNamespace2("htmlwidgets")
 
   # input validation
 
   x <- list(grid = grid,
-            placeholder = "placeholderchen")
+            header = header,
+            footer = footer,
+            aspect_ratio = aspect_ratio)
 
   # create the widget
   htmlwidgets::createWidget(

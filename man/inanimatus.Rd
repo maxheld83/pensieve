@@ -4,13 +4,17 @@
 \alias{inanimatus}
 \title{HTML widget factory for sorting grids.}
 \usage{
-inanimatus(grid = matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), ncol
-  = 2), width = NULL, height = NULL)
+inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)), header = TRUE,
+  footer = TRUE, width = NULL, aspect_ratio = 16/9, height = NULL)
 }
 \arguments{
 \item{grid}{A logical matrix giving the available cells for Q sorting.
 Accepts arbitrary dimnames from grid.
 If any dimnames are missing, sensible defaults will be set.}
+
+\item{header}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as headers.}
+
+\item{footer}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as footers.}
 
 \item{width}{Fixed width for widget (in css units). The default is
 \code{NULL}, which results in intelligent automatic sizing based on the
