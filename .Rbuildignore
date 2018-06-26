@@ -17,3 +17,4 @@ logo.*
 vignettes/q-cat.Rmd
 vignettes/.drafts/
 inst/.jshintrc
+htmlwidgets-1.2/

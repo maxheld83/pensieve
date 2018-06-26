@@ -3,6 +3,7 @@ dependencies:
     version: 0.0.9999
     src: htmlwidgets/lib/inanimatus
     stylesheet: inanimatus.css
+    script: inanimatus.js
   - name: bootstrap
     version: 3.3.7
     src: htmlwidgets/lib/bootstrap

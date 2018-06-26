@@ -15,8 +15,7 @@ HTMLWidgets.widget({
         var placeholder = x.placeholder;
 
         // TODO: code to render the widget, e.g.
-        el.innerText = placeholder;
-        el.innerText = x.grid;
+        createTable(x.grid);
 
       },
 
