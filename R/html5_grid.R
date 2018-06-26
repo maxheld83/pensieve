@@ -15,8 +15,6 @@ html5_grid <- function(grid, header, footer, aspect_ratio_cards, ...) {
   assert_flag(x = footer, na.ok = FALSE, null.ok = FALSE)
   assert_scalar(x = aspect_ratio_cards, na.ok = FALSE, null.ok = FALSE)
 
-  el_id <- htmlwidgets:::createWidgetId()
-
   # calculate height in css percent of parents for cells/rows (= same)
   rowheight <- 100/ncol(grid)
   rowheight <- rowheight / aspect_ratio_cards
@@ -42,10 +40,17 @@ html5_grid <- function(grid, header, footer, aspect_ratio_cards, ...) {
     version = "0.0.9999",
     src = pensieve_system_file("html5_grid"),
     stylesheet = "html5_grid.css",
-    # we can't programmatically (easily) add the calculated padding-top to this .css, so we add it below in each CELL
+    # we can't programmatically (easily) add the calculated padding-top to this .css, so we add it below in head.
     # so NOTICE: this css is actually incomplete
     all_files = TRUE,
-    script = "html5_grid.js"
+    script = "html5_grid.js",
+    # add programmatically calculated padding-top to hack-fix row height
+    # must be place here so that is placed in the head even when called in knitr
+    head = htmltools::doRenderTags(
+      htmltools::tags$style(
+        glue::glue(".ps-grid ", ".cell ", "{{", htmltools::css(`padding-top` = rowheight), "}}")
+      )
+    )
   )
 
   # create output
@@ -57,7 +62,6 @@ html5_grid <- function(grid, header, footer, aspect_ratio_cards, ...) {
 
     htmltools::tags$table(
       class = "ps-grid",
-      id = el_id,
 
       # header
       if (header) {
@@ -85,7 +89,7 @@ html5_grid <- function(grid, header, footer, aspect_ratio_cards, ...) {
       htmltools::tags$tbody(
         purrr::map(.x = rownames(grid), .f = function(rname) {
           htmltools::tags$tr(
-            html5_grid_row(rowvec = grid[rname,], rowheight = rowheight, ...)
+            html5_grid_row(rowvec = grid[rname,], ...)
           )
         })
       )
@@ -99,23 +103,22 @@ html5_grid <- function(grid, header, footer, aspect_ratio_cards, ...) {
 #' @param rowvec A logical vector giving the availability of cells.
 #' @return An [htmltools::tagList()].
 #' @noRd
-html5_grid_row <- function(rowvec, rowheight, ...) {
+html5_grid_row <- function(rowvec, ...) {
   purrr::map(.x = rowvec, .f = function(cell) {
-    html5_grid_cell(allowed = cell, rowheight = rowheight, ...)
+    html5_grid_cell(allowed = cell, ...)
   })
 }
 
 #' @title Write HTML for single cell
 #' @param allowed A logical flag whether cell is available
 #' @noRd
-html5_grid_cell <- function(allowed = TRUE, rowheight = NULL, ...) {
+html5_grid_cell <- function(allowed = TRUE, ...) {
   # input validation
   assert_flag(x = allowed, na.ok = FALSE, null.ok = FALSE)
 
   if (allowed) {
     cell <- htmltools::tags$td(
       class = "cell allowed",
-      style = htmltools::css(`padding-top` = rowheight),
       # style = "padding-top: 80px;",
       htmltools::tags$div(
         class = "content",
