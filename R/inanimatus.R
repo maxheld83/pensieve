@@ -16,12 +16,24 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
   # dependencies
   requireNamespace2("htmlwidgets")
 
+
   # input validation
+  assert_flag(x = header, na.ok = FALSE, null.ok = FALSE)
+  assert_flag(x = footer, na.ok = FALSE, null.ok = FALSE)
+  assert_scalar(x = aspect_ratio_cards, na.ok = FALSE, null.ok = FALSE)
+
+  # calculate height in css percent of parents for cells/rows (= same)
+  rowheight <- 100/ncol(grid)
+  rowheight <- rowheight / aspect_ratio_cards
+  rowheight <- glue(rowheight, "%")
 
   x <- list(grid = grid,
+            colnames = colnames(grid),
+            rownames = rownames(grid),
             header = header,
             footer = footer,
-            aspect_ratio_cards = aspect_ratio_cards)
+            aspect_ratio_cards = aspect_ratio_cards,
+            rowheight = rowheight)
 
   # create the widget
   htmlwidgets::createWidget(
@@ -45,16 +57,6 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
 html5_grid <- function(grid, header, footer, aspect_ratio_cards, ...) {
   # test dependencies
   requireNamespace2("htmltools")
-
-  # input verification
-  assert_flag(x = header, na.ok = FALSE, null.ok = FALSE)
-  assert_flag(x = footer, na.ok = FALSE, null.ok = FALSE)
-  assert_scalar(x = aspect_ratio_cards, na.ok = FALSE, null.ok = FALSE)
-
-  # calculate height in css percent of parents for cells/rows (= same)
-  rowheight <- 100/ncol(grid)
-  rowheight <- rowheight / aspect_ratio_cards
-  rowheight <- glue(rowheight, "%")
 
   # gather HTML5 dependencies
   bs <- htmltools::htmlDependency(
@@ -84,7 +86,7 @@ html5_grid <- function(grid, header, footer, aspect_ratio_cards, ...) {
     # must be place here so that is placed in the head even when called in knitr
     head = htmltools::doRenderTags(
       htmltools::tags$style(
-        glue::glue(".ps-grid ", ".cell ", "{{", htmltools::css(`padding-top` = rowheight), "}}")
+        glue::glue(".ps-grid ", ".cell ", "{{", htmltools::css(`padding-top` = 12), "}}")
       )
     )
   )
