@@ -1,0 +1,13 @@
+dependencies:
+  - name: inanimatus
+    version: 0.0.9999
+    src: htmlwidgets/lib/inanimatus
+    stylesheet: inanimatus.css
+  - name: bootstrap
+    version: 3.3.7
+    src: htmlwidgets/lib/bootstrap
+    stylesheet: css/bootstrap.min.css
+  - name: jquery
+    version: 1.12.4
+    src: htmlwidgets/lib/jQuery
+    script: jquery-1.12.4.js

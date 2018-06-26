@@ -175,14 +175,7 @@ knit_print.psGrid <- function(x,
     NextMethod()
   } else {
     if (knitr::is_html_output()) {
-      knitr::knit_print(
-        x = html5_grid(
-          grid = x,
-          header = header,
-          footer = footer,
-          aspect_ratio_cards = aspect_ratio_cards),
-        ...
-      )
+      # TODO call html5widget in here
     } else {
       # no special idea about this format, so pass it on
       NextMethod()

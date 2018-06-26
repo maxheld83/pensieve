@@ -1,3 +1,22 @@
+inanimatus <- function(grid = "placeholder", width = NULL, height = NULL) {
+  # dependencies
+  requireNamespace2("htmlwidgets")
+
+  # input validation
+
+  x <- list(grid = grid)
+
+  # create the widget
+  htmlwidgets::createWidget(
+    name = "inanimatus",
+    package = "pensieve",
+    x = x,
+    width = width,
+    height = height)
+}
+
+
+
 # html5 ====
 
 #' @title Write HTML5 markup for grid.
