@@ -12,10 +12,10 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
-        var placeholder = x.placeholder;
+        var inan = $(el);
 
         // TODO: code to render the widget, e.g.
-        createTable(x.grid);
+        inan.prepend(createTable(x.grid));
 
       },
 

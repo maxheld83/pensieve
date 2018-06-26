@@ -50,5 +50,5 @@ function createTable(tableData) {
   });
 
   table.appendChild(tableBody);
-  document.body.appendChild(table);
+  return table
 }
