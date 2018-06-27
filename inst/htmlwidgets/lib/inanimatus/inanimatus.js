@@ -57,7 +57,6 @@ function createTable(tableData, colNames, rowNames, header, footer, aspectRatioC
   }
   
   table.appendChild(tableBody);
-  document.querySelector('head').innerHTML += "<style>.ps-grid .cell {height:70px;}</style>";
   return table
 }
 
