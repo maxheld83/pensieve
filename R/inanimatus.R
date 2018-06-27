@@ -32,8 +32,7 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
             rownames = rownames(grid),
             header = header,
             footer = footer,
-            aspect_ratio_cards = aspect_ratio_cards,
-            rowheight = rowheight)
+            aspect_ratio_cards = aspect_ratio_cards)
 
   # create the widget
   htmlwidgets::createWidget(

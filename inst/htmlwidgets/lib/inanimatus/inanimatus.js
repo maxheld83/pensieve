@@ -33,7 +33,7 @@ function findAspectRatio(el) {
 }
 
 // create table from json
-function createTable(tableData, colNames, rowNames, header, footer, aspectRatioCards, rowheight) {
+function createTable(tableData, colNames, rowNames, header, footer, aspectRatioCards) {
   var table = document.createElement('table');
   table.className = "ps-grid";
   var tableBody = document.createElement('tbody');
@@ -57,6 +57,7 @@ function createTable(tableData, colNames, rowNames, header, footer, aspectRatioC
   }
   
   table.appendChild(tableBody);
+  document.querySelector('head').innerHTML += "<style>.ps-grid .cell {height:70px;}</style>";
   return table
 }
 
@@ -67,12 +68,12 @@ function createTableRow(rowData, header, footer) {
     if (header) {
       var cell = document.createElement('th');
     } else if (footer) {
-      var cell = document.createElement('td');
+      var cell = document.createElement('th');
     } else {
       var cell = document.createElement('td');
       cell.className = "cell";
       if (cellData) {
-        cell.className = "allowed";
+        cell.className += " allowed";
       }
     }
     cell.appendChild(document.createTextNode(cellData));
