@@ -35,10 +35,11 @@ function findAspectRatio(el) {
 // create table from json
 function createTable(tableData, colNames, rowNames, header, footer, aspectRatioCards, rowheight) {
   var table = document.createElement('table');
+  table.className = "ps-grid";
   var tableBody = document.createElement('tbody');
 
   tableData.forEach(function(rowData) {
-    var row = createTableRow(rowData, false);
+    var row = createTableRow(rowData, false, false);
 
     tableBody.appendChild(row);
   });
@@ -46,12 +47,12 @@ function createTable(tableData, colNames, rowNames, header, footer, aspectRatioC
   // make header and footer
   if (header) {
     var tableHeader = document.createElement('thead');
-    tableHeader.appendChild(createTableRow(colNames, true))
+    tableHeader.appendChild(createTableRow(colNames, true, false))
     table.appendChild(tableHeader);
   }
   if (footer) {
     var tableFooter = document.createElement('tfoot');
-    tableFooter.appendChild(createTableRow(colNames, false))
+    tableFooter.appendChild(createTableRow(colNames, false, true))
     table.appendChild(tableFooter);
   }
   
@@ -59,14 +60,20 @@ function createTable(tableData, colNames, rowNames, header, footer, aspectRatioC
   return table
 }
 
-function createTableRow(rowData, header) {
+function createTableRow(rowData, header, footer) {
   var row = document.createElement('tr');
   
   rowData.forEach(function(cellData) {
     if (header) {
       var cell = document.createElement('th');
+    } else if (footer) {
+      var cell = document.createElement('td');
     } else {
       var cell = document.createElement('td');
+      cell.className = "cell";
+      if (cellData) {
+        cell.className = "allowed";
+      }
     }
     cell.appendChild(document.createTextNode(cellData));
     row.appendChild(cell);
