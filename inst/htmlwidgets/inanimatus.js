@@ -24,14 +24,14 @@ HTMLWidgets.widget({
         
         // initial resizing
         var tableAspRatio = findTableAspRatio(nCols, nRows, aspectRatioCards);
+        // TODO add header and footer here to tableAspRatio
+        // this should be done by recalculating the *required aspect ratio* after rendering; we then know how high the actual table with header and footer is, then run resize again
         var newDims = resize2AspRatio(inan.innerWidth(), inan.innerHeight(), tableAspRatio);
-        
         // this is a side effect, but makes for cleaner DOM
         // to avoid repeating this for every cell, we write it to the css in head, not every cell
         var newCardHeight = Math.floor(newDims.newHeight/nRows) + "px";
         document.querySelector('head').innerHTML += "<style>.ps-grid .cell {height:" + newCardHeight + "}</style>";
         // there is only one such object, so we can write directly css inline
-        console.log(inan);
         inan.find(".ps-grid").css("width", Math.floor(newDims.newWidth) + "px");
 
       },
