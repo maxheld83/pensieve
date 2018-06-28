@@ -18,9 +18,8 @@ function resizePsGrid(inan) {
   var newCardHeight = Math.floor(newDims.newHeight/nRows) + "px";
   
   // write out cardheight and tablewidth
-  // to avoid repeating cardheight for every cell, we write it to the css in head, not every cell
-  document.querySelector('head').innerHTML += "<style> #" + inan.attr('id') + " .ps-grid .cell {height:" + newCardHeight + "}</style>";
-  // there is only one such object, so we can write directly css inline
+  // repeating height for every cell is weird, but writing into head css makes the whole thing very slow to render
+  inan.find(".ps-grid .cell").css("height", newCardHeight);
   inan.find(".ps-grid").css("width", Math.floor(newDims.newWidth) + "px");
 };
 
@@ -97,6 +96,7 @@ function createTableRow(rowData, header, footer) {
       }
     }
     cell.appendChild(document.createTextNode(cellData));
+    // cell.appendChild();
     row.appendChild(cell);
   });
   
