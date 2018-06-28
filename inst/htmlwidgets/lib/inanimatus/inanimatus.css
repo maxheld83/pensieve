@@ -7,27 +7,19 @@
   display: table;
   /* this overrides css from pkgdown*/
 }
-.ps-grid .cell {
+.ps-grid td {
   /* having no width or height specified, these columns default to equal width */
   position: relative;
-  border: none;
   /* necessary for below content pos absolute */
-  /* ATTENTION: style of cells is also set by R function, which pastes sth like below in here, with appropriate number of columns instead of 11 */
-  /* padding-top: calc(100%/11); */
+  border: none;
 }
-.ps-grid .allowed {
+.ps-grid td.allowed {
   border: 1px solid black;
   /* style for allowed cells */
 }
-.ps-grid .cell .content{
-  /* this is the inner content of cells; necessary to avoid adding to above padding-top set for cells */
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  /* meaning: position these contents at top left corner of parent elements (cells), disregarding padding-top */
-  overflow: hidden;
-  white-space: nowrap;
-  /* ignore all stuff outside fixed div dimensions */
+.ps-grid thead th{
+  text-align: center;
+}
+.ps-grid tfoot th{
+  text-align: center;
 }

@@ -19,7 +19,7 @@ function resizePsGrid(inan) {
   
   // write out cardheight and tablewidth
   // repeating height for every cell is weird, but writing into head css makes the whole thing very slow to render
-  inan.find(".ps-grid .cell").css("height", newCardHeight);
+  inan.find(".ps-grid td").css("height", newCardHeight);
   inan.find(".ps-grid").css("width", Math.floor(newDims.newWidth) + "px");
 }
 
@@ -92,7 +92,6 @@ function createTableRow(rowData, header, footer) {
       cell.appendChild(document.createTextNode(cellData));
     } else {
       var cell = document.createElement('td');
-      cell.className = "cell";
       if (cellData) {
         cell.className += " allowed";
       }
