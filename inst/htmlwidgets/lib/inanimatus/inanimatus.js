@@ -86,8 +86,10 @@ function createTableRow(rowData, header, footer) {
   rowData.forEach(function(cellData) {
     if (header) {
       var cell = document.createElement('th');
+      cell.appendChild(document.createTextNode(cellData));
     } else if (footer) {
       var cell = document.createElement('th');
+      cell.appendChild(document.createTextNode(cellData));
     } else {
       var cell = document.createElement('td');
       cell.className = "cell";
@@ -95,8 +97,6 @@ function createTableRow(rowData, header, footer) {
         cell.className += " allowed";
       }
     }
-    cell.appendChild(document.createTextNode(cellData));
-    // cell.appendChild();
     row.appendChild(cell);
   });
   
