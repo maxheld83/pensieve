@@ -1,6 +1,29 @@
 // use strict mode to avoid problems, should apply only to this script
 "use strict";
 
+function resizePsGrid(inan) {
+  // define required vars
+  var aspectRatioCards = inan.data("aspect_ratio_cards");
+  var nRows = inan.data("n_rows");
+  var nCols = inan.data("n_cols");
+  
+  // find required aspect ratio
+  var tableAspRatio = findTableAspRatio(nCols, nRows, aspectRatioCards);
+  // TODO add header and footer here to tableAspRatio
+  // this should be done by recalculating the *required aspect ratio* after rendering; we then know how high the actual table with header and footer is, then run resize again
+  
+  // find new dims
+  var newDims = resize2AspRatio(inan.innerWidth(), inan.innerHeight(), tableAspRatio);
+  // height is required as card height, not overall height
+  var newCardHeight = Math.floor(newDims.newHeight/nRows) + "px";
+  
+  // write out cardheight and tablewidth
+  // to avoid repeating cardheight for every cell, we write it to the css in head, not every cell
+  document.querySelector('head').innerHTML += "<style> #" + inan.attr('id') + " .ps-grid .cell {height:" + newCardHeight + "}</style>";
+  // there is only one such object, so we can write directly css inline
+  inan.find(".ps-grid").css("width", Math.floor(newDims.newWidth) + "px");
+};
+
 function resize2AspRatio(availWidth, availHeight, reqAspRatio) {
   var availAspRat = availWidth / availHeight;
   
