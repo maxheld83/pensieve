@@ -9,11 +9,11 @@ function resizePsGrid(inan) {
   
   // find required aspect ratio
   var tableAspRatio = findTableAspRatio(nCols, nRows, aspectRatioCards);
-  // TODO add header and footer here to tableAspRatio
-  // this should be done by recalculating the *required aspect ratio* after rendering; we then know how high the actual table with header and footer is, then run resize again
   
   // find new dims
-  var newDims = resize2AspRatio(inan.innerWidth(), inan.innerHeight(), tableAspRatio);
+  // we take innerHeight() and subtract the height of header and footer
+  var netAvailHeight = inan.innerHeight() - inan.find(".ps-grid thead tr").outerHeight(true) - inan.find(".ps-grid tfoot tr").outerHeight(true);
+  var newDims = resize2AspRatio(inan.innerWidth(), netAvailHeight, tableAspRatio);
   // height is required as card height, not overall height
   var newCardHeight = Math.floor(newDims.newHeight/nRows) + "px";
   
@@ -21,7 +21,7 @@ function resizePsGrid(inan) {
   // repeating height for every cell is weird, but writing into head css makes the whole thing very slow to render
   inan.find(".ps-grid .cell").css("height", newCardHeight);
   inan.find(".ps-grid").css("width", Math.floor(newDims.newWidth) + "px");
-};
+}
 
 function resize2AspRatio(availWidth, availHeight, reqAspRatio) {
   var availAspRat = availWidth / availHeight;
