@@ -114,6 +114,7 @@ as_psGrid.default <- function(obj, ...) {
   stop_coercion(obj = obj, target_class = "psGrid")
 }
 as_psGrid.psGrid <- function(obj, ...) {
+  assert_S3(x = obj)
   obj
 }
 #' @describeIn psGrid Coercion

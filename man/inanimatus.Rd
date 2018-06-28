@@ -5,7 +5,7 @@
 \title{HTML widget factory for sorting grids.}
 \usage{
 inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)), header = TRUE,
-  footer = TRUE, width = NULL, aspect_ratio_cards = 16/9, height = NULL)
+  footer = TRUE, aspect_ratio_cards = 16/9, width = NULL, height = NULL)
 }
 \arguments{
 \item{grid}{A logical matrix giving the available cells for Q sorting.
@@ -16,13 +16,13 @@ If any dimnames are missing, sensible defaults will be set.}
 
 \item{footer}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as footers.}
 
-\item{width}{Fixed width for widget (in css units). The default is
-\code{NULL}, which results in intelligent automatic sizing based on the
-widget's container.}
-
 \item{aspect_ratio_cards}{A numeric scalar, giving width divided by height of \emph{individual cards} (such as 16/9 for screen dimensions).
 Aspect ratio of \emph{cards} is required to appropriately set the resulting dimensions of the \emph{grid}.
 Defaults to standard business cards.}
+
+\item{width}{Fixed width for widget (in css units). The default is
+\code{NULL}, which results in intelligent automatic sizing based on the
+widget's container.}
 
 \item{height}{Fixed height for widget (in css units). The default is
 \code{NULL}, which results in intelligent automatic sizing based on the
