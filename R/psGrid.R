@@ -1,8 +1,9 @@
 # helper ====
-#' @title Store sorting grid as logical matrix
+# TODO this too works for open and closed sorts!
+#' @title Store sorting grid as logical matrix.
 #'
 #' @description
-#' Stores sorting grid as logical matrix with sorting columns as columns, sorting rows as rows and `TRUE` (allowed) or `FALSE` (not allowed) in cells.
+#' Stores sorting grid as a logical \eqn{i * k} matrix with sorting columns as columns, sorting rows as rows and `TRUE` (allowed) or `FALSE` (not allowed) in cells.
 #'
 #' @details
 #' *Every* sort must have a grid.
@@ -62,7 +63,8 @@ new_psGrid <- function(grid, pattern, offset) {
     .Data = grid,
     pattern = pattern,
     offset = offset,
-    class = c("psGrid", "matrix"))
+    class = c("psGrid", "matrix")
+  )
 }
 
 #' @describeIn psGrid Validation
@@ -148,6 +150,7 @@ as_psGrid.numeric <- function(obj, ...) {
 #' @rdname psGrid
 #' @export
 as_psGrid.matrix <- function(obj, ...) {
+  # TODO make sure that obj is logical or can be coerced such
   psGrid(grid = obj, ...)
 }
 

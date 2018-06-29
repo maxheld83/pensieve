@@ -8,7 +8,7 @@
 \alias{as_psGrid.numeric}
 \alias{as_psGrid.matrix}
 \alias{knit_print.psGrid}
-\title{Store sorting grid as logical matrix}
+\title{Store sorting grid as logical matrix.}
 \usage{
 psGrid(grid, pattern = "chessboard", offset = NULL)
 
@@ -64,7 +64,7 @@ Defaults to \code{FALSE}.}
 A logical matrix of class \link{psGrid}.
 }
 \description{
-Stores sorting grid as logical matrix with sorting columns as columns, sorting rows as rows and \code{TRUE} (allowed) or \code{FALSE} (not allowed) in cells.
+Stores sorting grid as a logical \eqn{i * k} matrix with sorting columns as columns, sorting rows as rows and \code{TRUE} (allowed) or \code{FALSE} (not allowed) in cells.
 }
 \details{
 \emph{Every} sort must have a grid.

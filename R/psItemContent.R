@@ -39,7 +39,7 @@
 #'
 #' @family S3 classes from `pensieve`
 #'
-#' @return A character vector of class `psItems`.
+#' @return A character vector of class `psItemContent`.
 #'
 #' @export
 psItemContent <- function(items,

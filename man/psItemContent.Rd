@@ -46,7 +46,7 @@ Best constructed with \code{\link[base:file.path]{base::file.path()}}.}
 \item{...}{further arguments to be passed to methods.}
 }
 \value{
-A character vector of class \code{psItems}.
+A character vector of class \code{psItemContent}.
 }
 \description{
 Simple helper function to append and validate \code{psItemContent} class.
