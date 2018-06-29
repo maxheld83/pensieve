@@ -125,6 +125,8 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, loo
 }
 
 # this is a hideous hack job, repeats above code
+#' @rdname psSort
+#' @export
 import_psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, lookup = NULL, ...) {
   # assert base type
   assert_matrix(
