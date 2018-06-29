@@ -84,10 +84,8 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...
 
   # infer and coerce other variable
   if (is.null(grid)) {
-    grid <- x
-    grid[,] <- TRUE
-    #TODO  below line should be part of normal coercion method
-    storage.mode(grid) <- "logical"
+    # TODO this should respect dimnames
+    grid <- matrix(data = TRUE, nrow = nrow(x), ncol = ncol(x))
     grid <- as_psGrid(obj = grid)
   }
 
@@ -122,18 +120,17 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...
 #' @noRd
 append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NULL) {
   # input validation
-  assert_matrix(
-    x = sort,
-    mode = "character",
-    any.missing = TRUE,
-    all.missing = TRUE,
-    null.ok = FALSE)
   # TODO in future, function should allow NULL rows, because rows are actually meaningless, and some upstream uses may not have row info, such as when data is only in long form already
   assert_scalar(x = row, na.ok = FALSE, null.ok = FALSE)
   assert_scalar(x = column, na.ok = FALSE, null.ok = FALSE)
   assert_string(x = item, na.ok = TRUE, null.ok = FALSE)
-  assert_matrix(x = grid, mode = "logical", any.missing = FALSE, null.ok = TRUE)
-  assert_character(x = items, any.missing = FALSE, unique = TRUE, null.ok = FALSE)
+  assert_integer(x = row, lower = 0, upper = nrow(sort))
+  assert_integer(x = column, lower = 0, upper = ncol(sort))
+  # TODO validate sort, grid and items somehow
+
+  # TODO these are consistency check, maybe do somewhere else
+  # assert_character(x = items, max.len = sum(grid))
+  # assert_choice(x = item, choices = c(items, NA))
 
   # prepare values
   item <- as.character(item)
@@ -143,18 +140,10 @@ append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NUL
 
   # TODO some of this might be better tested in wrappers; would be called too often in here
   # consistency checks
-  assert_matrix(
-    x = sort,
-    nrows = nrow(grid),
-    ncols = ncol(grid)
-  )
-  assert_integer(x = row, lower = 0, upper = nrow(sort))
-  assert_integer(x = column, lower = 0, upper = ncol(sort))
-  assert_choice(x = item, choices = c(items, NA))
-  assert_character(x = items, max.len = sum(grid))
 
   if (!is.na(item)) {
     # item must not already be placed in sort
+    # when used from JS, remember to first clear sending cell, then write to receiving cell, otherwise this fails
     assert_false(x = item %in% sort, na.ok = TRUE)
   }
   assert_true(x = grid[row, column], na.ok = FALSE)
