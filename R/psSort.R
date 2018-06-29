@@ -112,22 +112,18 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...
 
 
 #' @title Place item into row and column of a closed sort.
-#' @param csort A matrix of class (or coercable to) `psClosedSort`, in *wide* form, with rows as ties, columns as ranks and item handles in cells.
+#' @inheritParams psSort
 #' @param row An integer scalar giving the row index.
 #' @param column An integer scalar giving the column index.
 #' @param item A character string giving the item handle.
 #' Defaults to `NA`, in which case `row` and `column` cell is set to `NA`.
 #' Useful for *removing* items.
-#' @param grid A logical matrix of class (or coercable to) `psGrid`.
-#' Defaults to `NULL`, in which case all cells in `csort` are allowed as `TRUE`.
-#' Useful for *free* distributions.
-#' @param items A character vector giving *possible* item handles.
-#' @return A matrix of class `psClosedSort`.
+#' @return A matrix of class `psSort`.
 #' @noRd
-append_psClosedSort <- function(csort, row, column, item = NA, grid = NULL, items) {
+append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NULL) {
   # input validation
   assert_matrix(
-    x = csort,
+    x = sort,
     mode = "character",
     any.missing = TRUE,
     all.missing = TRUE,
@@ -142,27 +138,27 @@ append_psClosedSort <- function(csort, row, column, item = NA, grid = NULL, item
   # prepare values
   item <- as.character(item)
   if (is.null(grid)) {
-    grid <- matrix(data = TRUE, nrow = nrow(csort), ncol = ncol(csort))
+    grid <- matrix(data = TRUE, nrow = nrow(sort), ncol = ncol(sort))
   }
 
   # TODO some of this might be better tested in wrappers; would be called too often in here
   # consistency checks
   assert_matrix(
-    x = csort,
+    x = sort,
     nrows = nrow(grid),
     ncols = ncol(grid)
   )
-  assert_integer(x = row, lower = 0, upper = nrow(csort))
-  assert_integer(x = column, lower = 0, upper = ncol(csort))
+  assert_integer(x = row, lower = 0, upper = nrow(sort))
+  assert_integer(x = column, lower = 0, upper = ncol(sort))
   assert_choice(x = item, choices = c(items, NA))
   assert_character(x = items, max.len = sum(grid))
 
   if (!is.na(item)) {
-    # item must not already be placed in csort
-    assert_false(x = item %in% csort, na.ok = TRUE)
+    # item must not already be placed in sort
+    assert_false(x = item %in% sort, na.ok = TRUE)
   }
   assert_true(x = grid[row, column], na.ok = FALSE)
 
-  csort[row, column] <- item
-  return(csort)
+  sort[row, column] <- item
+  return(sort)
 }
