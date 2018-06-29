@@ -143,8 +143,10 @@ append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NUL
   # TODO validate sort, grid and items somehow
 
   # TODO these are consistency check, maybe do somewhere else
-  # assert_character(x = items, max.len = sum(grid))
-  # assert_choice(x = item, choices = c(items, NA))
+  if (!is.null(items)) {
+    assert_character(x = items, max.len = sum(grid))
+    assert_choice(x = item, choices = c(items, NA))
+  }
 
   # prepare values
   item <- as.character(item)
