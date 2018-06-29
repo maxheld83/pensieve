@@ -124,6 +124,78 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, loo
   NextMethod(ps_coll = ps_coll)
 }
 
+# this is a hideous hack job, repeats above code
+import_psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, lookup = NULL, ...) {
+  # assert base type
+  assert_matrix(
+    x = x,
+    mode = "character",
+    any.missing = TRUE,
+    all.missing = TRUE, # useful for initialising
+    null.ok = FALSE,
+    add = ps_coll
+  )
+
+  assert_names2(x = colnames(x), type = "unique", add = ps_coll, .var.name = "sort")
+  assert_names2(x = rownames(x), type = "unique", add = ps_coll, .var.name = "sort")
+
+  #TODO there is some repetition in here with psGrid; perhaps this really ought to be one class with subclasses?!?
+  assert_choice(
+    x = attr(x = x, which = "pattern"),
+    choices = c("honeycomb", "chessboard", "brickwall"),
+    null.ok = FALSE,
+    .var.name = "sort",
+    add = ps_coll
+  )
+  assert_choice(
+    x = attr(x = x, which = "offset"),
+    choices = c("even", "odd"),
+    null.ok = TRUE,
+    .var.name = "sort",
+    add = ps_coll
+  )
+
+  # infer and coerce other variable
+  if (is.null(grid)) {
+    # TODO this should respect dimnames
+    grid <- matrix(data = TRUE, nrow = nrow(x), ncol = ncol(x))
+    grid <- as_psGrid(obj = grid)
+  }
+
+  # check VS grid
+  # check if sort rank corresponds to grid rank
+  assert_matrix(
+    x = x,
+    nrows = nrow(grid),
+    ncols = ncol(grid),
+    add = ps_coll
+  )
+
+  # check VS items
+  #TODO coerce psItemContent! this is not validated right now!
+  if (!is.null(items)) {
+    # check that there are enough cells for all items
+    assert_vector(x = items, max.len = length(x), add = ps_coll)
+  }
+
+  # check per cell and per row
+  clean_sort <- dirty_sort <- x
+  clean_sort[,] <- NA
+
+  for (row in 1:nrow(dirty_sort)) {
+    for (column in 1:ncol(dirty_sort)) {
+      clean_sort <- append_psSort(sort = clean_sort,
+                                  row = row,
+                                  column = column,
+                                  item = dirty_sort[row, column],
+                                  grid = grid,
+                                  items = items,
+                                  lookup = lookup)
+    }
+  }
+  return(clean_sort)
+}
+
 
 #' @title Place item into row and column of a closed sort.
 #' @inheritParams psSort
@@ -168,8 +240,8 @@ append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NUL
     # item must not already be placed in sort
     # when used from JS, remember to first clear sending cell, then write to receiving cell, otherwise this fails
     assert_false(x = item %in% sort, na.ok = TRUE)
+    assert_true(x = grid[row, column], na.ok = FALSE, .var.name = paste("row", row, "column", column))
   }
-  assert_true(x = grid[row, column], na.ok = FALSE)
 
   sort[row, column] <- item
   return(sort)
@@ -178,7 +250,11 @@ append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NUL
 lookup_cards <- function(key, lookup_table) {
   # TODO this needs checks on the lookup table
   # TODO this could still find multiple matches IN THE SAME ROW which would NOT be a problem, but need to catch it
-  keyloc <- which(lookup_table == key, arr.ind = TRUE)
-  # TODO this has a hard variable name hardcoded; BAD!
-  return(lookup_table$handle[keyloc[1,1]])
+  if (is.na(key)) {
+    return(NA)
+  } else {
+    keyloc <- which(lookup_table == key, arr.ind = TRUE)
+    # TODO this has a hard variable name hardcoded; BAD!
+    return(lookup_table$handle[keyloc[1,1]])
+  }
 }
