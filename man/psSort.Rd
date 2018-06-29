@@ -70,6 +70,7 @@ grid <- as_psGrid(grid)
 sort <- matrix(
   data = c(NA, "live_2_work", NA, "work_2_live", NA, NA),
   nrow = 2)
+# TODO this creates a logical matrix, that's a BUG
 sort <- psSort(
   sort = sort,
   grid = grid,

@@ -105,6 +105,20 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...
     assert_vector(x = items, max.len = length(x), add = ps_coll)
   }
 
+  # check per cell and per row
+  clean_sort <- dirty_sort <- x
+  clean_sort[,] <- NA
+
+  for (row in 1:nrow(dirty_sort)) {
+    for (column in 1:ncol(dirty_sort)) {
+      clean_sort <- append_psSort(sort = clean_sort,
+                                  row = row,
+                                  column = column,
+                                  item = dirty_sort[row, column],
+                                  grid = grid,
+                                  items = items)
+    }
+  }
   NextMethod(ps_coll = ps_coll)
 }
 
