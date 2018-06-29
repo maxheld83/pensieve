@@ -31,7 +31,6 @@
 #'
 #' @export
 psSort <- function(sort, grid = NULL, items = NULL, pattern = "chessboard", offset = NULL) {
-
   # create default variables
   sort <- new_psSort(sort = sort, pattern = pattern, offset = offset)
   assert_S3(sort)
@@ -51,8 +50,10 @@ new_psSort <- function(sort, pattern, offset) {
 #' @inheritParams validate_S3
 #' @inheritParams psGrid
 #' @inheritParams psItemContent
+#' @param lookup
+#' A lookup table.
 #' @export
-validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...) {
+validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, lookup = NULL, ...) {
   # assert base type
   assert_matrix(
     x = x,
@@ -116,7 +117,8 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...
                                   column = column,
                                   item = dirty_sort[row, column],
                                   grid = grid,
-                                  items = items)
+                                  items = items,
+                                  lookup = lookup)
     }
   }
   NextMethod(ps_coll = ps_coll)
@@ -132,7 +134,7 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...
 #' Useful for *removing* items.
 #' @return A matrix of class `psSort`.
 #' @noRd
-append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NULL) {
+append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NULL, lookup = NULL) {
   # input validation
   # TODO in future, function should allow NULL rows, because rows are actually meaningless, and some upstream uses may not have row info, such as when data is only in long form already
   assert_scalar(x = row, na.ok = FALSE, null.ok = FALSE)
@@ -154,6 +156,11 @@ append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NUL
     grid <- matrix(data = TRUE, nrow = nrow(sort), ncol = ncol(sort))
   }
 
+  # decode item
+  if (!is.null(lookup)) {
+    item <- lookup_cards(key = item, lookup_table = lookup)
+  }
+
   # TODO some of this might be better tested in wrappers; would be called too often in here
   # consistency checks
 
@@ -166,4 +173,12 @@ append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NUL
 
   sort[row, column] <- item
   return(sort)
+}
+
+lookup_cards <- function(key, lookup_table) {
+  # TODO this needs checks on the lookup table
+  # TODO this could still find multiple matches IN THE SAME ROW which would NOT be a problem, but need to catch it
+  keyloc <- which(lookup_table == key, arr.ind = TRUE)
+  # TODO this has a hard variable name hardcoded; BAD!
+  return(lookup_table$handle[keyloc[1,1]])
 }

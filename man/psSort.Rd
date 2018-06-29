@@ -9,7 +9,7 @@ psSort(sort, grid = NULL, items = NULL, pattern = "chessboard",
   offset = NULL)
 
 \method{validate_S3}{psSort}(x, grid = NULL, items = NULL, ps_coll = NULL,
-  ...)
+  lookup = NULL, ...)
 }
 \arguments{
 \item{sort}{A character matrix giving the item positions of the sort.
@@ -33,6 +33,8 @@ Applies only to \code{"honeycomb"} and \code{"brickwall"} patterns, otherwise ig
 \item{x}{An object with one of the pensieve S3 classes.}
 
 \item{ps_coll}{\code{\link{AssertCollection}} ps_coll error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
+
+\item{lookup}{A lookup table.}
 
 \item{...}{further arguments to be passed to methods.}
 }
