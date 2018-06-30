@@ -3,16 +3,12 @@
 \name{psSort}
 \alias{psSort}
 \alias{validate_S3.psSort}
-\alias{import_psSort}
 \title{Store an \emph{individual}  sort (Q-sort) as a character matrix.}
 \usage{
 psSort(sort, grid = NULL, items = NULL, pattern = "chessboard",
   offset = NULL)
 
 \method{validate_S3}{psSort}(x, grid = NULL, items = NULL, ps_coll = NULL,
-  lookup = NULL, ...)
-
-import_psSort(x, grid = NULL, items = NULL, ps_coll = NULL,
   lookup = NULL, ...)
 }
 \arguments{

@@ -125,7 +125,12 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, loo
 }
 
 # this is a hideous hack job, repeats above code
-#' @rdname psSort
+#' @title Import Q sorts
+#' @description Import Q sorts.
+#' @inheritParams psSort
+#' @inheritParams psGrid
+#' @param lookup
+#' A lookup table
 #' @export
 import_psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, lookup = NULL, ...) {
   # assert base type
