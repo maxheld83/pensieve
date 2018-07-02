@@ -5,9 +5,22 @@
 #' End users should use the convenient print method wrappers.
 #' @inheritParams psGrid
 #' @inheritParams htmlwidgets::createWidget
+#' @inheritParams psSort
 #' @return An htmlwidget.
 #' @export
 inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
+                       sort = matrix(
+                         data = c(
+                           NA, NA, NA, NA, "foo",
+                           NA, NA, NA, "zap", "bar",
+                           NA, NA, "hup", "op", "schwupp",
+                           "rip", "zonk", "oupsi", "what", "omg",
+                           NA, NA, "zor", "arr", "apple",
+                           NA, NA, NA, "warp", "glips",
+                           NA, NA, NA, NA, "ronk"
+                         ),
+                         ncol = 7
+                       ),
                        header = TRUE,
                        footer = TRUE,
                        aspect_ratio_cards = 16/9,
@@ -28,6 +41,7 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
   rowheight <- glue(rowheight, "%")
 
   x <- list(grid = grid,
+            sort = sort,
             colnames = colnames(grid),
             rownames = rownames(grid),
             header = header,
