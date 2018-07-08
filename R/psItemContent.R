@@ -170,7 +170,8 @@ validate_S3.psItemContentImage <- function(x, ...) {
 }
 
 # rendering ====
-#' @title Render text items to pdf and svg.
+#' @title
+#' Render text items to pdf and svg
 #'
 #' @description
 #' Renders character vectors of items to a pdf, using pandoc and latex, then converts pdf to svg using pdf2svg.
@@ -183,42 +184,49 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #'
 #' @inheritParams psItemContent
 #'
-#' @param output_dir `[character(1)]`
-#' giving directory relative from working directory root [base::getwd()].
+#' @param output_dir
+#' `[character(1)]` giving directory relative from working directory root [base::getwd()].
 #' Best constructed with [base::file.path()].
 #' Defaults to `NULL`, in which case items are rendered to the working directory root.
 #'
-#' @param fontsize `[character(1)]`
-#' giving a [LaTeX fontsize](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text) for *all* items.
+#' @param fontsize
+#' `[character(1)]` giving a [LaTeX fontsize](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text) for *all* items.
 #' See `pensieve:::latex$options$fontsize` for valid options.
 #' Defaults to `NULL`, in which case the maximum possible fontsize is sought and chosen, by which *all* items still fit on one page.
 #'
-#' @param paperwidth `[numeric(1)]` giving the width of cards in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' @param paperwidth
+#' `[numeric(1)]` giving the width of cards in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
 #' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
 #' Defaults to `8.5`.
-#' @param paperheight `[numeric(1)]` giving the height of cards in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' @param paperheight
+#' `[numeric(1)]` giving the height of cards in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
 #' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
 #' Defaults to `5.4`.
 #'
-#' @param top `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' @param top
+#' `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
 #' Defaults to `0.5`.
-#' @param bottom `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' @param bottom
+#' `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
 #' Defaults to `0.5`.
-#' @param left `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' @param left
+#' `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
 #' Defaults to `0.5`.
-#' @param right `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' @param right
+#' `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
 #' Defaults to `0.5`.
 #'
-#' @param units `[character(1)]` giving the units for the above dimensions, must be one of:
-#' - "cm" for metric system,
-#' - "in" for inches.
+#' @param units
+#' `[character(1)]` giving the units for the above dimensions, must be one of:
+#' - `"cm"` for metric system,
+#' - `"in"` for inches.
 #' Defaults to `"cm"`.
 #'
 #' @param alignment `[character(1)]` giving the alignment for the text, must be one of:
-#' - "justified",
-#' - "left",
-#' - "right" or
-#' - "center".
+#' - `"justified"`,
+#' - `"left"`,
+#' - `"right"` or
+#' - `"center"`.
 #' Defaults to `"left"`.
 #'
 #' @export
@@ -248,8 +256,13 @@ render_items <- function(items,
 #   right = 0.5,
 #   units = "cm",
 #   alignment = "left")
+# pdf_raw <- texi2pdf_raw(tex = test)
+# svg_raw <- pdf2svg_raw(pdf_raw = pdf_raw)
 
 
+#' @title Render markdown to LaTeX
+#' @return [`character()`] giving LaTeX markup.
+#' @noRd
 md2tex <- function(text,
                    lang,
                    fontsize,
@@ -307,6 +320,98 @@ md2tex <- function(text,
   )
 }
 
+#' @title Render LaTeX to PDF
+#' @description In contrast to normal texi function, this returns the pdf as a raw vector
+#' @noRd
+#' @return [`raw()`]
+texi2pdf_raw <- function(tex) {
+  requireNamespace2(x = "tools")
+  requireNamespace2(x = "fs")
+  requireNamespace2(x = "withr")
+
+  # make sure file gets deleted again
+  # this is not a tempfile, but just from wd, which might be helpful for debugging
+  withr::local_file(
+    file = c("item.tex", "item.pdf")
+  )
+
+  write(x = tex, file = "item.tex")
+  # availability of tex will ideally be checked in platform dependent way by texi2pdf
+  tools::texi2pdf(file = "item.tex", clean = TRUE, index = FALSE, quiet = TRUE)
+
+  readBin(
+    con = "item.pdf",
+    what = "raw",
+    n = fs::file_info("item.pdf")$size  # need to allocate size
+  )
+}
+
+#' @title Convert PDF to SVG
+#' @param pdf_input
+#' [`character(1)`] path to a PDF file.
+#' @noRd
+#' @return [`pdf_input`] invisibly, write svg file to disk at same path.
+pdf2svg <- function(pdf_input) {
+  requireNamespace2(x = "fs")
+  requireNamespace2(x = "withr")
+  requireNamespace2(x = "tools")
+  # dependencies
+  checkmate::assert_os(os = c("mac", "linux"))
+  assert_sysdep(x = "pdf2svg")
+
+  # input validation
+  checkmate::assert_file_exists(x = pdf_input, extension = "pdf")
+  checkmate::assert_character(x = pdf_input, any.missing = FALSE, unique = TRUE)
+
+  svg_output <- paste0(
+    tools::file_path_sans_ext(pdf_input),
+    ".svg"
+  )
+  system2(
+    command = "pdf2svg",
+    args = c(pdf_input,
+             svg_output,
+             "1"), # only take 1st page
+    stderr = "")
+}
+
+#' @title Convert raw PDF to raw SVG
+#' @param pdf_raw
+#' [`raw()`] of PDF file.
+#' @noRd
+#' @return [`raw()`] of SVG file.
+pdf2svg_raw <- function(pdf_raw) {
+  withr::local_file(
+    file = c("item.pdf", "item.svg")
+  )
+  writeBin(object = pdf_raw, con = "item.pdf")
+  pdf2svg(pdf_input = "item.pdf")
+  readBin(
+    con = "item.svg",
+    what = "raw",
+    n = fs::file_info("item.svg")$size  # need to allocate size
+  )
+}
+
+#' @title Check if pdf is only 1 page long
+#' @description Items must never overflow 1 page.
+#' @noRd
+check_pdf1page <- function(x) {
+  requireNamespace2(x = "pdftools")
+  infos <- pdftools::pdf_info(pdf = x)
+  if (infos$pages == 1) {
+    return(TRUE)
+  } else {
+    return("PDF must be 1 page long.")
+  }
+}
+assert_pdf1page <- checkmate::makeAssertionFunction(check.fun = check_pdf1page)
+test_pdf1page <- checkmate::makeTestFunction(check.fun = check_pdf1page)
+expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page)
+
+
+# formatting helpers ====
+
 # helpers to create latex formatting instructions
 latex <- list(set = NULL, # these are the functions
               options = NULL) # these are the available options
@@ -314,7 +419,7 @@ latex <- list(set = NULL, # these are the functions
 #' @title Generate pandoc geometry options
 #' @inheritParams render_item
 #' @param vcentering `[logical(1)]` whether to center vertically, does not currently work.
-#' @param vcentering `[logical(1)]` whether to center horizontally, does not currently work.
+#' @param hcentering `[logical(1)]` whether to center horizontally, does not currently work.
 #' @noRd
 latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right, units, vcentering, hcentering) {
   # input validation
@@ -428,79 +533,3 @@ langs <- purrr::pmap(.l = langs[,c("lang_short", "var_short", "lang_long", "var_
   return(short)
 })
 langs <- purrr::as_vector(langs)
-
-
-# in contrast to normal texi function, this returns the pdf as a raw vector
-texi2pdf_raw <- function(tex) {
-  requireNamespace2(x = "tools")
-  requireNamespace2(x = "fs")
-  requireNamespace2(x = "withr")
-
-  # make sure file gets deleted again
-  # this is not a tempfile, but just from wd, which might be helpful for debugging
-  withr::local_file(
-    file = c("item.tex", "item.pdf")
-  )
-
-  write(x = tex, file = "item.tex")
-  # availability of tex will ideally be checked in platform dependent way by texi2pdf
-  tools::texi2pdf(file = "item.tex", clean = TRUE, index = FALSE, quiet = TRUE)
-
-  readBin(
-    con = "item.pdf",
-    what = "raw",
-    n = fs::file_info("item.pdf")$size  # need to allocate size
-  )
-}
-
-#pdf_raw <- texi2pdf_raw(tex = test)
-#svg_raw <- pdf2svg_raw(pdf_raw = pdf_raw)
-
-check_pdf1page <- function(x) {
-  requireNamespace2(x = "pdftools")
-  infos <- pdftools::pdf_info(pdf = x)
-  if (infos$pages == 1) {
-    return(TRUE)
-  } else {
-    return("PDF must be 1 page long.")
-  }
-}
-assert_pdf1page <- checkmate::makeAssertionFunction(check.fun = check_pdf1page)
-test_pdf1page <- checkmate::makeTestFunction(check.fun = check_pdf1page)
-expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page)
-
-# helper to convert pdf to svg
-pdf2svg <- function(pdf_input) {
-  requireNamespace2(x = "fs")
-  requireNamespace2(x = "withr")
-  requireNamespace2(x = "tools")
-  # dependencies
-  checkmate::assert_os(os = c("mac", "linux"))
-  assert_sysdep(x = "pdf2svg")
-
-  # input validation
-  checkmate::assert_file_exists(x = pdf_input, extension = "pdf")
-  checkmate::assert_character(x = pdf_input, any.missing = FALSE, unique = TRUE)
-
-  svg_output <- paste0(
-    tools::file_path_sans_ext(pdf_input),
-    ".svg"
-  )
-  system2(command = "pdf2svg",
-          args = c(pdf_input,
-                   svg_output,
-                   "1"),
-          stderr = "")  # only take 1st page
-}
-pdf2svg_raw <- function(pdf_raw) {
-  withr::local_file(
-    file = c("item.pdf", "item.svg")
-  )
-  writeBin(object = pdf_raw, con = "item.pdf")
-  pdf2svg(pdf_input = "item.pdf")
-  readBin(
-    con = "item.svg",
-    what = "raw",
-    n = fs::file_info("item.svg")$size  # need to allocate size
-  )
-}

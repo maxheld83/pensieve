@@ -2,7 +2,7 @@
 % Please edit documentation in R/psItemContent.R
 \name{render_items}
 \alias{render_items}
-\title{Render text items to pdf and svg.}
+\title{Render text items to pdf and svg}
 \usage{
 render_items(items, lang = NULL, output_dir = NULL, fontsize = NULL,
   paperwidth = 8.5, paperheight = 5.4, top = 0.5, bottom = 0.5,
@@ -22,13 +22,11 @@ See \code{pensieve:::langs} for all available languages.
 Ignored unless \code{type = "text"}.
 }}
 
-\item{output_dir}{\code{[character(1)]}
-giving directory relative from working directory root \code{\link[base:getwd]{base::getwd()}}.
+\item{output_dir}{\code{[character(1)]} giving directory relative from working directory root \code{\link[base:getwd]{base::getwd()}}.
 Best constructed with \code{\link[base:file.path]{base::file.path()}}.
 Defaults to \code{NULL}, in which case items are rendered to the working directory root.}
 
-\item{fontsize}{\code{[character(1)]}
-giving a \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX fontsize} for \emph{all} items.
+\item{fontsize}{\code{[character(1)]} giving a \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX fontsize} for \emph{all} items.
 See \code{pensieve:::latex$options$fontsize} for valid options.
 Defaults to \code{NULL}, in which case the maximum possible fontsize is sought and chosen, by which \emph{all} items still fit on one page.}
 
@@ -54,17 +52,17 @@ Defaults to \code{0.5}.}
 
 \item{units}{\code{[character(1)]} giving the units for the above dimensions, must be one of:
 \itemize{
-\item "cm" for metric system,
-\item "in" for inches.
+\item \code{"cm"} for metric system,
+\item \code{"in"} for inches.
 Defaults to \code{"cm"}.
 }}
 
 \item{alignment}{\code{[character(1)]} giving the alignment for the text, must be one of:
 \itemize{
-\item "justified",
-\item "left",
-\item "right" or
-\item "center".
+\item \code{"justified"},
+\item \code{"left"},
+\item \code{"right"} or
+\item \code{"center"}.
 Defaults to \code{"left"}.
 }}
 }
