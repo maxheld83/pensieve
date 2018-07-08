@@ -10,7 +10,7 @@ render_items(items, lang = NULL, output_dir = NULL, fontsize = NULL,
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
-Can be named to provide a short, \emph{researcher-facing} \strong{item handles}.}
+Can be named to provide short, \emph{researcher-facing} \strong{item handles}.}
 
 \item{lang}{\code{[character(1)]} giving a language code for \emph{all} items, such as \code{en_US}.
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package}.

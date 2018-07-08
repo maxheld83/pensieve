@@ -1,27 +1,30 @@
 # helper ====
-#' @title Store item content as character strings
+#' @title
+#' Store item content as character strings
 #'
 #' @description
-#' Simple helper function to append and validate `psItemContent` class.
-#' This class is used as a column class in `psItems`.
+#' Helper function to append and validate [`psItemContent`][psItemContent] class.
+# TODO link to psItems class here, once available
+#' This class is used as a column class in `psItems`.`
 #'
 #' @details
 #' Storing **full items** can enable deployment and convenience functions, as well as enhance the presentation of results.
 #'
 #' @param items
 #' `[character()]` giving the *participant-facing* **item content**.
-#' Can be named to provide a short, *researcher-facing* **item handles**.
+#' Can be named to provide short, *researcher-facing* **item handles**.
 #'
 #' @param type
 #' `[character(1)]` giving the *kind* of item content, must be one of:
 #' - `"text"` (default) for textual item, in which case `items` must be text.
 #'   Items can be marked up using [Pandoc Markdown](https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html).
-#'   An additional subclass `"psItemContentText"` is prepended and validated.
+#'   An additional subclass `psItemContentText` is prepended and validated.
 #' - `"image"` for image items, in which case `items` must be file paths, relative from `img_dir`.
 #'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
-#'   An additional subclass `"psItemContentImage"` is prepended and validated.
+#'   An additional subclass `psItemContentImage`` is prepended and validated.
 #'
-#' @param lang `[character(1)]` giving a language code for *all* items, such as `en_US`.
+#' @param lang
+#' `[character(1)]` giving a language code for *all* items, such as `en_US`.
 #' Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel).
 #' Must be one of:
 #' - `NULL` (default), in which case there is no multilingual typesetting support.
@@ -29,7 +32,8 @@
 #'   See `pensieve:::langs` for all available languages.
 #' Ignored unless `type = "text"`.
 #'
-#' @param img_dir a character string giving the directory for `type = "image"`s.
+#' @param img_dir
+#' `[character(1)]` giving the directory for `type = "image"`s.
 #' Defaults to `NULL`, in which case images are expected at the working directory root [base::getwd()].
 #' Ignored unless `type = "image"`.
 #' Must be relative path *from the working directory*.
@@ -39,7 +43,8 @@
 #'
 #' @family S3 classes from `pensieve`
 #'
-#' @return A character vector of class `psItemContent`.
+#' @return
+#' `[character()]` with class [`psItemContent`][psItemContent].
 #'
 #' @export
 psItemContent <- function(items,

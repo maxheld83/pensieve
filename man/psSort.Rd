@@ -21,7 +21,7 @@ Accepts arbitrary dimnames from grid.
 If any dimnames are missing, sensible defaults will be set.}
 
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
-Can be named to provide a short, \emph{researcher-facing} \strong{item handles}.}
+Can be named to provide short, \emph{researcher-facing} \strong{item handles}.}
 
 \item{pattern}{A character string, giving the pattern of tesselation to use.
 Must be \code{"chessboard"} (default), the only currently supported pattern.}

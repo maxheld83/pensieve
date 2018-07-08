@@ -11,16 +11,16 @@ psItemContent(items, type = "text", lang = NULL, img_dir = NULL)
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
-Can be named to provide a short, \emph{researcher-facing} \strong{item handles}.}
+Can be named to provide short, \emph{researcher-facing} \strong{item handles}.}
 
 \item{type}{\code{[character(1)]} giving the \emph{kind} of item content, must be one of:
 \itemize{
 \item \code{"text"} (default) for textual item, in which case \code{items} must be text.
 Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
-An additional subclass \code{"psItemContentText"} is prepended and validated.
+An additional subclass \code{psItemContentText} is prepended and validated.
 \item \code{"image"} for image items, in which case \code{items} must be file paths, relative from \code{img_dir}.
 Images must be \code{*.png}, \code{*.jpg}, \code{*.jpeg} or \code{*.svg}.
-An additional subclass \code{"psItemContentImage"} is prepended and validated.
+An additional subclass `psItemContentImage`` is prepended and validated.
 }}
 
 \item{lang}{\code{[character(1)]} giving a language code for \emph{all} items, such as \code{en_US}.
@@ -33,7 +33,7 @@ See \code{pensieve:::langs} for all available languages.
 Ignored unless \code{type = "text"}.
 }}
 
-\item{img_dir}{a character string giving the directory for \code{type = "image"}s.
+\item{img_dir}{\code{[character(1)]} giving the directory for \code{type = "image"}s.
 Defaults to \code{NULL}, in which case images are expected at the working directory root \code{\link[base:getwd]{base::getwd()}}.
 Ignored unless \code{type = "image"}.
 Must be relative path \emph{from the working directory}.
@@ -46,11 +46,11 @@ Best constructed with \code{\link[base:file.path]{base::file.path()}}.}
 \item{...}{further arguments to be passed to methods.}
 }
 \value{
-A character vector of class \code{psItemContent}.
+\code{[character()]} with class \code{\link{psItemContent}}.
 }
 \description{
-Simple helper function to append and validate \code{psItemContent} class.
-This class is used as a column class in \code{psItems}.
+Helper function to append and validate \code{\link{psItemContent}} class.
+This class is used as a column class in \code{psItems}.`
 }
 \details{
 Storing \strong{full items} can enable deployment and convenience functions, as well as enhance the presentation of results.
