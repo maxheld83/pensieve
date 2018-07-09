@@ -2,7 +2,7 @@
 % Please edit documentation in R/psItemContent.R
 \name{render_items}
 \alias{render_items}
-\title{Render text items to pdf and svg}
+\title{Render text items.}
 \usage{
 render_items(items, lang = NULL, output_dir = NULL, fontsize = NULL,
   paperwidth = 8.5, paperheight = 5.4, top = 0.5, bottom = 0.5,
@@ -67,11 +67,34 @@ Defaults to \code{"left"}.
 }}
 }
 \description{
-Renders character vectors of items to a pdf, using pandoc and latex, then converts pdf to svg using pdf2svg.
+Renders character vectors of items to pdf, svg and R graphics (grid).
 }
 \details{
-It is often helpful to have an authoritative, and professionally typeset version of items.
-This function renders items.
+It is often helpful to have an authoritative, typeset version of text items, ready for for printing, web publishing or interpretation.
+Rendered text items should meet several criteria:
+\itemize{
+\item They should always fit on the \emph{same} card size, both for practical reasons and to emphasize the equal "significance" of items, even if they are of different length.
+Card sizes can be arbitrary, specified via \code{paperwidth},\code{paperheight}.
+\item They should always \emph{look identical}, no matter where a participant or researcher encounters them.
+Even slight variations in, for example, line wrapping, might give an item a slightly different emphasis.
+\item Given the central status of text items in the methodology and the package, they should by \emph{typeset professionally}.
+}
+
+To meet these criteria, text items are
+\enumerate{
+\item converted to \strong{LaTeX}, using \href{https://pandoc.org}{pandoc}, then
+\item compiled to \strong{PDF}, using \href{https://www.latex-project.org}{LaTeX} via \link[tools:texi2pdf]{tools::texi2pdf}, then
+\item converted to \strong{SVG}, using \href{https://github.com/dawbarton/pdf2svg}{pdf2svg}, then
+\item imported to \strong{R Graphics} (grid graphics, to be precise) via \code{\link[grImport2:readPicture]{grImport2::readPicture()}}.
+Items are now fully available to the R Graphics system and can be used wherever \code{\link[graphics:plot]{graphics::plot()}} (or, to be precise, \code{\link[grid:grid.draw]{grid::grid.draw()}}) works.
+}
+
+At each step of this necessary, but rather long conversion pipeline more (system) dependencies are required and asserted.
+
+Additionally, because some of the intermediary formats cannot be easily or fully converted, downstream outputs may be faulty.
+Always use the \emph{earliest} possible output from the above conversion pipeline to maximize fidelity to the original PDF.
+
 When \code{items} are named with item handles, such handles are used as file names.
+
 Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 }

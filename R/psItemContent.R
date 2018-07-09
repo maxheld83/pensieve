@@ -171,15 +171,37 @@ validate_S3.psItemContentImage <- function(x, ...) {
 
 # rendering ====
 #' @title
-#' Render text items to pdf and svg
+#' Render text items.
 #'
 #' @description
-#' Renders character vectors of items to a pdf, using pandoc and latex, then converts pdf to svg using pdf2svg.
+#' Renders character vectors of items to pdf, svg and R graphics (grid).
 #'
 #' @details
-#' It is often helpful to have an authoritative, and professionally typeset version of items.
-#' This function renders items.
+#' It is often helpful to have an authoritative, typeset version of text items, ready for for printing, web publishing or interpretation.
+#' Rendered text items should meet several criteria:
+#' - They should always fit on the *same* card size, both for practical reasons and to emphasize the equal "significance" of items, even if they are of different length.
+#'     Card sizes can be arbitrary, specified via `paperwidth`,`paperheight`.
+#' - They should always *look identical*, no matter where a participant or researcher encounters them.
+#'     Even slight variations in, for example, line wrapping, might give an item a slightly different emphasis.
+#' - Given the central status of text items in the methodology and the package, they should by *typeset professionally*.
+#'
+#' To meet these criteria, text items are
+#' 1. converted to **LaTeX**, using [pandoc](https://pandoc.org), then
+#' 2. compiled to **PDF**, using [LaTeX](https://www.latex-project.org) via [tools::texi2pdf], then
+#' 3. converted to **SVG**, using [pdf2svg](https://github.com/dawbarton/pdf2svg), then
+#' 4. imported to **R Graphics** (grid graphics, to be precise) via [grImport2::readPicture()].
+#'     Items are now fully available to the R Graphics system and can be used wherever [graphics::plot()] (or, to be precise, [grid::grid.draw()]) works.
+#'
+#' At each step of this necessary, but rather long conversion pipeline more (system) dependencies are required and asserted.
+#'
+#' Additionally, because some of the intermediary formats cannot be easily or fully converted, downstream outputs may be faulty.
+#' Always use the *earliest* possible output from the above conversion pipeline to maximize fidelity to the original PDF.
+# TODO mention that user-facing functions such as plot and knit_print automatically do this as far as possible.
+# TODO explain how you can write stuff to disc
+# TODO explain caching
+#'
 #' When `items` are named with item handles, such handles are used as file names.
+#'
 #' Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 #'
 #' @inheritParams psItemContent
@@ -189,6 +211,7 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #' Best constructed with [base::file.path()].
 #' Defaults to `NULL`, in which case items are rendered to the working directory root.
 #'
+# TODO move these args to the class
 #' @param fontsize
 #' `[character(1)]` giving a [LaTeX fontsize](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text) for *all* items.
 #' See `pensieve:::latex$options$fontsize` for valid options.
@@ -242,28 +265,17 @@ render_items <- function(items,
                          right = 0.5,
                          units = "cm",
                          alignment = "left") {
-}
 
-# test <- md2tex(
-#   text = "foo",
-#   lang = "en-US",
-#   fontsize = "normalsize",
-#   paperwidth = 8.5,
-#   paperheight = 5.4,
-#   top = 0.5,
-#   bottom = 0.5,
-#   left = 0.5,
-#   right = 0.5,
-#   units = "cm",
-#   alignment = "left")
-# pdf_raw <- texi2pdf_raw(tex = test)
-# svg_raw <- pdf2svg_raw(pdf_raw = pdf_raw)
+  return("foo")
+}
 
 
 #' @title Render markdown to LaTeX
+#' @param md
+#' [`character(1)`] giving markdown text.
 #' @return [`character()`] giving LaTeX markup.
 #' @noRd
-md2tex <- function(text,
+md2tex <- function(md,
                    lang,
                    fontsize,
                    paperwidth,
@@ -276,7 +288,7 @@ md2tex <- function(text,
                    alignment) {
 
   # input validation
-  assert_string(x = text, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
+  assert_string(x = md, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
   # other arguments are treated downstream
 
   # check dependencies
@@ -322,9 +334,11 @@ md2tex <- function(text,
 
 #' @title Render LaTeX to PDF
 #' @description In contrast to normal texi function, this returns the pdf as a raw vector
+#' @param tex
+#' [`character()`] giving tex string(s).
 #' @noRd
 #' @return [`raw()`]
-texi2pdf_raw <- function(tex) {
+texi2pdf2 <- function(tex) {
   requireNamespace2(x = "tools")
   requireNamespace2(x = "fs")
   requireNamespace2(x = "withr")
@@ -347,8 +361,8 @@ texi2pdf_raw <- function(tex) {
 }
 
 #' @title Convert PDF to SVG
-#' @param pdf_input
-#' [`character(1)`] path to a PDF file.
+#' @param pdf
+#' [`character(1)`] giving path to a PDF file.
 #' @noRd
 #' @return [`pdf_input`] invisibly, write svg file to disk at same path.
 pdf2svg <- function(pdf_input) {
@@ -392,6 +406,21 @@ pdf2svg_raw <- function(pdf_raw) {
     n = fs::file_info("item.svg")$size  # need to allocate size
   )
 }
+
+
+#' @title Convert SVG to R graphics system plot
+#' @param svg
+#' [`character(1)`] giving path to an SVG file.
+#' @noRd
+#' @return a grid grob
+svg2grob <- function(svg) {
+  # dependencies
+  requireNamespace2(x = "grImport2")
+
+  pic <- grImport2::readPicture(file = "item.svg", warn = FALSE)
+  grImport2::pictureGrob(picture = pic)
+}
+
 
 #' @title Check if pdf is only 1 page long
 #' @description Items must never overflow 1 page.
