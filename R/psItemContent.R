@@ -332,22 +332,24 @@ md2tex <- function(md,
   )
 }
 
+# tex <- md2tex(text = "foz", lang = "en-US", fontsize = "tiny", paperwidth = 16, paperheight = 9, top = 1, bottom = 1, left = 1, right = 1, units = "cm", alignment = "center")
+# pdf <- texi2pdf2(tex)
+# svg <- pdf2svg(pdf)
+# grob <- svg2grob(svg)
+
 #' @title Render LaTeX to PDF
 #' @description In contrast to normal texi function, this returns the pdf as a raw vector
 #' @param tex
 #' [`character()`] giving tex string(s).
 #' @noRd
-#' @return [`raw()`]
+#' @return [`raw()`] giving PDF.
 texi2pdf2 <- function(tex) {
   requireNamespace2(x = "tools")
   requireNamespace2(x = "fs")
   requireNamespace2(x = "withr")
 
-  # make sure file gets deleted again
-  # this is not a tempfile, but just from wd, which might be helpful for debugging
-  withr::local_file(
-    file = c("item.tex", "item.pdf")
-  )
+  # just write to tempdir
+  withr::local_dir(new = tempdir())
 
   write(x = tex, file = "item.tex")
   # availability of tex will ideally be checked in platform dependent way by texi2pdf
@@ -362,60 +364,47 @@ texi2pdf2 <- function(tex) {
 
 #' @title Convert PDF to SVG
 #' @param pdf
-#' [`character(1)`] giving path to a PDF file.
-#' @noRd
-#' @return [`pdf_input`] invisibly, write svg file to disk at same path.
-pdf2svg <- function(pdf_input) {
-  requireNamespace2(x = "fs")
-  requireNamespace2(x = "withr")
-  requireNamespace2(x = "tools")
-  # dependencies
-  checkmate::assert_os(os = c("mac", "linux"))
-  assert_sysdep(x = "pdf2svg")
-
-  # input validation
-  checkmate::assert_file_exists(x = pdf_input, extension = "pdf")
-  checkmate::assert_character(x = pdf_input, any.missing = FALSE, unique = TRUE)
-
-  svg_output <- paste0(
-    tools::file_path_sans_ext(pdf_input),
-    ".svg"
-  )
-  system2(
-    command = "pdf2svg",
-    args = c(pdf_input,
-             svg_output,
-             "1"), # only take 1st page
-    stderr = "")
-}
-
-#' @title Convert raw PDF to raw SVG
-#' @param pdf_raw
 #' [`raw()`] of PDF file.
 #' @noRd
 #' @return [`raw()`] of SVG file.
-pdf2svg_raw <- function(pdf_raw) {
-  withr::local_file(
-    file = c("item.pdf", "item.svg")
-  )
-  writeBin(object = pdf_raw, con = "item.pdf")
-  pdf2svg(pdf_input = "item.pdf")
+pdf2svg <- function(pdf) {
+  # dependencies
+  requireNamespace2(x = "fs")
+  requireNamespace2(x = "withr")
+  requireNamespace2(x = "tools")
+  checkmate::assert_os(os = c("mac", "linux"))
+  assert_sysdep(x = "pdf2svg")
+
+  # write to tempdir only
+  withr::local_dir(new = tempdir())
+  writeBin(object = pdf, con = "item.pdf")
+
+  system2(
+    command = "pdf2svg",
+    args = c("item.pdf",
+             "item.svg",
+             "1"), # only take 1st page
+    stderr = "")
+
   readBin(
     con = "item.svg",
     what = "raw",
     n = fs::file_info("item.svg")$size  # need to allocate size
   )
-}
 
+}
 
 #' @title Convert SVG to R graphics system plot
 #' @param svg
 #' [`character(1)`] giving path to an SVG file.
 #' @noRd
-#' @return a grid grob
+#' @return a grid grob.
 svg2grob <- function(svg) {
   # dependencies
   requireNamespace2(x = "grImport2")
+
+  withr::local_dir(new = tempdir())
+  writeBin(object = svg, con = "item.svg")
 
   pic <- grImport2::readPicture(file = "item.svg", warn = FALSE)
   grImport2::pictureGrob(picture = pic)
