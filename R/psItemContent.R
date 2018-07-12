@@ -206,11 +206,6 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #'
 #' @inheritParams psItemContent
 #'
-#' @param output_dir
-#' `[character(1)]` giving directory relative from working directory root [base::getwd()].
-#' Best constructed with [base::file.path()].
-#' Defaults to `NULL`, in which case items are rendered to the working directory root.
-#'
 # TODO move these args to the class
 #' @param fontsize
 #' `[character(1)]` giving a [LaTeX fontsize](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text) for *all* items.
@@ -255,7 +250,6 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #' @export
 render_items <- function(items,
                          lang = NULL,
-                         output_dir = NULL,
                          fontsize = NULL,
                          paperwidth = 8.5,
                          paperheight = 5.4,
@@ -266,8 +260,21 @@ render_items <- function(items,
                          units = "cm",
                          alignment = "left") {
 
-  return("foo")
 }
+render_item <- function(item,
+                        lang,
+                        fontsize,
+                        paperwidth,
+                        paperheight,
+                        top,
+                        bottom,
+                        left,
+                        right,
+                        units,
+                        align) {
+
+}
+
 
 
 #' @title Render markdown to LaTeX
@@ -300,7 +307,7 @@ md2tex <- function(md,
     input = c(
       latex$set$fontsize(fontsize = fontsize),
       latex$set$alignment(alignment = alignment),
-      text
+      md
     ),
     args = c(
       "--from=markdown",  # this is pandoc's extended markdown

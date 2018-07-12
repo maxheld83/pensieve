@@ -4,9 +4,9 @@
 \alias{render_items}
 \title{Render text items.}
 \usage{
-render_items(items, lang = NULL, output_dir = NULL, fontsize = NULL,
-  paperwidth = 8.5, paperheight = 5.4, top = 0.5, bottom = 0.5,
-  left = 0.5, right = 0.5, units = "cm", alignment = "left")
+render_items(items, lang = NULL, fontsize = NULL, paperwidth = 8.5,
+  paperheight = 5.4, top = 0.5, bottom = 0.5, left = 0.5, right = 0.5,
+  units = "cm", alignment = "left")
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -21,10 +21,6 @@ Must be one of:
 See \code{pensieve:::langs} for all available languages.
 Ignored unless \code{type = "text"}.
 }}
-
-\item{output_dir}{\code{[character(1)]} giving directory relative from working directory root \code{\link[base:getwd]{base::getwd()}}.
-Best constructed with \code{\link[base:file.path]{base::file.path()}}.
-Defaults to \code{NULL}, in which case items are rendered to the working directory root.}
 
 \item{fontsize}{\code{[character(1)]} giving a \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX fontsize} for \emph{all} items.
 See \code{pensieve:::latex$options$fontsize} for valid options.

@@ -101,6 +101,9 @@ items_image <- psItemContent(
   type = "image",
   img_dir = img_dir
 )
+
+# rendering text items
+rendered_items <- render_items(items = items_text_en, lang = "en-US", fontsize = "large")
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},

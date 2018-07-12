@@ -33,9 +33,15 @@ test_that(desc = "construction of image item works", code = {
 })
 
 
-context("Rendering items")
+context("Rendering text items")
+
+test_that(desc = "text gets converted to LaTeX", code = {
+  skip("currently in dev")
+  checkmate::expect_character(x = rendered_items$latex, min.chars = 1, min.len = 1, null.ok = FALSE)
+})
 
 test_that(desc = "conversion from pdf to svg works", code = {
+  skip(message = "in development")
   skip_on_os(os = c("windows", "mac"))  # no easy way to get pdf2svg
   pdf_input <- "test1.pdf"
   checkmate::expect_file_exists(x = pdf_input)
