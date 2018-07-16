@@ -33,26 +33,51 @@ test_that(desc = "construction of image item works", code = {
 })
 
 
-context("Rendering text items")
+# md2latex ====
+context("Conversion from markdown to LaTeX")
 
-test_that(desc = "text gets converted to LaTeX", code = {
+test_that(desc = "just works", code = {
   checkmate::expect_list(
     x = rendered_items$tex,
     types = "character",
     any.missing = FALSE,
     len = length(items_text_en),
     unique = TRUE,
-    names = "strict",
     null.ok = FALSE)
+  expect_names2(x = names(rendered_items$tex))
 })
 
-test_that(desc = "conversion from pdf to svg works", code = {
-  skip(message = "in development")
-  skip_on_os(os = c("windows", "mac"))  # no easy way to get pdf2svg
-  pdf_input <- "test1.pdf"
-  checkmate::expect_file_exists(x = pdf_input)
-  pdf2svg(pdf_input = pdf_input)
-  checkmate::expect_file_exists(x = "test1.svg")
+test_that(desc = "skips and warns when pandoc is unavailable", code = {
+  withr::local_path(new = "", action = "replace")  #  this will kill pandoc
+  testthat::expect_warning(
+    object = render_items(items = "foo", fontsize = "tiny")
+  )
+})
+
+test_that(desc = "works with all accepted languages", code = {
+  skip_on_os(os = "mac") # this just takes too damn long
+  for (i in langs) {
+    checkmate::expect_list(
+      x = {
+        render_items(items = "zap", lang = i, fontsize = "tiny")
+      },
+      info = i
+    )
+  }
+})
+
+test_that(desc = "accepts by-hand LaTeX to override", code = {
+  expect_equivalent(object = from_by_hand_latex$tex[[1]], expected = by_hand_latex)
+})
+
+
+context("Compilation from LaTeX to PDF")
+
+test_that(desc = "conversion errors out on invalid LaTeX inside markdown", code = {
+  skip(message = "in dev")
+  testthat::expect_error(
+    object = render_items(items = "\\usepackage{", fontsize = "tiny")
+  )
 })
 
 test_that(desc = "pdf card is produced from string", code = {
@@ -63,6 +88,14 @@ test_that(desc = "pdf card is produced from string", code = {
   checkmate::expect_file_exists(x = output$paths$pdf)
 })
 
-test_that(desc = "pandoc works with all accepted languages", code = {
 
+context("Converseion from PDF to SVG")
+
+test_that(desc = "conversion from pdf to svg works", code = {
+  skip(message = "in development")
+  skip_on_os(os = c("windows", "mac"))  # no easy way to get pdf2svg
+  pdf_input <- "test1.pdf"
+  checkmate::expect_file_exists(x = pdf_input)
+  pdf2svg(pdf_input = pdf_input)
+  checkmate::expect_file_exists(x = "test1.svg")
 })
