@@ -300,48 +300,55 @@ render_items <- function(items,
 
   # building tex ====
   if (is.null(tex)) {
-    if (test_sysdep("pandoc")) {  # can do
-      # established empty object to make for loop faster
-      rendered_tex <- vector("list", length(items))
-      names(rendered_tex) <- names(items)
-      # tex should remain as scalar, until we are certain we can actually set it, so we're using a different object here
-      # for example, if below builds fail, we might still want to continue, but should retain the scalar NULL tex, so that downstream logic works
+    # established empty object to make for loop faster
+    tex <- vector("list", length(items))
+    names(tex) <- names(items)
 
-      pb <- progress::progress_bar$new(
-        total = length(items),
-        format = "  converting item :handle to LaTeX [:bar] :percent eta: :eta")
-      pb$tick(0)
-      for (i in 1:length(items)) {
-        # cannot use purrr here because it does not work with progress bar
-        if (is.null(names(items[[i]]))) {
-          # make name  if there are none
-          handle <- as.character(i)
-        } else {
-          handle <- names(items[[i]])
-          # remember item is only the index here!
+    # set up progress bar
+    pb <- progress::progress_bar$new(
+      total = length(items),
+      format = "  converting item :handle to LaTeX [:bar] :percent eta: :eta")
+    pb$tick(0)
+
+    # loop
+
+    tryCatch(
+      expr = {
+        for (i in 1:length(items)) {
+          # cannot use purrr here because it does not work with progress bar
+          if (is.null(names(items[[i]]))) {
+            # make name  if there are none
+            handle <- as.character(i)
+          } else {
+            handle <- names(items[[i]])
+            # remember item is only the index here!
+          }
+          Sys.sleep(1/2)
+          pb$tick(tokens = list(handle = handle))
+          tex[[i]] <- md2tex(
+            md = items[[i]],
+            lang = lang,
+            fontsize = fontsize,
+            paperwidth = paperwidth,
+            paperheight = paperheight,
+            top = top,
+            bottom = bottom,
+            left = left,
+            right = right,
+            units = units,
+            alignment = alignment)
+          # if this has worked successfully, we can write it out
         }
-        pb$tick(tokens = list(handle = handle))
-        rendered_tex[[i]] <- md2tex(
-          md = items[[i]],
-          lang = lang,
-          fontsize = fontsize,
-          paperwidth = paperwidth,
-          paperheight = paperheight,
-          top = top,
-          bottom = bottom,
-          left = left,
-          right = right,
-          units = units,
-          alignment = alignment)
-        # if this has worked successfully, we can write it out
-        tex <- rendered_tex
+      },
+      error = function(cnd) {
+        tex <<- NULL  # if one tex compilation fails, set all to NULL; go above scope to do this
+        pb$terminate()
+        warning(
+          glue::glue("Skipping conversion to LaTeX: ", conditionMessage(cnd)),
+          call. = FALSE
+        )
       }
-    } else {# cannot do
-      warning(
-        glue::glue("Skipping conversion to LaTeX: ", check_sysdep("pandoc")),
-        call. = FALSE
-      )
-    }
+    )
   } else {
     message("Skipping conversion to LaTeX: Using user-supplied LaTeX markup from 'tex'.")
   }
