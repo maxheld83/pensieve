@@ -277,6 +277,9 @@ render_items <- function(items,
                          svg = NULL,
                          grob = NULL) {
 
+  # check deps
+  requireNamespace2(x = "progress")
+
   # input validation
   purrr::walk(.x = list(tex = tex, pdf = pdf, svg = svg, grob = grob), .f = function(x) {
     assert_list(x = x, any.missing = FALSE, unique = TRUE, null.ok = TRUE, len = length(items))
@@ -298,9 +301,28 @@ render_items <- function(items,
   # building tex ====
   if (is.null(tex)) {
     if (test_sysdep("pandoc")) {  # can do
-      tex <- purrr::map(.x = items, .f = function(x) {
-        md2tex(
-          md = x,
+      # established empty object to make for loop faster
+      rendered_tex <- vector("list", length(items))
+      names(rendered_tex) <- names(items)
+      # tex should remain as scalar, until we are certain we can actually set it, so we're using a different object here
+      # for example, if below builds fail, we might still want to continue, but should retain the scalar NULL tex, so that downstream logic works
+
+      pb <- progress::progress_bar$new(
+        total = length(items),
+        format = "  converting item :handle to LaTeX [:bar] :percent eta: :eta")
+      pb$tick(0)
+      for (i in 1:length(items)) {
+        # cannot use purrr here because it does not work with progress bar
+        if (is.null(names(items[[i]]))) {
+          # make name  if there are none
+          handle <- as.character(i)
+        } else {
+          handle <- names(items[[i]])
+          # remember item is only the index here!
+        }
+        pb$tick(tokens = list(handle = handle))
+        rendered_tex[[i]] <- md2tex(
+          md = items[[i]],
           lang = lang,
           fontsize = fontsize,
           paperwidth = paperwidth,
@@ -311,15 +333,17 @@ render_items <- function(items,
           right = right,
           units = units,
           alignment = alignment)
-      })
+        # if this has worked successfully, we can write it out
+        tex <- rendered_tex
+      }
     } else {# cannot do
       warning(
-        glue::glue("Skipping tex: ", check_sysdep("pandoc")),
+        glue::glue("Skipping conversion to LaTeX: ", check_sysdep("pandoc")),
         call. = FALSE
       )
     }
   } else {
-    message("Skipping LaTeX conversion: Using user-supplied LaTeX markup from 'tex'.")
+    message("Skipping conversion to LaTeX: Using user-supplied LaTeX markup from 'tex'.")
   }
 
   list(tex = tex)
