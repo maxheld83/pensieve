@@ -6,7 +6,8 @@
 \usage{
 render_items(items, lang = NULL, fontsize = NULL, paperwidth = 8.5,
   paperheight = 5.4, top = 0.5, bottom = 0.5, left = 0.5, right = 0.5,
-  units = "cm", alignment = "left")
+  units = "cm", alignment = "left", tex = NULL, pdf = NULL,
+  svg = NULL, grob = NULL)
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -61,6 +62,18 @@ Defaults to \code{"cm"}.
 \item \code{"center"}.
 Defaults to \code{"left"}.
 }}
+
+\item{tex}{\code{[list(character())]} giving a list of manually produced LaTeX markup, one for each \code{items}.
+Defaults to \code{NULL}, in which case the LaTeX markup is rendered automatically (recommended).}
+
+\item{pdf}{\code{[list(raw())]} giving a list of manually produced PDFs, one for each \code{items}.
+Defaults to \code{NULL}, in which case the PDF is rendered automatically (recommended).}
+
+\item{svg}{\code{[list(raw())]} giving a list of manually produced SVGs, one for each \code{items}.
+Defaults to \code{NULL}, in which case the SVG is rendered automatically (recommended).}
+
+\item{grob}{\code{[list(grob())]} giving a list of manually produced grobs, one for each \code{items}.
+Defaults to \code{NULL}, in which case the grob is rendered automatically (recommended).}
 }
 \description{
 Renders character vectors of items to pdf, svg and R graphics (grid).

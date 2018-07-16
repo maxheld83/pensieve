@@ -387,7 +387,7 @@ check_sysdep <- function(x) {
   if (sys_test) {
     return(TRUE)
   } else {
-    return(glue::glue("Could not find", x, "system dependency. Try installing it", .sep = " "))
+    return(glue::glue("Could not find", x, "system dependency. Try installing it.", .sep = " "))
   }
 }
 assert_sysdep <- makeAssertionFunction(check.fun = check_sysdep)

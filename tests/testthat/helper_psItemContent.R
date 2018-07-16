@@ -39,5 +39,5 @@ items_image <- psItemContent(
   img_dir = img_dir
 )
 
-# rendering text items
+# rendering text items ====
 rendered_items <- render_items(items = items_text_en, lang = "en-US", fontsize = "large")

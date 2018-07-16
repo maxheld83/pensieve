@@ -13,6 +13,7 @@
 #' @param items
 #' `[character()]` giving the *participant-facing* **item content**.
 #' Can be named to provide short, *researcher-facing* **item handles**.
+# TODO this is a problem, because item handles should be in a different column :( of psItems, unclear!
 #'
 #' @param type
 #' `[character(1)]` giving the *kind* of item content, must be one of:
@@ -247,6 +248,18 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #' - `"center"`.
 #' Defaults to `"left"`.
 #'
+#' @param tex `[list(character())]` giving a list of manually produced LaTeX markup, one for each `items`.
+#' Defaults to `NULL`, in which case the LaTeX markup is rendered automatically (recommended).
+#'
+#' @param pdf `[list(raw())]` giving a list of manually produced PDFs, one for each `items`.
+#' Defaults to `NULL`, in which case the PDF is rendered automatically (recommended).
+#'
+#' @param svg `[list(raw())]` giving a list of manually produced SVGs, one for each `items`.
+#' Defaults to `NULL`, in which case the SVG is rendered automatically (recommended).
+#'
+#' @param grob `[list(grob())]` giving a list of manually produced grobs, one for each `items`.
+#' Defaults to `NULL`, in which case the grob is rendered automatically (recommended).
+#'
 #' @export
 render_items <- function(items,
                          lang = NULL,
@@ -258,23 +271,59 @@ render_items <- function(items,
                          left = 0.5,
                          right = 0.5,
                          units = "cm",
-                         alignment = "left") {
+                         alignment = "left",
+                         tex = NULL,
+                         pdf = NULL,
+                         svg = NULL,
+                         grob = NULL) {
 
+  # input validation
+  purrr::walk(.x = list(tex = tex, pdf = pdf, svg = svg, grob = grob), .f = function(x) {
+    assert_list(x = x, any.missing = FALSE, unique = TRUE, null.ok = TRUE, len = length(items))
+  })
+  purrr::walk(.x = tex, .f = function(x) {
+    assert_character(x = x, any.missing = FALSE, null.ok = TRUE)
+  })
+  purrr::walk(.x = pdf, .f = function(x) {
+    if (!is.null(x)) assertTRUE(x = is.raw(x))
+  })
+  purrr::walk(.x = svg, .f = function(x) {
+    if (!is.null(x)) assertTRUE(x = is.raw(x))
+  })
+  purrr::walk(.x = grob, .f = function(x) {
+    if (!is.null(x)) assertTRUE(x = grid::is.grob(x))
+  })
+
+
+  # building tex ====
+  if (is.null(tex)) {
+    if (test_sysdep("pandoc")) {  # can do
+      tex <- purrr::map(.x = items, .f = function(x) {
+        md2tex(
+          md = x,
+          lang = lang,
+          fontsize = fontsize,
+          paperwidth = paperwidth,
+          paperheight = paperheight,
+          top = top,
+          bottom = bottom,
+          left = left,
+          right = right,
+          units = units,
+          alignment = alignment)
+      })
+    } else {# cannot do
+      warning(
+        glue::glue("Skipping tex: ", check_sysdep("pandoc")),
+        call. = FALSE
+      )
+    }
+  } else {
+    message("Skipping LaTeX conversion: Using user-supplied LaTeX markup from 'tex'.")
+  }
+
+  list(tex = tex)
 }
-render_item <- function(item,
-                        lang,
-                        fontsize,
-                        paperwidth,
-                        paperheight,
-                        top,
-                        bottom,
-                        left,
-                        right,
-                        units,
-                        align) {
-
-}
-
 
 
 #' @title Render markdown to LaTeX
@@ -338,11 +387,6 @@ md2tex <- function(md,
     wait = TRUE
   )
 }
-
-# tex <- md2tex(text = "foz", lang = "en-US", fontsize = "tiny", paperwidth = 16, paperheight = 9, top = 1, bottom = 1, left = 1, right = 1, units = "cm", alignment = "center")
-# pdf <- texi2pdf2(tex)
-# svg <- pdf2svg(pdf)
-# grob <- svg2grob(svg)
 
 #' @title Render LaTeX to PDF
 #' @description In contrast to normal texi function, this returns the pdf as a raw vector

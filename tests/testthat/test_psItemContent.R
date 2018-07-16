@@ -36,8 +36,14 @@ test_that(desc = "construction of image item works", code = {
 context("Rendering text items")
 
 test_that(desc = "text gets converted to LaTeX", code = {
-  skip("currently in dev")
-  checkmate::expect_character(x = rendered_items$latex, min.chars = 1, min.len = 1, null.ok = FALSE)
+  checkmate::expect_list(
+    x = rendered_items$tex,
+    types = "character",
+    any.missing = FALSE,
+    len = length(items_text_en),
+    unique = TRUE,
+    names = "strict",
+    null.ok = FALSE)
 })
 
 test_that(desc = "conversion from pdf to svg works", code = {
