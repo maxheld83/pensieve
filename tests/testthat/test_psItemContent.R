@@ -97,7 +97,7 @@ test_that(desc = "pdf card is produced from string", code = {
 })
 
 
-context("Converseion from PDF to SVG")
+context("Conversion from PDF to SVG")
 
 test_that(desc = "conversion from pdf to svg works", code = {
   skip(message = "in development")
