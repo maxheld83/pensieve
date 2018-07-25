@@ -53,7 +53,7 @@ validate_S3.default <- function(x, ps_coll = NULL, ...) {
   if (!(checked)) {
     stop(
       "Can't find a validation method for any of these classes: ",
-      glue::collapse(class(x), sep = ", ", last = " and "),
+      glue::glue_collapse(class(x), sep = ", ", last = " and "),
       ". ",
       "Maybe none of these are a class from pensieve?",
       call. = FALSE
@@ -83,7 +83,7 @@ check_S3.default <- function(x) {
     return(TRUE)
   } else {
     msg <- paste0("* ", msg)
-    msg <- glue::collapse(x = msg, sep = "\n")
+    msg <- glue::glue_collapse(x = msg, sep = "\n")
     return(msg)
   }
 }
