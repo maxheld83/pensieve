@@ -378,22 +378,36 @@ md2tex <- function(md,
   assert_string(x = md, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
   # other arguments are treated downstream
 
-  # check dependencies
+  # check system dependencies
   assert_sysdep(x = "pandoc")
 
+  # check dependencies
+  requireNamespace2(x = "processx")
+  # processx is nicer because we can properly capture the status of whatever happens at the CLI
+
+  # prepend latex commands
+  md <- glue::glue(
+    latex$set$fontsize(fontsize = fontsize),
+    latex$set$alignment(alignment = alignment),
+    md,
+    .sep = "\n"
+  )
+
+  # just write to tempdir
+  withr::local_dir(new = tempdir())
+
+  write(x = md, file = "item.md")
+
   # render string to latex
-  system2(
+  res <- processx::run(
     command = "pandoc",
-    input = c(
-      latex$set$fontsize(fontsize = fontsize),
-      latex$set$alignment(alignment = alignment),
-      md
-    ),
     args = c(
+      "item.md", # input
       "--from=markdown",  # this is pandoc's extended markdown
-      "--to=latex",  # redirects to stdout
-      "--verbose",  # for debugging
-      "--standalone",  # uses template
+      "--to=latex",
+      "--verbose",
+      "--standalone",
+      "--fail-if-warnings",
 
       # geometry options
       latex$set$geometry(
@@ -408,15 +422,18 @@ md2tex <- function(md,
         hcentering = TRUE),
 
       # other latex options
-      "-V pagestyle=empty",
+      "--variable=pagestyle:empty",
 
       # language
-      glue::glue("-V lang={lang}")
+      glue::glue("--variable=lang:{lang}")
     ),
-    stdout = TRUE,
-    stderr = "",
-    wait = TRUE
+    error_on_status = TRUE,
+    windows_hide_window = TRUE,
+    echo = FALSE,
+    echo_cmd = FALSE,
+    timeout = 2  # seconds
   )
+  res$stdout
 }
 
 #' @title Render LaTeX to PDF
@@ -545,7 +562,7 @@ latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right
 
       # this is the actual paste job
       paste0(
-        "-V geometry:",
+        "--variable=geometry:",
         y,
         "=",
         x,
@@ -553,8 +570,8 @@ latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right
       )
     }
   )
-  if (vcentering) res <- c(res, vcentering = "-V geometry:vcentering")
-  if (hcentering) res <- c(res, hcentering = "-V geometry:hcentering")
+  if (vcentering) res <- c(res, vcentering = "--variable=geometry:vcentering")
+  if (hcentering) res <- c(res, hcentering = "--variable=geometry:hcentering")
   return(res)
 }
 

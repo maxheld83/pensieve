@@ -54,6 +54,13 @@ test_that(desc = "skips and warns when pandoc is unavailable", code = {
   )
 })
 
+test_that(desc = "errors out on language unknown to pandoc", code = {
+  skip(message = "in dev")
+  testthat::expect_error(
+    object = render_items(items = "foo", fontsize = "tiny", lang = "klingon")
+  )
+})
+
 test_that(desc = "works with all accepted languages", code = {
   skip_on_os(os = "mac") # this just takes too damn long
   for (i in langs) {
@@ -67,6 +74,7 @@ test_that(desc = "works with all accepted languages", code = {
 })
 
 test_that(desc = "accepts by-hand LaTeX to override", code = {
+  skip(message = "in dev")
   expect_equivalent(object = from_by_hand_latex$tex[[1]], expected = by_hand_latex)
 })
 

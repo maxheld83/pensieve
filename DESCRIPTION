@@ -38,6 +38,7 @@ Suggests:
   lettercase (>= 0.13.1),
   markdown (>= 0.8),
   printr (>= 0.1),
+  processx (>= 3.1.0),
   progress (>= 1.2.0),
   pdftools (>= 1.8),
   rmarkdown (>= 1.0),
