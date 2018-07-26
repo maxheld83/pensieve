@@ -512,9 +512,11 @@ svg2grob <- function(svg) {
 
 #' @title Check if pdf is only 1 page long
 #' @description Items must never overflow 1 page.
+#' @param x `[character(1)]` giving the path to a pdf file.
 #' @noRd
 check_pdf1page <- function(x) {
   requireNamespace2(x = "pdftools")
+  assert_file_exists(access = x)
   infos <- pdftools::pdf_info(pdf = x)
   if (infos$pages == 1) {
     return(TRUE)
@@ -595,7 +597,6 @@ latex$options$fontsize <- c(
 latex$set$fontsize <- function(fontsize) {
   checkmate::assert_character(x = fontsize, any.missing = FALSE, len = 1)
   checkmate::assert_choice(x = fontsize, choices = latex$options$fontsize, null.ok = FALSE)
-
   paste0("\\", fontsize)
 }
 
@@ -611,11 +612,9 @@ latex$options$alignment <- c(
 #' @title Generate latex alignment command
 #' @inheritParams render_item
 #' @noRd
-latex$set$alignment <- function(alignment = "justified") {
-  # alignment <- "justified"
+latex$set$alignment <- function(alignment) {
   checkmate::assert_character(x = alignment, any.missing = FALSE, len = 1)
   checkmate::assert_choice(x = alignment, choices = latex$options$alignment, null.ok = FALSE)
-
   switch(
     EXPR = alignment,
     left = return("\\raggedright"),
@@ -634,7 +633,7 @@ langs <- readr::read_delim(
   delim = ",",
   col_types = "ccccll"
 )
-# this can't be right
+# must be converted
 langs <- purrr::pmap(.l = langs[,c("lang_short", "var_short", "lang_long", "var_long")], .f = function(lang_short, var_short, lang_long, var_long) {
   if (is.na(var_short)) {
     short <- lang_short

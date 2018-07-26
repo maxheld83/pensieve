@@ -78,6 +78,7 @@ test_that(desc = "accepts by-hand LaTeX to override", code = {
   expect_equivalent(object = from_by_hand_latex$tex[[1]], expected = by_hand_latex)
 })
 
+# TODO loop over all other conversion arguments
 
 context("Compilation from LaTeX to PDF")
 
