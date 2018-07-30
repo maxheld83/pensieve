@@ -29,7 +29,7 @@ Must be one of:
 \itemize{
 \item \code{NULL} (default), in which case there is no multilingual typesetting support.
 \item a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} supported by pandoc.
-See \code{pensieve:::langs} for all available languages.
+See \code{pensieve:::format_latex$avail_opts$langs} for all available languages.
 Ignored unless \code{type = "text"}.
 }}
 
@@ -103,7 +103,7 @@ items_image <- psItemContent(
 )
 
 # rendering text items ====
-rendered_items <- render_items(items = items_text_en, lang = "en-US", fontsize = "large")
+rendered_items <- render_items(items = items_text_en, lang = "en-US")
 
 
 # supplying your own compiled LaTeX

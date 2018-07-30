@@ -4,10 +4,8 @@
 \alias{render_items}
 \title{Render text items.}
 \usage{
-render_items(items, lang = NULL, fontsize = NULL, paperwidth = 8.5,
-  paperheight = 5.4, top = 0.5, bottom = 0.5, left = 0.5, right = 0.5,
-  units = "cm", alignment = "left", tex = NULL, pdf = NULL,
-  svg = NULL, grob = NULL)
+render_items(items, lang = NULL, tex = NULL, pdf = NULL, svg = NULL,
+  grob = NULL, ...)
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -19,48 +17,8 @@ Must be one of:
 \itemize{
 \item \code{NULL} (default), in which case there is no multilingual typesetting support.
 \item a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} supported by pandoc.
-See \code{pensieve:::langs} for all available languages.
+See \code{pensieve:::format_latex$avail_opts$langs} for all available languages.
 Ignored unless \code{type = "text"}.
-}}
-
-\item{fontsize}{\code{[character(1)]} giving a \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX fontsize} for \emph{all} items.
-See \code{pensieve:::latex$options$fontsize} for valid options.
-Defaults to \code{NULL}, in which case the maximum possible fontsize is sought and chosen, by which \emph{all} items still fit on one page.}
-
-\item{paperwidth}{\code{[numeric(1)]} giving the width of cards in \code{units}, passed on to \href{https://ctan.org/pkg/geometry}{LaTeX geometry package}.
-For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
-Defaults to \code{8.5}.}
-
-\item{paperheight}{\code{[numeric(1)]} giving the height of cards in \code{units}, passed on to \href{https://ctan.org/pkg/geometry}{LaTeX geometry package}.
-For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
-Defaults to \code{5.4}.}
-
-\item{top}{\code{[numeric(1)]} giving the margin in \code{units}, passed on to \href{https://ctan.org/pkg/geometry}{LaTeX geometry package}.
-Defaults to \code{0.5}.}
-
-\item{bottom}{\code{[numeric(1)]} giving the margin in \code{units}, passed on to \href{https://ctan.org/pkg/geometry}{LaTeX geometry package}.
-Defaults to \code{0.5}.}
-
-\item{left}{\code{[numeric(1)]} giving the margin in \code{units}, passed on to \href{https://ctan.org/pkg/geometry}{LaTeX geometry package}.
-Defaults to \code{0.5}.}
-
-\item{right}{\code{[numeric(1)]} giving the margin in \code{units}, passed on to \href{https://ctan.org/pkg/geometry}{LaTeX geometry package}.
-Defaults to \code{0.5}.}
-
-\item{units}{\code{[character(1)]} giving the units for the above dimensions, must be one of:
-\itemize{
-\item \code{"cm"} for metric system,
-\item \code{"in"} for inches.
-Defaults to \code{"cm"}.
-}}
-
-\item{alignment}{\code{[character(1)]} giving the alignment for the text, must be one of:
-\itemize{
-\item \code{"justified"},
-\item \code{"left"},
-\item \code{"right"} or
-\item \code{"center"}.
-Defaults to \code{"left"}.
 }}
 
 \item{tex}{\code{[list(character())]} giving a list of manually produced LaTeX markup, one for each \code{items}.
@@ -74,6 +32,8 @@ Defaults to \code{NULL}, in which case the SVG is rendered automatically (recomm
 
 \item{grob}{\code{[list(grob())]} giving a list of manually produced grobs, one for each \code{items}.
 Defaults to \code{NULL}, in which case the grob is rendered automatically (recommended).}
+
+\item{...}{further arguments to be passed to methods.}
 }
 \description{
 Renders character vectors of items to pdf, svg and R graphics (grid).

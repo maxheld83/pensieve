@@ -40,7 +40,7 @@ items_image <- psItemContent(
 )
 
 # rendering text items ====
-rendered_items <- render_items(items = items_text_en, lang = "en-US", fontsize = "large")
+rendered_items <- render_items(items = items_text_en, lang = "en-US")
 
 
 # supplying your own compiled LaTeX

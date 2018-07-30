@@ -24,21 +24,14 @@
 #'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
 #'   An additional subclass `psItemContentImage`` is prepended and validated.
 #'
-#' @param lang
-#' `[character(1)]` giving a language code for *all* items, such as `en_US`.
-#' Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel).
-#' Must be one of:
-#' - `NULL` (default), in which case there is no multilingual typesetting support.
-#' - a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) supported by pandoc.
-#'   See `pensieve:::langs` for all available languages.
-#' Ignored unless `type = "text"`.
-#'
 #' @param img_dir
 #' `[character(1)]` giving the directory for `type = "image"`s.
 #' Defaults to `NULL`, in which case images are expected at the working directory root [base::getwd()].
 #' Ignored unless `type = "image"`.
 #' Must be relative path *from the working directory*.
 #' Best constructed with [base::file.path()].
+#'
+#' @inheritParams lang
 #'
 #' @example tests/testthat/helper_psItemContent.R
 #'
@@ -126,7 +119,7 @@ new_psItemContentText <- function(items, lang) {
 validate_S3.psItemContentText <- function(x, ...) {
   assert_choice(
     x = attr(x = x, which = "lang"),
-    choices = langs,
+    choices = format_latex$avail_opts$langs,
     null.ok = TRUE,
     .var.name = "lang")
 
@@ -207,47 +200,6 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #'
 #' @inheritParams psItemContent
 #'
-# TODO move these args to the class
-#' @param fontsize
-#' `[character(1)]` giving a [LaTeX fontsize](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text) for *all* items.
-#' See `pensieve:::latex$options$fontsize` for valid options.
-#' Defaults to `NULL`, in which case the maximum possible fontsize is sought and chosen, by which *all* items still fit on one page.
-#'
-#' @param paperwidth
-#' `[numeric(1)]` giving the width of cards in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
-#' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
-#' Defaults to `8.5`.
-#' @param paperheight
-#' `[numeric(1)]` giving the height of cards in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
-#' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
-#' Defaults to `5.4`.
-#'
-#' @param top
-#' `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
-#' Defaults to `0.5`.
-#' @param bottom
-#' `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
-#' Defaults to `0.5`.
-#' @param left
-#' `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
-#' Defaults to `0.5`.
-#' @param right
-#' `[numeric(1)]` giving the margin in `units`, passed on to [LaTeX geometry package](https://ctan.org/pkg/geometry).
-#' Defaults to `0.5`.
-#'
-#' @param units
-#' `[character(1)]` giving the units for the above dimensions, must be one of:
-#' - `"cm"` for metric system,
-#' - `"in"` for inches.
-#' Defaults to `"cm"`.
-#'
-#' @param alignment `[character(1)]` giving the alignment for the text, must be one of:
-#' - `"justified"`,
-#' - `"left"`,
-#' - `"right"` or
-#' - `"center"`.
-#' Defaults to `"left"`.
-#'
 #' @param tex `[list(character())]` giving a list of manually produced LaTeX markup, one for each `items`.
 #' Defaults to `NULL`, in which case the LaTeX markup is rendered automatically (recommended).
 #'
@@ -263,19 +215,11 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #' @export
 render_items <- function(items,
                          lang = NULL,
-                         fontsize = NULL,
-                         paperwidth = 8.5,
-                         paperheight = 5.4,
-                         top = 0.5,
-                         bottom = 0.5,
-                         left = 0.5,
-                         right = 0.5,
-                         units = "cm",
-                         alignment = "left",
                          tex = NULL,
                          pdf = NULL,
                          svg = NULL,
-                         grob = NULL) {
+                         grob = NULL,
+                         ...) {
 
   # check deps
   requireNamespace2(x = "progress")
@@ -326,17 +270,8 @@ render_items <- function(items,
           Sys.sleep(1/2)
           pb$tick(tokens = list(handle = handle))
           tex[[i]] <- md2tex(
-            md = items[[i]],
-            lang = lang,
-            fontsize = fontsize,
-            paperwidth = paperwidth,
-            paperheight = paperheight,
-            top = top,
-            bottom = bottom,
-            left = left,
-            right = right,
-            units = units,
-            alignment = alignment)
+            md = items[[i]]
+          )
           # if this has worked successfully, we can write it out
         }
       },
@@ -363,16 +298,7 @@ render_items <- function(items,
 #' @return [`character()`] giving LaTeX markup.
 #' @noRd
 md2tex <- function(md,
-                   lang,
-                   fontsize,
-                   paperwidth,
-                   paperheight,
-                   top,
-                   bottom,
-                   left,
-                   right,
-                   units,
-                   alignment) {
+                   ...) {
 
   # input validation
   assert_string(x = md, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
@@ -385,13 +311,9 @@ md2tex <- function(md,
   requireNamespace2(x = "processx")
   # processx is nicer because we can properly capture the status of whatever happens at the CLI
 
-  # prepend latex commands
-  md <- glue::glue(
-    latex$set$fontsize(fontsize = fontsize),
-    latex$set$alignment(alignment = alignment),
-    md,
-    .sep = "\n"
-  )
+  # wrap in latex commands
+  md <- format_latex$latex_wrappers$fontsize(tex = md)
+  md <- format_latex$latex_wrappers$alignment(tex = md)
 
   # just write to tempdir
   withr::local_dir(new = tempdir())
@@ -402,30 +324,16 @@ md2tex <- function(md,
   res <- processx::run(
     command = "pandoc",
     args = c(
-      "item.md", # input
       "--from=markdown",  # this is pandoc's extended markdown
       "--to=latex",
       "--verbose",
       "--standalone",
       "--fail-if-warnings",
 
-      # geometry options
-      latex$set$geometry(
-        paperwidth = paperwidth,
-        paperheight = paperheight,
-        top = top,
-        bottom = bottom,
-        left = left,
-        right = right,
-        units = units,
-        vcentering = TRUE,
-        hcentering = TRUE),
-
       # other latex options
       "--variable=pagestyle:empty",
 
-      # language
-      glue::glue("--variable=lang:{lang}")
+      "item.md" # input, must be last
     ),
     error_on_status = TRUE,
     windows_hide_window = TRUE,
@@ -532,16 +440,65 @@ expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page
 # formatting helpers ====
 
 # helpers to create latex formatting instructions
-latex <- list(set = NULL, # these are the functions
-              options = NULL) # these are the available options
+format_latex <- list(
+  pandoc_opts = NULL, # these set pandoc options, and end up in latex preamble
+  latex_wrappers = NULL,  # these wrap existing LaTeX with in-text LaTeX commands
+  avail_opts = NULL # these are the available options
+)
 
-#' @title Generate pandoc geometry options
-#' @inheritParams render_item
-#' @param vcentering `[logical(1)]` whether to center vertically, does not currently work.
-#' @param hcentering `[logical(1)]` whether to center horizontally, does not currently work.
+# formatting helpers: pandoc opts ====
+
+#' @title Set pandoc variable options for LaTeX geometry package
+#' @description
+#' All arguments are passed to the [LaTeX geometry package](https://ctan.org/pkg/geometry).
+#' Check there for details.
+#'
+#' @param paperwidth
+#' `[numeric(1)]` giving the width of cards in `units`.
+#' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
+#' Defaults to `8.5`.
+#' @param paperheight
+#' `[numeric(1)]` giving the height of cards in `units`.
+#' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
+#' Defaults to `5.4`.
+#'
+#' @param top
+#' `[numeric(1)]` giving the margin in `units`.
+#' Defaults to `0.5`.
+#' @param bottom
+#' `[numeric(1)]` giving the margin in `units`.
+#' Defaults to `0.5`.
+#' @param left
+#' `[numeric(1)]` giving the margin in `units`.
+#' Defaults to `0.5`.
+#' @param right
+#' `[numeric(1)]` giving the margin in `units`.
+#' Defaults to `0.5`.
+#'
+#' @param units
+#' `[character(1)]` giving the units for the above dimensions, must be one of:
+#' - `"cm"` for metric system,
+#' - `"in"` for inches.
+#' Defaults to `"cm"`.
+#'
+#' @param vcentering
+#' `[logical(1)]` indicating whether content should be vertically centered.
+#' Defaults to `TRUE`.
+#' #' @param hcentering
+#' `[logical(1)]` indicating whether content should be horizontally centered.
+#' Defaults to `TRUE`.
+#'
+#' @return `[character()]` giving LaTeX geometry package options as pandoc variable options.
 #' @noRd
-latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right, units, vcentering, hcentering) {
-  # input validation
+format_latex$pandoc_opts$geometry <- function(paperwidth = 8.5,
+                                              paperheight = 5.4,
+                                              top = 0.5,
+                                              bottom = 0.5,
+                                              left = 0.5,
+                                              right = 0.5,
+                                              units = "cm",
+                                              vcentering = TRUE,
+                                              hcentering = TRUE) {
   assert_string(x = units, na.ok = FALSE, null.ok = FALSE)
   assert_choice(x = units, choices = c("cm", "in"))
   assert_flag(x = vcentering, na.ok = FALSE, null.ok = FALSE)
@@ -555,74 +512,70 @@ latex$set$geometry <- function(paperwidth, paperheight, top, bottom, left, right
     left = left,
     right = right
   )
-  res <- purrr::map2_chr(
+  opts <- purrr::imap_chr(
     .x = num_arguments,
-    .y = names(num_arguments),
     .f = function(x, y) {
       # this is input validation
       assert_numeric(x = x, lower = 0, finite = TRUE, any.missing = FALSE, len = 1, null.ok = FALSE, .var.name = y)
 
       # this is the actual paste job
-      paste0(
-        "--variable=geometry:",
-        y,
-        "=",
-        x,
-        units
-      )
+      value = glue::glue("{y}={x}{units}")
     }
   )
-  if (vcentering) res <- c(res, vcentering = "--variable=geometry:vcentering")
-  if (hcentering) res <- c(res, hcentering = "--variable=geometry:hcentering")
-  return(res)
+  # append v/hcentering if applicable
+  # this is a bit confusing because those are really just pasted as options, they are *not* themselves key/value pairs (as the above are)
+  if (vcentering) {
+    opts <- c(opts, vcentering = "vcentering")
+  }
+  if (hcentering) {
+    opts <-  c(opts, hcentering = "hcentering")
+  }
+
+  opts <- purrr::map_chr(.x = opts, .f = function(x) {
+    declare_pandoc_vars(key = "geometry", value = x)
+  })
+  return(opts)
 }
 
-latex$options$fontsize <- c(
-  # this list is from https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text
+#' @title Set pandoc variable options for LaTeX geometry package
+#' @description This is the global, *base* font size for the entire LaTeX document.
+#' @param fontsize_base `[character(1)]` must be one of
+#' - `"10pt"` (default),
+#' - `"11pt"`,
+#' - `"12pt"`.
+#' @return `[character(1)]` giving base font size as pandoc variable option.
+#' @noRd
+format_latex$pandoc_opts$fontsize_base <- function(fontsize_base = "10pt") {
+  checkmate::assert_string(x = fontsize_base, na.ok = FALSE, null.ok = FALSE)
+  checkmate::assert_choice(x = fontsize_base, choices = format_latex$avail_opts$fontsize_base, null.ok = FALSE)
+  make_pandoc_tex_var(key = "fontsize", value = fontsize_base)
+}
+format_latex$avail_opts$fontsize_base <- c(
+  # only these are permissible in base classes https://texblog.org/2012/08/29/changing-the-font-size-in-latex/
   # must remain in ascending order!
-  "tiny",
-  "scriptsize",
-  "footnotesize",
-  "small",
-  "normalsize",
-  "large",
-  "Large",
-  "LARGE",
-  "huge",
-  "Huge"
+  "10pt",
+  "11pt",
+  "12pt"
 )
-#' @title Generate latex fontsize command
-#' @inheritParams render_item
-#' @noRd
-latex$set$fontsize <- function(fontsize) {
-  checkmate::assert_character(x = fontsize, any.missing = FALSE, len = 1)
-  checkmate::assert_choice(x = fontsize, choices = latex$options$fontsize, null.ok = FALSE)
-  paste0("\\", fontsize)
-}
 
-# insert arbitrary alignment
-latex$options$alignment <- c(
-  # this list is from https://www.sharelatex.com/learn/Text_alignment
-  # we're only using vanilla latex, no extra package
-  "justified",
-  "left",
-  "right",
-  "center"
-)
-#' @title Generate latex alignment command
-#' @inheritParams render_item
-#' @noRd
-latex$set$alignment <- function(alignment) {
-  checkmate::assert_character(x = alignment, any.missing = FALSE, len = 1)
-  checkmate::assert_choice(x = alignment, choices = latex$options$alignment, null.ok = FALSE)
-  switch(
-    EXPR = alignment,
-    left = return("\\raggedright"),
-    right = return("\\raggedleft"),
-    center = return("\\centering")
-  )
+#' @title Set pandoc language option
+#' @name lang
+#' @description Set pandoc language option
+#' @param lang
+#' `[character(1)]` giving a language code for *all* items, such as `en_US`.
+#' Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel).
+#' Must be one of:
+#' - `NULL` (default), in which case there is no multilingual typesetting support.
+#' - a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) supported by pandoc.
+#'   See `pensieve:::format_latex$avail_opts$langs` for all available languages.
+#' Ignored unless `type = "text"`.
+#' @keywords internal
+format_latex$pandoc_opts$lang <- function(lang = NULL) {
+  assert_choice(x = lang ,choices = format_latex$avail_opts$langs, null.ok = TRUE)
+  if (!is.null(lang)) {
+    declare_pandoc_vars(key = "lang", value = lang)
+  }
 }
-
 # generally, the BCP 47 standard allows all manner of language, region combinations (and more), e.g. "de_AT"
 # however, only a subset is allowed in pandoc and translated to panglossia or babel
 # this is (unfortunately) transcribed from the haskell script inside pandoc
@@ -648,4 +601,92 @@ langs <- purrr::pmap(.l = langs[,c("lang_short", "var_short", "lang_long", "var_
   names(short) <- long
   return(short)
 })
-langs <- purrr::as_vector(langs)
+format_latex$avail_opts$langs <- purrr::as_vector(langs)
+
+#' @title Make pandoc tex variable option
+#' @description Create pandoc key value pairs for LaTeX.
+#' @param key `[character(1)]` giving the key, such as `"geometry"`.
+#' @param value `[character(1)]` giving the value, such as `"margin=1in"`.
+#' @noRd
+#' @return `[character(1)]` giving pandoc variable option.
+declare_pandoc_vars <- function(key, value) {
+  checkmate::assert_string(x = key, na.ok = FALSE, null.ok = FALSE)
+  checkmate::assert_string(x = value, na.ok = FALSE, null.ok = FALSE)
+  glue::glue("--variable={key}:{value}")
+}
+
+# formatting helpers: latex wrapers ====
+
+#' @title Wrap LaTeX in fontsize command
+#' @param fontsize `[character(1)]` giving a valid [LaTeX font size](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text).
+#' Must be one of `pensieve:::format_latex$avail_opts$fontsize`.
+#' Defaults to `"tiny"`.
+#' @param tex `[character(1)]` giving some LaTeX string to wrap.
+#' @return `[character(1)]` LaTeX string.
+#' @noRd
+format_latex$latex_wrappers$fontsize <- function(fontsize = "tiny", tex) {
+  assert_choice(x = fontsize, choices = format_latex$avail_opts$fontsize, null.ok = FALSE)
+  wrap_in_latex_env(env = fontsize, tex = tex)
+}
+format_latex$avail_opts$fontsize <- c(
+  # this list is from https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text
+  # must remain in ascending order!
+  "tiny",
+  "scriptsize",
+  "footnotesize",
+  "small",
+  "normalsize",
+  "large",
+  "Large",
+  "LARGE",
+  "huge",
+  "Huge"
+)
+
+#' @title Wrap LaTeX in alignment command
+#' @param alignmment `[character(1)]` giving a the alignment of the text.
+#' Must be one of `pensieve:::format_latex$avail_opts$alignment`.
+#' Defaults to `"justified"`.
+#' @param tex `[character(1)]` giving some LaTeX string to wrap.
+#' @return `[character(1)]` LaTeX string.
+#' @noRd
+format_latex$latex_wrappers$alignment <- function(alignment = "justified", tex) {
+  assert_choice(x = alignment, choices = format_latex$avail_opts$alignment, null.ok = FALSE)
+  if (alignment == "justified") {
+    # if null, the justified, which requires NO extra command
+    return(tex)
+  }
+  env <- switch(
+    EXPR = alignment,
+    left = "flushleft",
+    right = "flushright",
+    center = "center"
+  )
+  wrap_in_latex_env(env = env, tex = tex)
+}
+# insert arbitrary alignment
+format_latex$avail_opts$alignment <- c(
+  # this list is from https://www.sharelatex.com/learn/Text_alignment
+  # we're only using vanilla latex, no extra package
+  "justified",
+  "left",
+  "right",
+  "center"
+)
+
+#' @title Wrap latex string in latex environment.
+#' @param env `[character(1)]` giving a latex environment.
+#' @param tex `[character(1)]` giving some latex string.
+#' @return `[character(1)]` a latex string
+#' @noRd
+wrap_in_latex_env <- function(env, tex) {
+  assert_string(x = tex, min.chars = 1, na.ok = FALSE, null.ok = FALSE)
+  assert_string(x = env, min.chars = 1, na.ok = FALSE, null.ok = FALSE)
+  glue::glue(
+    "\\begin{[env]}
+      [tex]
+    \\end{[env]}",
+    .open = "[",
+    .close = "]"
+  )
+}
