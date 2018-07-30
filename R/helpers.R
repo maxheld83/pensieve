@@ -138,3 +138,23 @@ stop_coercion <- function(obj, target_class) {
    call. = FALSE
   )
 }
+
+
+# documentation ====
+#' @title Generate roxygen2 tag for string choice arguments.
+#' @description
+#' Some arguments will accept only a string from a choice of arguments.
+#' This function generates the necessary roxygen2 tag, using an R object to list all the available options.
+#' @param arg_name `[character(1)]` giving the argument name
+#' @param before,after `[character(1)]` character string before or after the list
+#' @param choices `[character(1)]` giving the available choices
+#' @noRd
+document_choice_arg <- function(arg_name, before = NULL, choices, after = NULL) {
+  glue(
+    "@param {arg_name} `[character(1)]` {before}",
+    "Must be one of:",
+    glue_collapse(glue("- {choices}"), sep = "\n", last = " or \n"),
+    "\n {after}",
+    .sep = "\n"
+  )
+}

@@ -644,12 +644,12 @@ format_latex$avail_opts$fontsize <- c(
 )
 
 #' @title Wrap LaTeX in alignment command
-#' @param alignmment `[character(1)]` giving a the alignment of the text.
-#' Must be one of `pensieve:::format_latex$avail_opts$alignment`.
-#' Defaults to `"justified"`.
+#' @description Wrap LaTeX in alignment command.
+#' @name alignment
+#' @eval document_choice_arg(arg_name = "alignment", before = "giving the alignment of the text.", after = "Defaults to `'justified'`.", choices = format_latex$avail_opts$alignment)
 #' @param tex `[character(1)]` giving some LaTeX string to wrap.
 #' @return `[character(1)]` LaTeX string.
-#' @noRd
+#' @keywords internal
 format_latex$latex_wrappers$alignment <- function(alignment = "justified", tex) {
   assert_choice(x = alignment, choices = format_latex$avail_opts$alignment, null.ok = FALSE)
   if (alignment == "justified") {
