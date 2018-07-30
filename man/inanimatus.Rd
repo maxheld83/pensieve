@@ -5,11 +5,11 @@
 \title{HTML widget factory for sorting grids.}
 \usage{
 inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)),
-  sort = matrix(data = c(NA, NA, NA, NA, "foo", NA, NA, NA, "zap", "bar", NA,
-  NA, "hup", "op", "schwupp", "rip", "zonk", "oupsi", "what", "omg", NA, NA,
-  "zor", "arr", "apple", NA, NA, NA, "warp", "glips", NA, NA, NA, NA, "ronk"),
-  ncol = 7), header = TRUE, footer = TRUE, aspect_ratio_cards = 16/9,
-  width = NULL, height = NULL)
+  sort = matrix(data = c(NA, NA, NA, NA, "foo", NA, NA, NA, "zap", "bar",
+  NA, NA, "hup", "op", "schwupp", "rip", "zonk", "oupsi", "what", "omg",
+  NA, NA, "zor", "arr", "apple", NA, NA, NA, "warp", "glips", NA, NA, NA,
+  NA, "ronk"), ncol = 7), header = TRUE, footer = TRUE,
+  aspect_ratio_cards = 16/9, width = NULL, height = NULL)
 }
 \arguments{
 \item{grid}{A logical matrix giving the available cells for Q sorting.

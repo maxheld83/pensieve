@@ -8,8 +8,8 @@
 psSort(sort, grid = NULL, items = NULL, pattern = "chessboard",
   offset = NULL)
 
-\method{validate_S3}{psSort}(x, grid = NULL, items = NULL, ps_coll = NULL,
-  lookup = NULL, ...)
+\method{validate_S3}{psSort}(x, grid = NULL, items = NULL,
+  ps_coll = NULL, lookup = NULL, ...)
 }
 \arguments{
 \item{sort}{A character matrix giving the item positions of the sort.
@@ -80,3 +80,4 @@ sort <- psSort(
   pattern = "chessboard",
   offset = NULL)
 }
+\concept{S3 classes from `pensieve`.}

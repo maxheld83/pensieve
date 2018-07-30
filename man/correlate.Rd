@@ -13,8 +13,8 @@ QCors(cors, validate = TRUE)
 
 \method{check}{QCors}(x)
 
-\method{plot}{QCors}(x, summarize = NULL, n_obs = NULL, use_js = NULL,
-  ...)
+\method{plot}{QCors}(x, summarize = NULL, n_obs = NULL,
+  use_js = NULL, ...)
 }
 \arguments{
 \item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
@@ -30,7 +30,7 @@ For more information, see \code{\link[stats:cor]{stats::cor()}}}
 \item{cors}{A numerical matrix with correlations.}
 
 \item{validate}{a logical flag, indicating whether the object will be validated on construction.
-Defaults to `TRUE`.}
+Defaults to \code{TRUE}.}
 
 \item{x}{class object created by respective constructor function.}
 
@@ -45,7 +45,7 @@ Defaults to \code{NULL}.
 If given, \code{type = density} includes a density estimate for Pearson's $r$ in random data.}
 
 \item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
-Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
+Defaults to \code{NULL}, in which case the appropriate output is inferred from the runtime environment.}
 
 \item{...}{Arguments passed onto other methods.
 Not currently used.}
@@ -93,3 +93,7 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
 Other plotting functions: \code{\link{QSorts}},
   \code{\link{extract}}
 }
+\concept{S3 classes from `pensieve`}
+\concept{analysis functions}
+\concept{correlation functions}
+\concept{plotting functions}

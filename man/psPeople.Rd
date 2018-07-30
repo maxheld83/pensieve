@@ -27,3 +27,4 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
   \code{\link{psOpenSort}}, \code{\link{score}}
 }
+\concept{S3 classes from `pensieve`}

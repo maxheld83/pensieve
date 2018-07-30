@@ -17,9 +17,11 @@ psOpenSort(osort, descriptions = NULL, scale = NULL)
 
 as_psOpenSort(osort, descriptions = NULL, scale = NULL)
 
-\method{as_psOpenSort}{matrix}(osort, descriptions = NULL, scale = NULL)
+\method{as_psOpenSort}{matrix}(osort, descriptions = NULL,
+  scale = NULL)
 
-\method{as_psOpenSort}{data.frame}(osort, descriptions = NULL, scale = NULL)
+\method{as_psOpenSort}{data.frame}(osort, descriptions = NULL,
+  scale = NULL)
 
 \method{tidy}{psLogicalOpenSort}(x)
 
@@ -197,3 +199,4 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
   \code{\link{psPeople}}, \code{\link{score}}
 }
+\concept{S3 classes from `pensieve`}

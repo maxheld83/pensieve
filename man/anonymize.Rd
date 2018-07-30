@@ -64,4 +64,5 @@ Other import helpers: \code{\link{QPreSorts}},
 Other import helpers: \code{\link{QPreSorts}},
   \code{\link{QSorts}}
 }
+\concept{import helpers}
 \keyword{internal}

@@ -95,3 +95,4 @@ need_S3(bad_obj)
 
 
 }
+\concept{validation functions}

@@ -11,7 +11,7 @@ QPreSorts(presorts, validate = TRUE)
 \code{-1L} for \code{negative}, \code{0L} for \code{neutral} and \code{1L} for \code{positive}.}
 
 \item{validate}{a logical flag, indicating whether the object will be validated on construction.
-Defaults to `TRUE`.}
+Defaults to \code{TRUE}.}
 }
 \description{
 Checks and makes QPreSorts
@@ -32,3 +32,5 @@ Other S3 classes from `pensieve`: \code{\link{QSorts}},
 Other import helpers: \code{\link{QSorts}},
   \code{\link{anonymize}}
 }
+\concept{S3 classes from `pensieve`}
+\concept{import helpers}

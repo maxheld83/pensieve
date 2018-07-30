@@ -26,8 +26,8 @@ expect(x, info = NULL, label = NULL)
 
 assert(x, collection = NULL, var.name = NULL)
 
-\method{assert}{default}(x, collection = NULL, var.name = paste(class(x)[1],
-  "S3 class"))
+\method{assert}{default}(x, collection = NULL,
+  var.name = paste(class(x)[1], "S3 class"))
 
 need(x, label = NULL)
 

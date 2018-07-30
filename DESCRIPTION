@@ -52,7 +52,7 @@ Suggests:
 Remotes:
   klutometis/roxygen
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 SystemRequirements:
   cairo (>= 1.2 http://www.cairographics.org/),
   poppler,

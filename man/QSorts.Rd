@@ -17,7 +17,7 @@ QSorts(sorts, validate = TRUE)
 Dimensions must be named.}
 
 \item{validate}{a logical flag, indicating whether the object will be validated on construction.
-Defaults to `TRUE`.}
+Defaults to \code{TRUE}.}
 
 \item{x}{class object created by respective constructor function.}
 
@@ -25,7 +25,7 @@ Defaults to `TRUE`.}
 Defaults to \code{1}, in which case the first column is plotted.}
 
 \item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
-Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
+Defaults to \code{NULL}, in which case the appropriate output is inferred from the runtime environment.}
 
 \item{...}{Arguments passed onto other methods.
 Not currently used.}
@@ -65,3 +65,6 @@ Other import helpers: \code{\link{QPreSorts}},
 Other plotting functions: \code{\link{correlate}},
   \code{\link{extract}}
 }
+\concept{S3 classes from `pensieve`}
+\concept{import helpers}
+\concept{plotting functions}

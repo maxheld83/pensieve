@@ -94,3 +94,4 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
   \code{\link{psPeople}}, \code{\link{score}}
 }
+\concept{S3 classes from `pensieve`}

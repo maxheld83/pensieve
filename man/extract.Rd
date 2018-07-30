@@ -28,7 +28,7 @@ Currently only \code{"pca"} for principal components analysis (PCA) is allowed.}
 \item{loas}{A numerical matrix with loadings.}
 
 \item{validate}{a logical flag, indicating whether the object will be validated on construction.
-Defaults to `TRUE`.}
+Defaults to \code{TRUE}.}
 
 \item{x}{class object created by respective constructor function.}
 
@@ -48,7 +48,7 @@ If \code{TRUE}, squared loadings are plotted, interpretable as the share of expl
 Defaults to \code{FALSE}.}
 
 \item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
-Defaults to `NULL`, in which case the appropriate output is inferred from the runtime environment.}
+Defaults to \code{NULL}, in which case the appropriate output is inferred from the runtime environment.}
 
 \item{...}{Arguments passed onto other methods.
 Not currently used.}
@@ -95,3 +95,7 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
 Other plotting functions: \code{\link{QSorts}},
   \code{\link{correlate}}
 }
+\concept{S3 classes from `pensieve`}
+\concept{analysis functions}
+\concept{extraction functions}
+\concept{plotting functions}

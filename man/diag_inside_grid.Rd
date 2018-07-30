@@ -30,4 +30,5 @@ diag_inside_grid(sorts = sorts,
 Other distribution helpers: \code{\link{diag_distro_max}},
   \code{\link{diag_distros}}, \code{\link{diag_same}}
 }
+\concept{distribution helpers}
 \keyword{internal}

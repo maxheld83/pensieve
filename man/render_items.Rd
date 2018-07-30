@@ -4,8 +4,8 @@
 \alias{render_items}
 \title{Render text items.}
 \usage{
-render_items(items, lang = NULL, tex = NULL, pdf = NULL, svg = NULL,
-  grob = NULL, ...)
+render_items(items, lang = NULL, tex = NULL, pdf = NULL,
+  svg = NULL, grob = NULL, ...)
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.

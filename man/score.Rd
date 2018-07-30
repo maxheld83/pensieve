@@ -21,7 +21,7 @@ Dimensions must be named.}
 \item{scores}{A numerical matrix with factor scores.}
 
 \item{validate}{a logical flag, indicating whether the object will be validated on construction.
-Defaults to `TRUE`.}
+Defaults to \code{TRUE}.}
 
 \item{x}{class object created by respective constructor function.}
 }
@@ -57,3 +57,6 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
   \code{\link{psOpenSort}}, \code{\link{psPeople}}
 }
+\concept{S3 classes from `pensieve`}
+\concept{analysis functions}
+\concept{scoring functions}
