@@ -49,8 +49,6 @@ Suggests:
   shinydashboard (>= 0.6.1),
   svglite (>= 1.2.0),
   withr (>= 1.0.2)
-Remotes:
-  klutometis/roxygen
 VignetteBuilder: knitr
 RoxygenNote: 6.1.0
 SystemRequirements:
