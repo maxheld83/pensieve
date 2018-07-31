@@ -1,3 +1,4 @@
+# s3 ====
 context("psItemContent class")
 
 # object construction
@@ -96,10 +97,12 @@ test_that(desc = "works with all accepted languages", code = {
 })
 
 test_that(desc = "accepts by-hand LaTeX to override", code = {
-  skip(message = "in dev")
-  expect_equivalent(object = from_by_hand_latex$tex[[1]], expected = by_hand_latex)
+  # something about the glue outputs requires as.character
+  expect_equivalent(object = as.character(from_by_hand_latex$tex[[1]]), expected = as.character(by_hand_latex))
 })
 
+
+# tex2pdf ====
 context("Compilation from LaTeX to PDF")
 
 test_that(desc = "conversion errors out on invalid LaTeX inside markdown", code = {
