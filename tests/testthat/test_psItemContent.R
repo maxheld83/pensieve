@@ -67,18 +67,33 @@ test_that(desc = "errors out on language unknown to pandoc", code = {
   )
 })
 
-test_that(desc = "works with all accepted languages", code = {
-  skip_on_os(os = "mac") # this just takes too damn long
-  for (i in langs) {
-    checkmate::expect_list(
-      x = {
-        render_items(items = "zap", lang = i, fontsize = "tiny")
-      },
-      info = i
-    )
+test_that(desc = "works with all accepted local fontsizes", code = {
+  for (i in fontsizes_local) {
+    res <- render_items(items = c("zap", "bar"), fontsize_local = i)
+    checkmate::expect_list(x = res, info = i)
   }
 })
 
+test_that(desc = "works with all accepted global fontsizes", code = {
+  for (i in fontsizes_global) {
+    res <- render_items(items = c("zap", "bar"), fontsize_global = i)
+    checkmate::expect_list(x = res, info = i)
+  }
+})
+
+test_that(desc = "works with all accepted alignments", code = {
+  for (i in alignments) {
+    res <- render_items(items = c("zap", "bar"), alignment = i)
+    checkmate::expect_list(x = res, info = i)
+  }
+})
+
+test_that(desc = "works with all accepted languages", code = {
+  for (i in langs) {
+    res <- render_items(items = c("zap", "bar"), lang = i)
+    checkmate::expect_list(x = res, info = i)
+  }
+})
 
 
 test_that(desc = "accepts by-hand LaTeX to override", code = {
