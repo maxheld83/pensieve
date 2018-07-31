@@ -37,7 +37,7 @@ test_that(desc = "construction of image item works", code = {
 context("Conversion from markdown to LaTeX")
 
 test_that(desc = "just works", code = {
-  checkmate::expect_list(
+  expect_list(
     x = rendered_items$tex,
     types = "character",
     any.missing = FALSE,
@@ -49,20 +49,20 @@ test_that(desc = "just works", code = {
 
 test_that(desc = "skips and warns when pandoc is unavailable", code = {
   withr::local_path(new = "", action = "replace")  #  this will kill pandoc
-  testthat::expect_warning(
+  expect_warning(
     object = render_items(items = "foo")
   )
 })
 
 test_that(desc = "errors out when pandoc times out", code = {
   md <- glue_collapse(x = rep(x = "Repeated often enough, this should choke Pandoc.", times = 1000000), sep = " ")
-  testthat::expect_error(
+  expect_error(
     object = md2tex(md = md)
   )
 })
 
 test_that(desc = "errors out on language unknown to pandoc", code = {
-  testthat::expect_error(
+  expect_error(
     object = md2tex(md = "foo", lang = "klingon")
   )
 })
@@ -78,6 +78,8 @@ test_that(desc = "works with all accepted languages", code = {
     )
   }
 })
+
+
 
 test_that(desc = "accepts by-hand LaTeX to override", code = {
   skip(message = "in dev")
