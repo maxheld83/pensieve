@@ -294,11 +294,18 @@ render_items <- function(items,
 
 
 #' @title Render markdown to LaTeX
-#' @param md
-#' [`character(1)`] giving markdown text.
-#' @return [`character()`] giving LaTeX markup.
-#' @noRd
+#' @description Function calls pandoc with some options to convert markdown to LaTeX.
+#' @param md `[character(1)]` giving markdown text.
+#' @inheritDotParams declare_pandoc_geometry
+#' @inheritParams wrap_in_latex_env
+#' @inheritParams declare_pandoc_var
+#' @return `[character()]` giving LaTeX markup.
+#' @keywords internal
 md2tex <- function(md,
+                   fontsize_local = "tiny",
+                   fontsize_global = "10pt",
+                   alignment = "justified",
+                   lang = NULL,
                    ...) {
 
   # input validation
@@ -314,8 +321,8 @@ md2tex <- function(md,
 
   # wrap in latex commands
   # remember, any latex in md will get passed on by pandoc
-  md <- wrap_in_latex_fontsize(tex = md, ...)
-  md <- wrap_in_latex_alignment(tex = md, ...)
+  md <- wrap_in_latex_fontsize(tex = md, fontsize_local = fontsize_local)
+  md <- wrap_in_latex_alignment(tex = md, alignment = "justified")
 
   # just write to tempdir
   withr::local_dir(new = tempdir())
@@ -334,6 +341,11 @@ md2tex <- function(md,
 
       # other latex options
       "--variable=pagestyle:empty",
+      declare_pandoc_geometry(...),
+      declare_pandoc_fontsize(fontsize_global = fontsize_global),
+
+      # language
+      declare_pandoc_lang(lang = lang),
 
       "item.md" # input, must be last
     ),
@@ -446,7 +458,7 @@ expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page
 #' @description This function creates pandoc variable key value pairs for LaTeX preamble.
 #' @param key `[character(1)]` giving the key, such as `"geometry"`.
 #' @param value `[character(1)]` giving the value, such as `"margin=1in"`.
-#' @keywords interal
+#' @keywords internal
 #' @return `[character()]` giving pandoc variable option, option*s* in the case of geometry.
 declare_pandoc_var <- function(key, value) {
   checkmate::assert_string(x = key, na.ok = FALSE, null.ok = FALSE)
