@@ -18,9 +18,10 @@ wrap_in_latex_alignment(alignment = "justified", tex)
 \item{tex}{\code{[character(1)]} giving some latex string.}
 
 \item{fontsize}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
+
 Must be one of:
 \itemize{
-\item \code{'tiny'}
+\item \code{'tiny'} (\strong{default})
 \item \code{'scriptsize'}
 \item \code{'footnotesize'}
 \item \code{'small'}
@@ -30,20 +31,17 @@ Must be one of:
 \item \code{'LARGE'}
 \item \code{'huge'} or
 \item \code{'Huge'}
-}
-
-Defaults to \code{'tiny'}.}
+}}
 
 \item{alignment}{\code{[character(1)]} giving the alignment of the text.
+
 Must be one of:
 \itemize{
-\item \code{'justified'}
+\item \code{'justified'} (\strong{default})
 \item \code{'left'}
 \item \code{'right'} or
 \item \code{'center'}
-}
-
-Defaults to \code{'justified'}.}
+}}
 }
 \value{
 \code{[character(1)]} a latex string

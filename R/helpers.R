@@ -146,15 +146,48 @@ stop_coercion <- function(obj, target_class) {
 #' Some arguments will accept only a string from a choice of arguments.
 #' This function generates the necessary roxygen2 tag, using an R object to list all the available options.
 #' @param arg_name `[character(1)]` giving the argument name
-#' @param before,after `[character(1)]` character string before or after the list
 #' @param choices `[character(1)]` giving the available choices
+#' @param before,after `[character(1)]` character string before or after the list
+#' @param null `[character(1)]` description of what happens the choice is `NULL`.
+#' Defaults to `NULL`, in which case `NULL` is not allowed as an argument.
+#' @param default `[character(1)]` from `choices` giving the default value, defaults to `NULL` for no default.
+#' Use `"null"` for `NULL` as the default choice.
 #' @noRd
-document_choice_arg <- function(arg_name, before = NULL, choices, after = NULL) {
+document_choice_arg <- function(arg_name, choices, before = "", after = "", null = NULL, default = NULL) {
+  assert_string(x = arg_name, null.ok = FALSE, na.ok = FALSE)
+  assert_character(x = choices, any.missing = FALSE, unique = TRUE, null.ok = FALSE)
+  assert_string(x = before, null.ok = FALSE, na.ok = FALSE)
+  assert_string(x = after, null.ok = FALSE, na.ok = FALSE)
+  assert_string(x = null, na.ok = FALSE, null.ok = TRUE)
+  assert_choice(x = default, choices = c(choices, "null"), null.ok = TRUE)
+
+  if (test_named(choices)) {
+    choices_list <- glue("- `'{choices}'` for *{names(choices)}*")
+  } else {
+    choices_list <- glue("- `'{choices}'`")
+  }
+
+  if (!is.null(null)) {
+    choices_list <- c(as_glue("- `NULL` {null}"), choices_list)
+  }
+
+  if (!is.null(default)) {
+    if (default == "null") {
+      # null choice is always the first
+      default_choice_ind <- 1
+    } else {
+      default_choice_ind <- which(choices == default)
+    }
+    # append default markup
+    choices_list[default_choice_ind] <- glue_collapse(x = c(choices_list[default_choice_ind], "(**default**)"), sep = " ")
+  }
+
   glue(
-    "@param {arg_name} `[character(1)]` {before}",
+    "@param {arg_name} `[character(1)]` {before} \n",
     "Must be one of:",
-    glue_collapse(glue("- `'{choices}'`"), sep = "\n", last = " or \n"),
+    glue_collapse(choices_list, sep = "\n", last = " or \n"),
     "\n {after}",
     .sep = "\n"
   )
 }
+

@@ -441,20 +441,13 @@ expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page
 
 # formatting helpers ====
 
-# helpers to create latex formatting instructions
-format_latex <- list(
-  pandoc_opts = NULL, # these set pandoc options, and end up in latex preamble
-  latex_wrappers = NULL,  # these wrap existing LaTeX with in-text LaTeX commands
-  avail_opts = NULL # these are the available options
-)
-
 # formatting helpers: pandoc opts ====
 #' @title Make pandoc tex variable option
 #' @description This function creates pandoc variable key value pairs for LaTeX preamble.
 #' @param key `[character(1)]` giving the key, such as `"geometry"`.
 #' @param value `[character(1)]` giving the value, such as `"margin=1in"`.
 #' @keywords interal
-#' @return `[character(1)]` giving pandoc variable option.
+#' @return `[character()]` giving pandoc variable option, option*s* in the case of geometry.
 declare_pandoc_var <- function(key, value) {
   checkmate::assert_string(x = key, na.ok = FALSE, null.ok = FALSE)
   checkmate::assert_string(x = value, na.ok = FALSE, null.ok = FALSE)
@@ -462,7 +455,7 @@ declare_pandoc_var <- function(key, value) {
 }
 
 #' @describeIn declare_pandoc_var declare *base* font size
-#' @eval document_choice_arg(arg_name = "fontsize_global", before = "giving the document-wide font size.", after = "Defaults to `'10pt'`.", choices = fontsizes_global)
+#' @eval document_choice_arg(arg_name = "fontsize_global", choices = fontsizes_global, before = "giving the document-wide font size.", default = "10pt")
 declare_pandoc_fontsize <- function(fontsize_global = "10pt") {
   checkmate::assert_string(x = fontsize_global, na.ok = FALSE, null.ok = FALSE)
   checkmate::assert_choice(x = fontsize_global, choices = fontsizes_global, null.ok = FALSE)
@@ -477,7 +470,7 @@ fontsizes_global <- c(
 )
 
 #' @describeIn declare_pandoc_var declare language
-#' @eval document_choice_arg(arg_name = "lang", before = "giving a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) code, such as `en_US`. Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel) and others.", after = "Defaults to `NULL`.", choices = langs)
+#' @eval document_choice_arg(arg_name = "lang", choices = langs, before = "giving a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) code, such as `en_US`.", after = "Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel) and others.", null = "in which case there is no multilingual support", default = "null")
 declare_pandoc_lang <- function(lang = NULL) {
   assert_choice(x = lang, choices = langs, null.ok = TRUE)
   if (!is.null(lang)) {
@@ -616,7 +609,7 @@ wrap_in_latex_env <- function(env, tex) {
 }
 
 #' @describeIn wrap_in_latex_env Apply fontsize
-#' @eval document_choice_arg(arg_name = "fontsize", before = "giving a valid [LaTeX font size](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text).", after = "Defaults to `'tiny'`.", choices = fontsizes)
+#' @eval document_choice_arg(arg_name = "fontsize",choices = fontsizes, before = "giving a valid [LaTeX font size](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text).", default = "tiny")
 wrap_in_latex_fontsize <- function(fontsize = "tiny", tex) {
   assert_choice(x = fontsize, choices = fontsizes, null.ok = FALSE)
   wrap_in_latex_env(env = fontsize, tex = tex)
@@ -637,7 +630,7 @@ fontsizes <- c(
 )
 
 #' @describeIn wrap_in_latex_env Apply alignment
-#' @eval document_choice_arg(arg_name = "alignment", before = "giving the alignment of the text.", after = "Defaults to `'justified'`.", choices = alignments)
+#' @eval document_choice_arg(arg_name = "alignment", choices = alignments, before = "giving the alignment of the text.", default = "justified")
 wrap_in_latex_alignment <- function(alignment = "justified", tex) {
   assert_choice(x = alignment, choices = alignments, null.ok = FALSE)
   if (alignment == "justified") {
