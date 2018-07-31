@@ -172,7 +172,7 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #' Renders character vectors of items to pdf, svg and R graphics (grid).
 #'
 #' @details
-#' It is often helpful to have an authoritative, typeset version of text items, ready for for printing, web publishing or interpretation.
+#' It is often helpful to have a canonical, typeset version of text items, ready for for printing, web publishing or interpretation.
 #' Rendered text items should meet several criteria:
 #' - They should always fit on the *same* card size, both for practical reasons and to emphasize the equal "significance" of items, even if they are of different length.
 #'     Card sizes can be arbitrary, specified via `paperwidth`,`paperheight`.
