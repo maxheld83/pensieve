@@ -208,7 +208,7 @@ Defaults to \code{NULL}, in which case the grob is rendered automatically (recom
 Renders character vectors of items to pdf, svg and R graphics (grid).
 }
 \details{
-It is often helpful to have an authoritative, typeset version of text items, ready for for printing, web publishing or interpretation.
+It is often helpful to have a canonical, typeset version of text items, ready for for printing, web publishing or interpretation.
 Rendered text items should meet several criteria:
 \itemize{
 \item They should always fit on the \emph{same} card size, both for practical reasons and to emphasize the equal "significance" of items, even if they are of different length.
