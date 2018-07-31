@@ -361,9 +361,9 @@ md2tex <- function(md,
 #' @title Render LaTeX to PDF
 #' @description In contrast to normal texi function, this returns the pdf as a raw vector
 #' @param tex
-#' [`character()`] giving tex string(s).
+#' `[character()]` giving tex string(s).
 #' @noRd
-#' @return [`raw()`] giving PDF.
+#' @return `[raw()]` giving PDF.
 texi2pdf2 <- function(tex) {
   requireNamespace2(x = "tools")
   requireNamespace2(x = "fs")
@@ -385,9 +385,9 @@ texi2pdf2 <- function(tex) {
 
 #' @title Convert PDF to SVG
 #' @param pdf
-#' [`raw()`] of PDF file.
+#' `[raw()]` of PDF file.
 #' @noRd
-#' @return [`raw()`] of SVG file.
+#' @return `[raw()]` of SVG file.
 pdf2svg <- function(pdf) {
   # dependencies
   requireNamespace2(x = "fs")
@@ -417,7 +417,7 @@ pdf2svg <- function(pdf) {
 
 #' @title Convert SVG to R graphics system plot
 #' @param svg
-#' [`character(1)`] giving path to an SVG file.
+#' `[character(1)]` giving path to an SVG file.
 #' @noRd
 #' @return a grid grob.
 svg2grob <- function(svg) {
