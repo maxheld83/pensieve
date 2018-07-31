@@ -54,10 +54,16 @@ test_that(desc = "skips and warns when pandoc is unavailable", code = {
   )
 })
 
-test_that(desc = "errors out on language unknown to pandoc", code = {
-  skip(message = "in dev")
+test_that(desc = "errors out when pandoc times out", code = {
+  md <- glue_collapse(x = rep(x = "Repeated often enough, this should choke Pandoc.", times = 1000000), sep = " ")
   testthat::expect_error(
-    object = render_items(items = "foo", fontsize = "tiny", lang = "klingon")
+    object = md2tex(md = md)
+  )
+})
+
+test_that(desc = "errors out on language unknown to pandoc", code = {
+  testthat::expect_error(
+    object = md2tex(md = "foo", lang = "klingon")
   )
 })
 

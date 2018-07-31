@@ -200,6 +200,7 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #' Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 #'
 #' @inheritParams psItemContent
+#' @inheritParams md2tex
 #'
 #' @param tex `[list(character())]` giving a list of manually produced LaTeX markup, one for each `items`.
 #' Defaults to `NULL`, in which case the LaTeX markup is rendered automatically (recommended).
@@ -358,12 +359,19 @@ md2tex <- function(md,
 
       file_name # input, must be last
     ),
-    error_on_status = TRUE,
+    error_on_status = FALSE,  # this does not give good error messages
     windows_hide_window = TRUE,
     echo = FALSE,
     echo_cmd = FALSE,
-    timeout = 2  # seconds
+    spinner = TRUE,
+    timeout = 1  # this is just pandoc, should be very fast
   )
+  if (res$timeout) {
+    stop(glue("Pandoc timed out converting {file_name}."), call. = FALSE)
+  }
+  if (res$status != 0) {
+    stop(glue("Pandoc failed on converting {file_name} with: {res$stderr}"), call. = FALSE)
+  }
   tex <- res$stdout
   names(tex) <- name
   tex
