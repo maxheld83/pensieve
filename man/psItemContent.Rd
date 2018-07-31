@@ -20,18 +20,116 @@ Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pando
 An additional subclass \code{psItemContentText} is prepended and validated.
 \item \code{"image"} for image items, in which case \code{items} must be file paths, relative from \code{img_dir}.
 Images must be \code{*.png}, \code{*.jpg}, \code{*.jpeg} or \code{*.svg}.
-An additional subclass `psItemContentImage`` is prepended and validated.
+An additional subclass \code{psItemContentImage`` is prepended and validated.}lang` is ignored.
 }}
 
-\item{lang}{\code{[character(1)]} giving a language code for \emph{all} items, such as \code{en_US}.
-Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package}.
+\item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}. Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others.
 Must be one of:
 \itemize{
-\item \code{NULL} (default), in which case there is no multilingual typesetting support.
-\item a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} supported by pandoc.
-See \code{pensieve:::format_latex$avail_opts$langs} for all available languages.
-Ignored unless \code{type = "text"}.
-}}
+\item \code{'ar-DZ'}
+\item \code{'ar-IQ'}
+\item \code{'ar-JO'}
+\item \code{'ar-LB'}
+\item \code{'ar-LY'}
+\item \code{'ar-MA'}
+\item \code{'ar-MR'}
+\item \code{'ar-PS'}
+\item \code{'ar-SY'}
+\item \code{'ar-TN'}
+\item \code{'de-DE'}
+\item \code{'de-AT'}
+\item \code{'de-CH'}
+\item \code{'dsb'}
+\item \code{'hsb'}
+\item \code{'el-polyton'}
+\item \code{'en-AU'}
+\item \code{'en-CA'}
+\item \code{'en-GB'}
+\item \code{'en-NZ'}
+\item \code{'en-UK'}
+\item \code{'en-US'}
+\item \code{'grc-ancient'}
+\item \code{'la'}
+\item \code{'sl'}
+\item \code{'fr-CA'}
+\item \code{'pt-BR'}
+\item \code{'sr'}
+\item \code{'af'}
+\item \code{'am'}
+\item \code{'ar'}
+\item \code{'as'}
+\item \code{'ast'}
+\item \code{'bg'}
+\item \code{'bn'}
+\item \code{'bo'}
+\item \code{'br'}
+\item \code{'ca'}
+\item \code{'cy'}
+\item \code{'cs'}
+\item \code{'cop'}
+\item \code{'da'}
+\item \code{'dv'}
+\item \code{'el'}
+\item \code{'en'}
+\item \code{'eo'}
+\item \code{'es'}
+\item \code{'et'}
+\item \code{'eu'}
+\item \code{'fa'}
+\item \code{'fr'}
+\item \code{'fur'}
+\item \code{'ga'}
+\item \code{'gd'}
+\item \code{'gez'}
+\item \code{'gl'}
+\item \code{'he'}
+\item \code{'hi'}
+\item \code{'hr'}
+\item \code{'hu'}
+\item \code{'hy'}
+\item \code{'ia'}
+\item \code{'id'}
+\item \code{'is'}
+\item \code{'it'}
+\item \code{'km'}
+\item \code{'kmr'}
+\item \code{'kn'}
+\item \code{'ko'}
+\item \code{'lo'}
+\item \code{'lt'}
+\item \code{'lv'}
+\item \code{'ml'}
+\item \code{'mn'}
+\item \code{'mr'}
+\item \code{'nb'}
+\item \code{'nl'}
+\item \code{'nn'}
+\item \code{'no'}
+\item \code{'nqo'}
+\item \code{'oc'}
+\item \code{'pa'}
+\item \code{'pms'}
+\item \code{'pt'}
+\item \code{'rm'}
+\item \code{'ro'}
+\item \code{'sa'}
+\item \code{'se'}
+\item \code{'sk'}
+\item \code{'sq'}
+\item \code{'sr'}
+\item \code{'syr'}
+\item \code{'ta'}
+\item \code{'te'}
+\item \code{'th'}
+\item \code{'ti'}
+\item \code{'tk'}
+\item \code{'tr'}
+\item \code{'uk'}
+\item \code{'ur'} or
+\item \code{'vi'}
+}
+
+Defaults to \code{NULL}.}
 
 \item{img_dir}{\code{[character(1)]} giving the directory for \code{type = "image"}s.
 Defaults to \code{NULL}, in which case images are expected at the working directory root \code{\link[base:getwd]{base::getwd()}}.

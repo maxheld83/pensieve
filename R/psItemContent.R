@@ -23,6 +23,7 @@
 #' - `"image"` for image items, in which case `items` must be file paths, relative from `img_dir`.
 #'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
 #'   An additional subclass `psItemContentImage`` is prepended and validated.
+#'   `lang` is ignored.
 #'
 #' @param img_dir
 #' `[character(1)]` giving the directory for `type = "image"`s.
@@ -31,7 +32,7 @@
 #' Must be relative path *from the working directory*.
 #' Best constructed with [base::file.path()].
 #'
-#' @inheritParams lang
+#' @inheritParams declare_pandoc_lang
 #'
 #' @example tests/testthat/helper_psItemContent.R
 #'
@@ -119,7 +120,7 @@ new_psItemContentText <- function(items, lang) {
 validate_S3.psItemContentText <- function(x, ...) {
   assert_choice(
     x = attr(x = x, which = "lang"),
-    choices = format_latex$avail_opts$langs,
+    choices = langs,
     null.ok = TRUE,
     .var.name = "lang")
 
@@ -448,11 +449,70 @@ format_latex <- list(
 )
 
 # formatting helpers: pandoc opts ====
+#' @title Make pandoc tex variable option
+#' @description This function creates pandoc variable key value pairs for LaTeX preamble.
+#' @param key `[character(1)]` giving the key, such as `"geometry"`.
+#' @param value `[character(1)]` giving the value, such as `"margin=1in"`.
+#' @keywords interal
+#' @return `[character(1)]` giving pandoc variable option.
+declare_pandoc_var <- function(key, value) {
+  checkmate::assert_string(x = key, na.ok = FALSE, null.ok = FALSE)
+  checkmate::assert_string(x = value, na.ok = FALSE, null.ok = FALSE)
+  glue::glue("--variable={key}:{value}")
+}
 
-#' @title Set pandoc variable options for LaTeX geometry package
-#' @description
-#' All arguments are passed to the [LaTeX geometry package](https://ctan.org/pkg/geometry).
-#' Check there for details.
+#' @describeIn declare_pandoc_var declare *base* font size
+#' @eval document_choice_arg(arg_name = "fontsize_global", before = "giving the document-wide font size.", after = "Defaults to `'10pt'`.", choices = fontsizes_global)
+declare_pandoc_fontsize <- function(fontsize_global = "10pt") {
+  checkmate::assert_string(x = fontsize_global, na.ok = FALSE, null.ok = FALSE)
+  checkmate::assert_choice(x = fontsize_global, choices = fontsizes_global, null.ok = FALSE)
+  declare_pandoc_var(key = "fontsize", value = fontsize_global)
+}
+fontsizes_global <- c(
+  # only these are permissible in base classes https://texblog.org/2012/08/29/changing-the-font-size-in-latex/
+  # must remain in ascending order!
+  "10pt",
+  "11pt",
+  "12pt"
+)
+
+#' @describeIn declare_pandoc_var declare language
+#' @eval document_choice_arg(arg_name = "lang", before = "giving a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) code, such as `en_US`. Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel) and others.", after = "Defaults to `NULL`.", choices = langs)
+declare_pandoc_lang <- function(lang = NULL) {
+  assert_choice(x = lang, choices = langs, null.ok = TRUE)
+  if (!is.null(lang)) {
+    declare_pandoc_var(key = "lang", value = lang)
+  }
+}
+# generally, the BCP 47 standard allows all manner of language, region combinations (and more), e.g. "de_AT"
+# however, only a subset is allowed in pandoc and translated to panglossia or babel
+# this is (unfortunately) transcribed from the haskell script inside pandoc
+# https://github.com/jgm/pandoc/blob/b8ffd834cff717fe424f22e506351f2ecec4655a/src/Text/Pandoc/Writers/LaTeX.hs#L1354-L1480
+langs <- readr::read_delim(
+  file = system.file("extdata", "langs.csv", package = "pensieve"),
+  col_names = TRUE,
+  delim = ",",
+  col_types = "ccccll"
+)
+# must be converted
+langs <- purrr::pmap(.l = langs[,c("lang_short", "var_short", "lang_long", "var_long")], .f = function(lang_short, var_short, lang_long, var_long) {
+  if (is.na(var_short)) {
+    short <- lang_short
+  } else {
+    short <- glue::glue('{lang_short}-{var_short}')
+  }
+  if (is.na(var_long)) {
+    long <- lang_long
+  } else {
+    long <- glue::glue('{lang_long} ({var_long})')
+  }
+  names(short) <- long
+  return(short)
+})
+langs <- purrr::as_vector(langs)
+
+
+#' @describeIn declare_pandoc_var declare options for [LaTeX geometry package](https://ctan.org/pkg/geometry).
 #'
 #' @param paperwidth
 #' `[numeric(1)]` giving the width of cards in `units`.
@@ -485,21 +545,18 @@ format_latex <- list(
 #' @param vcentering
 #' `[logical(1)]` indicating whether content should be vertically centered.
 #' Defaults to `TRUE`.
-#' #' @param hcentering
+#' @param hcentering
 #' `[logical(1)]` indicating whether content should be horizontally centered.
 #' Defaults to `TRUE`.
-#'
-#' @return `[character()]` giving LaTeX geometry package options as pandoc variable options.
-#' @noRd
-format_latex$pandoc_opts$geometry <- function(paperwidth = 8.5,
-                                              paperheight = 5.4,
-                                              top = 0.5,
-                                              bottom = 0.5,
-                                              left = 0.5,
-                                              right = 0.5,
-                                              units = "cm",
-                                              vcentering = TRUE,
-                                              hcentering = TRUE) {
+declare_pandoc_geometry <- function(paperwidth = 8.5,
+                                    paperheight = 5.4,
+                                    top = 0.5,
+                                    bottom = 0.5,
+                                    left = 0.5,
+                                    right = 0.5,
+                                    units = "cm",
+                                    vcentering = TRUE,
+                                    hcentering = TRUE) {
   assert_string(x = units, na.ok = FALSE, null.ok = FALSE)
   assert_choice(x = units, choices = c("cm", "in"))
   assert_flag(x = vcentering, na.ok = FALSE, null.ok = FALSE)
@@ -533,88 +590,11 @@ format_latex$pandoc_opts$geometry <- function(paperwidth = 8.5,
   }
 
   opts <- purrr::map_chr(.x = opts, .f = function(x) {
-    declare_pandoc_vars(key = "geometry", value = x)
+    declare_pandoc_var(key = "geometry", value = x)
   })
   return(opts)
 }
 
-#' @title Set pandoc variable options for LaTeX geometry package
-#' @description This is the global, *base* font size for the entire LaTeX document.
-#' @param fontsize_base `[character(1)]` must be one of
-#' - `"10pt"` (default),
-#' - `"11pt"`,
-#' - `"12pt"`.
-#' @return `[character(1)]` giving base font size as pandoc variable option.
-#' @noRd
-format_latex$pandoc_opts$fontsize_base <- function(fontsize_base = "10pt") {
-  checkmate::assert_string(x = fontsize_base, na.ok = FALSE, null.ok = FALSE)
-  checkmate::assert_choice(x = fontsize_base, choices = format_latex$avail_opts$fontsize_base, null.ok = FALSE)
-  make_pandoc_tex_var(key = "fontsize", value = fontsize_base)
-}
-format_latex$avail_opts$fontsize_base <- c(
-  # only these are permissible in base classes https://texblog.org/2012/08/29/changing-the-font-size-in-latex/
-  # must remain in ascending order!
-  "10pt",
-  "11pt",
-  "12pt"
-)
-
-#' @title Set pandoc language option
-#' @name lang
-#' @description Set pandoc language option
-#' @param lang
-#' `[character(1)]` giving a language code for *all* items, such as `en_US`.
-#' Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel).
-#' Must be one of:
-#' - `NULL` (default), in which case there is no multilingual typesetting support.
-#' - a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) supported by pandoc.
-#'   See `pensieve:::format_latex$avail_opts$langs` for all available languages.
-#' Ignored unless `type = "text"`.
-#' @keywords internal
-format_latex$pandoc_opts$lang <- function(lang = NULL) {
-  assert_choice(x = lang ,choices = format_latex$avail_opts$langs, null.ok = TRUE)
-  if (!is.null(lang)) {
-    declare_pandoc_vars(key = "lang", value = lang)
-  }
-}
-# generally, the BCP 47 standard allows all manner of language, region combinations (and more), e.g. "de_AT"
-# however, only a subset is allowed in pandoc and translated to panglossia or babel
-# this is (unfortunately) transcribed from the haskell script inside pandoc
-# https://github.com/jgm/pandoc/blob/b8ffd834cff717fe424f22e506351f2ecec4655a/src/Text/Pandoc/Writers/LaTeX.hs#L1354-L1480
-langs <- readr::read_delim(
-  file = system.file("extdata", "langs.csv", package = "pensieve"),
-  col_names = TRUE,
-  delim = ",",
-  col_types = "ccccll"
-)
-# must be converted
-langs <- purrr::pmap(.l = langs[,c("lang_short", "var_short", "lang_long", "var_long")], .f = function(lang_short, var_short, lang_long, var_long) {
-  if (is.na(var_short)) {
-    short <- lang_short
-  } else {
-    short <- glue::glue('{lang_short}-{var_short}')
-  }
-  if (is.na(var_long)) {
-    long <- lang_long
-  } else {
-    long <- glue::glue('{lang_long} ({var_long})')
-  }
-  names(short) <- long
-  return(short)
-})
-format_latex$avail_opts$langs <- purrr::as_vector(langs)
-
-#' @title Make pandoc tex variable option
-#' @description Create pandoc key value pairs for LaTeX.
-#' @param key `[character(1)]` giving the key, such as `"geometry"`.
-#' @param value `[character(1)]` giving the value, such as `"margin=1in"`.
-#' @noRd
-#' @return `[character(1)]` giving pandoc variable option.
-declare_pandoc_vars <- function(key, value) {
-  checkmate::assert_string(x = key, na.ok = FALSE, null.ok = FALSE)
-  checkmate::assert_string(x = value, na.ok = FALSE, null.ok = FALSE)
-  glue::glue("--variable={key}:{value}")
-}
 
 # formatting helpers: latex wrapers ====
 #' @title Wrap latex string in latex environment
