@@ -50,7 +50,7 @@ test_that(desc = "just works", code = {
 test_that(desc = "skips and warns when pandoc is unavailable", code = {
   withr::local_path(new = "", action = "replace")  #  this will kill pandoc
   testthat::expect_warning(
-    object = render_items(items = "foo", fontsize = "tiny")
+    object = render_items(items = "foo")
   )
 })
 

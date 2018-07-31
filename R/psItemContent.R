@@ -195,12 +195,13 @@ validate_S3.psItemContentImage <- function(x, ...) {
 # TODO explain how you can write stuff to disc
 # TODO explain caching
 #'
-#' When `items` are named with item handles, such handles are used as file names.
+#' When `items` are named with item handles, such handles are used as file and object names.
 #'
 #' Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 #'
 #' @inheritParams psItemContent
 #' @inheritParams md2tex
+#' @inheritParams declare_pandoc_geometry
 #'
 #' @param tex `[list(character())]` giving a list of manually produced LaTeX markup, one for each `items`.
 #' Defaults to `NULL`, in which case the LaTeX markup is rendered automatically (recommended).
@@ -216,15 +217,28 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #'
 #' @export
 render_items <- function(items,
+                         fontsize_local = "tiny",
+                         fontsize_global = "10pt",
+                         alignment = "justified",
                          lang = NULL,
+                         paperwidth = 8.5,
+                         paperheight = 5.4,
+                         top = 0.5,
+                         bottom = 0.5,
+                         left = 0.5,
+                         right = 0.5,
+                         unit = "cm",
+                         vcentering = TRUE,
+                         hcentering = TRUE,
                          tex = NULL,
                          pdf = NULL,
                          svg = NULL,
-                         grob = NULL,
-                         ...) {
+                         grob = NULL) {
 
   # check deps
   requireNamespace2(x = "progress")
+
+  # do items coercion here
 
   # input validation
   purrr::walk(.x = list(tex = tex, pdf = pdf, svg = svg, grob = grob), .f = function(x) {
@@ -272,7 +286,20 @@ render_items <- function(items,
           Sys.sleep(1/2)
           pb$tick(tokens = list(handle = handle))
           tex[[i]] <- md2tex(
-            md = items[[i]]
+            md = items[[i]],
+            fontsize_local = fontsize_local,
+            fontsize_global = fontsize_global,
+            alignment = alignment,
+            lang = lang,
+            paperwidth = paperwidth,
+            paperheight = paperheight,
+            top = top,
+            bottom = bottom,
+            left = left,
+            right = right,
+            unit = unit,
+            vcentering = vcentering,
+            hcentering = hcentering
           )
           # if this has worked successfully, we can write it out
         }

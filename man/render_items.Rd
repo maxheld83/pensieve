@@ -4,12 +4,50 @@
 \alias{render_items}
 \title{Render text items.}
 \usage{
-render_items(items, lang = NULL, tex = NULL, pdf = NULL,
-  svg = NULL, grob = NULL, ...)
+render_items(items, fontsize_local = "tiny", fontsize_global = "10pt",
+  alignment = "justified", lang = NULL, paperwidth = 8.5,
+  paperheight = 5.4, top = 0.5, bottom = 0.5, left = 0.5,
+  right = 0.5, unit = "cm", vcentering = TRUE, hcentering = TRUE,
+  tex = NULL, pdf = NULL, svg = NULL, grob = NULL)
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
 Can be named to provide short, \emph{researcher-facing} \strong{item handles}.}
+
+\item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
+
+Must be one of:
+\itemize{
+\item \code{'tiny'} (\strong{default})
+\item \code{'scriptsize'}
+\item \code{'footnotesize'}
+\item \code{'small'}
+\item \code{'normalsize'}
+\item \code{'large'}
+\item \code{'Large'}
+\item \code{'LARGE'}
+\item \code{'huge'} or
+\item \code{'Huge'}
+}}
+
+\item{fontsize_global}{\code{[character(1)]} giving the document-wide font size.
+
+Must be one of:
+\itemize{
+\item \code{'10pt'} (\strong{default})
+\item \code{'11pt'} or
+\item \code{'12pt'}
+}}
+
+\item{alignment}{\code{[character(1)]} giving the alignment of the text.
+
+Must be one of:
+\itemize{
+\item \code{'justified'} (\strong{default})
+\item \code{'left'}
+\item \code{'right'} or
+\item \code{'center'}
+}}
 
 \item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
 
@@ -120,6 +158,40 @@ Must be one of:
 
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others.}
 
+\item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
+For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
+Defaults to \code{8.5} width and \code{5.4}. height.}
+
+\item{paperheight}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
+For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
+Defaults to \code{8.5} width and \code{5.4}. height.}
+
+\item{top}{\code{[numeric(1)]} giving the margin in \code{unit}.
+Defaults to \code{0.5}.}
+
+\item{bottom}{\code{[numeric(1)]} giving the margin in \code{unit}.
+Defaults to \code{0.5}.}
+
+\item{left}{\code{[numeric(1)]} giving the margin in \code{unit}.
+Defaults to \code{0.5}.}
+
+\item{right}{\code{[numeric(1)]} giving the margin in \code{unit}.
+Defaults to \code{0.5}.}
+
+\item{unit}{\code{[character(1)]} giving the units for the above dimensions.
+
+Must be one of:
+\itemize{
+\item \code{'cm'} for \emph{metric} (\strong{default}) or
+\item \code{'in'} for \emph{imperial}
+}}
+
+\item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically centered.
+Defaults to \code{TRUE}.}
+
+\item{hcentering}{\code{[logical(1)]} indicating whether content should be horizontally centered.
+Defaults to \code{TRUE}.}
+
 \item{tex}{\code{[list(character())]} giving a list of manually produced LaTeX markup, one for each \code{items}.
 Defaults to \code{NULL}, in which case the LaTeX markup is rendered automatically (recommended).}
 
@@ -131,8 +203,6 @@ Defaults to \code{NULL}, in which case the SVG is rendered automatically (recomm
 
 \item{grob}{\code{[list(grob())]} giving a list of manually produced grobs, one for each \code{items}.
 Defaults to \code{NULL}, in which case the grob is rendered automatically (recommended).}
-
-\item{...}{further arguments to be passed to methods.}
 }
 \description{
 Renders character vectors of items to pdf, svg and R graphics (grid).
@@ -162,7 +232,7 @@ At each step of this necessary, but rather long conversion pipeline more (system
 Additionally, because some of the intermediary formats cannot be easily or fully converted, downstream outputs may be faulty.
 Always use the \emph{earliest} possible output from the above conversion pipeline to maximize fidelity to the original PDF.
 
-When \code{items} are named with item handles, such handles are used as file names.
+When \code{items} are named with item handles, such handles are used as file and object names.
 
 Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 }
