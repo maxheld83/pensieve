@@ -283,7 +283,6 @@ render_items <- function(items,
             handle <- names(items[[i]])
             # remember item is only the index here!
           }
-          Sys.sleep(1/2)
           pb$tick(tokens = list(handle = handle))
           tex[[i]] <- md2tex(
             md = items[[i]],
@@ -390,7 +389,7 @@ md2tex <- function(md,
     windows_hide_window = TRUE,
     echo = FALSE,
     echo_cmd = FALSE,
-    spinner = TRUE,
+    spinner = FALSE,  # screws up progressbar
     timeout = 1  # this is just pandoc, should be very fast
   )
   if (res$timeout) {
