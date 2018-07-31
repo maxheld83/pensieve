@@ -8,7 +8,7 @@
 \usage{
 wrap_in_latex_env(env, tex)
 
-wrap_in_latex_fontsize(fontsize = "tiny", tex)
+wrap_in_latex_fontsize(fontsize_local = "tiny", tex)
 
 wrap_in_latex_alignment(alignment = "justified", tex)
 }
@@ -17,7 +17,7 @@ wrap_in_latex_alignment(alignment = "justified", tex)
 
 \item{tex}{\code{[character(1)]} giving some latex string.}
 
-\item{fontsize}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
+\item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
 
 Must be one of:
 \itemize{
@@ -51,7 +51,7 @@ These are helper functions to apply latex environments.
 }
 \section{Functions}{
 \itemize{
-\item \code{wrap_in_latex_fontsize}: Apply fontsize
+\item \code{wrap_in_latex_fontsize}: Apply local fontsize
 
 \item \code{wrap_in_latex_alignment}: Apply alignment
 }}

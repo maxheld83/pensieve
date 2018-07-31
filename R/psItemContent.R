@@ -314,8 +314,8 @@ md2tex <- function(md,
 
   # wrap in latex commands
   # remember, any latex in md will get passed on by pandoc
-  md <- wrap_in_latex_fontsize(tex = md)
-  md <- wrap_in_latex_alignment(tex = md)
+  md <- wrap_in_latex_fontsize(tex = md, ...)
+  md <- wrap_in_latex_alignment(tex = md, ...)
 
   # just write to tempdir
   withr::local_dir(new = tempdir())
@@ -608,13 +608,13 @@ wrap_in_latex_env <- function(env, tex) {
   )
 }
 
-#' @describeIn wrap_in_latex_env Apply fontsize
-#' @eval document_choice_arg(arg_name = "fontsize",choices = fontsizes, before = "giving a valid [LaTeX font size](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text).", default = "tiny")
-wrap_in_latex_fontsize <- function(fontsize = "tiny", tex) {
-  assert_choice(x = fontsize, choices = fontsizes, null.ok = FALSE)
-  wrap_in_latex_env(env = fontsize, tex = tex)
+#' @describeIn wrap_in_latex_env Apply local fontsize
+#' @eval document_choice_arg(arg_name = "fontsize_local", choices = fontsizes_local, before = "giving a valid [LaTeX font size](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text).", default = "tiny")
+wrap_in_latex_fontsize <- function(fontsize_local = "tiny", tex) {
+  assert_choice(x = fontsize_local, choices = fontsizes_local, null.ok = FALSE)
+  wrap_in_latex_env(env = fontsize_local, tex = tex)
 }
-fontsizes <- c(
+fontsizes_local <- c(
   # this list is from https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text
   # must remain in ascending order!
   "tiny",
