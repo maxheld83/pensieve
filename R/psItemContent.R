@@ -541,11 +541,7 @@ langs <- purrr::as_vector(langs)
 #' `[numeric(1)]` giving the margin in `units`.
 #' Defaults to `0.5`.
 #'
-#' @param units
-#' `[character(1)]` giving the units for the above dimensions, must be one of:
-#' - `"cm"` for metric system,
-#' - `"in"` for inches.
-#' Defaults to `"cm"`.
+#' @eval document_choice_arg(arg_name = "unit", choices = units, before = "giving the units for the above dimensions.", default = "cm")
 #'
 #' @param vcentering
 #' `[logical(1)]` indicating whether content should be vertically centered.
@@ -559,11 +555,11 @@ declare_pandoc_geometry <- function(paperwidth = 8.5,
                                     bottom = 0.5,
                                     left = 0.5,
                                     right = 0.5,
-                                    units = "cm",
+                                    unit = "cm",
                                     vcentering = TRUE,
                                     hcentering = TRUE) {
-  assert_string(x = units, na.ok = FALSE, null.ok = FALSE)
-  assert_choice(x = units, choices = c("cm", "in"))
+  assert_string(x = unit, na.ok = FALSE, null.ok = FALSE)
+  assert_choice(x = unit, choices = units)
   assert_flag(x = vcentering, na.ok = FALSE, null.ok = FALSE)
   assert_flag(x = hcentering, na.ok = FALSE, null.ok = FALSE)
 
@@ -582,7 +578,7 @@ declare_pandoc_geometry <- function(paperwidth = 8.5,
       assert_numeric(x = x, lower = 0, finite = TRUE, any.missing = FALSE, len = 1, null.ok = FALSE, .var.name = y)
 
       # this is the actual paste job
-      value = glue::glue("{y}={x}{units}")
+      value = glue::glue("{y}={x}{unit}")
     }
   )
   # append v/hcentering if applicable
@@ -599,6 +595,7 @@ declare_pandoc_geometry <- function(paperwidth = 8.5,
   })
   return(opts)
 }
+units <- c(metric = "cm", imperial = "in")
 
 
 # formatting helpers: latex wrapers ====

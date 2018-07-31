@@ -14,7 +14,7 @@ declare_pandoc_fontsize(fontsize_global = "10pt")
 declare_pandoc_lang(lang = NULL)
 
 declare_pandoc_geometry(paperwidth = 8.5, paperheight = 5.4,
-  top = 0.5, bottom = 0.5, left = 0.5, right = 0.5, units = "cm",
+  top = 0.5, bottom = 0.5, left = 0.5, right = 0.5, unit = "cm",
   vcentering = TRUE, hcentering = TRUE)
 }
 \arguments{
@@ -160,11 +160,12 @@ Defaults to \code{0.5}.}
 \item{right}{\code{[numeric(1)]} giving the margin in \code{units}.
 Defaults to \code{0.5}.}
 
-\item{units}{\code{[character(1)]} giving the units for the above dimensions, must be one of:
+\item{unit}{\code{[character(1)]} giving the units for the above dimensions.
+
+Must be one of:
 \itemize{
-\item \code{"cm"} for metric system,
-\item \code{"in"} for inches.
-Defaults to \code{"cm"}.
+\item \code{'cm'} for \emph{metric} (\strong{default}) or
+\item \code{'in'} for \emph{imperial}
 }}
 
 \item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically centered.

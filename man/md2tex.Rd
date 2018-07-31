@@ -170,11 +170,12 @@ Defaults to \code{0.5}.}
 Defaults to \code{0.5}.}
   \item{right}{\code{[numeric(1)]} giving the margin in \code{units}.
 Defaults to \code{0.5}.}
-  \item{units}{\code{[character(1)]} giving the units for the above dimensions, must be one of:
+  \item{unit}{\code{[character(1)]} giving the units for the above dimensions.
+
+Must be one of:
 \itemize{
-\item \code{"cm"} for metric system,
-\item \code{"in"} for inches.
-Defaults to \code{"cm"}.
+\item \code{'cm'} for \emph{metric} (\strong{default}) or
+\item \code{'in'} for \emph{imperial}
 }}
   \item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically centered.
 Defaults to \code{TRUE}.}
