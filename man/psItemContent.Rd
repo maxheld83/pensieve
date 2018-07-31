@@ -202,7 +202,7 @@ items_image <- psItemContent(
 )
 
 # rendering text items ====
-rendered_items <- render_items(items = items_text_en, lang = "en-US")
+rendered_items <- render_items(items = items_text_en)
 
 
 # supplying your own compiled LaTeX
