@@ -519,26 +519,13 @@ langs <- purrr::as_vector(langs)
 
 #' @describeIn declare_pandoc_var declare options for [LaTeX geometry package](https://ctan.org/pkg/geometry).
 #'
-#' @param paperwidth
-#' `[numeric(1)]` giving the width of cards in `units`.
+#' @param paperwidth,paperheight
+#' `[numeric(1)]` giving the width and height of documents in `unit`.
 #' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
-#' Defaults to `8.5`.
-#' @param paperheight
-#' `[numeric(1)]` giving the height of cards in `units`.
-#' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
-#' Defaults to `5.4`.
+#' Defaults to `8.5` width and `5.4`. height.
 #'
-#' @param top
-#' `[numeric(1)]` giving the margin in `units`.
-#' Defaults to `0.5`.
-#' @param bottom
-#' `[numeric(1)]` giving the margin in `units`.
-#' Defaults to `0.5`.
-#' @param left
-#' `[numeric(1)]` giving the margin in `units`.
-#' Defaults to `0.5`.
-#' @param right
-#' `[numeric(1)]` giving the margin in `units`.
+#' @param top,bottom,left,right
+#' `[numeric(1)]` giving the margin in `unit`.
 #' Defaults to `0.5`.
 #'
 #' @eval document_choice_arg(arg_name = "unit", choices = units, before = "giving the units for the above dimensions.", default = "cm")

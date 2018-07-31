@@ -140,24 +140,11 @@ Must be one of:
 
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others.}
 
-\item{paperwidth}{\code{[numeric(1)]} giving the width of cards in \code{units}.
+\item{paperwidth, paperheight}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
 For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
-Defaults to \code{8.5}.}
+Defaults to \code{8.5} width and \code{5.4}. height.}
 
-\item{paperheight}{\code{[numeric(1)]} giving the height of cards in \code{units}.
-For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
-Defaults to \code{5.4}.}
-
-\item{top}{\code{[numeric(1)]} giving the margin in \code{units}.
-Defaults to \code{0.5}.}
-
-\item{bottom}{\code{[numeric(1)]} giving the margin in \code{units}.
-Defaults to \code{0.5}.}
-
-\item{left}{\code{[numeric(1)]} giving the margin in \code{units}.
-Defaults to \code{0.5}.}
-
-\item{right}{\code{[numeric(1)]} giving the margin in \code{units}.
+\item{top, bottom, left, right}{\code{[numeric(1)]} giving the margin in \code{unit}.
 Defaults to \code{0.5}.}
 
 \item{unit}{\code{[character(1)]} giving the units for the above dimensions.
