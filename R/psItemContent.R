@@ -296,6 +296,7 @@ render_items <- function(items,
 #' @title Render markdown to LaTeX
 #' @description Function calls pandoc with some options to convert markdown to LaTeX.
 #' @param md `[character(1)]` giving markdown text.
+#' If named, name is used as file and object name.
 #' @inheritDotParams declare_pandoc_geometry
 #' @inheritParams wrap_in_latex_env
 #' @inheritParams declare_pandoc_var
@@ -310,6 +311,8 @@ md2tex <- function(md,
 
   # input validation
   assert_string(x = md, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
+  name <- names(md)
+  assert_names2(name)
   # other arguments are treated downstream
 
   # check system dependencies
@@ -322,12 +325,18 @@ md2tex <- function(md,
   # wrap in latex commands
   # remember, any latex in md will get passed on by pandoc
   md <- wrap_in_latex_fontsize(tex = md, fontsize_local = fontsize_local)
-  md <- wrap_in_latex_alignment(tex = md, alignment = "justified")
+  md <- wrap_in_latex_alignment(tex = md, alignment = alignment)
 
   # just write to tempdir
   withr::local_dir(new = tempdir())
 
-  write(x = md, file = "item.md")
+  if (is.null(name)) {
+    file_name <- fs::path("text", ext = "md")
+  } else {
+    file_name <- fs::path(name, ext = "md")
+  }
+
+  write(x = md, file = file_name)
 
   # render string to latex
   res <- processx::run(
@@ -347,7 +356,7 @@ md2tex <- function(md,
       # language
       declare_pandoc_lang(lang = lang),
 
-      "item.md" # input, must be last
+      file_name # input, must be last
     ),
     error_on_status = TRUE,
     windows_hide_window = TRUE,
@@ -355,7 +364,9 @@ md2tex <- function(md,
     echo_cmd = FALSE,
     timeout = 2  # seconds
   )
-  res$stdout
+  tex <- res$stdout
+  names(tex) <- name
+  tex
 }
 
 #' @title Render LaTeX to PDF

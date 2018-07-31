@@ -8,7 +8,8 @@ md2tex(md, fontsize_local = "tiny", fontsize_global = "10pt",
   alignment = "justified", lang = NULL, ...)
 }
 \arguments{
-\item{md}{\code{[character(1)]} giving markdown text.}
+\item{md}{\code{[character(1)]} giving markdown text.
+If named, name is used as file and object name.}
 
 \item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
 
