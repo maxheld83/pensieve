@@ -95,13 +95,10 @@ test_that(desc = "works with all accepted languages", code = {
   }
 })
 
-
 test_that(desc = "accepts by-hand LaTeX to override", code = {
   skip(message = "in dev")
   expect_equivalent(object = from_by_hand_latex$tex[[1]], expected = by_hand_latex)
 })
-
-# TODO loop over all other conversion arguments
 
 context("Compilation from LaTeX to PDF")
 

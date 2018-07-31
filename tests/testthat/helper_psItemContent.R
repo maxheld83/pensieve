@@ -52,8 +52,8 @@ by_hand_latex <- glue::glue(.open = "[", .close = "]", "
 
   \\end{document}
 ")
-from_by_hand_latex <- render_items(
+from_by_hand_latex <- suppressMessages(render_items(
   items = "Let's say this is an item.",
   # full item wording should still be provided for other uses!
   tex = list(by_hand_latex)
-)
+))
