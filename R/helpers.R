@@ -153,7 +153,7 @@ document_choice_arg <- function(arg_name, before = NULL, choices, after = NULL) 
   glue(
     "@param {arg_name} `[character(1)]` {before}",
     "Must be one of:",
-    glue_collapse(glue("- {choices}"), sep = "\n", last = " or \n"),
+    glue_collapse(glue("- `'{choices}'`"), sep = "\n", last = " or \n"),
     "\n {after}",
     .sep = "\n"
   )

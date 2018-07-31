@@ -312,8 +312,9 @@ md2tex <- function(md,
   # processx is nicer because we can properly capture the status of whatever happens at the CLI
 
   # wrap in latex commands
-  md <- format_latex$latex_wrappers$fontsize(tex = md)
-  md <- format_latex$latex_wrappers$alignment(tex = md)
+  # remember, any latex in md will get passed on by pandoc
+  md <- wrap_in_latex_fontsize(tex = md)
+  md <- wrap_in_latex_alignment(tex = md)
 
   # just write to tempdir
   withr::local_dir(new = tempdir())
@@ -616,19 +617,31 @@ declare_pandoc_vars <- function(key, value) {
 }
 
 # formatting helpers: latex wrapers ====
+#' @title Wrap latex string in latex environment
+#' @description These are helper functions to apply latex environments.
+#' @param env `[character(1)]` giving a latex environment.
+#' @param tex `[character(1)]` giving some latex string.
+#' @return `[character(1)]` a latex string
+#' @keywords internal
+wrap_in_latex_env <- function(env, tex) {
+  assert_string(x = tex, min.chars = 1, na.ok = FALSE, null.ok = FALSE)
+  assert_string(x = env, min.chars = 1, na.ok = FALSE, null.ok = FALSE)
+  glue::glue(
+    "\\begin{[env]}
+    [tex]
+    \\end{[env]}",
+    .open = "[",
+    .close = "]"
+  )
+}
 
-#' @title Wrap LaTeX in fontsize command
-#' @param fontsize `[character(1)]` giving a valid [LaTeX font size](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text).
-#' Must be one of `pensieve:::format_latex$avail_opts$fontsize`.
-#' Defaults to `"tiny"`.
-#' @param tex `[character(1)]` giving some LaTeX string to wrap.
-#' @return `[character(1)]` LaTeX string.
-#' @noRd
-format_latex$latex_wrappers$fontsize <- function(fontsize = "tiny", tex) {
-  assert_choice(x = fontsize, choices = format_latex$avail_opts$fontsize, null.ok = FALSE)
+#' @describeIn wrap_in_latex_env Apply fontsize
+#' @eval document_choice_arg(arg_name = "fontsize", before = "giving a valid [LaTeX font size](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text).", after = "Defaults to `'tiny'`.", choices = fontsizes)
+wrap_in_latex_fontsize <- function(fontsize = "tiny", tex) {
+  assert_choice(x = fontsize, choices = fontsizes, null.ok = FALSE)
   wrap_in_latex_env(env = fontsize, tex = tex)
 }
-format_latex$avail_opts$fontsize <- c(
+fontsizes <- c(
   # this list is from https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text
   # must remain in ascending order!
   "tiny",
@@ -643,15 +656,10 @@ format_latex$avail_opts$fontsize <- c(
   "Huge"
 )
 
-#' @title Wrap LaTeX in alignment command
-#' @description Wrap LaTeX in alignment command.
-#' @name alignment
-#' @eval document_choice_arg(arg_name = "alignment", before = "giving the alignment of the text.", after = "Defaults to `'justified'`.", choices = format_latex$avail_opts$alignment)
-#' @param tex `[character(1)]` giving some LaTeX string to wrap.
-#' @return `[character(1)]` LaTeX string.
-#' @keywords internal
-format_latex$latex_wrappers$alignment <- function(alignment = "justified", tex) {
-  assert_choice(x = alignment, choices = format_latex$avail_opts$alignment, null.ok = FALSE)
+#' @describeIn wrap_in_latex_env Apply alignment
+#' @eval document_choice_arg(arg_name = "alignment", before = "giving the alignment of the text.", after = "Defaults to `'justified'`.", choices = alignments)
+wrap_in_latex_alignment <- function(alignment = "justified", tex) {
+  assert_choice(x = alignment, choices = alignments, null.ok = FALSE)
   if (alignment == "justified") {
     # if null, the justified, which requires NO extra command
     return(tex)
@@ -664,8 +672,7 @@ format_latex$latex_wrappers$alignment <- function(alignment = "justified", tex) 
   )
   wrap_in_latex_env(env = env, tex = tex)
 }
-# insert arbitrary alignment
-format_latex$avail_opts$alignment <- c(
+alignments <- c(
   # this list is from https://www.sharelatex.com/learn/Text_alignment
   # we're only using vanilla latex, no extra package
   "justified",
@@ -673,20 +680,3 @@ format_latex$avail_opts$alignment <- c(
   "right",
   "center"
 )
-
-#' @title Wrap latex string in latex environment.
-#' @param env `[character(1)]` giving a latex environment.
-#' @param tex `[character(1)]` giving some latex string.
-#' @return `[character(1)]` a latex string
-#' @noRd
-wrap_in_latex_env <- function(env, tex) {
-  assert_string(x = tex, min.chars = 1, na.ok = FALSE, null.ok = FALSE)
-  assert_string(x = env, min.chars = 1, na.ok = FALSE, null.ok = FALSE)
-  glue::glue(
-    "\\begin{[env]}
-      [tex]
-    \\end{[env]}",
-    .open = "[",
-    .close = "]"
-  )
-}
