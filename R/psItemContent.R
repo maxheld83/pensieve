@@ -254,16 +254,35 @@ render_items <- function(items,
     if (!is.null(x)) assertTRUE(x = grid::is.grob(x))
   })
 
+  # check dependencies
+  requireNamespace2(x = "progress")
 
   # md2tex ====
   # below function requires these as a list
-  mds <- as.list(items)
-  names(mds) <- names(items)
-
   if (is.null(tex)) {
+    message("Step 1/4: Conversion from Markdown to LaTeX.")
     tryCatch(
       expr = {
-        tex <- convert_assets(list = mds, conversion = "md2tex")
+        # set up progress bar
+        pb <- progress::progress_bar$new(
+          total = 100,
+          format = "converting :name [:bar] :percent eta: :eta")
+        pb$tick(0) # start with 0 before first compute
+        tex <- purrr::imap_chr(
+          .x = items,
+          .f = function(x, name, pb) {
+            pb$tick(tokens = list(name = name))
+            md2tex(
+              md = x,
+              fontsize_local = fontsize_local,
+              fontsize_global = fontsize_global,
+              alignment = alignment,
+              lang = lang
+            )
+          },
+          pb
+        )
+        pb$terminate()
       },
       error = function(cnd) {
         tex <- NULL  # if one compilation fails, set all to NULL
@@ -277,53 +296,8 @@ render_items <- function(items,
     message("Skipping conversion to LaTeX: Using user-supplied LaTeX markup from 'tex'.")
   }
 
-  list(tex = tex)
+  list(tex = as.list(tex))
 }
-
-
-convert_assets <- function(list, conversion) {
-  # input validation
-  assert_list(x = list, any.missing = FALSE, null.ok = FALSE)
-  assert_choice(x = conversion, choices = conversions, null.ok = FALSE)
-  assert_names2(x = names(list))
-
-  # check dependencies
-  requireNamespace2(x = "progress")
-
-  # established empty object to make for loop faster
-  output <- vector("list", length(list))
-  names(output) <- names(list)
-
-  # use name, just to be sure, used in below messages
-  names(conversion) <- names(conversions[conversions == conversion])
-
-  # set up progress bar
-  pb <- progress::progress_bar$new(
-    total = length(list),
-    format = "  converting object :handle to :to [:bar] :percent eta: :eta")
-  pb$tick(0)
-
-  # loop
-  for (i in 1:length(list)) {
-    # cannot use purrr here because it does not work with progress bar
-    if (is.null(names(list[[i]]))) {
-      # make name if there is none
-      handle <- as.character(i)
-    } else {
-      handle <- names(list[[i]])
-      # remember i is only the index here!
-    }
-    pb$tick(tokens = list(handle = handle, to = names(conversion)))
-    output[[i]] <- do.call(what = conversion, args = list(list[[i]]))
-  }
-  return(output)
-}
-conversions <- c(
-  LaTeX = "md2tex",
-  PDF = "texi2pdf2",
-  SVG = "pdf2svg",
-  grob = "svg2gron"
-)
 
 #' @title Render markdown to LaTeX
 #' @description Function calls pandoc with some options to convert markdown to LaTeX.
