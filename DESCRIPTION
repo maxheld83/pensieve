@@ -32,6 +32,7 @@ Suggests:
   fs (>= 1.2.3),
   ggrepel (>= 0.6.5),
   grImport2 (>= 0.1-4),
+  grid (>= 3.5.1),
   ggraph (>= 1.0.0),
   htmlwidgets (>= 1.2),
   igraph (>= 1.1.2),

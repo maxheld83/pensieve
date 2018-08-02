@@ -129,8 +129,8 @@ pdf2svg <- function(path, page = 1) {
 #' @return **Exception**: [svg2grob()] returns a grid grob.
 svg2grob <- function(path) {
   # input validation
-  path_in <- fs::path_ext_set(path = path, ext = "pdf")
-  assert_file_exists(x = path_in, access = "r", extension = "pdf")
+  path_in <- fs::path_ext_set(path = path, ext = "svg")
+  assert_file_exists(x = path_in, access = "r", extension = "svg")
 
   # dependencies
   requireNamespace2(x = "grImport2")
