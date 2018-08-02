@@ -4,11 +4,14 @@
 \alias{format2format}
 \alias{md2tex}
 \alias{texi2pdf2}
+\alias{pdf2svg}
 \title{Render input file to output file}
 \usage{
 md2tex(path, fontsize_global = "10pt", lang = NULL, ...)
 
 texi2pdf2(path)
+
+pdf2svg(path, page = 1)
 }
 \arguments{
 \item{path}{\code{[character(1)]} to an input file \emph{with or without extension}}
@@ -159,6 +162,8 @@ Defaults to \code{TRUE}.}
   \item{hcentering}{\code{[logical(1)]} indicating whether content should be horizontally centered.
 Defaults to \code{TRUE}.}
 }}
+
+\item{page}{\code{[integer(1)]} giving the page in the pdf to convert.}
 }
 \value{
 \code{[character(1)]} path to output file \emph{with extension} invisibly.
@@ -168,9 +173,11 @@ Call various tools with options to convert files
 }
 \section{Functions}{
 \itemize{
-\item \code{md2tex}: markdown to LaTeX via pandoc
+\item \code{md2tex}: markdown to LaTeX via \href{http://pandoc.org}{pandoc}
 
-\item \code{texi2pdf2}: markdown to LaTeX via pandoc
+\item \code{texi2pdf2}: markdown to pdf via \href{https://www.latex-project.org}{LaTeX}
+
+\item \code{pdf2svg}: PDF to SVG via \href{http://www.cityinthesky.co.uk/opensource/pdf2svg/}{pdf2svg}
 }}
 
 \keyword{internal}

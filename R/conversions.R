@@ -10,7 +10,7 @@ NULL
 
 #' @inheritDotParams declare_pandoc_geometry
 #' @inheritParams declare_pandoc_var
-#' @describeIn format2format markdown to LaTeX via pandoc
+#' @describeIn format2format markdown to LaTeX via [pandoc](http://pandoc.org)
 md2tex <- function(path,
                    fontsize_global = "10pt",
                    lang = NULL,
@@ -67,13 +67,13 @@ md2tex <- function(path,
   invisible(path_out)
 }
 
-#' @describeIn format2format markdown to LaTeX via pandoc
+#' @describeIn format2format markdown to pdf via [LaTeX](https://www.latex-project.org)
 texi2pdf2 <- function(path) {
   # input validation
-  path_in <- fs::path_ext_set(path = path, ext = "tex")  # ensures that input is always md
+  path_in <- fs::path_ext_set(path = path, ext = "tex")
   assert_file_exists(x = path_in, access = "r", extension = "tex")
 
-  requireNamespace2("readr")
+  # dependencies
   requireNamespace2("tools")
   requireNamespace2("fs")
 
@@ -83,36 +83,46 @@ texi2pdf2 <- function(path) {
   invisible(fs::path_ext_set(path = path_in, ext = "pdf"))
 }
 
-#' @title Convert PDF to SVG
-#' @param pdf
-#' `[raw()]` of PDF file.
-#' @noRd
-#' @return `[raw()]` of SVG file.
-pdf2svg <- function(pdf) {
+#' @describeIn format2format PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
+#' @param page `[integer(1)]` giving the page in the pdf to convert.
+pdf2svg <- function(path, page = 1) {
+  # input validation
+  path_in <- fs::path_ext_set(path = path, ext = "pdf")
+  assert_file_exists(x = path_in, access = "r", extension = "pdf")
+  assert_scalar(x = page, na.ok = FALSE, null.ok = FALSE)
+
   # dependencies
   requireNamespace2(x = "fs")
-  requireNamespace2(x = "withr")
-  requireNamespace2(x = "tools")
+  requireNamespace2(x = "processx")
   checkmate::assert_os(os = c("mac", "linux"))
+
+  # sysdeps
   assert_sysdep(x = "pdf2svg")
 
-  # write to tempdir only
-  withr::local_dir(new = tempdir())
-  writeBin(object = pdf, con = "item.pdf")
+  path_out <- fs::path_ext_set(path = path, ext = "svg")
 
-  system2(
+  res <- processx::run(
     command = "pdf2svg",
-    args = c("item.pdf",
-             "item.svg",
-             "1"), # only take 1st page
-    stderr = "")
-
-  readBin(
-    con = "item.svg",
-    what = "raw",
-    n = fs::file_info("item.svg")$size  # need to allocate size
+    args = c(
+      path_in,
+      path_out,
+      page
+    ),
+    error_on_status = FALSE,  # this does not give good error messages
+    windows_hide_window = TRUE,
+    echo = FALSE,
+    echo_cmd = FALSE,
+    spinner = FALSE,  # screws up progressbar
+    timeout = 5  # this might take a while
   )
 
+  if (res$timeout) {
+    stop(glue("pdf2svg timed out converting {path_in} to {path_out}."), call. = FALSE)
+  }
+  if (res$status != 0) {
+    stop(glue("pdf2svg failed on converting {path_in} to {path_out} with: {res$stderr}"), call. = FALSE)
+  }
+  invisible(path_out)
 }
 
 #' @title Convert SVG to R graphics system plot
