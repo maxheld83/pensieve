@@ -275,7 +275,7 @@ render_items <- function(items,
             pb$tick(tokens = list(name = name))
             x <- wrap_in_latex_fontsize(tex = x, fontsize_local = fontsize_local)
             x <- wrap_in_latex_alignment(tex = x, alignment = alignment)
-            capture_disc_output(fun = md2tex)(
+            md2tex_mem(
               x = x,
               path_in = fs::path_ext_set(path = name, ext = "md"),
               fontsize_global = fontsize_global,

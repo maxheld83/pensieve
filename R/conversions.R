@@ -1,10 +1,14 @@
 # format2format ====
 
 #' @name format2format
-#' @title Render input file to output file
-#' @description Call various tools with options to convert files
+#' @title Convert vector formats
+#' @description Call various tools with options to convert vector formats.
+#' @details
+#' Functions with the `_mem` postfix abstract away file system operations and have been cached via [memoise::memoise()].
 #' @param path `[character(1)]` to an input file *with or without extension*
-#' @return `[character(1)]` path to output file *with extension* invisibly.
+#' @return depending on the function postfix:
+#' - for the base functions, `[character(1)]` (invisibly) giving path to output file *with extension*.
+#'   **Exception**: [svg2grob()] always returns a grid grob.
 #' @keywords internal
 NULL
 
@@ -67,7 +71,7 @@ md2tex <- function(path,
   invisible(path_out)
 }
 
-#' @describeIn format2format markdown to pdf via [LaTeX](https://www.latex-project.org)
+#' @describeIn format2format latex to pdf via [LaTeX](https://www.latex-project.org)
 texi2pdf2 <- function(path) {
   # input validation
   path_in <- fs::path_ext_set(path = path, ext = "tex")
@@ -126,7 +130,6 @@ pdf2svg <- function(path, page = 1) {
 }
 
 #' @describeIn format2format SVG to R graphics (grid) via [grImport2::readPicture()]
-#' @return **Exception**: [svg2grob()] returns a grid grob.
 svg2grob <- function(path) {
   # input validation
   path_in <- fs::path_ext_set(path = path, ext = "svg")
@@ -301,15 +304,16 @@ expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page
 #' Helpful for debugging purposes.
 #' @return modified function
 #' @keywords internal
-capture_disc_output <- function(fun) {
+virtually <- function(fun) {
   # input validation
   assert_function(x = fun, null.ok = FALSE)
 
   force(fun)
 
-  function(x, path_in, ...) {
+  function(x, path_in = "foo", ...) {
     # input validation
-    assert_character(x = x, any.missing = FALSE, null.ok = FALSE)
+    assert_vector(x = x, any.missing = FALSE, null.ok = FALSE)
+    # might be binary, so we can't test for more
     assert_path_for_output(x = path_in, overwrite = TRUE)
 
     # dependencies
@@ -318,6 +322,7 @@ capture_disc_output <- function(fun) {
 
     withr::local_file(file = path_in)
     readr::write_lines(x = x, path = path_in, append = FALSE)
+    # this works for binary and text
     out_path <- fun(path_in, ...)
 
     binary <- !fs::path_ext(out_path) %in% c("md", "tex", "txt")
@@ -332,5 +337,31 @@ capture_disc_output <- function(fun) {
     res
   }
 }
+# sadly, these have to be down here, *after* virtually, otherwise won't work
+#' @describeIn format2format markdown to LaTeX via [pandoc](http://pandoc.org)
+#' @param x `[character()]` *or* `[raw()]` giving the input.
+#' @param path_in `[character(1)]` giving path to use for input file *with or without extension*.
+#' Defaults to `"foo"`.
+#' Useful for debugging.
+#' @return
+#' - For `_mem`, `[character()]` or `[raw()]`.
+md2tex_mem <- virtually(fun = md2tex)
+#' @describeIn format2format latex to pdf via [LaTeX](https://www.latex-project.org)
+texi2pdf2_mem <- virtually(fun = texi2pdf2)
+#' @describeIn format2format PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
+pdf2svg_mem <- virtually(fun = pdf2svg)
+#' @describeIn format2format SVG to R graphics (grid) via [grImport2::readPicture()]
+svg2grob_mem <- function(x, path_in = "foo") {
+  # input validation
+  assert_vector(x = x, any.missing = FALSE, null.ok = FALSE)
+  assert_path_for_output(x = path_in, overwrite = TRUE)
 
+  # dependencies
+  requireNamespace2(x = "withr")
+
+  withr::local_file(file = path_in)
+  readr::write_lines(x = x, path = path_in, append = FALSE)
+
+  svg2grob(path = path_in)
+}
 

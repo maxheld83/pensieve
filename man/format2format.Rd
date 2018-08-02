@@ -6,7 +6,11 @@
 \alias{texi2pdf2}
 \alias{pdf2svg}
 \alias{svg2grob}
-\title{Render input file to output file}
+\alias{md2tex_mem}
+\alias{texi2pdf2_mem}
+\alias{pdf2svg_mem}
+\alias{svg2grob_mem}
+\title{Convert vector formats}
 \usage{
 md2tex(path, fontsize_global = "10pt", lang = NULL, ...)
 
@@ -15,6 +19,14 @@ texi2pdf2(path)
 pdf2svg(path, page = 1)
 
 svg2grob(path)
+
+md2tex_mem(x, path_in = "foo", ...)
+
+texi2pdf2_mem(x, path_in = "foo", ...)
+
+pdf2svg_mem(x, path_in = "foo", ...)
+
+svg2grob_mem(x, path_in = "foo")
 }
 \arguments{
 \item{path}{\code{[character(1)]} to an input file \emph{with or without extension}}
@@ -167,24 +179,47 @@ Defaults to \code{TRUE}.}
 }}
 
 \item{page}{\code{[integer(1)]} giving the page in the pdf to convert.}
+
+\item{x}{\code{[character()]} \emph{or} \code{[raw()]} giving the input.}
+
+\item{path_in}{\code{[character(1)]} giving path to use for input file \emph{with or without extension}.
+Defaults to \code{"foo"}.
+Useful for debugging.}
 }
 \value{
-\code{[character(1)]} path to output file \emph{with extension} invisibly.
+depending on the function postfix:
+\itemize{
+\item for the base functions, \code{[character(1)]} (invisibly) giving path to output file \emph{with extension}.
+\strong{Exception}: \code{\link[=svg2grob]{svg2grob()}} always returns a grid grob.
+}
 
-\strong{Exception}: \code{\link[=svg2grob]{svg2grob()}} returns a grid grob.
+\itemize{
+\item For \code{_mem}, \code{[character()]} or \code{[raw()]}.
+}
 }
 \description{
-Call various tools with options to convert files
+Call various tools with options to convert vector formats.
+}
+\details{
+Functions with the \code{_mem} postfix abstract away file system operations and have been cached via \code{\link[memoise:memoise]{memoise::memoise()}}.
 }
 \section{Functions}{
 \itemize{
 \item \code{md2tex}: markdown to LaTeX via \href{http://pandoc.org}{pandoc}
 
-\item \code{texi2pdf2}: markdown to pdf via \href{https://www.latex-project.org}{LaTeX}
+\item \code{texi2pdf2}: latex to pdf via \href{https://www.latex-project.org}{LaTeX}
 
 \item \code{pdf2svg}: PDF to SVG via \href{http://www.cityinthesky.co.uk/opensource/pdf2svg/}{pdf2svg}
 
 \item \code{svg2grob}: SVG to R graphics (grid) via \code{\link[grImport2:readPicture]{grImport2::readPicture()}}
+
+\item \code{md2tex_mem}: markdown to LaTeX via \href{http://pandoc.org}{pandoc}
+
+\item \code{texi2pdf2_mem}: latex to pdf via \href{https://www.latex-project.org}{LaTeX}
+
+\item \code{pdf2svg_mem}: PDF to SVG via \href{http://www.cityinthesky.co.uk/opensource/pdf2svg/}{pdf2svg}
+
+\item \code{svg2grob_mem}: SVG to R graphics (grid) via \code{\link[grImport2:readPicture]{grImport2::readPicture()}}
 }}
 
 \keyword{internal}
