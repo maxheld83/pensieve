@@ -17,6 +17,7 @@ test_that(desc = "errors out when pandoc times out", code = {
   md <- glue_collapse(x = rep(x = "Repeated often enough, this should choke Pandoc.", times = 1000000), sep = " ")
   readr::write_lines(x = md, path = "choker.md")
   expect_error(md2tex(path = "choker.md"))
+  teardown(code = {fs::file_delete("choker.md")})
 })
 
 test_that(desc = "errors out on language unknown to pandoc", code = {
@@ -45,6 +46,9 @@ test_that(desc = "on file system works", code = {
 test_that(desc = "conversion errors out on invalid LaTeX inside markdown", code = {
   readr::write_lines(c("This is some totally invalid tex", "\\usepackage{"), path = "bad.tex")
   expect_error(object = texi2pdf2(path = "bad.tex"))
+  teardown(code = {
+    fs::file_delete("bad.tex")
+  })
 })
 
 # pdf2svg ====
