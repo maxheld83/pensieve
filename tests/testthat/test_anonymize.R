@@ -29,9 +29,7 @@ test_that(desc = "returns fake names in the order in which real names are provid
 test_that(desc = "appends fake names as necessary and writes them to file",
           code = {
   fake_names <- anonymize(real_names = c(real_names, "Marylin"),
-                          lookup_file = system.file("extdata",
-                                                    "example_name_lookup.csv",
-                                                    package = "pensieve"))
+                          lookup_file = lookup_file)
   expect_character(x = fake_names,
                    any.missing = FALSE,
                    all.missing = FALSE,
@@ -51,4 +49,7 @@ test_that(desc = "retains unused lookup table entries",
   new_lookup <- read.csv("retain.temp.csv", stringsAsFactors = FALSE)
   old_lookup <- read.csv(lookup_file, stringsAsFactors = FALSE)
   expect_equal(object = new_lookup, expected = old_lookup)
+  teardown(code = {
+    fs::file_delete("retain.temp.csv")
+  })
 })
