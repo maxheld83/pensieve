@@ -201,6 +201,7 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #'
 #' @inheritParams psItemContent
 #' @inheritParams md2tex
+#' @inheritParams wrap_in_latex_env
 #' @inheritParams declare_pandoc_geometry
 #'
 #' @param tex `[list(character())]` giving a list of manually produced LaTeX markup, one for each `items`.
@@ -268,15 +269,16 @@ render_items <- function(items,
           total = 100,
           format = "converting :name [:bar] :percent eta: :eta")
         pb$tick(0) # start with 0 before first compute
-        tex <- purrr::imap_chr(
-          .x = items,
+        tex <- purrr::imap(
+          .x = as.list(items),
           .f = function(x, name, pb) {
             pb$tick(tokens = list(name = name))
-            md2tex(
-              md = x,
-              fontsize_local = fontsize_local,
+            x <- wrap_in_latex_fontsize(tex = x, fontsize_local = fontsize_local)
+            x <- wrap_in_latex_alignment(tex = x, alignment = alignment)
+            capture_disc_output(fun = md2tex)(
+              x = x,
+              path_in = fs::path_ext_set(path = name, ext = "md"),
               fontsize_global = fontsize_global,
-              alignment = alignment,
               lang = lang
             )
           },
@@ -299,52 +301,31 @@ render_items <- function(items,
   list(tex = as.list(tex))
 }
 
-#' @title Render markdown to LaTeX
+#' @title Render markdown file to LaTeX file
 #' @description Function calls pandoc with some options to convert markdown to LaTeX.
-#' @param md `[character(1)]` giving markdown text.
-#' If named, name is used as file and object name.
+#' @param path `[character(1)]` to an input file *with or without extension*
 #' @inheritDotParams declare_pandoc_geometry
-#' @inheritParams wrap_in_latex_env
 #' @inheritParams declare_pandoc_var
-#' @return `[character()]` giving LaTeX markup.
+#' @return `[character(1)]` path to latex file *with extension* invisibly.
 #' @keywords internal
-md2tex <- function(md,
-                   fontsize_local = "tiny",
+md2tex <- function(path,
                    fontsize_global = "10pt",
-                   alignment = "justified",
                    lang = NULL,
                    ...) {
 
   # input validation
-  assert_string(x = md, na.ok = FALSE, min.chars = 1, null.ok = FALSE)
-  name <- names(md)
-  assert_names2(name)
-  # other arguments are treated downstream
+  path_in <- fs::path_ext_set(path = path, ext = "md")  # ensures that input is always md
+  assert_file_exists(x = path_in, access = "r", extension = "md")
+
+  # check dependencies
+  requireNamespace2(x = "processx")
 
   # check system dependencies
   assert_sysdep(x = "pandoc")
 
-  # check dependencies
-  requireNamespace2(x = "processx")
-  # processx is nicer because we can properly capture the status of whatever happens at the CLI
+  path_out <- fs::path_ext_set(path = path_in, ext = "tex")
 
-  # wrap in latex commands
-  # remember, any latex in md will get passed on by pandoc
-  md <- wrap_in_latex_fontsize(tex = md, fontsize_local = fontsize_local)
-  md <- wrap_in_latex_alignment(tex = md, alignment = alignment)
-
-  # just write to tempdir
-  withr::local_dir(new = tempdir())
-
-  if (is.null(name)) {
-    file_name <- fs::path("text", ext = "md")
-  } else {
-    file_name <- fs::path(name, ext = "md")
-  }
-
-  write(x = md, file = file_name)
-
-  # render string to latex
+  # render file to latex
   res <- processx::run(
     command = "pandoc",
     args = c(
@@ -362,7 +343,10 @@ md2tex <- function(md,
       # language
       declare_pandoc_lang(lang = lang),
 
-      file_name # input, must be last
+      # output
+      glue("--output={path_out}"),
+
+      path_in # input, must be last
     ),
     error_on_status = FALSE,  # this does not give good error messages
     windows_hide_window = TRUE,
@@ -372,14 +356,38 @@ md2tex <- function(md,
     timeout = 1  # this is just pandoc, should be very fast
   )
   if (res$timeout) {
-    stop(glue("Pandoc timed out converting {file_name}."), call. = FALSE)
+    stop(glue("Pandoc timed out converting {path_in} to {path_out}."), call. = FALSE)
   }
   if (res$status != 0) {
-    stop(glue("Pandoc failed on converting {file_name} with: {res$stderr}"), call. = FALSE)
+    stop(glue("Pandoc failed on converting {path_in} to {path_out} with: {res$stderr}"), call. = FALSE)
   }
-  tex <- res$stdout
-  names(tex) <- name
-  tex
+  invisible(path_out)
+}
+
+#' @title Write file input, read file output
+#' @description Function operator to let functions with disk side effects accept R object as input, and return R object as output.
+#' @param fun A function which accepts a file as an input and returns a file name as an output.
+#' Helpful for debugging purposes.
+#' @return modified function
+#' @keywords internal
+capture_disc_output <- function(fun) {
+  # input validation
+  assert_function(x = fun, null.ok = FALSE)
+
+  force(fun)
+
+  function(x, path_in, ...) {
+    # input validation
+    assert_character(x = x, any.missing = FALSE, null.ok = FALSE)
+    assert_path_for_output(x = path_in, overwrite = TRUE)
+
+    withr::local_file(file = path_in)
+    readr::write_lines(x = x, path = path_in, append = FALSE)
+    out_path <- fun(path_in, ...)
+    res <- readr::read_lines(file = out_path)
+    fs::file_delete(out_path)
+    res
+  }
 }
 
 #' @title Render LaTeX to PDF

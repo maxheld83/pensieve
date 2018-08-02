@@ -2,30 +2,12 @@
 % Please edit documentation in R/psItemContent.R
 \name{md2tex}
 \alias{md2tex}
-\title{Render markdown to LaTeX}
+\title{Render markdown file to LaTeX file}
 \usage{
-md2tex(md, fontsize_local = "tiny", fontsize_global = "10pt",
-  alignment = "justified", lang = NULL, ...)
+md2tex(path, fontsize_global = "10pt", lang = NULL, ...)
 }
 \arguments{
-\item{md}{\code{[character(1)]} giving markdown text.
-If named, name is used as file and object name.}
-
-\item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
-
-Must be one of:
-\itemize{
-\item \code{'tiny'} (\strong{default})
-\item \code{'scriptsize'}
-\item \code{'footnotesize'}
-\item \code{'small'}
-\item \code{'normalsize'}
-\item \code{'large'}
-\item \code{'Large'}
-\item \code{'LARGE'}
-\item \code{'huge'} or
-\item \code{'Huge'}
-}}
+\item{path}{\code{[character(1)]} to an input file \emph{with or without extension}}
 
 \item{fontsize_global}{\code{[character(1)]} giving the document-wide font size.
 
@@ -34,16 +16,6 @@ Must be one of:
 \item \code{'10pt'} (\strong{default})
 \item \code{'11pt'} or
 \item \code{'12pt'}
-}}
-
-\item{alignment}{\code{[character(1)]} giving the alignment of the text.
-
-Must be one of:
-\itemize{
-\item \code{'justified'} (\strong{default})
-\item \code{'left'}
-\item \code{'right'} or
-\item \code{'center'}
 }}
 
 \item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
@@ -185,7 +157,7 @@ Defaults to \code{TRUE}.}
 }}
 }
 \value{
-\code{[character()]} giving LaTeX markup.
+\code{[character(1)]} path to latex file \emph{with extension} invisibly.
 }
 \description{
 Function calls pandoc with some options to convert markdown to LaTeX.
