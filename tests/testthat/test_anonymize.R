@@ -28,6 +28,9 @@ test_that(desc = "returns fake names in the order in which real names are provid
 
 test_that(desc = "appends fake names as necessary and writes them to file",
           code = {
+  setup(code = {
+    fs::file_copy(path = lookup_file, new_path = "lookup_file_backup.csv", overwrite = TRUE)
+  })
   fake_names <- anonymize(real_names = c(real_names, "Marylin"),
                           lookup_file = lookup_file)
   expect_character(x = fake_names,
@@ -39,6 +42,9 @@ test_that(desc = "appends fake names as necessary and writes them to file",
   on_file <- read.csv(file = lookup_file)
   expect_equivalent(object = as.character(on_file[, "real_names"]), expected = c(real_names, "Marylin"))
   expect_equivalent(object = as.character(on_file[, "fake_names"]), expected = fake_names)
+  teardown(code = {
+    fs::file_copy(path = "lookup_file_backup.csv", new_path = lookup_file, overwrite = TRUE)
+  })
 })
 
 test_that(desc = "retains unused lookup table entries",
