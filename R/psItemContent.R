@@ -301,13 +301,17 @@ render_items <- function(items,
   list(tex = as.list(tex))
 }
 
-#' @title Render markdown file to LaTeX file
-#' @description Function calls pandoc with some options to convert markdown to LaTeX.
+#' @name format2format
+#' @title Render input file to output file
+#' @description Call various tools with options to convert files
 #' @param path `[character(1)]` to an input file *with or without extension*
+#' @return `[character(1)]` path to output file *with extension* invisibly.
+#' @keywords internal
+NULL
+
 #' @inheritDotParams declare_pandoc_geometry
 #' @inheritParams declare_pandoc_var
-#' @return `[character(1)]` path to latex file *with extension* invisibly.
-#' @keywords internal
+#' @describeIn format2format markdown to LaTeX via pandoc
 md2tex <- function(path,
                    fontsize_global = "10pt",
                    lang = NULL,
@@ -364,6 +368,22 @@ md2tex <- function(path,
   invisible(path_out)
 }
 
+#' @describeIn format2format markdown to LaTeX via pandoc
+texi2pdf2 <- function(path) {
+  # input validation
+  path_in <- fs::path_ext_set(path = path, ext = "tex")  # ensures that input is always md
+  assert_file_exists(x = path_in, access = "r", extension = "tex")
+
+  requireNamespace2("readr")
+  requireNamespace2("tools")
+  requireNamespace2("fs")
+
+  # availability of tex will ideally be checked in platform dependent way by texi2pdf
+  tools::texi2pdf(file = path_in, clean = TRUE, index = FALSE, quiet = TRUE)
+
+  invisible(fs::path_ext_set(path = path_in, ext = "pdf"))
+}
+
 #' @title Write file input, read file output
 #' @description Function operator to let functions with disk side effects accept R object as input, and return R object as output.
 #' @param fun A function which accepts a file as an input and returns a file name as an output.
@@ -381,38 +401,25 @@ capture_disc_output <- function(fun) {
     assert_character(x = x, any.missing = FALSE, null.ok = FALSE)
     assert_path_for_output(x = path_in, overwrite = TRUE)
 
+    # dependencies
+    requireNamespace2(x = "withr")
+    requireNamespace2(x = "fs")
+
     withr::local_file(file = path_in)
     readr::write_lines(x = x, path = path_in, append = FALSE)
     out_path <- fun(path_in, ...)
-    res <- readr::read_lines(file = out_path)
+
+    binary <- !fs::path_ext(out_path) %in% c("md", "tex", "txt")
+
+    if (binary) {
+      res <- readr::read_file_raw(file = out_path)
+    } else {
+      res <- readr::read_lines(file = out_path)
+    }
+
     fs::file_delete(out_path)
     res
   }
-}
-
-#' @title Render LaTeX to PDF
-#' @description In contrast to normal texi function, this returns the pdf as a raw vector
-#' @param tex
-#' `[character()]` giving tex string(s).
-#' @noRd
-#' @return `[raw()]` giving PDF.
-texi2pdf2 <- function(tex) {
-  requireNamespace2(x = "tools")
-  requireNamespace2(x = "fs")
-  requireNamespace2(x = "withr")
-
-  # just write to tempdir
-  withr::local_dir(new = tempdir())
-
-  write(x = tex, file = "item.tex")
-  # availability of tex will ideally be checked in platform dependent way by texi2pdf
-  tools::texi2pdf(file = "item.tex", clean = TRUE, index = FALSE, quiet = TRUE)
-
-  readBin(
-    con = "item.pdf",
-    what = "raw",
-    n = fs::file_info("item.pdf")$size  # need to allocate size
-  )
 }
 
 #' @title Convert PDF to SVG
