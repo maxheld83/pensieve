@@ -68,7 +68,7 @@ jobs:
   include:
     - stage: deploy
       os: linux
-      r: oldrel
+      r: release
       script:
         # auth machine for github to get accio submodule
         - echo -e "machine github.com\n  login $GITHUB_PAT" >> ~/.netrc
