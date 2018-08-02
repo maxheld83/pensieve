@@ -92,6 +92,7 @@ test_that(desc = "from/to R objects works", code = {
 
 # memoised
 context("Memoised conversion")
+
 test_that(desc = "is a lot faster", code = {
   mem_tex <- md2tex_mem(x = c("bar", "zap"), path_in = "foo.md")
   mem_tex_unique <- md2tex_mem(x = sample(x = LETTERS, size = 100, replace = TRUE), path_in = "unique.md")
