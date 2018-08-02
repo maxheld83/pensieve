@@ -339,6 +339,20 @@ virtually <- function(fun) {
     res
   }
 }
+#' @title Memoise a function if available
+#' @description Memoises a function if [memoise::memoise()] is available.
+#' @param f Function of which to create a memoised copy.
+#' @noRd
+memoise2 <- function(f) {
+  # input validation
+  assert_function(x = f, null.ok = FALSE)
+  if (requireNamespace("memoise")) {
+    return(memoise::memoise(f = f))
+  } else {
+    message("This function runs slow because package memoise is missing. Please install it.")
+    f
+  }
+}
 # sadly, these have to be down here, *after* virtually, otherwise won't work
 #' @describeIn format2format markdown to LaTeX via [pandoc](http://pandoc.org)
 #' @param x `[character()]` *or* `[raw()]` giving the input.
@@ -347,13 +361,13 @@ virtually <- function(fun) {
 #' Useful for debugging.
 #' @return
 #' - For `_mem`, `[character()]` or `[raw()]`.
-md2tex_mem <- virtually(fun = md2tex)
+md2tex_mem <- memoise2(virtually(fun = md2tex))
 #' @describeIn format2format latex to pdf via [LaTeX](https://www.latex-project.org)
-texi2pdf2_mem <- virtually(fun = texi2pdf2)
+texi2pdf2_mem <- memoise2(virtually(fun = texi2pdf2))
 #' @describeIn format2format PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
-pdf2svg_mem <- virtually(fun = pdf2svg)
+pdf2svg_mem <- memoise2(virtually(fun = pdf2svg))
 #' @describeIn format2format SVG to R graphics (grid) via [grImport2::readPicture()]
-svg2grob_mem <- function(x, path_in = "foo") {
+svg2grob_mem <- memoise2(function(x, path_in = "foo") {
   # input validation
   assert_vector(x = x, any.missing = FALSE, null.ok = FALSE)
   assert_path_for_output(x = path_in, overwrite = TRUE)
@@ -365,7 +379,7 @@ svg2grob_mem <- function(x, path_in = "foo") {
   writeBin(object = x, con = path_in)
 
   svg2grob(path = path_in)
-}
+})
 
 #' @title Test if path is to a binary file
 #' @description Tests if a path is part of some known text files, otherwise binary

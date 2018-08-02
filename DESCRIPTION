@@ -38,6 +38,7 @@ Suggests:
   igraph (>= 1.1.2),
   lettercase (>= 0.13.1),
   markdown (>= 0.8),
+  memoise (>= 1.1.0),
   printr (>= 0.1),
   processx (>= 3.1.0),
   progress (>= 1.2.0),

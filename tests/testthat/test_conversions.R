@@ -77,3 +77,14 @@ test_that(desc = "from/to R objects works", code = {
   virt_grob <- svg2grob_mem(x = virt_svg, path_in = "foo.svg")
   expect_vector(x = virt_svg, null.ok = FALSE)
 })
+
+# memoised
+context("Memoised conversion")
+test_that(desc = "is a lot faster", code = {
+  mem_tex <- md2tex_mem(x = c("bar", "zap"), path_in = "foo.md")
+  mem_tex_unique <- md2tex_mem(x = sample(x = LETTERS, size = 100, replace = TRUE), path_in = "unique.md")
+  first <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique, path_in = "unique.tex")})
+  second <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique, path_in = "unique.tex")})
+  expect_gt(object = first["elapsed"], expected = second["elapsed"] * 10)
+  # expect at least 10fold increase
+})
