@@ -125,21 +125,20 @@ pdf2svg <- function(path, page = 1) {
   invisible(path_out)
 }
 
-#' @title Convert SVG to R graphics system plot
-#' @param svg
-#' `[character(1)]` giving path to an SVG file.
-#' @noRd
-#' @return a grid grob.
-svg2grob <- function(svg) {
+#' @describeIn format2format SVG to R graphics (grid) via [grImport2::readPicture()]
+#' @return **Exception**: [svg2grob()] returns a grid grob.
+svg2grob <- function(path) {
+  # input validation
+  path_in <- fs::path_ext_set(path = path, ext = "pdf")
+  assert_file_exists(x = path_in, access = "r", extension = "pdf")
+
   # dependencies
   requireNamespace2(x = "grImport2")
 
-  withr::local_dir(new = tempdir())
-  writeBin(object = svg, con = "item.svg")
-
-  pic <- grImport2::readPicture(file = "item.svg", warn = FALSE)
+  pic <- grImport2::readPicture(file = path_in, warn = FALSE)
   grImport2::pictureGrob(picture = pic)
 }
+
 
 # formatting helpers: pandoc opts ====
 #' @title Make pandoc tex variable option

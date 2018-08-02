@@ -5,6 +5,7 @@
 \alias{md2tex}
 \alias{texi2pdf2}
 \alias{pdf2svg}
+\alias{svg2grob}
 \title{Render input file to output file}
 \usage{
 md2tex(path, fontsize_global = "10pt", lang = NULL, ...)
@@ -12,6 +13,8 @@ md2tex(path, fontsize_global = "10pt", lang = NULL, ...)
 texi2pdf2(path)
 
 pdf2svg(path, page = 1)
+
+svg2grob(path)
 }
 \arguments{
 \item{path}{\code{[character(1)]} to an input file \emph{with or without extension}}
@@ -167,6 +170,8 @@ Defaults to \code{TRUE}.}
 }
 \value{
 \code{[character(1)]} path to output file \emph{with extension} invisibly.
+
+\strong{Exception}: \code{\link[=svg2grob]{svg2grob()}} returns a grid grob.
 }
 \description{
 Call various tools with options to convert files
@@ -178,6 +183,8 @@ Call various tools with options to convert files
 \item \code{texi2pdf2}: markdown to pdf via \href{https://www.latex-project.org}{LaTeX}
 
 \item \code{pdf2svg}: PDF to SVG via \href{http://www.cityinthesky.co.uk/opensource/pdf2svg/}{pdf2svg}
+
+\item \code{svg2grob}: SVG to R graphics (grid) via \code{\link[grImport2:readPicture]{grImport2::readPicture()}}
 }}
 
 \keyword{internal}
