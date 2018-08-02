@@ -321,19 +321,21 @@ virtually <- function(fun) {
     requireNamespace2(x = "fs")
 
     withr::local_file(file = path_in)
-    readr::write_lines(x = x, path = path_in, append = FALSE)
-    # this works for binary and text
-    out_path <- fun(path_in, ...)
-
-    binary <- !fs::path_ext(out_path) %in% c("md", "tex", "txt")
-
-    if (binary) {
-      res <- readr::read_file_raw(file = out_path)
+    if (is_binary(path_in)) {
+      writeBin(object = x, con = path_in)
     } else {
-      res <- readr::read_lines(file = out_path)
+      readr::write_lines(x = x, path = path_in, append = FALSE)
     }
 
-    fs::file_delete(out_path)
+    path_out <- fun(path_in, ...)
+
+    if (is_binary(path_out)) {
+      res <- readr::read_file_raw(file = path_out)
+    } else {
+      res <- readr::read_lines(file = path_out)
+    }
+
+    fs::file_delete(path_out)
     res
   }
 }
@@ -360,8 +362,16 @@ svg2grob_mem <- function(x, path_in = "foo") {
   requireNamespace2(x = "withr")
 
   withr::local_file(file = path_in)
-  readr::write_lines(x = x, path = path_in, append = FALSE)
+  writeBin(object = x, con = path_in)
 
   svg2grob(path = path_in)
 }
 
+#' @title Test if path is to a binary file
+#' @description Tests if a path is part of some known text files, otherwise binary
+#' @param path `[character(1)]` giving path to a file
+#' @noRd
+is_binary <- function(path) {
+  requireNamespace2(x = "fs")
+  !fs::path_ext(path) %in% c("md", "tex", "txt")
+}

@@ -3,7 +3,7 @@ context("Conversion from markdown to LaTeX")
 
 # setwd(dir = "tests/testthat/") # for interactive testing
 
-test_that(desc = "works", code = {
+test_that(desc = "on file system works", code = {
   path_out <- md2tex(path = "test.md")
   expect_file(x = path_out, extension = "tex")
 })
@@ -35,11 +35,10 @@ test_that(desc = "works with all accepted languages", code = {
   })
 })
 
-
 # texi2pdf ====
 context("Compilation from LaTeX to PDF")
 
-test_that(desc = "works", code = {
+test_that(desc = "on file system works", code = {
   expect_file(x = texi2pdf2(path = "test.tex"), extension = "pdf")
 })
 
@@ -51,7 +50,7 @@ test_that(desc = "conversion errors out on invalid LaTeX inside markdown", code 
 # pdf2svg ====
 context("Conversion from PDF to SVG")
 
-test_that(desc = "works", code = {
+test_that(desc = "on file system works", code = {
   skip_on_os(os = c("windows"))  # no easy way to get pdf2svg
   expect_file_exists(x = pdf2svg(path = "test.pdf"))
 })
@@ -59,8 +58,22 @@ test_that(desc = "works", code = {
 # svg2grob ====
 context("Conversion from SVG to R graphics (grob)")
 
-test_that(desc = "works", code = {
+test_that(desc = "on file system works", code = {
 
   x <- svg2grob(path = "test.svg")
   expect_true(object = grid::is.grob(x = x))
+})
+
+
+# virtually ====
+context("Virtualised conversion")
+test_that(desc = "from/to R objects works", code = {
+  virt_tex <- md2tex_mem(x = c("bar", "zap"), path_in = "foo.md")
+  expect_character(x = virt_tex, any.missing = FALSE, null.ok = FALSE)
+  virt_pdf <- texi2pdf2_mem(x = virt_tex, path_in = "foo.tex")
+  expect_vector(x = virt_pdf, null.ok = FALSE)
+  virt_svg <- pdf2svg_mem(x = virt_pdf, path_in = "foo.pdf")
+  expect_vector(x = virt_svg, null.ok = FALSE)
+  virt_grob <- svg2grob_mem(x = virt_svg, path_in = "foo.svg")
+  expect_vector(x = virt_svg, null.ok = FALSE)
 })
