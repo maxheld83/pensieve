@@ -40,7 +40,15 @@ test_that(desc = "works with all accepted languages", code = {
 context("Compilation from LaTeX to PDF")
 
 test_that(desc = "on file system works", code = {
+  setup(code = {
+    fs::file_copy(path = "test.pdf", new_path = "test-backup.pdf", overwrite = TRUE)
+    # necessary for cleanup, see below
+  })
   expect_file(x = texi2pdf2(path = "test.tex"), extension = "pdf")
+  teardown(code = {
+    fs::file_copy(path = "test-backup.pdf", new_path = "test.pdf", overwrite = TRUE)
+    fs::file_delete(path = "test-backup.pdf")
+  })
 })
 
 test_that(desc = "conversion errors out on invalid LaTeX inside markdown", code = {
