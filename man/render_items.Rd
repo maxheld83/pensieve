@@ -156,7 +156,7 @@ Must be one of:
 \item \code{'vi'} for \emph{vietnamese}
 }
 
-Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others.}
+Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
 
 \item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
 For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.

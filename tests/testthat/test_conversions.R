@@ -50,6 +50,11 @@ test_that(desc = "conversion errors out on locally unavailable babel language", 
   expect_error(object = suppressWarnings(texi2pdf2(path = "bad_language.tex")))
 })
 
+test_that(desc = "unavailable babel languages are properly identified", code = {
+  expect_false(object = test_latex_lang(x = "as"))
+  expect_true(object = test_latex_lang(x = "en-US"))
+})
+
 
 # pdf2svg ====
 context("Conversion from PDF to SVG")
@@ -84,37 +89,6 @@ test_that(desc = "works from given md", code = {
   expect_file(x = out_path, extension = "svg")
   x <- svg2grob(path = out_path)
   expect_true(object = grid::is.grob(x = x))
-})
-
-test_that(desc = "works with all accepted global fontsizes", code = {
-  purrr::iwalk(.x = fontsizes_global, .f = function(x, y) {
-    out_path <- md2tex(path = test_file, fontsize_global = x)
-    out_path <- texi2pdf2(path = out_path)
-    expect_file(x = out_path, extension = "pdf", info = y)
-    skip_on_os(os = c("windows"))
-    out_path <- pdf2svg(path = out_path)
-    expect_file(x = out_path, extension = "svg", info = y)
-    x <- svg2grob(path = out_path)
-    expect_true(object = grid::is.grob(x = x), info = y)
-  })
-})
-
-test_that(desc = "works with all accepted languages", code = {
-  skip_on_travis()  # not all langs are available on travis
-  skip_on_cran()  # too slow
-  skip(message = "still figuring this out")
-  langs <- langs[!(names(langs) %in% c("amharic", "assamese", "asturian", "bengali"))]
-  purrr::iwalk(.x = langs, .f = function(x, y) {
-    out_path <- md2tex(path = test_file, lang = x)
-    message(y)
-    out_path <- texi2pdf2(path = out_path)
-    expect_file(x = out_path, extension = "pdf", info = y)
-    skip_on_os(os = c("windows"))
-    out_path <- pdf2svg(path = out_path)
-    expect_file(x = out_path, extension = "svg", info = y)
-    x <- svg2grob(path = out_path)
-    expect_true(object = grid::is.grob(x = x), info = y)
-  })
 })
 
 

@@ -170,7 +170,7 @@ fontsizes_global <- c(
 )
 
 #' @describeIn declare_pandoc_var declare language
-#' @eval document_choice_arg(arg_name = "lang", choices = langs, before = "giving a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) code, such as `en_US`.", after = "Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel) and others.", null = "in which case there is no multilingual support", default = "null")
+#' @eval document_choice_arg(arg_name = "lang", choices = langs, before = "giving a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) code, such as `en_US`.", after = "Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel) and others. **Careful**: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use [check_latex_lang()] to verify.", null = "in which case there is no multilingual support", default = "null")
 declare_pandoc_lang <- function(lang = NULL) {
   assert_choice(x = lang, choices = langs, null.ok = TRUE)
   if (!is.null(lang)) {
@@ -293,6 +293,51 @@ assert_pdf1page <- checkmate::makeAssertionFunction(check.fun = check_pdf1page)
 test_pdf1page <- checkmate::makeTestFunction(check.fun = check_pdf1page)
 expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page)
 
+
+#' @title Check if language can be compiled
+#' @description Checks if pandoc language can be compiled given local tex distribution
+#' @param x `[character(1)` giving a pandoc language, same as `lang` in [md2tex()].
+#' @return `TRUE` or error message
+#TODO inherit return from proper place in checkmate
+#' @keywords internal
+check_latex_lang <- function(x) {
+  assert_choice(x = x, choices = langs, null.ok = FALSE)
+
+  requireNamespace2(x = "fs")
+
+  tmpdir <- fs::path_temp()
+
+  path_in <- fs::path(tmpdir, "bad_lang", ext = "md")
+  readr::write_file(
+    x = "Because of a bad language, I will never be a PDF.",
+    path = path_in,
+    append = FALSE
+  )
+  path_in <- md2tex(path = path_in, lang = x)
+
+  res <- TRUE
+  res <- tryCatch(
+    expr = {
+      suppressMessages(texi2pdf2(path = path_in))
+      TRUE
+    },
+    # unfortunately, above code will return a path
+    warning = function(cnd) {
+      bad_lang <- stringr::str_detect(string = conditionMessage(cnd), pattern = ".ldf")
+      if (bad_lang) {
+        conditionMessage(cnd)
+      } else {
+        # might have other error messages, but then it's NOT clearly the lang, so we stick to true
+        TRUE
+      }
+    }
+  )
+
+  res
+}
+expect_latex_lang <- checkmate::makeExpectationFunction(check.fun = check_latex_lang)
+test_latex_lang <- checkmate::makeTestFunction(check.fun = check_latex_lang)
+assert_latex_lang <- checkmate::makeAssertionFunction(check.fun = check_latex_lang)
 
 # FOs ====
 

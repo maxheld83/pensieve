@@ -130,7 +130,7 @@ Must be one of:
 \item \code{'vi'} for \emph{vietnamese}
 }
 
-Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others.}
+Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
 
 \item{img_dir}{\code{[character(1)]} giving the directory for \code{type = "image"}s.
 Defaults to \code{NULL}, in which case images are expected at the working directory root \code{\link[base:getwd]{base::getwd()}}.
