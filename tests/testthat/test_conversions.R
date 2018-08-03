@@ -46,6 +46,10 @@ test_that(desc = "conversion errors out on invalid LaTeX inside markdown", code 
   expect_error(object = texi2pdf2(path = "bad.tex"))
 })
 
+test_that(desc = "conversion errors out on locally unavailable babel language", code = {
+  expect_error(object = suppressWarnings(texi2pdf2(path = "bad_language.tex")))
+})
+
 
 # pdf2svg ====
 context("Conversion from PDF to SVG")
