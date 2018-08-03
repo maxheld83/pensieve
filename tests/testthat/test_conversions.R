@@ -104,6 +104,7 @@ test_that(desc = "from/to R objects works", code = {
 context("Memoised conversion")
 
 test_that(desc = "is a lot faster", code = {
+  skip_on_travis()
   mem_tex <- md2tex_mem(x = c("bar", "zap"), path_in = "foo.md")
   mem_tex_unique <- md2tex_mem(x = sample(x = LETTERS, size = 100, replace = TRUE), path_in = "unique.md")
   first <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique, path_in = "unique.tex")})
