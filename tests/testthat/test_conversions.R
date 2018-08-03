@@ -1,89 +1,116 @@
+# setwd(dir = "tests/testthat/") # for interactive testing
+setup(code = {
+  fs::dir_copy(path = "test_conversions", new_path = "test_conversions_run")
+  setwd("test_conversions_run")
+})
+teardown(code = {
+  # comment me out to debug results
+  fs::dir_delete(path = "test_conversions_run")
+})
+
+
 # md2latex ====
 context("Conversion from markdown to LaTeX")
-
-# setwd(dir = "tests/testthat/") # for interactive testing
+test_file <- fs::path("test_md2tex", ext = "md")
 
 test_that(desc = "on file system works", code = {
-  path_out <- md2tex(path = "test.md")
+  path_out <- md2tex(path = test_file)
   expect_file(x = path_out, extension = "tex")
 })
 
 test_that(desc = "errors out when pandoc is unavailable", code = {
   withr::local_path(new = "", action = "replace")  #  this will kill pandoc
-  expect_error(object = md2tex(path = "test.md"))
+  expect_error(object = md2tex(path = test_file))
 })
 
 test_that(desc = "errors out when pandoc times out", code = {
   md <- glue_collapse(x = rep(x = "Repeated often enough, this should choke Pandoc.", times = 1000000), sep = " ")
   readr::write_lines(x = md, path = "choker.md")
   expect_error(md2tex(path = "choker.md"))
-  teardown(code = {fs::file_delete("choker.md")})
 })
 
 test_that(desc = "errors out on language unknown to pandoc", code = {
-  expect_error(object = md2tex(path = "test.md", lang = "klingon"))
+  expect_error(object = md2tex(path = test_file, lang = "klingon"))
+})
+
+
+# texi2pdf ====
+context("Compilation from LaTeX to PDF")
+test_file <- fs::path("test_texi2pdf2", ext = "tex")
+
+test_that(desc = "on file system works", code = {
+  expect_file(x = texi2pdf2(path = test_file), extension = "pdf")
+})
+
+test_that(desc = "conversion errors out on invalid LaTeX inside markdown", code = {
+  expect_error(object = texi2pdf2(path = "bad.tex"))
+})
+
+
+# pdf2svg ====
+context("Conversion from PDF to SVG")
+test_file <- fs::path("test_pdf2svg", ext = "pdf")
+
+test_that(desc = "on file system works", code = {
+  skip_on_os(os = c("windows"))  # no easy way to get pdf2svg
+  expect_file_exists(x = pdf2svg(path = test_file), extension = "svg")
+})
+
+
+# svg2grob ====
+context("Conversion from SVG to R graphics (grob)")
+test_file <- fs::path("test_svg2grob", ext = "svg")
+
+test_that(desc = "on file system works", code = {
+  x <- svg2grob(path = test_file)
+  expect_true(object = grid::is.grob(x = x))
+})
+
+
+# test whole chain ====
+context("Conversion through the whole chain")
+test_file <- fs::path("test_md2tex", ext = "md")
+
+test_that(desc = "works from given md", code = {
+  out_path <- md2tex(path = test_file)
+  out_path <- texi2pdf2(path = out_path)
+  expect_file(x = out_path, extension = "pdf")
+  skip_on_os(os = c("windows"))
+  out_path <- pdf2svg(path = out_path)
+  expect_file(x = out_path, extension = "svg")
+  x <- svg2grob(path = out_path)
+  expect_true(object = grid::is.grob(x = x))
 })
 
 test_that(desc = "works with all accepted global fontsizes", code = {
   purrr::iwalk(.x = fontsizes_global, .f = function(x, y) {
-    expect_file(x = md2tex(path = "test.md", fontsize_global = x), info = y, extension = "tex")
+    out_path <- md2tex(path = test_file, fontsize_global = x)
+    out_path <- texi2pdf2(path = out_path)
+    expect_file(x = out_path, extension = "pdf", info = y)
+    skip_on_os(os = c("windows"))
+    out_path <- pdf2svg(path = out_path)
+    expect_file(x = out_path, extension = "svg", info = y)
+    x <- svg2grob(path = out_path)
+    expect_true(object = grid::is.grob(x = x), info = y)
   })
 })
 
 test_that(desc = "works with all accepted languages", code = {
+  skip_on_travis()  # not all langs are available on travis
+  skip_on_cran()  # too slow
+  skip(message = "still figuring this out")
+  langs <- langs[!(names(langs) %in% c("amharic", "assamese", "asturian", "bengali"))]
   purrr::iwalk(.x = langs, .f = function(x, y) {
-    setup(code = {
-      # fs::file_copy(path = "test.tex", new_path = "test-backup.tex", overwrite = TRUE)
-    })
-    fs::file_copy(path = "test.tex", new_path = "test-backup.tex", overwrite = TRUE)
-    expect_file(x = md2tex(path = "test.md", lang = x), info = y, extension = "tex")
-    # teardown(code = {
-      fs::file_copy(path = "test-backup.tex", new_path = "test.tex", overwrite = TRUE)
-      fs::file_delete(path = "test-backup.tex")
-    # })
+    out_path <- md2tex(path = test_file, lang = x)
+    message(y)
+    out_path <- texi2pdf2(path = out_path)
+    expect_file(x = out_path, extension = "pdf", info = y)
+    skip_on_os(os = c("windows"))
+    out_path <- pdf2svg(path = out_path)
+    expect_file(x = out_path, extension = "svg", info = y)
+    x <- svg2grob(path = out_path)
+    expect_true(object = grid::is.grob(x = x), info = y)
   })
-})
-
-# texi2pdf ====
-context("Compilation from LaTeX to PDF")
-
-test_that(desc = "on file system works", code = {
-  setup(code = {
-    fs::file_copy(path = "test.pdf", new_path = "test-backup.pdf", overwrite = TRUE)
-    # necessary for cleanup, see below
-  })
-  expect_file(x = "test.tex", access = "r")
-  expect_file(x = texi2pdf2(path = "test.tex"), extension = "pdf")
-  processx::run(command = "pdflatex", args = c("--version"))
-  teardown(code = {
-    fs::file_copy(path = "test-backup.pdf", new_path = "test.pdf", overwrite = TRUE)
-    fs::file_delete(path = "test-backup.pdf")
-  })
-})
-
-test_that(desc = "conversion errors out on invalid LaTeX inside markdown", code = {
-  readr::write_lines(c("This is some totally invalid tex", "\\usepackage{"), path = "bad.tex")
-  expect_error(object = texi2pdf2(path = "bad.tex"))
-  teardown(code = {
-    fs::file_delete("bad.tex")
-  })
-})
-
-# pdf2svg ====
-context("Conversion from PDF to SVG")
-
-test_that(desc = "on file system works", code = {
-  skip_on_os(os = c("windows"))  # no easy way to get pdf2svg
-  expect_file_exists(x = pdf2svg(path = "test.pdf"))
-})
-
-# svg2grob ====
-context("Conversion from SVG to R graphics (grob)")
-
-test_that(desc = "on file system works", code = {
-
-  x <- svg2grob(path = "test.svg")
-  expect_true(object = grid::is.grob(x = x))
 })
 
 
@@ -100,9 +127,9 @@ test_that(desc = "from/to R objects works", code = {
   expect_vector(x = virt_svg, null.ok = FALSE)
 })
 
+
 # memoised
 context("Memoised conversion")
-
 test_that(desc = "is a lot faster", code = {
   skip_on_travis()
   mem_tex <- md2tex_mem(x = c("bar", "zap"), path_in = "foo.md")
@@ -110,5 +137,6 @@ test_that(desc = "is a lot faster", code = {
   first <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique, path_in = "unique.tex")})
   second <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique, path_in = "unique.tex")})
   expect_gt(object = first["elapsed"], expected = second["elapsed"] * 10)
+  takes_less_than(amount = )
   # expect at least 10fold increase
 })
