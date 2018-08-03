@@ -78,14 +78,11 @@ texi2pdf2 <- function(path) {
   assert_file_exists(x = path_in, access = "r", extension = "tex")
 
   # dependencies
-  requireNamespace2("tools")
   requireNamespace2("fs")
   requireNamespace2("tinytex")
 
   # this also downloads LaTeX packages as far as possible
-  tinytex::latexmk(file = path_in, engine = "pdflatex", install_packages = TRUE, clean = TRUE)
-
-  invisible(fs::path_ext_set(path = path_in, ext = "pdf"))
+  invisible(tinytex::latexmk(file = path_in, engine = "pdflatex", install_packages = TRUE, clean = TRUE))
 }
 
 #' @describeIn format2format PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)

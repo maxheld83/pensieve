@@ -182,7 +182,7 @@ validate_S3.psItemContentImage <- function(x, ...) {
 #'
 #' To meet these criteria, text items are
 #' 1. converted to **LaTeX**, using [pandoc](https://pandoc.org), then
-#' 2. compiled to **PDF**, using [LaTeX](https://www.latex-project.org) via [tools::texi2pdf], then
+#' 2. compiled to **PDF**, using [LaTeX](https://www.latex-project.org) via [tinytex::latexmk()], then
 #' 3. converted to **SVG**, using [pdf2svg](https://github.com/dawbarton/pdf2svg), then
 #' 4. imported to **R Graphics** (grid graphics, to be precise) via [grImport2::readPicture()].
 #'     Items are now fully available to the R Graphics system and can be used wherever [graphics::plot()] (or, to be precise, [grid::grid.draw()]) works.

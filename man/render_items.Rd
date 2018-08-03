@@ -221,7 +221,7 @@ Even slight variations in, for example, line wrapping, might give an item a slig
 To meet these criteria, text items are
 \enumerate{
 \item converted to \strong{LaTeX}, using \href{https://pandoc.org}{pandoc}, then
-\item compiled to \strong{PDF}, using \href{https://www.latex-project.org}{LaTeX} via \link[tools:texi2pdf]{tools::texi2pdf}, then
+\item compiled to \strong{PDF}, using \href{https://www.latex-project.org}{LaTeX} via \code{\link[tinytex:latexmk]{tinytex::latexmk()}}, then
 \item converted to \strong{SVG}, using \href{https://github.com/dawbarton/pdf2svg}{pdf2svg}, then
 \item imported to \strong{R Graphics} (grid graphics, to be precise) via \code{\link[grImport2:readPicture]{grImport2::readPicture()}}.
 Items are now fully available to the R Graphics system and can be used wherever \code{\link[graphics:plot]{graphics::plot()}} (or, to be precise, \code{\link[grid:grid.draw]{grid::grid.draw()}}) works.
