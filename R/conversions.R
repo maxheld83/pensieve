@@ -325,11 +325,14 @@ check_latex_lang <- function(x) {
     warning = function(cnd) {
       bad_lang <- stringr::str_detect(string = conditionMessage(cnd), pattern = ".ldf")
       if (bad_lang) {
-        conditionMessage(cnd)
+        glue("LaTeX is unable to compile with language {x}: conditionMessage(cnd)")
       } else {
         # might have other error messages, but then it's NOT clearly the lang, so we stick to true
         TRUE
       }
+    },
+    error = function(cnd) {
+      glue("LaTeX seems unable to compile with language {x} for an unknown error message: {conditionMessage(cnd)}")
     }
   )
 
