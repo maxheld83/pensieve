@@ -32,7 +32,15 @@ test_that(desc = "works with all accepted global fontsizes", code = {
 
 test_that(desc = "works with all accepted languages", code = {
   purrr::iwalk(.x = langs, .f = function(x, y) {
+    setup(code = {
+      # fs::file_copy(path = "test.tex", new_path = "test-backup.tex", overwrite = TRUE)
+    })
+    fs::file_copy(path = "test.tex", new_path = "test-backup.tex", overwrite = TRUE)
     expect_file(x = md2tex(path = "test.md", lang = x), info = y, extension = "tex")
+    # teardown(code = {
+      fs::file_copy(path = "test-backup.tex", new_path = "test.tex", overwrite = TRUE)
+      fs::file_delete(path = "test-backup.tex")
+    # })
   })
 })
 
