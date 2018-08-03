@@ -80,9 +80,10 @@ texi2pdf2 <- function(path) {
   # dependencies
   requireNamespace2("tools")
   requireNamespace2("fs")
+  requireNamespace2("tinytex")
 
-  # availability of tex will ideally be checked in platform dependent way by texi2pdf
-  tools::texi2pdf(file = path_in, clean = TRUE, index = FALSE, quiet = TRUE)
+  # this also downloads LaTeX packages as far as possible
+  tinytex::latexmk(file = path_in, engine = "pdflatex", install_packages = TRUE, clean = TRUE)
 
   invisible(fs::path_ext_set(path = path_in, ext = "pdf"))
 }
