@@ -82,7 +82,7 @@ texi2pdf2 <- function(path) {
   requireNamespace2("fs")
 
   # availability of tex will ideally be checked in platform dependent way by texi2pdf
-  tools::texi2pdf(file = path_in, clean = TRUE, index = FALSE, quiet = TRUE)
+  tools::texi2pdf(file = path_in, clean = TRUE, index = FALSE, quiet = FALSE)
 
   invisible(fs::path_ext_set(path = path_in, ext = "pdf"))
 }
