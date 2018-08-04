@@ -280,6 +280,70 @@ declare_pandoc_geometry <- function(paperwidth = 8.5,
 units <- c(metric = "cm", imperial = "in")
 
 
+# formatting helpers: latex wrapers ====
+#' @title Wrap character vector in latex environment
+#' @description These are helper functions to apply latex environments.
+#' @param env `[character(1)]` giving a latex environment.
+#' @param tex `[character()]` giving some character vector.
+#' @return `[character()]` a character vector of valid latex
+#' @keywords internal
+wrap_in_latex_env <- function(env, tex) {
+  assert_character(x = tex, any.missing = FALSE, null.ok = FALSE)
+  assert_string(x = env, min.chars = 1, na.ok = FALSE, null.ok = FALSE)
+  c(
+    glue("\\begin{[env]}", .open = "[", .close = "]"),
+    tex,
+    glue("\\end{[env]}", .open = "[", .close = "]")
+  )
+}
+
+#' @describeIn wrap_in_latex_env Apply local fontsize
+#' @eval document_choice_arg(arg_name = "fontsize_local", choices = fontsizes_local, before = "giving a valid [LaTeX font size](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text).", default = "tiny")
+wrap_in_latex_fontsize <- function(fontsize_local = "tiny", tex) {
+  assert_choice(x = fontsize_local, choices = fontsizes_local, null.ok = FALSE)
+  wrap_in_latex_env(env = fontsize_local, tex = tex)
+}
+fontsizes_local <- c(
+  # this list is from https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text
+  # must remain in ascending order!
+  "tiny",
+  "scriptsize",
+  "footnotesize",
+  "small",
+  "normalsize",
+  "large",
+  "Large",
+  "LARGE",
+  "huge",
+  "Huge"
+)
+
+#' @describeIn wrap_in_latex_env Apply alignment
+#' @eval document_choice_arg(arg_name = "alignment", choices = alignments, before = "giving the alignment of the text.", default = "justified")
+wrap_in_latex_alignment <- function(alignment = "justified", tex) {
+  assert_choice(x = alignment, choices = alignments, null.ok = FALSE)
+  if (alignment == "justified") {
+    # if null, the justified, which requires NO extra command
+    return(tex)
+  }
+  env <- switch(
+    EXPR = alignment,
+    left = "flushleft",
+    right = "flushright",
+    center = "center"
+  )
+  wrap_in_latex_env(env = env, tex = tex)
+}
+alignments <- c(
+  # this list is from https://www.sharelatex.com/learn/Text_alignment
+  # we're only using vanilla latex, no extra package
+  "justified",
+  "left",
+  "right",
+  "center"
+)
+
+
 # predicates ====
 
 #' @title Check if pdf is only 1 page long
@@ -408,9 +472,14 @@ memoise2 <- function(f) {
 #' @param path_in `[character(1)]` giving path to use for input file *with or without extension*.
 #' Defaults to `"foo"`.
 #' Useful for debugging.
+#' @inheritParams wrap_in_latex_env
 #' @return
 #' - For `_mem`, `[character()]` or `[raw()]`.
-md2tex_mem <- memoise2(virtually(fun = md2tex))
+md2tex_mem <- memoise2(function(x, path_in = "foo", fontsize_local = "tiny", alignment = "justified", ...) {
+  x <- wrap_in_latex_fontsize(fontsize_local = fontsize_local, tex = x)
+  x <- wrap_in_latex_alignment(alignment = alignment, tex = x)
+  virtually(fun = md2tex)(x = x, path_in = path_in, ...)
+})
 #' @describeIn format2format latex to pdf via [LaTeX](https://www.latex-project.org)
 texi2pdf2_mem <- memoise2(virtually(fun = texi2pdf2))
 #' @describeIn format2format PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)

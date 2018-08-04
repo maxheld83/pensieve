@@ -20,7 +20,8 @@ pdf2svg(path, page = 1)
 
 svg2grob(path)
 
-md2tex_mem(x, path_in = "foo", ...)
+md2tex_mem(x, path_in = "foo", fontsize_local = "tiny",
+  alignment = "justified", ...)
 
 texi2pdf2_mem(x, path_in = "foo", ...)
 
@@ -185,6 +186,32 @@ Defaults to \code{TRUE}.}
 \item{path_in}{\code{[character(1)]} giving path to use for input file \emph{with or without extension}.
 Defaults to \code{"foo"}.
 Useful for debugging.}
+
+\item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
+
+Must be one of:
+\itemize{
+\item \code{'tiny'} (\strong{default})
+\item \code{'scriptsize'}
+\item \code{'footnotesize'}
+\item \code{'small'}
+\item \code{'normalsize'}
+\item \code{'large'}
+\item \code{'Large'}
+\item \code{'LARGE'}
+\item \code{'huge'} or
+\item \code{'Huge'}
+}}
+
+\item{alignment}{\code{[character(1)]} giving the alignment of the text.
+
+Must be one of:
+\itemize{
+\item \code{'justified'} (\strong{default})
+\item \code{'left'}
+\item \code{'right'} or
+\item \code{'center'}
+}}
 }
 \value{
 depending on the function postfix:
