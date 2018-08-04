@@ -125,14 +125,13 @@ test_that(desc = "is a lot faster", code = {
 # autosize ====
 context("Autosizing")
 test_that(desc = "finds largest possible fontsize to stay on one page", code = {
-  skip(message = "in dev")
-  little_text_res <- find_max_fontsize(x = "A", fontsizes_local = fontsizes_local)
-  little_text_i <- which(fontsizes_local == little_text)  # this is the index
-  expect_choice(x = little_text, choices = fontsizes_local)
+  # skip(message = "in dev")
+  little_text_res <- find_max_fontsize(x = "A")
+  little_text_i <- which(fontsizes_local == little_text_res)  # this is the index
+  expect_choice(x = little_text_res, choices = fontsizes_local)
   much_text <- rep(x = LETTERS, times = 6)
-  much_text_res <- find_max_fontsize(x = much_text, fontsizes_local = fontsizes_local)
-  much_text_i <- which(fontsizes_local == much_text_res)
+  much_text_res <- find_max_fontsize(x = much_text)
   expect_choice(x = much_text_res, choices = fontsizes_local)
-  expect_error(object = md2tex_mem(x = much_text, fontsize_local = fontsizes_local[much_text_i + 1]))
+  much_text_i <- which(fontsizes_local == much_text_res)
   expect_gt(object = little_text_i, expected = much_text_i)
 })

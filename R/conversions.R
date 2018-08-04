@@ -510,15 +510,15 @@ is_binary <- function(path) {
 
 #' @title Find largest possible fontsize given all other arguments
 #' @description Finds largest possible fontsize for some markdown to fit on one PDF page.
-#' @param fontsizes_global_possible `[character()]` giving possible fontsizes_local
-#' @inheritDotParams md2tex -fontsize_global
+#' @param fontsizes_local_possible `[character()]` giving possible fontsizes_local
+#' @inheritDotParams md2tex_mem -fontsize_local
 #' @return `[character(1)]` giving largest possible fontsize
 #' @keywords internal
-find_max_fontsize <- function(fontsizes_global_possible = fontsizes_global, ...) {
-  assert_subset(x = fontsizes_global_possible, choices = fontsizes_global)
+find_max_fontsize <- function(fontsizes_local_possible = fontsizes_local, ...) {
+  assert_subset(x = fontsizes_local_possible, choices = fontsizes_local)
 
-  working_fontsizes <- purrr::map_lgl(.x = fontsizes_global_possible, .f = function(this_size) {
-    tex <- md2tex_mem(fontsize_global = this_size, ...)
+  working_fontsizes <- purrr::map_lgl(.x = fontsizes_local_possible, .f = function(this_size) {
+    tex <- md2tex_mem(fontsize_local = this_size, ...)
     pdf <- texi2pdf2_mem(x = tex)
     out_path <- fs::path("test_fontsize", ext = "pdf")
     withr::local_file(file = out_path)
@@ -534,6 +534,6 @@ find_max_fontsize <- function(fontsizes_global_possible = fontsizes_global, ...)
     )
   }
 
-  fontsizes_global_possible[max(which(working_fontsizes))]
+  fontsizes_local_possible[max(which(working_fontsizes))]
 }
 

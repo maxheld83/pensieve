@@ -4,122 +4,26 @@
 \alias{find_max_fontsize}
 \title{Find largest possible fontsize given all other arguments}
 \usage{
-find_max_fontsize(fontsizes_global_possible = fontsizes_global, ...)
+find_max_fontsize(fontsizes_local_possible = fontsizes_local, ...)
 }
 \arguments{
-\item{fontsizes_global_possible}{\code{[character()]} giving possible fontsizes_local}
+\item{fontsizes_local_possible}{\code{[character()]} giving possible fontsizes_local}
 
-\item{...}{Arguments passed on to \code{md2tex}
+\item{...}{Arguments passed on to \code{md2tex_mem}
 \describe{
-  \item{path}{\code{[character(1)]} to an input file \emph{with or without extension}}
-  \item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
+  \item{x}{\code{[character()]} \emph{or} \code{[raw()]} giving the input.}
+  \item{path_in}{\code{[character(1)]} giving path to use for input file \emph{with or without extension}.
+Defaults to \code{"foo"}.
+Useful for debugging.}
+  \item{alignment}{\code{[character(1)]} giving the alignment of the text.
 
 Must be one of:
 \itemize{
-\item \code{NULL} in which case there is no multilingual support (\strong{default})
-\item \code{'ar-DZ'} for \emph{arabic (Algeria)}
-\item \code{'ar-IQ'} for \emph{arabic (Iraq)}
-\item \code{'ar-JO'} for \emph{arabic (Jordan)}
-\item \code{'ar-LB'} for \emph{arabic (Lebanon)}
-\item \code{'ar-LY'} for \emph{arabic (Libya)}
-\item \code{'ar-MA'} for \emph{arabic (Morocco)}
-\item \code{'ar-MR'} for \emph{arabic (Mauritania)}
-\item \code{'ar-PS'} for \emph{arabic (Palestinian Territory)}
-\item \code{'ar-SY'} for \emph{arabic (Syria)}
-\item \code{'ar-TN'} for \emph{arabic (Tunisia)}
-\item \code{'de-DE'} for \emph{german}
-\item \code{'de-AT'} for \emph{german (Austria)}
-\item \code{'de-CH'} for \emph{german (Switzerland)}
-\item \code{'dsb'} for \emph{lower sorbian}
-\item \code{'hsb'} for \emph{upper sorbian}
-\item \code{'el-polyton'} for \emph{greek (polytonic)}
-\item \code{'en-AU'} for \emph{english (Australia)}
-\item \code{'en-CA'} for \emph{english (Canada)}
-\item \code{'en-GB'} for \emph{english (Great Britain)}
-\item \code{'en-NZ'} for \emph{english (New Zealand)}
-\item \code{'en-UK'} for \emph{english (United Kingdom)}
-\item \code{'en-US'} for \emph{english (United States)}
-\item \code{'grc-ancient'} for \emph{greek (ancient)}
-\item \code{'la'} for \emph{latin}
-\item \code{'sl'} for \emph{slovenian}
-\item \code{'fr-CA'} for \emph{french (Canada)}
-\item \code{'pt-BR'} for \emph{portoguese (Brazil)}
-\item \code{'af'} for \emph{afrikaans}
-\item \code{'am'} for \emph{amharic}
-\item \code{'ar'} for \emph{arabic}
-\item \code{'as'} for \emph{assamese}
-\item \code{'ast'} for \emph{asturian}
-\item \code{'bg'} for \emph{bulgarian}
-\item \code{'bn'} for \emph{bengali}
-\item \code{'bo'} for \emph{tibetan}
-\item \code{'br'} for \emph{breton}
-\item \code{'ca'} for \emph{catalan}
-\item \code{'cy'} for \emph{welsh}
-\item \code{'cs'} for \emph{czech}
-\item \code{'cop'} for \emph{coptic}
-\item \code{'da'} for \emph{danish}
-\item \code{'dv'} for \emph{divehi}
-\item \code{'el'} for \emph{greek}
-\item \code{'en'} for \emph{english}
-\item \code{'eo'} for \emph{esperanto}
-\item \code{'es'} for \emph{spanish}
-\item \code{'et'} for \emph{estonian}
-\item \code{'eu'} for \emph{basque}
-\item \code{'fa'} for \emph{farsi}
-\item \code{'fr'} for \emph{french}
-\item \code{'fur'} for \emph{friulan}
-\item \code{'ga'} for \emph{irish}
-\item \code{'gd'} for \emph{scottish}
-\item \code{'gez'} for \emph{ethiopic}
-\item \code{'gl'} for \emph{galician}
-\item \code{'he'} for \emph{hebrew}
-\item \code{'hi'} for \emph{hindi}
-\item \code{'hr'} for \emph{croatian}
-\item \code{'hu'} for \emph{magyar}
-\item \code{'hy'} for \emph{armenian}
-\item \code{'ia'} for \emph{interlingua}
-\item \code{'id'} for \emph{indonesian}
-\item \code{'is'} for \emph{icelandic}
-\item \code{'it'} for \emph{italian}
-\item \code{'km'} for \emph{khmer}
-\item \code{'kmr'} for \emph{kurmanji}
-\item \code{'kn'} for \emph{kannada}
-\item \code{'ko'} for \emph{korean}
-\item \code{'lo'} for \emph{lao}
-\item \code{'lt'} for \emph{lithuanian}
-\item \code{'lv'} for \emph{latvian}
-\item \code{'ml'} for \emph{malayalam}
-\item \code{'mn'} for \emph{mongolian}
-\item \code{'mr'} for \emph{marathi}
-\item \code{'nb'} for \emph{norsk}
-\item \code{'nl'} for \emph{dutch}
-\item \code{'nn'} for \emph{nynorsk}
-\item \code{'no'} for \emph{norsk}
-\item \code{'nqo'} for \emph{nko}
-\item \code{'oc'} for \emph{occitan}
-\item \code{'pa'} for \emph{panjabi}
-\item \code{'pms'} for \emph{piedmontese}
-\item \code{'pt'} for \emph{portoguese}
-\item \code{'rm'} for \emph{romanian}
-\item \code{'ro'} for \emph{russian}
-\item \code{'sa'} for \emph{sanskrit}
-\item \code{'se'} for \emph{samin}
-\item \code{'sk'} for \emph{slovak}
-\item \code{'sq'} for \emph{albanian}
-\item \code{'sr'} for \emph{serbian}
-\item \code{'syr'} for \emph{syriac}
-\item \code{'ta'} for \emph{tamil}
-\item \code{'te'} for \emph{telugu}
-\item \code{'th'} for \emph{thai}
-\item \code{'ti'} for \emph{ethiopic}
-\item \code{'tk'} for \emph{turkmen}
-\item \code{'tr'} for \emph{turkish}
-\item \code{'uk'} for \emph{ukrainian}
-\item \code{'ur'} for \emph{urdu} or
-\item \code{'vi'} for \emph{vietnamese}
-}
-
-Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
+\item \code{'justified'} (\strong{default})
+\item \code{'left'}
+\item \code{'right'} or
+\item \code{'center'}
+}}
 }}
 }
 \value{
