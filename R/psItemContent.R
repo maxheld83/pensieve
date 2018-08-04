@@ -269,6 +269,9 @@ render_items <- function(items,
           total = 100,
           format = "converting :name [:bar] :percent eta: :eta")
         pb$tick(0) # start with 0 before first compute
+        # notice that, strictly speaking, this needs to run *all* fontsizes, because it's possible (given latex complexity) that, say fontsize 1 works, 2 fails and 3 works again
+        # could happen because of other latex optimisations
+        # so we're not saving runs here, because that might end up being only a local optimum
         tex <- purrr::imap(
           .x = as.list(items),
           .f = function(x, name, pb) {
