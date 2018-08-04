@@ -2,15 +2,53 @@
 % Please edit documentation in R/conversions.R
 \name{check_latex_lang}
 \alias{check_latex_lang}
+\alias{expect_latex_lang}
+\alias{test_latex_lang}
+\alias{assert_latex_lang}
 \title{Check if language can be compiled}
 \usage{
 check_latex_lang(x)
+
+expect_latex_lang(x, info = NULL, label = vname(x))
+
+test_latex_lang(x)
+
+assert_latex_lang(x, .var.name = vname(x), add = NULL)
 }
 \arguments{
 \item{x}{\code{[character(1)} giving a pandoc language, same as \code{lang} in \code{\link[=md2tex]{md2tex()}}.}
+
+\item{info}{[character(1)]\cr
+Extra information to be included in the message for the testthat reporter.
+See \code{\link[testthat]{expect_that}}.}
+
+\item{label}{[\code{character(1)}]\cr
+Name of the checked object to print in messages. Defaults to
+the heuristic implemented in \code{\link{vname}}.}
+
+\item{.var.name}{[\code{character(1)}]\cr
+Name of the checked object to print in assertions. Defaults to
+the heuristic implemented in \code{\link{vname}}.}
+
+\item{add}{[\code{AssertCollection}]\cr
+Collection to store assertion messages. See \code{\link{AssertCollection}}.}
 }
 \value{
-\code{TRUE} or error message
+Depending on the function prefix:
+ If the check is successful, the functions 
+ \code{assertVector}/\code{assert_vector} return 
+ \code{x} invisibly, whereas
+ \code{checkVector}/\code{check_vector} and 
+ \code{testVector}/\code{test_vector} return 
+ \code{TRUE}.
+ If the check is not successful, 
+ \code{assertVector}/\code{assert_vector}
+ throws an error message, 
+ \code{testVector}/\code{test_vector}
+ returns \code{FALSE},
+ and \code{checkVector} returns a string with the error message.
+ The function \code{expect_vector} always returns an
+ \code{\link[testthat]{expectation}}.
 }
 \description{
 Checks if pandoc language can be compiled given local tex distribution

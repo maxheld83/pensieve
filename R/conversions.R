@@ -276,7 +276,7 @@ units <- c(metric = "cm", imperial = "in")
 # predicates ====
 
 #' @title Check if pdf is only 1 page long
-#' @description Items must never overflow 1 page.
+#' @description Checks if pdf is longer than 1 page.
 #' @param x `[character(1)]` giving the path to a pdf file.
 #' @noRd
 check_pdf1page <- function(x) {
@@ -295,10 +295,10 @@ expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page
 
 
 #' @title Check if language can be compiled
-#' @description Checks if pandoc language can be compiled given local tex distribution
+#' @description Checks if pandoc language can be compiled given local tex distribution.
 #' @param x `[character(1)` giving a pandoc language, same as `lang` in [md2tex()].
-#' @return `TRUE` or error message
-#TODO inherit return from proper place in checkmate
+#' @inheritParams checkmate::check_vector
+#' @inherit checkmate::check_vector return
 #' @keywords internal
 check_latex_lang <- function(x) {
   assert_choice(x = x, choices = langs, null.ok = FALSE)
@@ -338,8 +338,11 @@ check_latex_lang <- function(x) {
 
   res
 }
+#' @rdname check_latex_lang
 expect_latex_lang <- checkmate::makeExpectationFunction(check.fun = check_latex_lang)
+#' @rdname check_latex_lang
 test_latex_lang <- checkmate::makeTestFunction(check.fun = check_latex_lang)
+#' @rdname check_latex_lang
 assert_latex_lang <- checkmate::makeAssertionFunction(check.fun = check_latex_lang)
 
 # FOs ====
