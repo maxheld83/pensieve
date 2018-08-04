@@ -1,5 +1,19 @@
 # DO NOT CHANGE the "init" and "install" sections below
 
+# this is to download and install pandoc, as per https://github.com/krlmlr/r-appveyor/issues/82
+cache:
+  - C:\RLibrary
+  - C:\Program Files (x86)\Pandoc\
+
+# Adapt as necessary starting from here
+before_test:
+  - ps: >-
+      if (-Not (Test-Path "C:\Program Files (x86)\Pandoc\")) {
+        cinst pandoc
+      }
+  - ps: $env:Path += ";C:\Program Files (x86)\Pandoc\"
+  - pandoc -v
+
 # Download script file from GitHub
 init:
   ps: |
