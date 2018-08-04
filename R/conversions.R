@@ -82,7 +82,7 @@ texi2pdf2 <- function(path) {
   requireNamespace2("tinytex")
 
   # this also downloads LaTeX packages as far as possible
-  invisible(tinytex::latexmk(file = path_in, engine = "pdflatex", install_packages = TRUE, clean = TRUE))
+  invisible(tinytex::latexmk(file = path_in, engine = "pdflatex", install_packages = TRUE, clean = TRUE, max_times = 2))
 }
 
 #' @describeIn format2format PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)

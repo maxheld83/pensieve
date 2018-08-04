@@ -1,3 +1,6 @@
+context("Conversions")
+skip_if(condition = Sys.getenv()["LOGNAME"] == "max", message = "Expensive PDF compilation skipped on Max's local machine.")
+
 # setwd(dir = "tests/testthat/") # for interactive testing
 setup(code = {
   fs::dir_copy(path = "test_conversions", new_path = "test_conversions_run")
@@ -36,6 +39,7 @@ test_that(desc = "errors out on language unknown to pandoc", code = {
 
 # texi2pdf ====
 context("Compilation from LaTeX to PDF")
+
 test_file <- fs::path("test_texi2pdf2", ext = "tex")
 
 test_that(desc = "on file system works", code = {
@@ -91,7 +95,6 @@ test_that(desc = "works from given md", code = {
   expect_true(object = grid::is.grob(x = x))
 })
 
-
 # virtually ====
 context("Virtualised conversion")
 test_that(desc = "from/to R objects works", code = {
@@ -106,15 +109,12 @@ test_that(desc = "from/to R objects works", code = {
 })
 
 
-# memoised
+# memoised ====
 context("Memoised conversion")
 test_that(desc = "is a lot faster", code = {
   skip_on_travis()
-  mem_tex <- md2tex_mem(x = c("bar", "zap"), path_in = "foo.md")
   mem_tex_unique <- md2tex_mem(x = sample(x = LETTERS, size = 100, replace = TRUE), path_in = "unique.md")
   first <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique, path_in = "unique.tex")})
   second <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique, path_in = "unique.tex")})
-  expect_gt(object = first["elapsed"], expected = second["elapsed"] * 10)
-  takes_less_than(amount = )
-  # expect at least 10fold increase
+  expect_gt(object = first["elapsed"], expected = second["elapsed"] * 5) # expect at least 5 fold increase
 })
