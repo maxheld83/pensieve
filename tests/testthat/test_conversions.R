@@ -99,14 +99,14 @@ test_that(desc = "works from given md", code = {
 # virtually ====
 context("Virtualised conversion")
 test_that(desc = "from/to R objects works", code = {
-  virt_tex <- md2tex_mem(x = c("bar", "zap"), path_in = "foo.md")
+  virt_tex <- md2tex_mem(x = c("bar", "zap"))
   expect_character(x = virt_tex, any.missing = FALSE, null.ok = FALSE)
-  virt_pdf <- texi2pdf2_mem(x = virt_tex, path_in = "foo.tex")
+  virt_pdf <- texi2pdf2_mem(x = virt_tex)
   expect_vector(x = virt_pdf, null.ok = FALSE)
   skip_on_os(os = c("windows"))
-  virt_svg <- pdf2svg_mem(x = virt_pdf, path_in = "foo.pdf")
+  virt_svg <- pdf2svg_mem(x = virt_pdf)
   expect_vector(x = virt_svg, null.ok = FALSE)
-  virt_grob <- svg2grob_mem(x = virt_svg, path_in = "foo.svg")
+  virt_grob <- svg2grob_mem(x = virt_svg)
   expect_vector(x = virt_svg, null.ok = FALSE)
 })
 
@@ -115,8 +115,8 @@ test_that(desc = "from/to R objects works", code = {
 context("Memoised conversion")
 test_that(desc = "is a lot faster", code = {
   skip_on_travis() # can't get this to work, no idea why
-  mem_tex_unique <- md2tex_mem(x = sample(x = LETTERS, size = 100, replace = TRUE), path_in = "unique.md")
-  first <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique, path_in = "unique.tex")})
-  second <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique, path_in = "unique.tex")})
+  mem_tex_unique <- md2tex_mem(x = sample(x = LETTERS, size = 100, replace = TRUE))
+  first <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique)})
+  second <- system.time(expr = {texi2pdf2_mem(x = mem_tex_unique)})
   expect_gt(object = first["elapsed"], expected = second["elapsed"] * 5) # expect at least 5 fold increase
 })

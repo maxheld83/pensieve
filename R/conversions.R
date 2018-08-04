@@ -20,9 +20,7 @@ md2tex <- function(path,
                    lang = NULL,
                    ...) {
 
-  # input validation
-  path_in <- fs::path_ext_set(path = path, ext = "md")  # ensures that input is always md
-  assert_file_exists(x = path_in, access = "r", extension = "md")
+  path_in <- set_proper_extension(path = path, ext = "md")
 
   # check dependencies
   requireNamespace2(x = "processx")
@@ -74,8 +72,7 @@ md2tex <- function(path,
 #' @describeIn format2format latex to pdf via [LaTeX](https://www.latex-project.org)
 texi2pdf2 <- function(path) {
   # input validation
-  path_in <- fs::path_ext_set(path = path, ext = "tex")
-  assert_file_exists(x = path_in, access = "r", extension = "tex")
+  path_in <- set_proper_extension(path = path, ext = "tex")
 
   # dependencies
   requireNamespace2("fs")
@@ -89,9 +86,7 @@ texi2pdf2 <- function(path) {
 #' @param page `[integer(1)]` giving the page in the pdf to convert.
 pdf2svg <- function(path, page = 1) {
   # input validation
-  path_in <- fs::path_ext_set(path = path, ext = "pdf")
-  assert_file_exists(x = path_in, access = "r", extension = "pdf")
-  assert_scalar(x = page, na.ok = FALSE, null.ok = FALSE)
+  path_in <- set_proper_extension(path = path, ext = "pdf")
 
   # dependencies
   requireNamespace2(x = "fs")
@@ -130,14 +125,26 @@ pdf2svg <- function(path, page = 1) {
 #' @describeIn format2format SVG to R graphics (grid) via [grImport2::readPicture()]
 svg2grob <- function(path) {
   # input validation
-  path_in <- fs::path_ext_set(path = path, ext = "svg")
-  assert_file_exists(x = path_in, access = "r", extension = "svg")
+  path_in <- set_proper_extension(path = path, ext = "svg")
 
   # dependencies
   requireNamespace2(x = "grImport2")
 
   pic <- grImport2::readPicture(file = path_in, warn = FALSE)
   grImport2::pictureGrob(picture = pic)
+}
+
+#' @title If necessary, append extension to path
+#' @description This returns the good filename *and* changes the file on disc (side effect).
+#' @inheritParam format2format
+#' @return `[character(1)]` giving path to proper file name
+#' @noRd
+set_proper_extension <- function(path, ext) {
+  requireNamespace2("fs")
+  assert_file_exists(x = path, access = "r")
+  path_proper <- fs::path_ext_set(path = path, ext = ext)  # ensures that input is always proper
+  fs::file_move(path = path, new_path = path_proper)
+  path_proper
 }
 
 
@@ -370,7 +377,7 @@ virtually <- function(fun) {
     requireNamespace2(x = "fs")
 
     withr::local_file(file = path_in)
-    if (is_binary(path_in)) {
+    if (is.raw(x)) {
       writeBin(object = x, con = path_in)
     } else {
       readr::write_lines(x = x, path = path_in, append = FALSE)

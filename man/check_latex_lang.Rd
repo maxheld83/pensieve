@@ -51,6 +51,6 @@ Depending on the function prefix:
  \code{\link[testthat]{expectation}}.
 }
 \description{
-Checks if pandoc language can be compiled given local tex distribution
+Checks if pandoc language can be compiled given local tex distribution.
 }
 \keyword{internal}
