@@ -102,6 +102,7 @@ test_that(desc = "from/to R objects works", code = {
   expect_character(x = virt_tex, any.missing = FALSE, null.ok = FALSE)
   virt_pdf <- texi2pdf2_mem(x = virt_tex, path_in = "foo.tex")
   expect_vector(x = virt_pdf, null.ok = FALSE)
+  skip_on_os(os = c("windows"))
   virt_svg <- pdf2svg_mem(x = virt_pdf, path_in = "foo.pdf")
   expect_vector(x = virt_svg, null.ok = FALSE)
   virt_grob <- svg2grob_mem(x = virt_svg, path_in = "foo.svg")
