@@ -445,3 +445,25 @@ is_binary <- function(path) {
   requireNamespace2(x = "fs")
   !fs::path_ext(path) %in% c("md", "tex", "txt")
 }
+
+#' @title Find largest possible fontsize given all other arguments
+#' @description Finds largest possible fontsize for some markdown to fit on one PDF page.
+#' @param fontsizes_global_possible `[character()]` giving possible fontsizes_local
+#' @inheritParams
+#' @param ... Arguments passed to [md2tex_mem()]
+#' @return `[character(1)]` giving largest possible fontsize
+#' @keywords internal
+find_max_fontsize <- function(fontsizes_global_possible = fontsizes_global, ...) {
+  assert_subset(x = fontsizes_global_possible, choices = fontsizes_global)
+
+  working_fontsizes <- purrr::map_lgl(.x = fontsizes_global_possible, .f = function(this_size) {
+    tex <- md2tex_mem(fontsize_global = this_size, ...)
+    pdf <- texi2pdf2_mem(x = tex)
+    out_path <- fs::path("test_fontsize", ext = "pdf")
+    withr::local_file(file = out_path)
+    writeBin(object = pdf, con = out_path)
+    test_pdf1page(x = out_path)
+  })
+  max(which(working_fontsizes))
+}
+
