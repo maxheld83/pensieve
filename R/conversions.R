@@ -136,7 +136,7 @@ svg2grob <- function(path) {
 
 #' @title If necessary, append extension to path
 #' @description This returns the good filename *and* changes the file on disc (side effect).
-#' @inheritParam format2format
+#' @inheritParams format2format
 #' @return `[character(1)]` giving path to proper file name
 #' @noRd
 set_proper_extension <- function(path, ext) {
@@ -449,8 +449,7 @@ is_binary <- function(path) {
 #' @title Find largest possible fontsize given all other arguments
 #' @description Finds largest possible fontsize for some markdown to fit on one PDF page.
 #' @param fontsizes_global_possible `[character()]` giving possible fontsizes_local
-#' @inheritParams
-#' @param ... Arguments passed to [md2tex_mem()]
+#' @inheritDotParams md2tex -fontsize_global
 #' @return `[character(1)]` giving largest possible fontsize
 #' @keywords internal
 find_max_fontsize <- function(fontsizes_global_possible = fontsizes_global, ...) {
@@ -464,6 +463,15 @@ find_max_fontsize <- function(fontsizes_global_possible = fontsizes_global, ...)
     writeBin(object = pdf, con = out_path)
     test_pdf1page(x = out_path)
   })
-  max(which(working_fontsizes))
+
+  if (!(any(working_fontsizes))) {
+    stop(
+      "Could not find a fontsize to fit the text on one page given the other arguments. ",
+      "Try shortening the text or using other additional arguments which take up less space.",
+      call. = FALSE
+    )
+  }
+
+  fontsizes_global_possible[max(which(working_fontsizes))]
 }
 
