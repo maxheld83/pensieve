@@ -312,20 +312,13 @@ check_latex_lang <- function(x) {
 
   requireNamespace2(x = "fs")
 
-  tmpdir <- fs::path_temp()
-
-  path_in <- fs::path(tmpdir, "bad_lang", ext = "md")
-  readr::write_file(
-    x = "Because of a bad language, I will never be a PDF.",
-    path = path_in,
-    append = FALSE
-  )
-  path_in <- md2tex(path = path_in, lang = x)
-
   res <- TRUE
   res <- tryCatch(
     expr = {
-      suppressMessages(texi2pdf2(path = path_in))
+      tex <- md2tex_mem(x = "Because of a bad language, I will never be a PDF.", lang = x)
+      # watch out: texi2pdf2 can be abstracted, but to be safe, should not be memoised
+      # if memoised, we might get an old (from old cache) value, which is not invalidated (of course) on tex distro changes
+      suppressMessages(virtually(texi2pdf2)(tex))
       TRUE
     },
     # unfortunately, above code will return a path
@@ -370,13 +363,13 @@ virtually <- function(fun) {
     # input validation
     assert_vector(x = x, any.missing = FALSE, null.ok = FALSE)
     # might be binary, so we can't test for more
-    assert_path_for_output(x = path_in, overwrite = TRUE)
 
     # dependencies
     requireNamespace2(x = "withr")
     requireNamespace2(x = "fs")
 
-    withr::local_file(file = path_in)
+    tmpdir <- fs::path_temp()
+    withr::local_dir(new = tmpdir)
     if (is.raw(x)) {
       writeBin(object = x, con = path_in)
     } else {
@@ -391,7 +384,7 @@ virtually <- function(fun) {
       res <- readr::read_lines(file = path_out)
     }
 
-    fs::file_delete(path_out)
+    fs::file_delete(path = fs::dir_ls(path = ".", regexp = path_in, recursive = FALSE, all = TRUE, fail = FALSE))
     res
   }
 }
