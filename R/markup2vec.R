@@ -517,7 +517,37 @@ is_binary <- function(path) {
 #' @keywords internal
 find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
   assert_list(x = l, types = "character", any.missing = FALSE, null.ok = FALSE)
-  allowed_fontsizes <- purrr::reduce(.x = l, .f = find_fontsizes_1, .init = fontsizes_local_possible)
+  requireNamespace2(x = "progress")
+  # TODO purr will support progress bars at some point, streamline this then
+  # because below reduce has an init, the first go (and maybe more?) are not really registered by the progress bar, until LaTeX returns control
+  # as a result, the progress bar takes very long to show up
+  # to hack-fix this, we can "force" a show_after 0
+  if (interactive()) {
+    show_after <- 0
+  } else {
+    show_after <- 2/10  # pkg default
+  }
+  pb <- progress::progress_bar$new(
+    total = length(l),
+    format = "Finding maximum fontsize for element :name :spin [:bar] :percent eta: :eta",
+    show_after = show_after
+  )
+  pb$tick(0) # start with 0 before first compute
+  # reduce has no handy way to name output, so we have to do this by hand
+  if (test_named(l)) {
+    list_names <- names(l)
+  } else {
+    list_names <- as.character(1:length(l))
+  }
+  allowed_fontsizes <- purrr::reduce(
+    .x = l,
+    .init = fontsizes_local_possible,
+    .f = function(lhs, rhs, ...) {
+      pb$tick(tokens = list(name = list_names[l == rhs]))
+      find_fontsizes_1(fontsizes_local_possible = lhs, x = rhs, ...)
+    }
+  )
+  pb$terminate()
   allowed_fontsizes[length(allowed_fontsizes)]
 }
 find_fontsizes_1 <- function(fontsizes_local_possible = fontsizes_local, x, ...) {
