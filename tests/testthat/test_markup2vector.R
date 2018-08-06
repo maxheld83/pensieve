@@ -4,12 +4,12 @@ skip_on_appveyor()  # no latex, no pandoc, no pdf2svg, no nothin'
 
 # setwd(dir = "tests/testthat/") # for interactive testing
 setup(code = {
-  fs::dir_copy(path = "test_conversions", new_path = "test_conversions_run")
-  setwd("test_conversions_run")
+  fs::dir_copy(path = "test_markup2vector", new_path = "test_markup2vector_run")
+  setwd("test_markup2vector_run")
 })
 teardown(code = {
   # comment me out to debug results
-  fs::dir_delete(path = "test_conversions_run")
+  fs::dir_delete(path = "test_markup2vector_run")
 })
 
 
