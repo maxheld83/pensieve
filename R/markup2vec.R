@@ -512,6 +512,7 @@ is_binary <- function(path) {
 #' @description Finds largest possible fontsize for list of markdown vectors to fit on one PDF page.
 #' @param l `[list()]` giving `x`s to be passed to [md2tex_mem()].
 #' @param fontsizes_local_possible `[character()]` giving possible fontsizes_local, defaults to all allowed values as per [md2tex_mem()].
+#'
 #' @inheritDotParams md2tex_mem -fontsize_local
 #' @return `[character(1)]` giving largest possible fontsize
 #' @keywords internal
@@ -522,7 +523,7 @@ find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
   # because below reduce has an init, the first go (and maybe more?) are not really registered by the progress bar, until LaTeX returns control
   # as a result, the progress bar takes very long to show up
   # to hack-fix this, we can "force" a show_after 0
-  if (interactive()) {
+  if (TRUE) {
     show_after <- 0
   } else {
     show_after <- 2/10  # pkg default
@@ -532,19 +533,22 @@ find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
     format = "Finding maximum fontsize for element :name :spin [:bar] :percent eta: :eta",
     show_after = show_after
   )
-  pb$tick(0) # start with 0 before first compute
   # reduce has no handy way to name output, so we have to do this by hand
   if (test_named(l)) {
     list_names <- names(l)
   } else {
     list_names <- as.character(1:length(l))
   }
+  pb$tick(0, tokens = list(name = list_names[1])) # start with 0 before first compute
+  # ugly hack to get index right below
   allowed_fontsizes <- purrr::reduce(
     .x = l,
     .init = fontsizes_local_possible,
     .f = function(lhs, rhs, ...) {
-      pb$tick(tokens = list(name = list_names[l == rhs]))
-      find_fontsizes_1(fontsizes_local_possible = lhs, x = rhs, ...)
+      res <- find_fontsizes_1(fontsizes_local_possible = lhs, x = rhs, ...)
+      name <- list_names[min(c(which(l == rhs) + 1), length(l))]
+      pb$tick(tokens = list(name = name))
+      return(res)
     }
   )
   pb$terminate()
@@ -571,9 +575,16 @@ find_fontsizes_1 <- function(fontsizes_local_possible = fontsizes_local, x, ...)
   })
 
   if (!(any(working_fontsizes))) {
+    if (is.null(path)) {
+      path <- NA  # just to say something ...
+    }
     stop(
-      "Could not find a fontsize to fit the text on one page given the other arguments. ",
+      glue(
+        "Could not find a fontsize to fit the text in {path} on one page given the other arguments.",
       "Try shortening the text or using other additional arguments which take up less space.",
+      .na = "element",
+      .sep = " "
+      ),
       call. = FALSE
     )
   }
