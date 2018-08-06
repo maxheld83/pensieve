@@ -1,5 +1,5 @@
 context("Conversions")
-# skip_if(condition = Sys.getenv()["LOGNAME"] == "max", message = "Expensive PDF compilation skipped on Max's local machine.")
+skip_if(condition = test_on_dev_machine(), message = "Expensive PDF compilation skipped on Max's local machine.")
 skip_on_appveyor()  # no latex, no pandoc, no pdf2svg, no nothin'
 
 # setwd(dir = "tests/testthat/") # for interactive testing

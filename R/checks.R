@@ -393,3 +393,18 @@ check_sysdep <- function(x) {
 assert_sysdep <- makeAssertionFunction(check.fun = check_sysdep)
 test_sysdep <- makeTestFunction(check.fun = check_sysdep)
 expect_sysdep <- makeExpectationFunction(check.fun = check_sysdep)
+
+
+#' @title Check if running on main dev machine
+#' @param x Character vector of users.
+#' @description This test is useful to skip some tests locally and run some additional scripts
+check_on_dev_machine <- function(x = c("max")) {
+  if (isTRUE(Sys.getenv()["LOGNAME"] %in% x)) {
+    return(TRUE)
+  } else {
+    return("Not running on main dev machine.")
+  }
+}
+assert_on_dev_machine <- makeAssertionFunction(check.fun = check_on_dev_machine)
+test_on_dev_machine <- makeTestFunction(check.fun = check_on_dev_machine)
+expect_on_dev_machine <- makeExpectationFunction(check.fun = check_on_dev_machine)
