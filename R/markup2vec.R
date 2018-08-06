@@ -1,7 +1,7 @@
-# format2format ====
+# markup2vector ====
 
-#' @name format2format
-#' @title Convert vector formats
+#' @name markup2vector
+#' @title Convert markup to vector formats
 #' @description Call various tools with options to convert vector formats.
 #' @details
 #' Functions with the `_mem` postfix abstract away file system operations and have been cached via [memoise::memoise()].
@@ -14,7 +14,7 @@ NULL
 
 #' @inheritDotParams declare_pandoc_geometry
 #' @inheritParams declare_pandoc_var
-#' @describeIn format2format markdown to LaTeX via [pandoc](http://pandoc.org)
+#' @describeIn markup2vector markdown to LaTeX via [pandoc](http://pandoc.org)
 md2tex <- function(path,
                    fontsize_global = "10pt",
                    lang = NULL,
@@ -69,7 +69,7 @@ md2tex <- function(path,
   invisible(path_out)
 }
 
-#' @describeIn format2format latex to pdf via [LaTeX](https://www.latex-project.org)
+#' @describeIn markup2vector latex to pdf via [LaTeX](https://www.latex-project.org)
 texi2pdf2 <- function(path) {
   # input validation
   path_in <- set_proper_extension(path = path, ext = "tex")
@@ -82,7 +82,7 @@ texi2pdf2 <- function(path) {
   invisible(tinytex::latexmk(file = path_in, engine = "pdflatex", install_packages = TRUE, clean = TRUE, max_times = 2))
 }
 
-#' @describeIn format2format PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
+#' @describeIn markup2vector PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
 #' @param page `[integer(1)]` giving the page in the pdf to convert.
 pdf2svg <- function(path, page = 1) {
   # input validation
@@ -122,7 +122,7 @@ pdf2svg <- function(path, page = 1) {
   invisible(path_out)
 }
 
-#' @describeIn format2format SVG to R graphics (grid) via [grImport2::readPicture()]
+#' @describeIn markup2vector SVG to R graphics (grid) via [grImport2::readPicture()]
 svg2grob <- function(path) {
   # input validation
   path_in <- set_proper_extension(path = path, ext = "svg")
@@ -136,7 +136,7 @@ svg2grob <- function(path) {
 
 #' @title If necessary, append extension to path
 #' @description This returns the good filename *and* changes the file on disc (side effect).
-#' @inheritParams format2format
+#' @inheritParams markup2vector
 #' @return `[character(1)]` giving path to proper file name
 #' @noRd
 set_proper_extension <- function(path, ext) {
@@ -467,7 +467,7 @@ memoise2 <- function(f) {
   }
 }
 # sadly, these have to be down here, *after* virtually, otherwise won't work
-#' @describeIn format2format markdown to LaTeX via [pandoc](http://pandoc.org)
+#' @describeIn markup2vector markdown to LaTeX via [pandoc](http://pandoc.org)
 #' @param x `[character()]` *or* `[raw()]` giving the input.
 #' @param path_in `[character(1)]` giving path to use for input file *with or without extension*.
 #' Defaults to `"foo"`.
@@ -480,11 +480,11 @@ md2tex_mem <- memoise2(function(x, path_in = "foo", fontsize_local = "tiny", ali
   x <- wrap_in_latex_alignment(alignment = alignment, tex = x)
   virtually(fun = md2tex)(x = x, path_in = path_in, ...)
 })
-#' @describeIn format2format latex to pdf via [LaTeX](https://www.latex-project.org)
+#' @describeIn markup2vector latex to pdf via [LaTeX](https://www.latex-project.org)
 texi2pdf2_mem <- memoise2(virtually(fun = texi2pdf2))
-#' @describeIn format2format PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
+#' @describeIn markup2vector PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
 pdf2svg_mem <- memoise2(virtually(fun = pdf2svg))
-#' @describeIn format2format SVG to R graphics (grid) via [grImport2::readPicture()]
+#' @describeIn markup2vector SVG to R graphics (grid) via [grImport2::readPicture()]
 svg2grob_mem <- memoise2(function(x, path_in = "foo") {
   # input validation
   assert_vector(x = x, any.missing = FALSE, null.ok = FALSE)
