@@ -509,16 +509,28 @@ is_binary <- function(path) {
 }
 
 #' @title Find largest possible fontsize given all other arguments
-#' @description Finds largest possible fontsize for some markdown to fit on one PDF page.
-#' @param fontsizes_local_possible `[character()]` giving possible fontsizes_local
+#' @description Finds largest possible fontsize for list of markdown vectors to fit on one PDF page.
+#' @param l `[list()]` giving `x`s to be passed to [md2tex_mem()].
+#' @param fontsizes_local_possible `[character()]` giving possible fontsizes_local, defaults to all allowed values as per [md2tex_mem()].
+#' Must be a subset of those values, and *in ascending order*.
 #' @inheritDotParams md2tex_mem -fontsize_local
 #' @return `[character(1)]` giving largest possible fontsize
 #' @keywords internal
-find_max_fontsize <- function(fontsizes_local_possible = fontsizes_local, ...) {
+find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
+  assert_list(x = l, types = "character", any.missing = FALSE, null.ok = FALSE)
+  allowed_fontsizes <- purrr::reduce(.x = l, .f = find_fontsizes_1, .init = fontsizes_local_possible)
+  allowed_fontsizes[length(allowed_fontsizes)]
+}
+find_fontsizes_1 <- function(fontsizes_local_possible = fontsizes_local, x, ...) {
   assert_subset(x = fontsizes_local_possible, choices = fontsizes_local)
+  # TODO enforce and test order here!
 
+  # calculate logical vector on *all* above allowed fontsizes
+  # notice that, strictly speaking, this needs to run *all* fontsizes, because it's possible (given latex complexity) that, say fontsize 1 works, 2 fails and 3 works again
+  # could happen because of other latex optimisations
+  # so we're not saving runs here, because that might end up being only a local optimum
   working_fontsizes <- purrr::map_lgl(.x = fontsizes_local_possible, .f = function(this_size) {
-    tex <- md2tex_mem(fontsize_local = this_size, ...)
+    tex <- md2tex_mem(x = x, fontsize_local = this_size, ...)
     pdf <- texi2pdf2_mem(x = tex)
     out_path <- fs::path("test_fontsize", ext = "pdf")
     withr::local_file(file = out_path)
@@ -534,6 +546,5 @@ find_max_fontsize <- function(fontsizes_local_possible = fontsizes_local, ...) {
     )
   }
 
-  fontsizes_local_possible[max(which(working_fontsizes))]
+  fontsizes_local_possible[working_fontsizes]
 }
-

@@ -124,13 +124,12 @@ test_that(desc = "is a lot faster", code = {
 
 # autosize ====
 context("Autosizing")
-test_that(desc = "finds largest possible fontsize to stay on one page", code = {
-  # skip(message = "in dev")
-  little_text_res <- find_max_fontsize(x = "A")
+test_that(desc = "single markdown vector: finds largest possible fontsize to stay on one page", code = {
+  little_text_res <- find_fontsize(l = list("A"))
   little_text_i <- which(fontsizes_local == little_text_res)  # this is the index
   expect_choice(x = little_text_res, choices = fontsizes_local)
   much_text <- rep(x = LETTERS, times = 6)
-  much_text_res <- find_max_fontsize(x = much_text)
+  much_text_res <- find_fontsize(l = list(much_text))
   expect_choice(x = much_text_res, choices = fontsizes_local)
   much_text_i <- which(fontsizes_local == much_text_res)
   expect_gt(object = little_text_i, expected = much_text_i)
