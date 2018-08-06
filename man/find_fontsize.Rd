@@ -9,8 +9,7 @@ find_fontsize(l, fontsizes_local_possible = fontsizes_local, ...)
 \arguments{
 \item{l}{\code{[list()]} giving \code{x}s to be passed to \code{\link[=md2tex_mem]{md2tex_mem()}}.}
 
-\item{fontsizes_local_possible}{\code{[character()]} giving possible fontsizes_local, defaults to all allowed values as per \code{\link[=md2tex_mem]{md2tex_mem()}}.
-Must be a subset of those values, and \emph{in ascending order}.}
+\item{fontsizes_local_possible}{\code{[character()]} giving possible fontsizes_local, defaults to all allowed values as per \code{\link[=md2tex_mem]{md2tex_mem()}}.}
 
 \item{...}{Arguments passed on to \code{md2tex_mem}
 \describe{
