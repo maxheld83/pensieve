@@ -512,7 +512,6 @@ is_binary <- function(path) {
 #' @description Finds largest possible fontsize for list of markdown vectors to fit on one PDF page.
 #' @param l `[list()]` giving `x`s to be passed to [md2tex_mem()].
 #' @param fontsizes_local_possible `[character()]` giving possible fontsizes_local, defaults to all allowed values as per [md2tex_mem()].
-#' Must be a subset of those values, and *in ascending order*.
 #' @inheritDotParams md2tex_mem -fontsize_local
 #' @return `[character(1)]` giving largest possible fontsize
 #' @keywords internal
@@ -523,7 +522,10 @@ find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
 }
 find_fontsizes_1 <- function(fontsizes_local_possible = fontsizes_local, x, ...) {
   assert_subset(x = fontsizes_local_possible, choices = fontsizes_local)
-  # TODO enforce and test order here!
+  assert_character(x = fontsizes_local_possible, unique = TRUE, null.ok = FALSE)
+
+  # always enforce proper order
+  fontsizes_local_possible <- fontsizes_local_possible[order(match(fontsizes_local_possible, fontsizes_local))]
 
   # calculate logical vector on *all* above allowed fontsizes
   # notice that, strictly speaking, this needs to run *all* fontsizes, because it's possible (given latex complexity) that, say fontsize 1 works, 2 fails and 3 works again

@@ -1,5 +1,5 @@
 context("Conversions")
-skip_if(condition = Sys.getenv()["LOGNAME"] == "max", message = "Expensive PDF compilation skipped on Max's local machine.")
+# skip_if(condition = Sys.getenv()["LOGNAME"] == "max", message = "Expensive PDF compilation skipped on Max's local machine.")
 skip_on_appveyor()  # no latex, no pandoc, no pdf2svg, no nothin'
 
 # setwd(dir = "tests/testthat/") # for interactive testing
@@ -144,4 +144,10 @@ test_that(desc = "list of markdown vectors: finds largest possible fontsize to s
   res_sl_i <- which(fontsizes_local == res_sl)
   expect_gt(object = res_ms_i, expected = res_sl_i)
   expect_equal(object = find_fontsize(l = l[c("short", "medium", "long")]), expected = res_all)
+})
+test_that(desc = "works with incorrectly ordered fontsizes", code = {
+  expect_equal(
+    object = find_fontsize(l = list("A"), fontsizes_local_possible = fontsizes_local[c(7:4, 1:2)]),
+    expected = find_fontsize(l = list("A"), fontsizes_local_possible = fontsizes_local[c(1:2, 4:7)])
+  )
 })
