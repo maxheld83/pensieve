@@ -52,17 +52,30 @@ psItemContent <- function(items,
                           alignment = "justified") {
   assert_string(x = dir_bin, na.ok = FALSE, null.ok = TRUE)
 
+  geometry_opts <- list(
+    paperwidth = paperwidth,
+    paperheight = paperheight,
+    top = top,
+    bottom = bottom,
+    left = left,
+    right = right,
+    vcentering = vcentering,
+    hcentering = hcentering
+  )
+
   # construction
   if (is.null(dir_bin)) {
     items <- new_psItemContentText(
       items = items,
       lang = lang,
+      geometry_opts = geometry_opts,
       alignment = alignment
     )
   } else {
     items <- new_psItemContentBin(
       items = items,
-      dir_bin = dir_bin
+      dir_bin = dir_bin,
+      geometry_opts = geometry_opts
     )
   }
 
@@ -106,15 +119,21 @@ validate_S3.psItemContent <- function(x, ps_coll = NULL, ...) {
     .var.name = "items"
   )
 
+  geometry_opts <- attr(x = x, which = "geometry_opts")
+  if (test_sysdep(x = "pandoc")) {
+    assert_fun_args(x = do.call, y = md2tex_mem, args = c(x = "foo", geometry_opts), add = ps_coll, .var.name = "md2tex_mem")
+  }
+
   NextMethod(ps_coll = ps_coll)
 }
 
 
 # subclass text ====
-new_psItemContentText <- function(items, lang, alignment) {
+new_psItemContentText <- function(items, lang, geometry_opts, alignment) {
   new_psItemContent(
     items = items,
     lang = lang,
+    geometry_opts = geometry_opts,
     alignment = alignment,
     subclass = "psItemContentText"
   )
@@ -135,10 +154,11 @@ validate_S3.psItemContentText <- function(x, ...) {
 }
 
 # subclass binary files ====
-new_psItemContentBin <- function(items, dir_bin) {
+new_psItemContentBin <- function(items, dir_bin, geometry_opts) {
   new_psItemContent(
     items = items,
     dir_bin = dir_bin,
+    geometry_opts = geometry_opts,
     subclass = "psItemContentBin"
   )
 }

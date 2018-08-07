@@ -1,6 +1,7 @@
 context("Conversions")
 skip_if(condition = test_on_dev_machine(), message = "Expensive PDF compilation skipped on Max's local machine.")
 skip_on_appveyor()  # no latex, no pandoc, no pdf2svg, no nothin'
+skip_on_cran()  # too expensive
 
 # setwd(dir = "tests/testthat/") # for interactive testing
 setup(code = {
