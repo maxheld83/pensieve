@@ -57,7 +57,7 @@ Applies only to \code{"honeycomb"} and \code{"brickwall"} patterns, otherwise ig
 Aspect ratio of \emph{cards} is required to appropriately set the resulting dimensions of the \emph{grid}.
 Defaults to standard business cards.}
 
-\item{inline}{A logical flag indicating whether knitr is called from \emph{inline} (\code{r 1+1}) or from a chunk.
+\item{inline}{\code{[logical(1)]} indicating whether knitr is called from \emph{inline} (\code{r 1+1}) or from a chunk.
 Defaults to \code{FALSE}.}
 }
 \value{
@@ -79,6 +79,16 @@ Even a free distribution must have a grid, giving the maximum indices of rows an
 \item \code{knit_print}: Printing inside knitr chunks
 }}
 
+\section{Printing in knitr chunks}{
+
+Extends the \code{\link[knitr:knit_print]{knitr::knit_print()}} generic for pensieve S3 objects.
+
+By default \code{print()} in knitr will default to \code{\link[knitr:knit_print]{knitr::knit_print()}}, so to nicely print some object \code{obj} inside a chunk, you can just write \code{print(obj)} or even just \code{obj}.
+
+However, to manually invoke or preview the interactive displays in RStudio, you must call \code{\link[knitr:knit_print]{knitr::knit_print()}} in full.
+The \code{\link[base:print]{base::print()}}ing method of the underlying classes is \emph{not} altered outside of a knitr chunk.
+}
+
 \examples{
 # make simple matrix by hand
 m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
@@ -95,3 +105,4 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{psPeople}}, \code{\link{score}}
 }
 \concept{S3 classes from `pensieve`}
+\concept{print functions}

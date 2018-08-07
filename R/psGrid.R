@@ -162,10 +162,7 @@ as_psGrid.matrix <- function(obj, ...) {
 #' A numeric scalar, giving width divided by height of *individual cards* (such as 16/9 for screen dimensions).
 #' Aspect ratio of *cards* is required to appropriately set the resulting dimensions of the *grid*.
 #' Defaults to standard business cards.
-#' @param inline
-#' A logical flag indicating whether knitr is called from *inline* (`r 1+1`) or from a chunk.
-#' Defaults to `FALSE`.
-#' @inheritParams knitr::knit_print
+#' @template knit_print
 #' @export
 knit_print.psGrid <- function(x,
                               header = TRUE,
