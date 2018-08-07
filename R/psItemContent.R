@@ -33,7 +33,7 @@
 #' Must be relative path *from the working directory*.
 #' Best constructed with [base::file.path()].
 #'
-#' @inheritParams declare_pandoc_lang
+#' @inheritParams declare_pandoc_var
 #'
 #' @example tests/testthat/helper_psItemContent.R
 #'
@@ -46,7 +46,16 @@
 psItemContent <- function(items,
                           type = "text",
                           lang = NULL,
-                          img_dir = NULL) {
+                          img_dir = NULL,
+                          paperwidth = 8.5,
+                          paperheight = 5.4,
+                          top = 0.5,
+                          bottom = 0.5,
+                          left = 0.5,
+                          right = 0.5,
+                          unit = "cm",
+                          vcentering = TRUE,
+                          hcentering = TRUE) {
   assert_string(x = type, na.ok = FALSE, null.ok = FALSE)
 
   # construction

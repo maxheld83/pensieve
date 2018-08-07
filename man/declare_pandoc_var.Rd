@@ -13,9 +13,9 @@ declare_pandoc_fontsize(fontsize_global = "10pt")
 
 declare_pandoc_lang(lang = NULL)
 
-declare_pandoc_geometry(paperwidth = 8.5, paperheight = 5.4,
-  top = 0.5, bottom = 0.5, left = 0.5, right = 0.5, unit = "cm",
-  vcentering = TRUE, hcentering = TRUE)
+declare_pandoc_geometry(paperwidth = NULL, paperheight = NULL,
+  top = NULL, bottom = NULL, left = NULL, right = NULL,
+  unit = "cm", vcentering = FALSE, hcentering = FALSE)
 }
 \arguments{
 \item{key}{\code{[character(1)]} giving the key, such as \code{"geometry"}.}
@@ -141,11 +141,11 @@ Must be one of:
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
 
 \item{paperwidth, paperheight}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
-For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
-Defaults to \code{8.5} width and \code{5.4}. height.}
+For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
+Defaults to \code{NULL}.}
 
 \item{top, bottom, left, right}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{0.5}.}
+Defaults to \code{NULL}.}
 
 \item{unit}{\code{[character(1)]} giving the units for the above dimensions.
 
@@ -155,11 +155,8 @@ Must be one of:
 \item \code{'in'} for \emph{imperial}
 }}
 
-\item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically centered.
-Defaults to \code{TRUE}.}
-
-\item{hcentering}{\code{[logical(1)]} indicating whether content should be horizontally centered.
-Defaults to \code{TRUE}.}
+\item{vcentering, hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+Defaults to \code{FALSE}.}
 }
 \value{
 \code{[character()]} giving pandoc variable option, option\emph{s} in the case of geometry.

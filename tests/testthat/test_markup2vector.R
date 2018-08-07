@@ -128,14 +128,14 @@ test_that(desc = "single markdown vector: finds largest possible fontsize to sta
   little_text_res <- find_fontsize(l = list("A"))
   little_text_i <- which(fontsizes_local == little_text_res)  # this is the index
   expect_choice(x = little_text_res, choices = fontsizes_local)
-  much_text <- rep(x = LETTERS, times = 6)
+  much_text <- rep(x = LETTERS, times = 30)
   much_text_res <- find_fontsize(l = list(much_text))
   expect_choice(x = much_text_res, choices = fontsizes_local)
   much_text_i <- which(fontsizes_local == much_text_res)
   expect_gt(object = little_text_i, expected = much_text_i)
 })
 test_that(desc = "list of markdown vectors: finds largest possible fontsize to stay on one page across all list elements", code = {
-  l <- list(medium = rep("medium", times = 60), short = "short", long = rep("long", times = 120))
+  l <- list(medium = rep("medium", times = 200), short = "short", long = rep("long", times = 500))
   res_all <- find_fontsize(l = l)
   expect_choice(x = res_all, choices = fontsizes_local)
   res_ms <- find_fontsize(l = l[c("medium", "short")])

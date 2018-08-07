@@ -153,19 +153,19 @@ Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{L
 \item{...}{Arguments passed on to \code{declare_pandoc_geometry}
 \describe{
   \item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
-For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
-Defaults to \code{8.5} width and \code{5.4}. height.}
+For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
+Defaults to \code{NULL}.}
   \item{paperheight}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
-For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
-Defaults to \code{8.5} width and \code{5.4}. height.}
+For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
+Defaults to \code{NULL}.}
   \item{top}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{0.5}.}
+Defaults to \code{NULL}.}
   \item{bottom}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{0.5}.}
+Defaults to \code{NULL}.}
   \item{left}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{0.5}.}
+Defaults to \code{NULL}.}
   \item{right}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{0.5}.}
+Defaults to \code{NULL}.}
   \item{unit}{\code{[character(1)]} giving the units for the above dimensions.
 
 Must be one of:
@@ -173,10 +173,10 @@ Must be one of:
 \item \code{'cm'} for \emph{metric} (\strong{default}) or
 \item \code{'in'} for \emph{imperial}
 }}
-  \item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically centered.
-Defaults to \code{TRUE}.}
-  \item{hcentering}{\code{[logical(1)]} indicating whether content should be horizontally centered.
-Defaults to \code{TRUE}.}
+  \item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+Defaults to \code{FALSE}.}
+  \item{hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+Defaults to \code{FALSE}.}
 }}
 
 \item{page}{\code{[integer(1)]} giving the page in the pdf to convert.}

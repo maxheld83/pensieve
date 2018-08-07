@@ -159,24 +159,24 @@ Must be one of:
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
 
 \item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
-For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
-Defaults to \code{8.5} width and \code{5.4}. height.}
+For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
+Defaults to \code{NULL}.}
 
 \item{paperheight}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
-For good typographical results, should be as close as possible to the \emph{actual} physical measurements of cards encountered by users.
-Defaults to \code{8.5} width and \code{5.4}. height.}
+For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
+Defaults to \code{NULL}.}
 
 \item{top}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{0.5}.}
+Defaults to \code{NULL}.}
 
 \item{bottom}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{0.5}.}
+Defaults to \code{NULL}.}
 
 \item{left}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{0.5}.}
+Defaults to \code{NULL}.}
 
 \item{right}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{0.5}.}
+Defaults to \code{NULL}.}
 
 \item{unit}{\code{[character(1)]} giving the units for the above dimensions.
 
@@ -186,11 +186,11 @@ Must be one of:
 \item \code{'in'} for \emph{imperial}
 }}
 
-\item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically centered.
-Defaults to \code{TRUE}.}
+\item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+Defaults to \code{FALSE}.}
 
-\item{hcentering}{\code{[logical(1)]} indicating whether content should be horizontally centered.
-Defaults to \code{TRUE}.}
+\item{hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+Defaults to \code{FALSE}.}
 
 \item{tex}{\code{[list(character())]} giving a list of manually produced LaTeX markup, one for each \code{items}.
 Defaults to \code{NULL}, in which case the LaTeX markup is rendered automatically (recommended).}

@@ -216,32 +216,28 @@ langs <- purrr::as_vector(langs)
 #'
 #' @param paperwidth,paperheight
 #' `[numeric(1)]` giving the width and height of documents in `unit`.
-#' For good typographical results, should be as close as possible to the *actual* physical measurements of cards encountered by users.
-#' Defaults to `8.5` width and `5.4`. height.
+#' For good typographical results, should be as close as possible to the *actual* physical measurements of documents encountered by users.
+#' Defaults to `NULL`.
 #'
 #' @param top,bottom,left,right
 #' `[numeric(1)]` giving the margin in `unit`.
-#' Defaults to `0.5`.
+#' Defaults to `NULL`.
 #'
 #' @eval document_choice_arg(arg_name = "unit", choices = units, before = "giving the units for the above dimensions.", default = "cm")
 #'
-#' @param vcentering
-#' `[logical(1)]` indicating whether content should be vertically centered.
-#' Defaults to `TRUE`.
-#' @param hcentering
-#' `[logical(1)]` indicating whether content should be horizontally centered.
-#' Defaults to `TRUE`.
-declare_pandoc_geometry <- function(paperwidth = 8.5,
-                                    paperheight = 5.4,
-                                    top = 0.5,
-                                    bottom = 0.5,
-                                    left = 0.5,
-                                    right = 0.5,
+#' @param vcentering,hcentering
+#' `[logical(1)]` indicating whether content should be vertically/horizontally centered.
+#' Defaults to `FALSE`.
+declare_pandoc_geometry <- function(paperwidth = NULL,
+                                    paperheight = NULL,
+                                    top = NULL,
+                                    bottom = NULL,
+                                    left = NULL,
+                                    right = NULL,
                                     unit = "cm",
-                                    vcentering = TRUE,
-                                    hcentering = TRUE) {
-  assert_string(x = unit, na.ok = FALSE, null.ok = FALSE)
-  assert_choice(x = unit, choices = units)
+                                    vcentering = FALSE,
+                                    hcentering = FALSE) {
+  assert_choice(x = unit, choices = units, null.ok = FALSE)
   assert_flag(x = vcentering, na.ok = FALSE, null.ok = FALSE)
   assert_flag(x = hcentering, na.ok = FALSE, null.ok = FALSE)
 
@@ -253,13 +249,14 @@ declare_pandoc_geometry <- function(paperwidth = 8.5,
     left = left,
     right = right
   )
+  # keep only actually filled options
+  num_arguments <- purrr::discard(.x = num_arguments, .p = is.null)
+
   opts <- purrr::imap_chr(
     .x = num_arguments,
     .f = function(x, y) {
       # this is input validation
-      assert_numeric(x = x, lower = 0, finite = TRUE, any.missing = FALSE, len = 1, null.ok = FALSE, .var.name = y)
-
-      # this is the actual paste job
+      assert_numeric(x = x, lower = 0, finite = TRUE, any.missing = FALSE, len = 1, null.ok = TRUE, .var.name = y)
       value = glue::glue("{y}={x}{unit}")
     }
   )
@@ -272,10 +269,9 @@ declare_pandoc_geometry <- function(paperwidth = 8.5,
     opts <-  c(opts, hcentering = "hcentering")
   }
 
-  opts <- purrr::map_chr(.x = opts, .f = function(x) {
+  purrr::map_chr(.x = opts, .f = function(x) {
     declare_pandoc_var(key = "geometry", value = x)
   })
-  return(opts)
 }
 units <- c(metric = "cm", imperial = "in")
 

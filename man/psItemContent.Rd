@@ -5,7 +5,10 @@
 \alias{validate_S3.psItemContent}
 \title{Store item content as character strings}
 \usage{
-psItemContent(items, type = "text", lang = NULL, img_dir = NULL)
+psItemContent(items, type = "text", lang = NULL, img_dir = NULL,
+  paperwidth = 8.5, paperheight = 5.4, top = 0.5, bottom = 0.5,
+  left = 0.5, right = 0.5, unit = "cm", vcentering = TRUE,
+  hcentering = TRUE)
 
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
 }
@@ -137,6 +140,40 @@ Defaults to \code{NULL}, in which case images are expected at the working direct
 Ignored unless \code{type = "image"}.
 Must be relative path \emph{from the working directory}.
 Best constructed with \code{\link[base:file.path]{base::file.path()}}.}
+
+\item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
+For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
+Defaults to \code{NULL}.}
+
+\item{paperheight}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
+For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
+Defaults to \code{NULL}.}
+
+\item{top}{\code{[numeric(1)]} giving the margin in \code{unit}.
+Defaults to \code{NULL}.}
+
+\item{bottom}{\code{[numeric(1)]} giving the margin in \code{unit}.
+Defaults to \code{NULL}.}
+
+\item{left}{\code{[numeric(1)]} giving the margin in \code{unit}.
+Defaults to \code{NULL}.}
+
+\item{right}{\code{[numeric(1)]} giving the margin in \code{unit}.
+Defaults to \code{NULL}.}
+
+\item{unit}{\code{[character(1)]} giving the units for the above dimensions.
+
+Must be one of:
+\itemize{
+\item \code{'cm'} for \emph{metric} (\strong{default}) or
+\item \code{'in'} for \emph{imperial}
+}}
+
+\item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+Defaults to \code{FALSE}.}
+
+\item{hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+Defaults to \code{FALSE}.}
 
 \item{x}{An object with one of the pensieve S3 classes.}
 
