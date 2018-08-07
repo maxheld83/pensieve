@@ -542,7 +542,7 @@ find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
     .init = fontsizes_local_possible,
     .f = function(lhs, rhs, ...) {
       res <- find_fontsizes_1(fontsizes_local_possible = lhs, x = rhs, ...)
-      name <- list_names[min(c(which(l == rhs) + 1), length(l))]
+      name <- list_names[min(c(match(x = list(rhs), table = l) + 1), length(l))]
       pb$tick(tokens = list(name = name))
       return(res)
     }
