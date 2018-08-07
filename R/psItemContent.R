@@ -24,6 +24,7 @@
 #'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
 #'   An additional subclass `psItemContentImage`` is prepended and validated.
 #'   `lang` is ignored.
+# TODO is type arg redundant, given img_dir?
 #'
 #' @param img_dir
 #' `[character(1)]` giving the directory for `type = "image"`s.
@@ -118,6 +119,7 @@ new_psItemContentText <- function(items, lang) {
 #' @noRd
 #' @export
 validate_S3.psItemContentText <- function(x, ...) {
+  # TODO maybe always test for lang, not just for text? Then this function might be redundant
   assert_choice(
     x = attr(x = x, which = "lang"),
     choices = langs,
