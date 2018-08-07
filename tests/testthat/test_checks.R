@@ -10,8 +10,7 @@ test_that(desc = "validate returns 'NULL' or character vector", code = {
     min.chars = 1,
     any.missing = FALSE,
     all.missing = FALSE,
-    null.ok = FALSE,
-    len = 1
+    null.ok = FALSE
   )
 })
 test_that(desc = "check returns 'TRUE' or character string", code = {

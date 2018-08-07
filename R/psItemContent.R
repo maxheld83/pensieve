@@ -124,11 +124,12 @@ new_psItemContentText <- function(items, lang, alignment) {
 #' @noRd
 #' @export
 validate_S3.psItemContentText <- function(x, ...) {
-  assert_choice(
-    x = attr(x = x, which = "lang"),
-    choices = langs,
-    null.ok = TRUE,
-    .var.name = "lang")
+  lang <- attr(x = x, which = "lang")
+  alignment <- attr(x = x, which = "alignment")
+
+  if (test_sysdep(x = "pandoc")) {
+    assert_fun_args(x = md2tex_mem, y = x[1], lang = lang, add = ps_coll)
+  }
 
   NextMethod(ps_coll = ps_coll)
 }
@@ -148,11 +149,6 @@ new_psItemContentBin <- function(items, dir_bin) {
 validate_S3.psItemContentBin <- function(x, ...) {
   dir_bin <- attr(x = x, which = "dir_bin")
 
-  assert_string(
-    x = dir_bin,
-    na.ok = FALSE,
-    null.ok = FALSE,
-    add = ps_coll)
   assert_directory_exists(x = dir_bin, access = "r", add = ps_coll)
   files <- file.path(dir_bin, as.vector(x))
   assert_file_exists(

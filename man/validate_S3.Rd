@@ -71,10 +71,7 @@ Five alternative generics use the same underlying \code{\link[=validate_S3]{vali
 }
 \examples{
 # just for testing; never build objects like this by hand
-good_obj <- structure(
-  .Data = "I am an item.",
-  class = c("psItemContentText", "psItemContent", "character")
-)
+good_obj <- psItemContent(items = "I am an item")
 bad_obj <- structure(
   .Data = 1L, # must be character
   class = c("psItemContentText", "psItemContent", "character")

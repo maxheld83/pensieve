@@ -226,8 +226,7 @@ items_text_esperanto <- psItemContent(
   items = c(
     "Viro vivas por labori.",
     "Viro laboras vivi."
-  ),
-  lang = NULL
+  )
 )
 
 # image items

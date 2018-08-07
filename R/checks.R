@@ -408,3 +408,24 @@ check_on_dev_machine <- function(x = c("max")) {
 assert_on_dev_machine <- makeAssertionFunction(check.fun = check_on_dev_machine)
 test_on_dev_machine <- makeTestFunction(check.fun = check_on_dev_machine)
 expect_on_dev_machine <- makeExpectationFunction(check.fun = check_on_dev_machine)
+
+
+#' @title Check if function works with specified arguments
+#' @description A wrapper around tryCatch to be used to avoid assertion duplication
+#' @param x A function.
+#' @param y First argument passed to fun.
+#' @param ... Arguments to be passed to fun.
+check_fun_args <- function(x, y, ...) {
+  tryCatch(
+    expr = {
+      x(y, ...)
+      TRUE
+    },
+    error = function(cnd) {
+      conditionMessage(cnd)
+    }
+  )
+}
+assert_fun_args <- makeAssertionFunction(check.fun = check_fun_args)
+test_fun_args <- makeTestFunction(check.fun = check_fun_args)
+expect_fun_args <- makeExpectationFunction(check.fun = check_fun_args)
