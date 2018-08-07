@@ -3,6 +3,7 @@
 \name{psItemContent}
 \alias{psItemContent}
 \alias{validate_S3.psItemContent}
+\alias{as_psItemContent}
 \title{Store item content as character strings}
 \usage{
 psItemContent(items, dir_bin = NULL, lang = NULL, paperwidth = 8.5,
@@ -11,6 +12,8 @@ psItemContent(items, dir_bin = NULL, lang = NULL, paperwidth = 8.5,
   alignment = "justified")
 
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
+
+as_psItemContent(obj, ...)
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -186,6 +189,11 @@ Must be one of:
 \item{ps_coll}{\code{\link{AssertCollection}} ps_coll error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
 
 \item{...}{further arguments to be passed to methods.}
+
+\item{obj}{An object which can be coerced to \link{psItemContent}, currently one of:
+\itemize{
+\item a (named) character vector.
+}}
 }
 \value{
 \code{[character()]} with class \code{\link{psItemContent}}.

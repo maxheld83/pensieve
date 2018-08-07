@@ -43,6 +43,7 @@ Suggests:
   processx (>= 3.1.0),
   progress (>= 1.2.0),
   pdftools (>= 1.8),
+  qmethod (>= 1.5),
   rmarkdown (>= 1.0),
   servr (>= 0.6),
   shiny (>= 1.0.3),

@@ -22,16 +22,73 @@ There are some standards and frameworks that can structure your item generation 
 2. Items can be **professionally typeset**, and stored in `pensieve`, so that participants and researchers alike both see the items in the *same, definitive form*, be they text or images.
 3. Arbitrary **additional information** can be stored alongside the items for later "R-way" analysis.
 
-Items and related information are stored in a specific, domain-specific format in `pensieve`, a list of S3 class `psItems`.
+Items and related information are stored in a domain-specific format in `pensieve`, a list of S3 class `psItems`.
 You can use the package entirely without `psItems`, though providing additional information about the items is highly recommended.
 For example, providing the full item text (or image) enhances some of the downstream plots.
 
-As always, the `psItems` list *can* be quite extensive, covering a lot of use cases.
-But there is no need to worry, if your study is simpler: 
-only a few elements are necessary (in bold), and even the entire `psItems` is optional.
 
-- `psItems`
-  -  **`psItemConcourse`** for the full item stimulus, either as
-    *`psItemConcourseText`* or
-    *`psItemConcourseImage`*.
-  - `psItemStrata` for structured sampling.
+### `psItemContent`
+
+`psItemContent` is the most important element of `psItems`.
+It stores the **full wording** of items, or, in the case of image items or other assets the **paths to the binary sources**.
+`psItemContent` is easily created from a character vector.
+
+If it is named, these names are retained as **item handles**.
+Such handles provide a succinct way to refer to items, and can also be displayed in plots and tables.
+In contrast to the conventionally used statement numbers ("`sta_27`"), I recommend short, meaningful labels.
+The handles are *researcher-facing*, they are *not* part of the items and are never shown to participants.
+
+For an example, let's take the Lipset items from @Brown1980, with some hand-crafted item handles.
+
+
+<!-- TODO read in lipset items here -->
+
+```{r}
+library(pensieve)
+lipset <- NULL
+lipset$items <- qmethod::lipset$ltext$text
+names(lipset$items) <- c(
+  "accept_improvements_lower_classes",
+  "expected_2_improve",
+  "success_resented",
+  "expect_fair_treatment",
+  "no_revolutionary_inclinations",
+  "moderation",
+  "retain_high_place",
+  "wealth_deserves",
+  "eliminate_privileged",
+  "accept_aristocratic",
+  "govnm_secrets_ok",
+  "no_secrets",
+  "complete_4_success",
+  "social_distinction",
+  "vigilantism",
+  "close_2_uk",
+  "prefer_voluntary_help",
+  "no_wealth_for_wealth",
+  "promoting_underdog",
+  "like_welfare_state",
+  "race_4_success",
+  "corruption_accepted",
+  "dif_laws_rich_poor",
+  "lack_of_respect_police",
+  "trust_in_police",
+  "self_made",
+  "respect_elite",
+  "middle_of_road",
+  "afterlife",
+  "civil_liberties",
+  "virtue",
+  "raise_depressed",
+  "get_ahead"
+  )
+lipset$items <- psItemContent(items = lipset$items, lang = "en-US")
+```
+
+You'll notice that `psItemContent()` allows you to specify a language, which can improve the typesetting results later on.
+To learn more about acceptable language codes, see the help for `psItemContent()`.
+
+`psItemContent()` also allows you to set the way items are typeset (or rendered).
+This defaults to the settings for printing items on standard-issue business cards, but you can provide arbitrary dimensions and margins.
+Just keep in mind that not all options may meet the requirement that your item text *can* in fact be typeset to a *single* page.
+
