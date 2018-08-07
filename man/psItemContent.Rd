@@ -4,6 +4,7 @@
 \alias{psItemContent}
 \alias{validate_S3.psItemContent}
 \alias{as_psItemContent}
+\alias{knit_print.psItemContentText}
 \title{Store item content as character strings}
 \usage{
 psItemContent(items, dir_bin = NULL, lang = NULL, paperwidth = 8.5,
@@ -14,6 +15,8 @@ psItemContent(items, dir_bin = NULL, lang = NULL, paperwidth = 8.5,
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
 
 as_psItemContent(obj, ...)
+
+\method{knit_print}{psItemContentText}(x, ...)
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -208,7 +211,19 @@ Storing \strong{full items} can enable deployment and convenience functions, as 
 \section{Methods (by generic)}{
 \itemize{
 \item \code{validate_S3}: Validation
+
+\item \code{knit_print}: Printing inside knitr chunks
 }}
+
+\section{Printing in knitr chunks}{
+
+Extends the \code{\link[knitr:knit_print]{knitr::knit_print()}} generic for pensieve S3 objects.
+
+By default \code{print()} in knitr will default to \code{\link[knitr:knit_print]{knitr::knit_print()}}, so to nicely print some object \code{obj} inside a chunk, you can just write \code{print(obj)} or even just \code{obj}.
+
+However, to manually invoke or preview the interactive displays in RStudio, you must call \code{\link[knitr:knit_print]{knitr::knit_print()}} in full.
+The \code{\link[base:print]{base::print()}}ing method of the underlying classes is \emph{not} altered outside of a knitr chunk.
+}
 
 \examples{
 # text items with handles
@@ -274,5 +289,8 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{extract}}, \code{\link{psGrid}},
   \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
   \code{\link{psPeople}}, \code{\link{score}}
+
+Other print functions: \code{\link{psGrid}}
 }
 \concept{S3 classes from `pensieve`}
+\concept{print functions}

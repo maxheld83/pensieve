@@ -91,11 +91,12 @@ new_psItemContent <- function(items, ..., subclass = NULL) {
     all.missing = TRUE,
     null.ok = FALSE
   )
-  structure(
+  x <- structure(
     .Data = items,
     ...,
     class = c(subclass, "psItemContent", "character")
   )
+  sticky::sticky(x)
 }
 
 #' @describeIn psItemContent Validation
@@ -198,6 +199,15 @@ validate_S3.psItemContentBin <- function(x, ...) {
     add = ps_coll)
 
   NextMethod(ps_coll = ps_coll)
+}
+
+# knit_print ====
+#' @describeIn psItemContent Printing inside knitr chunks
+#' @template knit_print
+#' @export
+knit_print.psItemContentText <- function(x,
+                                         ...) {
+  knitr::asis_output(glue("> {x}"))
 }
 
 # rendering ====

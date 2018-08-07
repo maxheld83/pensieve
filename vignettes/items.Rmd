@@ -40,7 +40,6 @@ The handles are *researcher-facing*, they are *not* part of the items and are ne
 
 For an example, let's take the Lipset items from @Brown1980, with some hand-crafted item handles.
 
-
 <!-- TODO read in lipset items here -->
 
 ```{r}
@@ -91,4 +90,12 @@ To learn more about acceptable language codes, see the help for `psItemContent()
 `psItemContent()` also allows you to set the way items are typeset (or rendered).
 This defaults to the settings for printing items on standard-issue business cards, but you can provide arbitrary dimensions and margins.
 Just keep in mind that not all options may meet the requirement that your item text *can* in fact be typeset to a *single* page.
+
+
+#### Print Method
+
+```{r}
+library(knitr)
+knit_print(lipset$items["virtue"])
+```
 

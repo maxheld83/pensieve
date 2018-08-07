@@ -103,6 +103,8 @@ Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
   \code{\link{extract}}, \code{\link{psItemContent}},
   \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
   \code{\link{psPeople}}, \code{\link{score}}
+
+Other print functions: \code{\link{psItemContent}}
 }
 \concept{S3 classes from `pensieve`}
 \concept{print functions}
