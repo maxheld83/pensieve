@@ -191,7 +191,8 @@ Useful for debugging.}
 
 Must be one of:
 \itemize{
-\item \code{'tiny'} (\strong{default})
+\item \code{NULL} in which case the default local fontsize is used (\strong{default})
+\item \code{'tiny'}
 \item \code{'scriptsize'}
 \item \code{'footnotesize'}
 \item \code{'small'}

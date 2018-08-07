@@ -8,7 +8,7 @@
 psItemContent(items, type = "text", lang = NULL, img_dir = NULL,
   paperwidth = 8.5, paperheight = 5.4, top = 0.5, bottom = 0.5,
   left = 0.5, right = 0.5, unit = "cm", vcentering = TRUE,
-  hcentering = TRUE)
+  hcentering = TRUE, alignment = "justified")
 
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
 }
@@ -175,7 +175,17 @@ Defaults to \code{FALSE}.}
 \item{hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
 Defaults to \code{FALSE}.}
 
-\item{x}{An object with one of the pensieve S3 classes.}
+\item{alignment}{\code{[character(1)]} giving the alignment of the text.
+
+Must be one of:
+\itemize{
+\item \code{'justified'} (\strong{default})
+\item \code{'left'}
+\item \code{'right'} or
+\item \code{'center'}
+}}
+
+\item{x}{\code{[character()]} \emph{or} \code{[raw()]} giving the input.}
 
 \item{ps_coll}{\code{\link{AssertCollection}} ps_coll error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
 

@@ -279,13 +279,16 @@ units <- c(metric = "cm", imperial = "in")
 # formatting helpers: latex wrapers ====
 #' @title Wrap character vector in latex environment
 #' @description These are helper functions to apply latex environments.
-#' @param env `[character(1)]` giving a latex environment.
 #' @param tex `[character()]` giving some character vector.
+#' @param env `[character(1)]` giving a latex environment, defaults to `NULL` for no latex environment.
 #' @return `[character()]` a character vector of valid latex
 #' @keywords internal
-wrap_in_latex_env <- function(env, tex) {
+wrap_in_latex_env <- function(tex, env = NULL) {
   assert_character(x = tex, any.missing = FALSE, null.ok = FALSE)
-  assert_string(x = env, min.chars = 1, na.ok = FALSE, null.ok = FALSE)
+  assert_string(x = env, min.chars = 1, na.ok = FALSE, null.ok = TRUE)
+  if (is.null(env)) {
+    return(tex)
+  }
   c(
     glue("\\begin{[env]}", .open = "[", .close = "]"),
     tex,
@@ -294,9 +297,9 @@ wrap_in_latex_env <- function(env, tex) {
 }
 
 #' @describeIn wrap_in_latex_env Apply local fontsize
-#' @eval document_choice_arg(arg_name = "fontsize_local", choices = fontsizes_local, before = "giving a valid [LaTeX font size](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text).", default = "tiny")
-wrap_in_latex_fontsize <- function(fontsize_local = "tiny", tex) {
-  assert_choice(x = fontsize_local, choices = fontsizes_local, null.ok = FALSE)
+#' @eval document_choice_arg(arg_name = "fontsize_local", choices = fontsizes_local, before = "giving a valid [LaTeX font size](https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text).", null = "in which case the default local fontsize is used", default = "null")
+wrap_in_latex_fontsize <- function(tex, fontsize_local = NULL) {
+  assert_choice(x = fontsize_local, choices = fontsizes_local, null.ok = TRUE)
   wrap_in_latex_env(env = fontsize_local, tex = tex)
 }
 fontsizes_local <- c(
@@ -316,7 +319,7 @@ fontsizes_local <- c(
 
 #' @describeIn wrap_in_latex_env Apply alignment
 #' @eval document_choice_arg(arg_name = "alignment", choices = alignments, before = "giving the alignment of the text.", default = "justified")
-wrap_in_latex_alignment <- function(alignment = "justified", tex) {
+wrap_in_latex_alignment <- function(tex, alignment = "justified") {
   assert_choice(x = alignment, choices = alignments, null.ok = FALSE)
   if (alignment == "justified") {
     # if null, the justified, which requires NO extra command

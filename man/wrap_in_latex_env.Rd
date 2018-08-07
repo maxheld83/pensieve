@@ -6,22 +6,23 @@
 \alias{wrap_in_latex_alignment}
 \title{Wrap character vector in latex environment}
 \usage{
-wrap_in_latex_env(env, tex)
+wrap_in_latex_env(tex, env = NULL)
 
-wrap_in_latex_fontsize(fontsize_local = "tiny", tex)
+wrap_in_latex_fontsize(tex, fontsize_local = NULL)
 
-wrap_in_latex_alignment(alignment = "justified", tex)
+wrap_in_latex_alignment(tex, alignment = "justified")
 }
 \arguments{
-\item{env}{\code{[character(1)]} giving a latex environment.}
-
 \item{tex}{\code{[character()]} giving some character vector.}
+
+\item{env}{\code{[character(1)]} giving a latex environment, defaults to \code{NULL} for no latex environment.}
 
 \item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
 
 Must be one of:
 \itemize{
-\item \code{'tiny'} (\strong{default})
+\item \code{NULL} in which case the default local fontsize is used (\strong{default})
+\item \code{'tiny'}
 \item \code{'scriptsize'}
 \item \code{'footnotesize'}
 \item \code{'small'}

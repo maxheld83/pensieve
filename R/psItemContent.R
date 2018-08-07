@@ -34,6 +34,7 @@
 #' Best constructed with [base::file.path()].
 #'
 #' @inheritParams declare_pandoc_var
+#' @inheritParams md2tex
 #'
 #' @example tests/testthat/helper_psItemContent.R
 #'
@@ -55,7 +56,8 @@ psItemContent <- function(items,
                           right = 0.5,
                           unit = "cm",
                           vcentering = TRUE,
-                          hcentering = TRUE) {
+                          hcentering = TRUE,
+                          alignment = "justified") {
   assert_string(x = type, na.ok = FALSE, null.ok = FALSE)
 
   # construction
