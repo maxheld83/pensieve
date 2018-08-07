@@ -127,6 +127,26 @@ validate_S3.psItemContent <- function(x, ps_coll = NULL, ...) {
   NextMethod(ps_coll = ps_coll)
 }
 
+# coercion ====
+#' @rdname psItemContent
+#' @param obj
+#' An object which can be coerced to [psItemContent][psItemContent], currently one of:
+#' - a (named) character vector.
+#' @export
+as_psItemContent <- function(obj, ...) {
+  UseMethod("as_psItemContent")
+}
+as_psItemContent.default <- function(obj, ...) {
+  stop_coercion(obj = obj, target_class = "psItemContent")
+}
+as_psItemContent.psItemContent <- function(obj, ...) {
+  assert_S3(x = obj)
+  obj
+}
+as.psItemContent.character <- function(obj, ...) {
+  psItemContent(items = obj, ...)
+}
+
 
 # subclass text ====
 new_psItemContentText <- function(items, lang, geometry_opts, alignment) {
