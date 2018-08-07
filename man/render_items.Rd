@@ -18,7 +18,7 @@ Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
 Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
 An additional subclass \code{psItemContentText} is prepended and validated.
 \item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
-An additional subclass `psItemContentBin`` is prepended and validated.
+An additional subclass \code{psItemContentBin`` is prepended and validated.}lang\code{and}alignment` are ignored.
 }}
 
 \item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.

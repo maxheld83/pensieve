@@ -18,6 +18,7 @@
 #'   An additional subclass `psItemContentText` is prepended and validated.
 #' - if `dir_bin` is given, `items` must be file paths, relative from `dir_bin`.
 #'   An additional subclass `psItemContentBin`` is prepended and validated.
+#'   `lang` and `alignment` are ignored.
 #'
 #' @param dir_bin
 #' `[character(1)]` giving the root from which `items` can be found, when `items` are paths.
@@ -55,7 +56,8 @@ psItemContent <- function(items,
   if (is.null(dir_bin)) {
     items <- new_psItemContentText(
       items = items,
-      lang = lang
+      lang = lang,
+      alignment = alignment
     )
   } else {
     items <- new_psItemContentBin(
@@ -109,11 +111,11 @@ validate_S3.psItemContent <- function(x, ps_coll = NULL, ...) {
 
 
 # subclass text ====
-new_psItemContentText <- function(items, lang) {
+new_psItemContentText <- function(items, lang, alignment) {
   new_psItemContent(
     items = items,
     lang = lang,
-    # TODO add all formatting args
+    alignment = alignment,
     subclass = "psItemContentText"
   )
 }
