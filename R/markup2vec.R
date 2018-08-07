@@ -58,7 +58,7 @@ md2tex <- function(path,
     echo = FALSE,
     echo_cmd = FALSE,
     spinner = FALSE,  # screws up progressbar
-    timeout = 1  # this is just pandoc, should be very fast
+    timeout = 5  # this is just pandoc, should be very fast
   )
   if (res$timeout) {
     stop(glue("Pandoc timed out converting {path_in} to {path_out}."), call. = FALSE)
