@@ -36,7 +36,8 @@ svg2grob_mem(x, path_in = "foo")
 
 Must be one of:
 \itemize{
-\item \code{'10pt'} (\strong{default})
+\item \code{NULL} in which case the system default fontsize is used. (\strong{default})
+\item \code{'10pt'}
 \item \code{'11pt'} or
 \item \code{'12pt'}
 }}

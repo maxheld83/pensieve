@@ -9,7 +9,7 @@
 \usage{
 declare_pandoc_var(key, value)
 
-declare_pandoc_fontsize(fontsize_global = "10pt")
+declare_pandoc_fontsize(fontsize_global = NULL)
 
 declare_pandoc_lang(lang = NULL)
 
@@ -26,7 +26,8 @@ declare_pandoc_geometry(paperwidth = NULL, paperheight = NULL,
 
 Must be one of:
 \itemize{
-\item \code{'10pt'} (\strong{default})
+\item \code{NULL} in which case the system default fontsize is used. (\strong{default})
+\item \code{'10pt'}
 \item \code{'11pt'} or
 \item \code{'12pt'}
 }}

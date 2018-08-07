@@ -157,15 +157,18 @@ set_proper_extension <- function(path, ext) {
 #' @return `[character()]` giving pandoc variable option, option*s* in the case of geometry.
 declare_pandoc_var <- function(key, value) {
   checkmate::assert_string(x = key, na.ok = FALSE, null.ok = FALSE)
-  checkmate::assert_string(x = value, na.ok = FALSE, null.ok = FALSE)
-  glue::glue("--variable={key}:{value}")
+  checkmate::assert_string(x = value, na.ok = FALSE, null.ok = TRUE)
+  if (is.null(value)) {
+    return(character(0))  # to streamline output with other functions; this is the purrr logic type stability
+  } else {
+    glue::glue("--variable={key}:{value}")
+  }
 }
 
 #' @describeIn declare_pandoc_var declare *base* font size
-#' @eval document_choice_arg(arg_name = "fontsize_global", choices = fontsizes_global, before = "giving the document-wide font size.", default = "10pt")
-declare_pandoc_fontsize <- function(fontsize_global = "10pt") {
-  checkmate::assert_string(x = fontsize_global, na.ok = FALSE, null.ok = FALSE)
-  checkmate::assert_choice(x = fontsize_global, choices = fontsizes_global, null.ok = FALSE)
+#' @eval document_choice_arg(arg_name = "fontsize_global", choices = fontsizes_global, before = "giving the document-wide font size.", default = "null", null = "in which case the system default fontsize is used.")
+declare_pandoc_fontsize <- function(fontsize_global = NULL) {
+  assert_choice(x = fontsize_global, choices = fontsizes_global, null.ok = TRUE)
   declare_pandoc_var(key = "fontsize", value = fontsize_global)
 }
 fontsizes_global <- c(
@@ -180,9 +183,7 @@ fontsizes_global <- c(
 #' @eval document_choice_arg(arg_name = "lang", choices = langs, before = "giving a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) code, such as `en_US`.", after = "Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel) and others. **Careful**: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use [check_latex_lang()] to verify.", null = "in which case there is no multilingual support", default = "null")
 declare_pandoc_lang <- function(lang = NULL) {
   assert_choice(x = lang, choices = langs, null.ok = TRUE)
-  if (!is.null(lang)) {
-    declare_pandoc_var(key = "lang", value = lang)
-  }
+  declare_pandoc_var(key = "lang", value = lang)
 }
 # generally, the BCP 47 standard allows all manner of language, region combinations (and more), e.g. "de_AT"
 # however, only a subset is allowed in pandoc and translated to panglossia or babel
