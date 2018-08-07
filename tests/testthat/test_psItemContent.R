@@ -23,12 +23,12 @@ test_that(desc = "construction of text item works", code = {
 
 test_that(desc = "construction of image item works", code = {
   expect_s3_class(object = items_image, class = c(
-    "psItemContentImage",
+    "psItemContentBin",
     "psItemContent",
     "character"
   ))
   expect_subset(
-    x = c("img_dir"),
+    x = c("dir_bin"),
     choices = names(attributes(items_image))
   )
 })

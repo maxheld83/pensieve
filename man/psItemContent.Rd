@@ -5,26 +5,28 @@
 \alias{validate_S3.psItemContent}
 \title{Store item content as character strings}
 \usage{
-psItemContent(items, type = "text", lang = NULL, img_dir = NULL,
-  paperwidth = 8.5, paperheight = 5.4, top = 0.5, bottom = 0.5,
-  left = 0.5, right = 0.5, unit = "cm", vcentering = TRUE,
-  hcentering = TRUE, alignment = "justified")
+psItemContent(items, dir_bin = NULL, lang = NULL, paperwidth = 8.5,
+  paperheight = 5.4, top = 0.5, bottom = 0.5, left = 0.5,
+  right = 0.5, unit = "cm", vcentering = TRUE, hcentering = TRUE,
+  alignment = "justified")
 
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
-Can be named to provide short, \emph{researcher-facing} \strong{item handles}.}
-
-\item{type}{\code{[character(1)]} giving the \emph{kind} of item content, must be one of:
+Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
 \itemize{
-\item \code{"text"} (default) for textual item, in which case \code{items} must be text.
+\item if \code{dir_bin} is \code{NULL} (default), \code{items} must be text.
 Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
 An additional subclass \code{psItemContentText} is prepended and validated.
-\item \code{"image"} for image items, in which case \code{items} must be file paths, relative from \code{img_dir}.
-Images must be \code{*.png}, \code{*.jpg}, \code{*.jpeg} or \code{*.svg}.
-An additional subclass \code{psItemContentImage`` is prepended and validated.}lang` is ignored.
+\item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
+An additional subclass `psItemContentBin`` is prepended and validated.
 }}
+
+\item{dir_bin}{\code{[character(1)]} giving the root from which \code{items} can be found, when \code{items} are paths.
+Defaults to \code{NULL}, in which case \code{items} are expected to be texts.
+Must be relative path \emph{from the working directory}.
+Best constructed with \code{\link[base:file.path]{base::file.path()}}.}
 
 \item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
 
@@ -135,12 +137,6 @@ Must be one of:
 
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
 
-\item{img_dir}{\code{[character(1)]} giving the directory for \code{type = "image"}s.
-Defaults to \code{NULL}, in which case images are expected at the working directory root \code{\link[base:getwd]{base::getwd()}}.
-Ignored unless \code{type = "image"}.
-Must be relative path \emph{from the working directory}.
-Best constructed with \code{\link[base:file.path]{base::file.path()}}.}
-
 \item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
 For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
 Defaults to \code{NULL}.}
@@ -213,7 +209,6 @@ items_text_en <- psItemContent(
     "live_2_work" = "Man lives to work.",
     "work_2_live" = "Man works to live."
   ),
-  type = "text",
   lang = "en-US"
 )
 
@@ -238,14 +233,13 @@ items_text_esperanto <- psItemContent(
 # image items
 # these images ship with pensieve
 # location depends on runtime; ignore next three lines
-img_dir <- file.path("..", "..", "inst", "extdata", "fruit")
-if (!dir.exists(img_dir)) {
-  img_dir <- file.path(system.file(package = "pensieve"), "extdata", "fruit")
+dir_bin <- file.path("..", "..", "inst", "extdata", "fruit")
+if (!dir.exists(dir_bin)) {
+  dir_bin <- file.path(system.file(package = "pensieve"), "extdata", "fruit")
 }
 items_image <- psItemContent(
   items = c("peach.jpg", "pear.jpg"),
-  type = "image",
-  img_dir = img_dir
+  dir_bin = dir_bin
 )
 
 # rendering text items ====

@@ -13,23 +13,15 @@
 #' @param items
 #' `[character()]` giving the *participant-facing* **item content**.
 #' Can be named to provide short, *researcher-facing* **item handles**.
-# TODO this is a problem, because item handles should be in a different column :( of psItems, unclear!
-#'
-#' @param type
-#' `[character(1)]` giving the *kind* of item content, must be one of:
-#' - `"text"` (default) for textual item, in which case `items` must be text.
+#' - if `dir_bin` is `NULL` (default), `items` must be text.
 #'   Items can be marked up using [Pandoc Markdown](https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html).
 #'   An additional subclass `psItemContentText` is prepended and validated.
-#' - `"image"` for image items, in which case `items` must be file paths, relative from `img_dir`.
-#'   Images must be `*.png`, `*.jpg`, `*.jpeg` or `*.svg`.
-#'   An additional subclass `psItemContentImage`` is prepended and validated.
-#'   `lang` is ignored.
-# TODO is type arg redundant, given img_dir?
+#' - if `dir_bin` is given, `items` must be file paths, relative from `dir_bin`.
+#'   An additional subclass `psItemContentBin`` is prepended and validated.
 #'
-#' @param img_dir
-#' `[character(1)]` giving the directory for `type = "image"`s.
-#' Defaults to `NULL`, in which case images are expected at the working directory root [base::getwd()].
-#' Ignored unless `type = "image"`.
+#' @param dir_bin
+#' `[character(1)]` giving the root from which `items` can be found, when `items` are paths.
+#' Defaults to `NULL`, in which case `items` are expected to be texts.
 #' Must be relative path *from the working directory*.
 #' Best constructed with [base::file.path()].
 #'
@@ -45,9 +37,8 @@
 #'
 #' @export
 psItemContent <- function(items,
-                          type = "text",
+                          dir_bin = NULL,
                           lang = NULL,
-                          img_dir = NULL,
                           paperwidth = 8.5,
                           paperheight = 5.4,
                           top = 0.5,
@@ -58,18 +49,18 @@ psItemContent <- function(items,
                           vcentering = TRUE,
                           hcentering = TRUE,
                           alignment = "justified") {
-  assert_string(x = type, na.ok = FALSE, null.ok = FALSE)
+  assert_string(x = dir_bin, na.ok = FALSE, null.ok = TRUE)
 
   # construction
-  if (type == "text") {
+  if (is.null(dir_bin)) {
     items <- new_psItemContentText(
       items = items,
       lang = lang
     )
-  } else if (type == "image") {
-    items <- new_psItemContentImage(
+  } else {
+    items <- new_psItemContentBin(
       items = items,
-      img_dir = img_dir
+      dir_bin = dir_bin
     )
   }
 
@@ -122,6 +113,7 @@ new_psItemContentText <- function(items, lang) {
   new_psItemContent(
     items = items,
     lang = lang,
+    # TODO add all formatting args
     subclass = "psItemContentText"
   )
 }
@@ -130,7 +122,6 @@ new_psItemContentText <- function(items, lang) {
 #' @noRd
 #' @export
 validate_S3.psItemContentText <- function(x, ...) {
-  # TODO maybe always test for lang, not just for text? Then this function might be redundant
   assert_choice(
     x = attr(x = x, which = "lang"),
     choices = langs,
@@ -140,36 +131,30 @@ validate_S3.psItemContentText <- function(x, ...) {
   NextMethod(ps_coll = ps_coll)
 }
 
-# subclass images ====
-new_psItemContentImage <- function(items, img_dir) {
+# subclass binary files ====
+new_psItemContentBin <- function(items, dir_bin) {
   new_psItemContent(
     items = items,
-    img_dir = img_dir,
-    subclass = "psItemContentImage"
+    dir_bin = dir_bin,
+    subclass = "psItemContentBin"
   )
 }
 
 #' @describeIn psItemContent Validation
 #' @noRd
 #' @export
-validate_S3.psItemContentImage <- function(x, ...) {
-  img_dir <- attr(x = x, which = "img_dir")
+validate_S3.psItemContentBin <- function(x, ...) {
+  dir_bin <- attr(x = x, which = "dir_bin")
 
   assert_string(
-    x = img_dir,
+    x = dir_bin,
     na.ok = FALSE,
-    null.ok = TRUE,
+    null.ok = FALSE,
     add = ps_coll)
-
-  if (!is.null(img_dir)) {
-    assert_directory_exists(x = img_dir, access = "r", add = ps_coll)
-    files <- file.path(img_dir, as.vector(x))
-  } else {
-    files <- file.path(as.vector(x))
-  }
+  assert_directory_exists(x = dir_bin, access = "r", add = ps_coll)
+  files <- file.path(dir_bin, as.vector(x))
   assert_file_exists(
     x = files,
-    extension = c("png", "jpg", "jpeg", "svg"),
     access = "r",
     .var.name = "file names",
     add = ps_coll)

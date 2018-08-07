@@ -4,7 +4,6 @@ items_text_en <- psItemContent(
     "live_2_work" = "Man lives to work.",
     "work_2_live" = "Man works to live."
   ),
-  type = "text",
   lang = "en-US"
 )
 grid <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)

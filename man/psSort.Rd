@@ -21,7 +21,14 @@ Accepts arbitrary dimnames from grid.
 If any dimnames are missing, sensible defaults will be set.}
 
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
-Can be named to provide short, \emph{researcher-facing} \strong{item handles}.}
+Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
+\itemize{
+\item if \code{dir_bin} is \code{NULL} (default), \code{items} must be text.
+Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
+An additional subclass \code{psItemContentText} is prepended and validated.
+\item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
+An additional subclass `psItemContentBin`` is prepended and validated.
+}}
 
 \item{pattern}{A character string, giving the pattern of tesselation to use.
 Must be \code{"chessboard"} (default), the only currently supported pattern.}
@@ -64,7 +71,6 @@ items_text_en <- psItemContent(
     "live_2_work" = "Man lives to work.",
     "work_2_live" = "Man works to live."
   ),
-  type = "text",
   lang = "en-US"
 )
 grid <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
