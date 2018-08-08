@@ -33,10 +33,19 @@ test_that(desc = "construction of image item works", code = {
   )
 })
 
-# md2latex ====
-context("Conversion from markdown to LaTeX")
+# subsetting ====
+test_that(desc = "subsetting retains attributes", code = {
+  expect_equal(object = attributes(items_text_de[1]), expected = attributes(items_text_de))
+  expect_equal(object = attributes(items_image[1]), expected = attributes(items_image))
+})
 
-test_that(desc = "accepts by-hand LaTeX to override", code = {
-  # something about the glue outputs requires as.character
-  expect_equivalent(object = as.character(from_by_hand_latex$tex[[1]]), expected = as.character(by_hand_latex))
+# knit_print method ====
+test_that(desc = "knit_print returns proper S3 object", code = {
+  knitted_item <- knit_print(x = items_text_en)
+  expect_class(
+    x = knitted_item,
+    classes = c("knit_asis"),
+    null.ok = FALSE
+  )
+  expect_character(x = knitted_item, any.missing = FALSE, len = 1, null.ok = FALSE)
 })

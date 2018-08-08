@@ -91,12 +91,11 @@ new_psItemContent <- function(items, ..., subclass = NULL) {
     all.missing = TRUE,
     null.ok = FALSE
   )
-  x <- structure(
+  structure(
     .Data = items,
     ...,
     class = c(subclass, "psItemContent", "character")
   )
-  sticky::sticky(x)
 }
 
 #' @describeIn psItemContent Validation
@@ -149,6 +148,30 @@ as.psItemContent.character <- function(obj, ...) {
 }
 
 
+# subsetting ====
+#' @title Subsetting method for psItemContents
+#' @description Replacement method for subsetting to retain attributes
+#' @inheritParams psItemContent
+#' @inheritParams  base::Extract
+#' @noRd
+`[.psItemContentText` <- function(x, i, ...) {
+  new_psItemContent(
+    items = NextMethod(x),
+    lang = attr(x, "lang"),
+    geometry_opts = attr(x, "geometry_opts"),
+    alignment = attr(x, "alignment"),
+    subclass = "psItemContentText"
+  )
+}
+`[.psItemContentBin` <- function(x, i, ...) {
+  new_psItemContent(
+    items = NextMethod(x),
+    dir_bin = attr(x, "dir_bin"),
+    geometry_opts = attr(x, "geometry_opts"),
+    subclass = "psItemContentBin"
+  )
+}
+
 # subclass text ====
 new_psItemContentText <- function(items, lang, geometry_opts, alignment) {
   new_psItemContent(
@@ -184,7 +207,7 @@ knit_print.psItemContentText <- function(x,
   if (inline) {
     knitr::asis_output(
       glue_collapse(
-        c(
+        x = c(
           glue("{names(x)}"),
           glue("^['{x}']")
         )
@@ -193,10 +216,11 @@ knit_print.psItemContentText <- function(x,
   } else {
     knitr::asis_output(
       glue_collapse(
-        c(
-          glue("**{names(x)}**"),
+        x = c(
+          glue("**`{names(x)}`:**"),
           glue("> {x}")
-        )
+        ),
+        sep = "\n \n"
       )
     )
   }
