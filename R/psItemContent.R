@@ -153,6 +153,7 @@ as.psItemContent.character <- function(obj, ...) {
 #' @description Replacement method for subsetting to retain attributes
 #' @inheritParams psItemContent
 #' @inheritParams  base::Extract
+#' @export
 #' @noRd
 `[.psItemContentText` <- function(x, i, ...) {
   new_psItemContent(
@@ -208,7 +209,7 @@ knit_print.psItemContentText <- function(x,
     knitr::asis_output(
       glue_collapse(
         x = c(
-          glue("{names(x)}"),
+          glue("`{names(x)}`"),
           glue("^['{x}']")
         )
       )
@@ -217,7 +218,7 @@ knit_print.psItemContentText <- function(x,
     knitr::asis_output(
       glue_collapse(
         x = c(
-          glue("**`{names(x)}`:**"),
+          glue("`{names(x)}`", ":    "),  # this goes to "" if there is name
           glue("> {x}")
         ),
         sep = "\n \n"
