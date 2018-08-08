@@ -209,9 +209,23 @@ knit_print.psItemContentText <- function(x,
                                          inline = FALSE,
                                          ...) {
   if (inline) {
-    knitr::asis_output(glue("`Item`^['{x}']"))
+    knitr::asis_output(
+      glue_collapse(
+        c(
+          glue("{names(x)}"),
+          glue("^['{x}']")
+        )
+      )
+    )
   } else {
-    knitr::asis_output(glue("> {x}"))
+    knitr::asis_output(
+      glue_collapse(
+        c(
+          glue("**{names(x)}**"),
+          glue("> {x}")
+        )
+      )
+    )
   }
 }
 
