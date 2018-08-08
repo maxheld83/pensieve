@@ -16,7 +16,7 @@ psItemContent(items, dir_bin = NULL, lang = NULL, paperwidth = 8.5,
 
 as_psItemContent(obj, ...)
 
-\method{knit_print}{psItemContentText}(x, ...)
+\method{knit_print}{psItemContentText}(x, inline = FALSE, ...)
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -197,6 +197,9 @@ Must be one of:
 \itemize{
 \item a (named) character vector.
 }}
+
+\item{inline}{\code{[logical(1)]} indicating whether knitr is called from \emph{inline} (\code{r 1+1}) or from a chunk.
+Defaults to \code{FALSE}.}
 }
 \value{
 \code{[character()]} with class \code{\link{psItemContent}}.

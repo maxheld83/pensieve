@@ -206,8 +206,13 @@ validate_S3.psItemContentBin <- function(x, ...) {
 #' @template knit_print
 #' @export
 knit_print.psItemContentText <- function(x,
+                                         inline = FALSE,
                                          ...) {
-  knitr::asis_output(glue("> {x}"))
+  if (inline) {
+    knitr::asis_output(glue("`Item`^['{x}']"))
+  } else {
+    knitr::asis_output(glue("> {x}"))
+  }
 }
 
 # rendering ====

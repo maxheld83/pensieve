@@ -92,10 +92,40 @@ This defaults to the settings for printing items on standard-issue business card
 Just keep in mind that not all options may meet the requirement that your item text *can* in fact be typeset to a *single* page.
 
 
-#### Print Method
+#### Methods
+
+Now that we have our canonical `psItemContent()`, what can we do with it?
+
+##### `knit_print()`
+
+First off, we can easily **print items inside knitr documents**, by using the method for `knitr::knit_print()`.
+You can do this by placing an calling `knit_print()` on some item in a knitr chunk:
 
 ```{r}
 library(knitr)
 knit_print(lipset$items["virtue"])
 ```
 
+You can also omit the `knit_print()` call; it is default behavior for knitr to call it on returned objects.
+
+```{r}
+lipset$items["moderation"]
+```
+
+This will place the item in a quotation environment, as you can see above.
+
+Alternatively, you can also refer to items **inline**, as you would with an in-text citation.
+In this case, the *item handle* will be displayed in your document, with a footnote including the full item wording.
+To do this, just insert inline R into your prose, such as `` `r
+lipset$items["promoting_underdog"]` ``.
+
+In the output, you will see item `r lipset$items["promoting_underdog"]` in the place of the above inline code, complete with a footnote automatically included.
+If the output format supports this, the footnote will also be hyperlinked.
+
+Inline printing of items has some limitations:
+
+- Line breaks, new paragraphs and other advanced markdown formatting is ignored inside the footnotes.^[This would break the underlying pandoc markdown syntax for [pandoc `inline_notes`](https://pandoc.org/MANUAL.html#footnotes).]
+- If you refer to the *same* item multiple times inline, there will be multiple (redundant) footnotes.
+  Our `knit_print()` method does not keep track of multiple mentions of items.
+- Unnamed items are referred to simply by their number, say `2`.
+  Meaningful item handles are recommended.
