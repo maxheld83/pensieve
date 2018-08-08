@@ -174,33 +174,6 @@ validate_S3.psItemContentText <- function(x, ...) {
   NextMethod(ps_coll = ps_coll)
 }
 
-# subclass binary files ====
-new_psItemContentBin <- function(items, dir_bin, geometry_opts) {
-  new_psItemContent(
-    items = items,
-    dir_bin = dir_bin,
-    geometry_opts = geometry_opts,
-    subclass = "psItemContentBin"
-  )
-}
-
-#' @describeIn psItemContent Validation
-#' @noRd
-#' @export
-validate_S3.psItemContentBin <- function(x, ...) {
-  dir_bin <- attr(x = x, which = "dir_bin")
-
-  assert_directory_exists(x = dir_bin, access = "r", add = ps_coll)
-  files <- file.path(dir_bin, as.vector(x))
-  assert_file_exists(
-    x = files,
-    access = "r",
-    .var.name = "file names",
-    add = ps_coll)
-
-  NextMethod(ps_coll = ps_coll)
-}
-
 # knit_print ====
 #' @describeIn psItemContent Printing inside knitr chunks
 #' @template knit_print
@@ -227,6 +200,34 @@ knit_print.psItemContentText <- function(x,
       )
     )
   }
+}
+
+
+# subclass binary files ====
+new_psItemContentBin <- function(items, dir_bin, geometry_opts) {
+  new_psItemContent(
+    items = items,
+    dir_bin = dir_bin,
+    geometry_opts = geometry_opts,
+    subclass = "psItemContentBin"
+  )
+}
+
+#' @describeIn psItemContent Validation
+#' @noRd
+#' @export
+validate_S3.psItemContentBin <- function(x, ...) {
+  dir_bin <- attr(x = x, which = "dir_bin")
+
+  assert_directory_exists(x = dir_bin, access = "r", add = ps_coll)
+  files <- file.path(dir_bin, as.vector(x))
+  assert_file_exists(
+    x = files,
+    access = "r",
+    .var.name = "file names",
+    add = ps_coll)
+
+  NextMethod(ps_coll = ps_coll)
 }
 
 # rendering ====
