@@ -129,7 +129,7 @@ test_that(desc = "converts whole chain", code = {
   l <- list(foo = "foo", bar = "bar")
   target_types = c("character", "raw", "raw", "list")
   walk2(
-    .x = render_chain_formats,
+    .x = names(render_chain_formats),
     .y = target_types,
     .f = function(target_format, target_type) {
       expect_list(

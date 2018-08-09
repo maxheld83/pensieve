@@ -540,7 +540,7 @@ is_binary <- function(path) {
 #' Goes through the conversion chain as long as necessary to return the desired output.
 #' @param l `[list()]`
 #' giving `x`s to be passed to [md2tex_mem()].
-#' @eval document_choice_arg(arg_name = "format", choices = render_chain_formats, before = "giving the output format to render items in.", default = "pdf")
+#' @eval document_choice_arg(arg_name = "format", choices = names(render_chain_formats), before = "giving the output format to render items in.", default = "pdf")
 #' @inheritDotParams md2tex_mem
 #' @keywords internal
 #' @return `[list()]`
@@ -549,11 +549,11 @@ render_chain <- function(l,
                          format,
                          ...) {
   assert_list(x = l, types = "character", any.missing = FALSE, null.ok = FALSE)
-  assert_choice(x = format, choices = render_chain_formats)
+  assert_choice(x = format, choices = names(render_chain_formats))
   requireNamespace2("progress")
 
   # how many steps need to be done?
-  n_steps <- which(render_chain_formats == format)
+  n_steps <- which(names(render_chain_formats) == format)
 
   pb <- progress::progress_bar$new(
     total = n_steps * length(l),
@@ -562,36 +562,26 @@ render_chain <- function(l,
 
   pb$tick(0)  # start with 0 before first compute
 
-  res <- imap(
+  imap(
     .x = l,
     .f = function(content, name) {
       name <- as.character(name)  # to protect against imap integers from unnamed list elementsL
+      res <- content
       step <- 1
-      pb$tick(1, tokens = list(name = name, step = step, n_steps = n_steps))
-      tex <- md2tex_mem(x = content, path_in = name, ...)
-      step <- step + 1
-      if (step > n_steps) {
-        return(tex)
+      while (step <= n_steps) {
+        pb$tick(1, tokens = list(name = name, step = step, n_steps = n_steps))
+        res <- invoke(.f = render_chain_formats[[step]], .x = list(x = res, path_in = name), ...)
+        step <- step + 1
       }
-      pb$tick(1, tokens = list(name = name, step = step, n_steps = n_steps))
-      pdf <- texi2pdf2_mem(x = tex, path_in = name)
-      step <- step + 1
-      if (step > n_steps) {
-        return(pdf)
-      }
-      pb$tick(1, tokens = list(name = name, step = step, n_steps = n_steps))
-      svg <- pdf2svg_mem(x = pdf, path_in = name)
-      step <- step + 1
-      if (step > n_steps) {
-        return(svg)
-      }
-      pb$tick(1, tokens = list(name = name, step = step, n_steps = n_steps))
-      svg2grob_mem(x = svg, path_in = name)
+      return(res)
     }
   )
-  res
 }
-render_chain_formats <- c("tex", "pdf", "svg", "grob")
+render_chain_formats <- list(
+  tex = md2tex_mem,
+  pdf = texi2pdf2_mem,
+  svg = pdf2svg_mem,
+  grob = svg2grob_mem)
 # these must stay in the order of the conversion chain!
 
 
