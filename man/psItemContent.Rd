@@ -266,25 +266,6 @@ items_image <- psItemContent(
   items = c("peach.jpg", "pear.jpg"),
   dir_bin = dir_bin
 )
-
-# rendering text items ====
-rendered_items <- render_items(items = items_text_en)
-
-
-# supplying your own compiled LaTeX
-by_hand_latex <- glue::glue(.open = "[", .close = "]", "
-  \\\\documentclass{article}
-  \\\\begin{document}
-
-  Let's say this is an item.
-
-  \\\\end{document}
-")
-from_by_hand_latex <- suppressMessages(render_items(
-  items = "Let's say this is an item.",
-  # full item wording should still be provided for other uses!
-  tex = list(by_hand_latex)
-))
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{QPreSorts}},

@@ -20,7 +20,7 @@
 #'
 #' @family validation functions
 #'
-#' @example tests/testthat/helper_checks.R
+#' @example tests/testthat/setup_checks.R
 #'
 #' @export
 validate_S3 <- function(x, ...) {
