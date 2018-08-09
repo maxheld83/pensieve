@@ -218,8 +218,10 @@ Defaults to \code{FALSE}, in which case the function throws an error if a file e
 
 Must be one of:
 \itemize{
-\item \code{'pdf'} (\strong{default}) or
-\item \code{'svg'}
+\item \code{'tex'}
+\item \code{'pdf'} (\strong{default})
+\item \code{'svg'} or
+\item \code{'grob'}
 }}
 }
 \value{
@@ -249,6 +251,35 @@ By default \code{print()} in knitr will default to \code{\link[knitr:knit_print]
 
 However, to manually invoke or preview the interactive displays in RStudio, you must call \code{\link[knitr:knit_print]{knitr::knit_print()}} in full.
 The \code{\link[base:print]{base::print()}}ing method of the underlying classes is \emph{not} altered outside of a knitr chunk.
+}
+
+\section{Rendering items}{
+
+It is often helpful to have a canonical, typeset version of text items, ready for for printing, web publishing or interpretation.
+Rendered text items should meet several criteria:
+\itemize{
+\item They should always fit on the \emph{same} card size, both for practical reasons and to emphasize the equal "significance" of items, even if they are of different length.
+Card sizes can be arbitrary, specified via \code{paperwidth},\code{paperheight}.
+\item They should always \emph{look identical}, no matter where a participant or researcher encounters them.
+Even slight variations in, for example, line wrapping, might give an item a slightly different emphasis.
+\item Given the central status of text items in the methodology and the package, they should by \emph{typeset professionally}.
+}
+
+To meet these criteria, text items are
+\enumerate{
+\item converted to \strong{LaTeX}, using \href{https://pandoc.org}{pandoc}, then
+\item compiled to \strong{PDF}, using \href{https://www.latex-project.org}{LaTeX} via \code{\link[tinytex:latexmk]{tinytex::latexmk()}}, then
+\item converted to \strong{SVG}, using \href{https://github.com/dawbarton/pdf2svg}{pdf2svg}, then
+\item imported to \strong{R Graphics} (grid graphics, to be precise) via \code{\link[grImport2:readPicture]{grImport2::readPicture()}}.
+Items are now fully available to the R Graphics system and can be used wherever \code{\link[graphics:plot]{graphics::plot()}} (or, to be precise, \code{\link[grid:grid.draw]{grid::grid.draw()}}) works.
+}
+
+At each step of this necessary, but rather long conversion pipeline more (system) dependencies are required and asserted.
+Additionally, because some of the intermediary formats cannot be easily or fully converted, downstream outputs may be faulty.
+
+Always use the \emph{earliest} possible output from the above conversion pipeline to maximize fidelity to the original PDF.
+
+Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 }
 
 \examples{

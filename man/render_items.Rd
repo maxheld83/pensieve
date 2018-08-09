@@ -2,13 +2,9 @@
 % Please edit documentation in R/psItemContent.R
 \name{render_items}
 \alias{render_items}
-\title{Render text items.}
+\title{Render a list of text items to desired format.}
 \usage{
-render_items(items, fontsize_local = "tiny", fontsize_global = "10pt",
-  alignment = "justified", lang = NULL, paperwidth = 8.5,
-  paperheight = 5.4, top = 0.5, bottom = 0.5, left = 0.5,
-  right = 0.5, unit = "cm", vcentering = TRUE, hcentering = TRUE,
-  tex = NULL, pdf = NULL, svg = NULL, grob = NULL)
+render_items(items, format = "tex")
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -21,227 +17,21 @@ An additional subclass \code{psItemContentText} is prepended and validated.
 An additional subclass \code{psItemContentBin`` is prepended and validated.}lang\code{and}alignment` are ignored.
 }}
 
-\item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
+\item{format}{\code{[character(1)]} giving the output format to render items in.
 
 Must be one of:
 \itemize{
-\item \code{NULL} in which case the default local fontsize is used (\strong{default})
-\item \code{'tiny'}
-\item \code{'scriptsize'}
-\item \code{'footnotesize'}
-\item \code{'small'}
-\item \code{'normalsize'}
-\item \code{'large'}
-\item \code{'Large'}
-\item \code{'LARGE'}
-\item \code{'huge'} or
-\item \code{'Huge'}
+\item \code{'tex'}
+\item \code{'pdf'} (\strong{default})
+\item \code{'svg'} or
+\item \code{'grob'}
 }}
-
-\item{fontsize_global}{\code{[character(1)]} giving the document-wide font size.
-
-Must be one of:
-\itemize{
-\item \code{NULL} in which case the system default fontsize is used. (\strong{default})
-\item \code{'10pt'}
-\item \code{'11pt'} or
-\item \code{'12pt'}
-}}
-
-\item{alignment}{\code{[character(1)]} giving the alignment of the text.
-
-Must be one of:
-\itemize{
-\item \code{'justified'} (\strong{default})
-\item \code{'left'}
-\item \code{'right'} or
-\item \code{'center'}
-}}
-
-\item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
-
-Must be one of:
-\itemize{
-\item \code{NULL} in which case there is no multilingual support (\strong{default})
-\item \code{'ar-DZ'} for \emph{arabic (Algeria)}
-\item \code{'ar-IQ'} for \emph{arabic (Iraq)}
-\item \code{'ar-JO'} for \emph{arabic (Jordan)}
-\item \code{'ar-LB'} for \emph{arabic (Lebanon)}
-\item \code{'ar-LY'} for \emph{arabic (Libya)}
-\item \code{'ar-MA'} for \emph{arabic (Morocco)}
-\item \code{'ar-MR'} for \emph{arabic (Mauritania)}
-\item \code{'ar-PS'} for \emph{arabic (Palestinian Territory)}
-\item \code{'ar-SY'} for \emph{arabic (Syria)}
-\item \code{'ar-TN'} for \emph{arabic (Tunisia)}
-\item \code{'de-DE'} for \emph{german}
-\item \code{'de-AT'} for \emph{german (Austria)}
-\item \code{'de-CH'} for \emph{german (Switzerland)}
-\item \code{'dsb'} for \emph{lower sorbian}
-\item \code{'hsb'} for \emph{upper sorbian}
-\item \code{'el-polyton'} for \emph{greek (polytonic)}
-\item \code{'en-AU'} for \emph{english (Australia)}
-\item \code{'en-CA'} for \emph{english (Canada)}
-\item \code{'en-GB'} for \emph{english (Great Britain)}
-\item \code{'en-NZ'} for \emph{english (New Zealand)}
-\item \code{'en-UK'} for \emph{english (United Kingdom)}
-\item \code{'en-US'} for \emph{english (United States)}
-\item \code{'grc-ancient'} for \emph{greek (ancient)}
-\item \code{'la'} for \emph{latin}
-\item \code{'sl'} for \emph{slovenian}
-\item \code{'fr-CA'} for \emph{french (Canada)}
-\item \code{'pt-BR'} for \emph{portoguese (Brazil)}
-\item \code{'af'} for \emph{afrikaans}
-\item \code{'am'} for \emph{amharic}
-\item \code{'ar'} for \emph{arabic}
-\item \code{'as'} for \emph{assamese}
-\item \code{'ast'} for \emph{asturian}
-\item \code{'bg'} for \emph{bulgarian}
-\item \code{'bn'} for \emph{bengali}
-\item \code{'bo'} for \emph{tibetan}
-\item \code{'br'} for \emph{breton}
-\item \code{'ca'} for \emph{catalan}
-\item \code{'cy'} for \emph{welsh}
-\item \code{'cs'} for \emph{czech}
-\item \code{'cop'} for \emph{coptic}
-\item \code{'da'} for \emph{danish}
-\item \code{'dv'} for \emph{divehi}
-\item \code{'el'} for \emph{greek}
-\item \code{'en'} for \emph{english}
-\item \code{'eo'} for \emph{esperanto}
-\item \code{'es'} for \emph{spanish}
-\item \code{'et'} for \emph{estonian}
-\item \code{'eu'} for \emph{basque}
-\item \code{'fa'} for \emph{farsi}
-\item \code{'fr'} for \emph{french}
-\item \code{'fur'} for \emph{friulan}
-\item \code{'ga'} for \emph{irish}
-\item \code{'gd'} for \emph{scottish}
-\item \code{'gez'} for \emph{ethiopic}
-\item \code{'gl'} for \emph{galician}
-\item \code{'he'} for \emph{hebrew}
-\item \code{'hi'} for \emph{hindi}
-\item \code{'hr'} for \emph{croatian}
-\item \code{'hu'} for \emph{magyar}
-\item \code{'hy'} for \emph{armenian}
-\item \code{'ia'} for \emph{interlingua}
-\item \code{'id'} for \emph{indonesian}
-\item \code{'is'} for \emph{icelandic}
-\item \code{'it'} for \emph{italian}
-\item \code{'km'} for \emph{khmer}
-\item \code{'kmr'} for \emph{kurmanji}
-\item \code{'kn'} for \emph{kannada}
-\item \code{'ko'} for \emph{korean}
-\item \code{'lo'} for \emph{lao}
-\item \code{'lt'} for \emph{lithuanian}
-\item \code{'lv'} for \emph{latvian}
-\item \code{'ml'} for \emph{malayalam}
-\item \code{'mn'} for \emph{mongolian}
-\item \code{'mr'} for \emph{marathi}
-\item \code{'nb'} for \emph{norsk}
-\item \code{'nl'} for \emph{dutch}
-\item \code{'nn'} for \emph{nynorsk}
-\item \code{'no'} for \emph{norsk}
-\item \code{'nqo'} for \emph{nko}
-\item \code{'oc'} for \emph{occitan}
-\item \code{'pa'} for \emph{panjabi}
-\item \code{'pms'} for \emph{piedmontese}
-\item \code{'pt'} for \emph{portoguese}
-\item \code{'rm'} for \emph{romanian}
-\item \code{'ro'} for \emph{russian}
-\item \code{'sa'} for \emph{sanskrit}
-\item \code{'se'} for \emph{samin}
-\item \code{'sk'} for \emph{slovak}
-\item \code{'sq'} for \emph{albanian}
-\item \code{'sr'} for \emph{serbian}
-\item \code{'syr'} for \emph{syriac}
-\item \code{'ta'} for \emph{tamil}
-\item \code{'te'} for \emph{telugu}
-\item \code{'th'} for \emph{thai}
-\item \code{'ti'} for \emph{ethiopic}
-\item \code{'tk'} for \emph{turkmen}
-\item \code{'tr'} for \emph{turkish}
-\item \code{'uk'} for \emph{ukrainian}
-\item \code{'ur'} for \emph{urdu} or
-\item \code{'vi'} for \emph{vietnamese}
 }
-
-Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
-
-\item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
-For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
-Defaults to \code{NULL}.}
-
-\item{paperheight}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
-For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
-Defaults to \code{NULL}.}
-
-\item{top}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{NULL}.}
-
-\item{bottom}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{NULL}.}
-
-\item{left}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{NULL}.}
-
-\item{right}{\code{[numeric(1)]} giving the margin in \code{unit}.
-Defaults to \code{NULL}.}
-
-\item{unit}{\code{[character(1)]} giving the units for the above dimensions.
-
-Must be one of:
-\itemize{
-\item \code{'cm'} for \emph{metric} (\strong{default}) or
-\item \code{'in'} for \emph{imperial}
-}}
-
-\item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
-Defaults to \code{FALSE}.}
-
-\item{hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
-Defaults to \code{FALSE}.}
-
-\item{tex}{\code{[list(character())]} giving a list of manually produced LaTeX markup, one for each \code{items}.
-Defaults to \code{NULL}, in which case the LaTeX markup is rendered automatically (recommended).}
-
-\item{pdf}{\code{[list(raw())]} giving a list of manually produced PDFs, one for each \code{items}.
-Defaults to \code{NULL}, in which case the PDF is rendered automatically (recommended).}
-
-\item{svg}{\code{[list(raw())]} giving a list of manually produced SVGs, one for each \code{items}.
-Defaults to \code{NULL}, in which case the SVG is rendered automatically (recommended).}
-
-\item{grob}{\code{[list(grob())]} giving a list of manually produced grobs, one for each \code{items}.
-Defaults to \code{NULL}, in which case the grob is rendered automatically (recommended).}
+\value{
+\code{[list()]}
+of vectors in output format (\code{[character()]} or \code{[raw()]}), one list element per item.
 }
 \description{
-Renders character vectors of items to pdf, svg and R graphics (grid).
+Goes through the conversion chain as long as necessary to return the desired output.
 }
-\details{
-It is often helpful to have a canonical, typeset version of text items, ready for for printing, web publishing or interpretation.
-Rendered text items should meet several criteria:
-\itemize{
-\item They should always fit on the \emph{same} card size, both for practical reasons and to emphasize the equal "significance" of items, even if they are of different length.
-Card sizes can be arbitrary, specified via \code{paperwidth},\code{paperheight}.
-\item They should always \emph{look identical}, no matter where a participant or researcher encounters them.
-Even slight variations in, for example, line wrapping, might give an item a slightly different emphasis.
-\item Given the central status of text items in the methodology and the package, they should by \emph{typeset professionally}.
-}
-
-To meet these criteria, text items are
-\enumerate{
-\item converted to \strong{LaTeX}, using \href{https://pandoc.org}{pandoc}, then
-\item compiled to \strong{PDF}, using \href{https://www.latex-project.org}{LaTeX} via \code{\link[tinytex:latexmk]{tinytex::latexmk()}}, then
-\item converted to \strong{SVG}, using \href{https://github.com/dawbarton/pdf2svg}{pdf2svg}, then
-\item imported to \strong{R Graphics} (grid graphics, to be precise) via \code{\link[grImport2:readPicture]{grImport2::readPicture()}}.
-Items are now fully available to the R Graphics system and can be used wherever \code{\link[graphics:plot]{graphics::plot()}} (or, to be precise, \code{\link[grid:grid.draw]{grid::grid.draw()}}) works.
-}
-
-At each step of this necessary, but rather long conversion pipeline more (system) dependencies are required and asserted.
-
-Additionally, because some of the intermediary formats cannot be easily or fully converted, downstream outputs may be faulty.
-Always use the \emph{earliest} possible output from the above conversion pipeline to maximize fidelity to the original PDF.
-
-When \code{items} are named with item handles, such handles are used as file and object names.
-
-Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
-}
+\keyword{internal}
