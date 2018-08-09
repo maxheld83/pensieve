@@ -500,12 +500,62 @@ is_binary <- function(path) {
   !fs::path_ext(path) %in% c("md", "tex", "txt")
 }
 
+
+# rendering chain ====
+#' @title
+#' Render a list of markdown vectors to a desired format.
+#'
+#' @description
+#' Goes through the conversion chain as long as necessary to return the desired output.
+#'
+#' @param l `[list()]` giving `x`s to be passed to [md2tex_mem()].
+#' @eval document_choice_arg(arg_name = "format", choices = render_chain_formats, before = "giving the output format to render items in.", default = "pdf")
+#' @inheritDotParams md2tex_mem
+#'
+#' @keywords internal
+#'
+#' @return `[list()]`
+#' of vectors in output format.
+render_chain <- function(l,
+                         format,
+                         ...) {
+  assert_list(x = l, types = "character", any.missing = FALSE, null.ok = FALSE)
+  assert_choice(x = format, choices = render_chain_formats)
+
+  # how many steps need to be done?
+  n_steps <- which(render_chain_formats == format)
+
+  purrr::imap(
+    .x = l,
+    .f = function(content, name) {
+      step <- 1
+      tex <- md2tex_mem(x = content, path_in = name, ...)
+      step <- step + 1
+      if (step > n_steps) {
+        return(tex)
+      }
+      pdf <- texi2pdf2_mem(x = tex, path_in = name)
+      step <- step + 1
+      if (step > n_steps) {
+        return(pdf)
+      }
+      svg <- pdf2svg_mem(x = pdf, path_in = name)
+      step <- step + 1
+      if (step > n_steps) {
+        return(svg)
+      }
+      svg2grob_mem(x = svg, path_in = name)
+    }
+  )
+}
+render_chain_formats <- c("tex", "pdf", "svg", "grob")
+# these must stay in the order of the conversion chain!
+
+
 #' @title Find largest possible fontsize given all other arguments
 #' @description Finds largest possible fontsize for list of markdown vectors to fit on one PDF page.
-#' @param l `[list()]` giving `x`s to be passed to [md2tex_mem()].
+#' @inheritParams render_chain
 #' @param fontsizes_local_possible `[character()]` giving possible fontsizes_local, defaults to all allowed values as per [md2tex_mem()].
-#'
-#' @inheritDotParams md2tex_mem -fontsize_local
 #' @return `[character(1)]` giving largest possible fontsize
 #' @keywords internal
 find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
@@ -573,9 +623,9 @@ find_fontsizes_1 <- function(fontsizes_local_possible = fontsizes_local, x, ...)
     stop(
       glue(
         "Could not find a fontsize to fit the text in {path} on one page given the other arguments.",
-      "Try shortening the text or using other additional arguments which take up less space.",
-      .na = "element",
-      .sep = " "
+        "Try shortening the text or using other additional arguments which take up less space.",
+        .na = "element",
+        .sep = " "
       ),
       call. = FALSE
     )

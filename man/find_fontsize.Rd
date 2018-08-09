@@ -10,23 +10,6 @@ find_fontsize(l, fontsizes_local_possible = fontsizes_local, ...)
 \item{l}{\code{[list()]} giving \code{x}s to be passed to \code{\link[=md2tex_mem]{md2tex_mem()}}.}
 
 \item{fontsizes_local_possible}{\code{[character()]} giving possible fontsizes_local, defaults to all allowed values as per \code{\link[=md2tex_mem]{md2tex_mem()}}.}
-
-\item{...}{Arguments passed on to \code{md2tex_mem}
-\describe{
-  \item{x}{\code{[character()]} \emph{or} \code{[raw()]} giving the input.}
-  \item{path_in}{\code{[character(1)]} giving path to use for input file \emph{with or without extension}.
-Defaults to \code{"foo"}.
-Useful for debugging.}
-  \item{alignment}{\code{[character(1)]} giving the alignment of the text.
-
-Must be one of:
-\itemize{
-\item \code{'justified'} (\strong{default})
-\item \code{'left'}
-\item \code{'right'} or
-\item \code{'center'}
-}}
-}}
 }
 \value{
 \code{[character(1)]} giving largest possible fontsize

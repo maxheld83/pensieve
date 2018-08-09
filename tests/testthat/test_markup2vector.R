@@ -123,8 +123,30 @@ test_that(desc = "is a lot faster", code = {
 })
 
 
-# autosize ====
-context("Autosizing")
+# render chain ====
+context("Render chain")
+test_that(desc = "converts whole chain", code = {
+  l <- list(foo = "foo", bar = "bar")
+  target_types = c("character", "raw", "raw", "list")
+  purrr::walk2(
+    .x = render_chain_formats,
+    .y = target_types,
+    .f = function(target_format, target_type) {
+      expect_list(
+        x = render_chain(l = l, format = target_format),
+        types = target_type,
+        any.missing = FALSE,
+        len = 2,
+        unique = TRUE,
+        null.ok = FALSE,
+        info = target_format)
+    }
+  )
+})
+
+
+# find fontsize ====
+context("find fontsize")
 test_that(desc = "single markdown vector: finds largest possible fontsize to stay on one page", code = {
   little_text_res <- find_fontsize(l = list("A"))
   little_text_i <- which(fontsizes_local == little_text_res)  # this is the index

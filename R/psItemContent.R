@@ -263,65 +263,11 @@ validate_S3.psItemContentBin <- function(x, ...) {
   NextMethod(ps_coll = ps_coll)
 }
 
-# rendering ====
-#' @title
-#' Render a list of text items to desired format.
-#'
-#' @description
-#' Goes through the conversion chain as long as necessary to return the desired output.
-#'
-#' @inheritParams psItemContent
-#' @eval document_choice_arg(arg_name = "format", choices = item_output_formats, before = "giving the output format to render items in.", default = "pdf")
-#'
-#' @keywords internal
-#'
-#' @return `[list()]`
-#' of vectors in output format (`[character()]` or `[raw()]`), one list element per item.
-render_items <- function(items,
-                         format = "tex") {
-  items <- as_psItemContent(obj = items)
-  assert_choice(x = format, choices = item_output_formats)
-
-  # capture formatting options
-  lang <- attr(x = items, which = "lang")
-  geometry_opts <- attr(x = items, which = "geometry_opts")
-  alignment <- attr(x = items, which = "alignment")
-
-  # how many steps need to be done?
-  n_steps <- which(item_output_formats == format)
-
-
-  purrr::imap(
-    .x = items,
-    .f = function(wording, handle) {
-      step <- 1
-      tex <- md2tex_mem(x = wording, path_in = handle, alignment = alignment)
-      step <- step + 1
-      if (step > n_steps) {
-        return(tex)
-      }
-      pdf <- texi2pdf2_mem(x = tex, path_in = handle)
-      step <- step + 1
-      if (step > n_steps) {
-        return(pdf)
-      }
-      svg <- pdf2svg_mem(x = pdf, path_in = handle)
-      step <- step + 1
-      if (step > n_steps) {
-        return(svg)
-      }
-      svg2grob_mem(x = svg, path_in = handle)
-    }
-  )
-}
-item_output_formats <- c("tex", "pdf", "svg", "grob")
-# these must stay in the order of the conversion chain!
-
 
 # export method ====
 #' @describeIn psItemContent Export rendered text items to pdf or svg.
 #' @inheritParams export_ps
-#' @inheritParams render_items
+#' @inheritParams render_chain
 #'
 #' @section Rendering items:
 #' It is often helpful to have a canonical, typeset version of text items, ready for for printing, web publishing or interpretation.
@@ -350,8 +296,14 @@ item_output_formats <- c("tex", "pdf", "svg", "grob")
 #' Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format = "pdf") {
   assert_S3(x)
-  # render_items(items = x, format = format)
+
+  # capture formatting options
+  # lang <- attr(x = items, which = "lang")
+  # geometry_opts <- attr(x = items, which = "geometry_opts")
+  # alignment <- attr(x = items, which = "alignment")
+
   res <- list(foo = "foo", bar = "bar")  # placeholder
+
   purrr::imap_chr(
     .x = res,
     .f = function(x, y) {
