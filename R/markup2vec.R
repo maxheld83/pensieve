@@ -485,18 +485,6 @@ virtually <- function(fun) {
 }
 
 
-#' @title Memoise a function if available
-#' @description Memoises a function if [memoise::memoise()] is available.
-#' @param f Function of which to create a memoised copy.
-#' @noRd
-memoise2 <- function(f) {
-  # input validation
-  assert_function(x = f, null.ok = FALSE)
-  requireNamespace2(x = "memoise")
-  memoise::memoise(f = f)
-}
-
-
 # sadly, these have to be down here, *after* virtually, otherwise won't work
 #' @describeIn markup2vector markdown to LaTeX via [pandoc](http://pandoc.org)
 #' @param x `[character()]` *or* `[raw()]` giving the input.
@@ -506,7 +494,7 @@ memoise2 <- function(f) {
 #' @inheritParams wrap_in_latex_env
 #' @return
 #' - For `_mem`, `[character()]` or `[raw()]`.
-md2tex_mem <- memoise2(
+md2tex_mem <- memoise::memoise(
   function(x, path_in = "foo", fontsize_local = "tiny", alignment = "justified", ...) {
   # latex wrapping is only available here in the virtualized variant;
   # because wrapping latex on filesystem would be too awkward/cumbersome
@@ -516,11 +504,11 @@ md2tex_mem <- memoise2(
   }
 )
 #' @describeIn markup2vector latex to pdf via [LaTeX](https://www.latex-project.org)
-texi2pdf2_mem <- memoise2(virtually(fun = texi2pdf2))
+texi2pdf2_mem <- memoise::memoise(virtually(fun = texi2pdf2))
 #' @describeIn markup2vector PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
-pdf2svg_mem <- memoise2(virtually(fun = pdf2svg))
+pdf2svg_mem <- memoise::memoise(virtually(fun = pdf2svg))
 #' @describeIn markup2vector SVG to R graphics (grid) via [grImport2::readPicture()]
-svg2grob_mem <- memoise2(virtually(fun = svg2grob))
+svg2grob_mem <- memoise::memoise(virtually(fun = svg2grob))
 
 
 #' @title Test if path is to a binary file
