@@ -5,6 +5,7 @@
 \alias{validate_S3.psItemContent}
 \alias{as_psItemContent}
 \alias{knit_print.psItemContentText}
+\alias{export_ps.psItemContentText}
 \title{Store item content as character strings}
 \usage{
 psItemContent(items, dir_bin = NULL, lang = NULL, paperwidth = 8.5,
@@ -17,6 +18,8 @@ psItemContent(items, dir_bin = NULL, lang = NULL, paperwidth = 8.5,
 as_psItemContent(obj, ...)
 
 \method{knit_print}{psItemContentText}(x, inline = FALSE, ...)
+
+\method{export_ps}{psItemContentText}(items, format = "pdf", dir = ".")
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -200,6 +203,19 @@ Must be one of:
 
 \item{inline}{\code{[logical(1)]} indicating whether knitr is called from \emph{inline} (\code{r 1+1}) or from a chunk.
 Defaults to \code{FALSE}.}
+
+\item{format}{\code{[character(1)]} giving the output format to render items in.
+
+Must be one of:
+\itemize{
+\item \code{'pdf'} (\strong{default}) or
+\item \code{'svg'}
+}}
+
+\item{dir}{\code{[character(1)]}
+giving the directory where the exported objects are written to.
+Must be relative from the working directory.
+Defaults to the working directory root.}
 }
 \value{
 \code{[character()]} with class \code{\link{psItemContent}}.
@@ -216,6 +232,8 @@ Storing \strong{full items} can enable deployment and convenience functions, as 
 \item \code{validate_S3}: Validation
 
 \item \code{knit_print}: Printing inside knitr chunks
+
+\item \code{export_ps}: Export rendered text items to pdf or svg.
 }}
 
 \section{Printing in knitr chunks}{
