@@ -11,6 +11,10 @@
 #' Must be relative from the working directory.
 #' Defaults to the working directory root.
 #'
+#' @param overwrite `[logical(1)]`
+#' indicating whether existing files should be overwritten.
+#' Defaults to `FALSE`, in which case the function throws an error if a file exists already.
+#'
 #' @param ... further arguments to be passed to methods.
 #'
 #' @return `[character()]`
@@ -19,8 +23,9 @@
 #' @family export functions
 #'
 #' @export
-export_ps <- function(x, dir = ".", ...) {
+export_ps <- function(x, dir = ".", overwrite = FALSE, ...) {
   assert_directory(x = dir, access = "w")
+  assert_flag(x = overwrite, na.ok = FALSE, null.ok = FALSE)
   UseMethod(generic = "export_ps")
 }
 

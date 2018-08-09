@@ -429,3 +429,18 @@ check_fun_args <- function(x, y, ...) {
 assert_fun_args <- makeAssertionFunction(check.fun = check_fun_args)
 test_fun_args <- makeTestFunction(check.fun = check_fun_args)
 expect_fun_args <- makeExpectationFunction(check.fun = check_fun_args)
+
+#' @title Check if a function already exists
+#' @description Wrapper around checkmate::assert_file().
+#' @inheritParams checkmate::testFile
+check_no_file <- function(x) {
+  if (checkmate::testFile(x)) {
+    return(glue("File {x} already exists."))
+  } else {
+    return(TRUE)
+  }
+}
+assert_no_file <- makeAssertionFunction(check.fun = check_no_file)
+test_no_file <- makeTestFunction(check.fun = check_no_file)
+expect_no_file <- makeExpectationFunction(check.fun = check_no_file)
+

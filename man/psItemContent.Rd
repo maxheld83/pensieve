@@ -19,7 +19,8 @@ as_psItemContent(obj, ...)
 
 \method{knit_print}{psItemContentText}(x, inline = FALSE, ...)
 
-\method{export_ps}{psItemContentText}(x, dir = ".", format = "pdf")
+\method{export_ps}{psItemContentText}(x, dir = ".", overwrite = FALSE,
+  format = "pdf")
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -208,6 +209,10 @@ Defaults to \code{FALSE}.}
 giving the directory where the exported objects are written to.
 Must be relative from the working directory.
 Defaults to the working directory root.}
+
+\item{overwrite}{\code{[logical(1)]}
+indicating whether existing files should be overwritten.
+Defaults to \code{FALSE}, in which case the function throws an error if a file exists already.}
 
 \item{format}{\code{[character(1)]} giving the output format to render items in.
 

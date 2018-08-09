@@ -5,7 +5,7 @@
 \alias{export_ps.default}
 \title{Export S3 objects from pensieve in useful formats.}
 \usage{
-export_ps(x, dir = ".", ...)
+export_ps(x, dir = ".", overwrite = FALSE, ...)
 
 \method{export_ps}{default}(x, dir, ...)
 }
@@ -16,6 +16,10 @@ export_ps(x, dir = ".", ...)
 giving the directory where the exported objects are written to.
 Must be relative from the working directory.
 Defaults to the working directory root.}
+
+\item{overwrite}{\code{[logical(1)]}
+indicating whether existing files should be overwritten.
+Defaults to \code{FALSE}, in which case the function throws an error if a file exists already.}
 
 \item{...}{further arguments to be passed to methods.}
 }
