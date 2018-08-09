@@ -3,7 +3,7 @@ if (Sys.getenv()["LOGNAME"] %in% c("max")) {
   imports <- devtools::parse_ns_file()$imports  # capture all imports from namespace file
   imports <- purrr::discard(.x = imports, .p = is.list)  # only take the full imports
   suppressMessages(
-    purrr::walk(.x = imports, .f = library, character.only = TRUE)
+    purrr::walk(.x = c(imports, "devtools", "testthat"), .f = library, character.only = TRUE)
   )
 
   devtools::load_all()
