@@ -532,7 +532,7 @@ is_binary <- function(path) {
 #' @inheritDotParams md2tex_mem
 #' @keywords internal
 #' @return `[list()]`
-#' of vectors in output format.
+#' of output format objects.
 render_chain <- function(l,
                          format,
                          ...) {
