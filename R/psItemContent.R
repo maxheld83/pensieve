@@ -205,26 +205,34 @@ validate_S3.psItemContentText <- function(x, ...) {
 knit_print.psItemContentText <- function(x,
                                          inline = FALSE,
                                          ...) {
-  if (inline) {
-    knitr::asis_output(
-      glue_collapse(
-        x = c(
-          glue("`{names(x)}`"),
-          glue("^['{x}']")
+  res <- purrr::imap_chr(
+    .x = x,
+    .f = function(wording, handle) {
+      if (is.integer(handle)) {
+        handle <- NULL  # do not print indeces as title
+      }
+      if (inline) {
+        glue_collapse(
+          x = c(
+            glue("`{handle}`"),  # this goes to "" if there is name
+            glue("^['{wording}']")
+          )
         )
-      )
-    )
-  } else {
-    knitr::asis_output(
-      glue_collapse(
-        x = c(
-          glue("`{names(x)}`", ":    "),  # this goes to "" if there is name
-          glue("> {x}")
-        ),
-        sep = "\n \n"
-      )
-    )
-  }
+      } else {
+        glue_collapse(
+          x = c(
+            glue("`{handle}`", ":    "),  # this goes to "" if there is name
+            glue("> {wording}
+
+
+                 ")  # looks ugly but adds the required newline at the end to get into the next environment
+          ),
+          sep = "\n \n"
+        )
+      }
+    }
+  )
+  knitr::asis_output(res)
 }
 
 
