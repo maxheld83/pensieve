@@ -442,7 +442,11 @@ virtually <- function(fun) {
 
     path_out <- fun(path_in, ...)
 
-    if (is_binary(path_out)) {
+    if (identical(fun, svg2grob)) {
+      # mildly dirty hack follows.
+      # svg2grob is slightly different, because it returns an R object, not a path to a file
+      res <- path_out
+    } else if (is_binary(path_out)) {
       res <- readr::read_file_raw(file = path_out)
     } else {
       res <- readr::read_lines(file = path_out)
@@ -485,19 +489,7 @@ texi2pdf2_mem <- memoise2(virtually(fun = texi2pdf2))
 #' @describeIn markup2vector PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
 pdf2svg_mem <- memoise2(virtually(fun = pdf2svg))
 #' @describeIn markup2vector SVG to R graphics (grid) via [grImport2::readPicture()]
-svg2grob_mem <- memoise2(function(x, path_in = "foo") {
-  # input validation
-  assert_vector(x = x, any.missing = FALSE, null.ok = FALSE)
-  assert_path_for_output(x = path_in, overwrite = TRUE)
-
-  # dependencies
-  requireNamespace2(x = "withr")
-
-  withr::local_file(file = path_in)
-  writeBin(object = x, con = path_in)
-
-  svg2grob(path = path_in)
-})
+svg2grob_mem <- memoise2(virtually(fun = svg2grob))
 
 #' @title Test if path is to a binary file
 #' @description Tests if a path is part of some known text files, otherwise binary

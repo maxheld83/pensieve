@@ -27,7 +27,7 @@ texi2pdf2_mem(x, path_in = "foo", ...)
 
 pdf2svg_mem(x, path_in = "foo", ...)
 
-svg2grob_mem(x, path_in = "foo")
+svg2grob_mem(x, path_in = "foo", ...)
 }
 \arguments{
 \item{path}{\code{[character(1)]} to an input file \emph{with or without extension}}
