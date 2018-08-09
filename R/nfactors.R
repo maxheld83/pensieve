@@ -62,7 +62,7 @@ draw_rand_sort <- function(grid = NULL,  # named integer vector of grid
                positive = TRUE,
                null.ok = FALSE)
 
-  expect_lte(object = p,
+  testthat::expect_lte(object = p,
              expected = sum(grid))
   expect_count(x = p,
                na.ok = FALSE,
@@ -173,7 +173,7 @@ run_parallel <- function(dataset = NULL,
 
   # is dataset inside grid?
   if (!is.null(grid) & !is.null(dataset)) {
-    expect_true(object = diag_inside_grid(sorts = dataset, grid = grid),
+    testthat::expect_true(object = diag_inside_grid(sorts = dataset, grid = grid),
                 info = "Maximum counts of dataset are not inside grid.")
     # this also takes care of grid and dataset validation
   }

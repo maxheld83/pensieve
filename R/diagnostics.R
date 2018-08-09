@@ -194,7 +194,7 @@ diag_inside_grid <- function(sorts, grid) {
 diag_forced <- function(sorts, grid) {
 
   # input validation ====
-  expect_true(object = diag_inside_grid(sorts = sorts, grid = grid))
+  testthat::expect_true(object = diag_inside_grid(sorts = sorts, grid = grid))
   # this takes care of all other input validation downstream
 
   # body ====

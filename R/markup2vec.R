@@ -61,10 +61,16 @@ md2tex <- function(path,
     timeout = 5  # this is just pandoc, should be very fast
   )
   if (res$timeout) {
-    stop(glue("Pandoc timed out converting {path_in} to {path_out}."), call. = FALSE)
+    stop(
+      glue("Pandoc timed out converting {path_in} to {path_out}."),
+      call. = FALSE
+    )
   }
   if (res$status != 0) {
-    stop(glue("Pandoc failed on converting {path_in} to {path_out} with: {res$stderr}"), call. = FALSE)
+    stop(
+      glue("Pandoc failed on converting {path_in} to {path_out} with: {res$stderr}"),
+      call. = FALSE
+    )
   }
   invisible(path_out)
 }
@@ -75,11 +81,18 @@ texi2pdf2 <- function(path) {
   path_in <- set_proper_extension(path = path, ext = "tex")
 
   # dependencies
-  requireNamespace2("fs")
   requireNamespace2("tinytex")
 
   # this also downloads LaTeX packages as far as possible
-  invisible(tinytex::latexmk(file = path_in, engine = "pdflatex", install_packages = TRUE, clean = TRUE, max_times = 2))
+  invisible(
+    tinytex::latexmk(
+      file = path_in,
+      engine = "pdflatex",
+      install_packages = TRUE,
+      clean = TRUE,
+      max_times = 2
+    )
+  )
 }
 
 #' @describeIn markup2vector PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
@@ -91,7 +104,7 @@ pdf2svg <- function(path, page = 1) {
   # dependencies
   requireNamespace2(x = "fs")
   requireNamespace2(x = "processx")
-  checkmate::assert_os(os = c("mac", "linux"))
+  assert_os(os = c("mac", "linux"))
 
   # sysdeps
   assert_sysdep(x = "pdf2svg")
@@ -114,10 +127,16 @@ pdf2svg <- function(path, page = 1) {
   )
 
   if (res$timeout) {
-    stop(glue("pdf2svg timed out converting {path_in} to {path_out}."), call. = FALSE)
+    stop(
+      glue("pdf2svg timed out converting {path_in} to {path_out}."),
+      call. = FALSE
+    )
   }
   if (res$status != 0) {
-    stop(glue("pdf2svg failed on converting {path_in} to {path_out} with: {res$stderr}"), call. = FALSE)
+    stop(
+      glue("pdf2svg failed on converting {path_in} to {path_out} with: {res$stderr}"),
+      call. = FALSE
+    )
   }
   invisible(path_out)
 }
@@ -133,6 +152,7 @@ svg2grob <- function(path) {
   pic <- grImport2::readPicture(file = path_in, warn = FALSE)
   grImport2::pictureGrob(picture = pic)
 }
+
 
 #' @title If necessary, append extension to path
 #' @description This returns the good filename *and* changes the file on disc (side effect).
@@ -156,12 +176,12 @@ set_proper_extension <- function(path, ext) {
 #' @keywords internal
 #' @return `[character()]` giving pandoc variable option, option*s* in the case of geometry.
 declare_pandoc_var <- function(key, value) {
-  checkmate::assert_string(x = key, na.ok = FALSE, null.ok = FALSE)
-  checkmate::assert_string(x = value, na.ok = FALSE, null.ok = TRUE)
+  assert_string(x = key, na.ok = FALSE, null.ok = FALSE)
+  assert_string(x = value, na.ok = FALSE, null.ok = TRUE)
   if (is.null(value)) {
     return(character(0))  # to streamline output with other functions; this is the purrr logic type stability
   } else {
-    glue::glue("--variable={key}:{value}")
+    glue("--variable={key}:{value}")
   }
 }
 
@@ -196,21 +216,24 @@ langs <- readr::read_delim(
   col_types = "ccccll"
 )
 # must be converted
-langs <- purrr::pmap(.l = langs[,c("lang_short", "var_short", "lang_long", "var_long")], .f = function(lang_short, var_short, lang_long, var_long) {
-  if (is.na(var_short)) {
-    short <- lang_short
-  } else {
-    short <- glue::glue('{lang_short}-{var_short}')
+langs <- pmap(
+  .l = langs[,c("lang_short", "var_short", "lang_long", "var_long")],
+  .f = function(lang_short, var_short, lang_long, var_long) {
+    if (is.na(var_short)) {
+      short <- lang_short
+    } else {
+      short <- glue('{lang_short}-{var_short}')
+    }
+    if (is.na(var_long)) {
+      long <- lang_long
+    } else {
+      long <- glue('{lang_long} ({var_long})')
+    }
+    names(short) <- long
+    return(short)
   }
-  if (is.na(var_long)) {
-    long <- lang_long
-  } else {
-    long <- glue::glue('{lang_long} ({var_long})')
-  }
-  names(short) <- long
-  return(short)
-})
-langs <- purrr::as_vector(langs)
+)
+langs <- as_vector(langs)
 
 
 #' @describeIn declare_pandoc_var declare options for [LaTeX geometry package](https://ctan.org/pkg/geometry).
@@ -251,16 +274,17 @@ declare_pandoc_geometry <- function(paperwidth = NULL,
     right = right
   )
   # keep only actually filled options
-  num_arguments <- purrr::discard(.x = num_arguments, .p = is.null)
+  num_arguments <- discard(.x = num_arguments, .p = is.null)
 
-  opts <- purrr::imap_chr(
+  opts <- imap_chr(
     .x = num_arguments,
     .f = function(x, y) {
       # this is input validation
       assert_numeric(x = x, lower = 0, finite = TRUE, any.missing = FALSE, len = 1, null.ok = TRUE, .var.name = y)
-      value = glue::glue("{y}={x}{unit}")
+      value = glue("{y}={x}{unit}")
     }
   )
+
   # append v/hcentering if applicable
   # this is a bit confusing because those are really just pasted as options, they are *not* themselves key/value pairs (as the above are)
   if (vcentering) {
@@ -270,7 +294,7 @@ declare_pandoc_geometry <- function(paperwidth = NULL,
     opts <-  c(opts, hcentering = "hcentering")
   }
 
-  purrr::map_chr(.x = opts, .f = function(x) {
+  map_chr(.x = opts, .f = function(x) {
     declare_pandoc_var(key = "geometry", value = x)
   })
 }
@@ -345,7 +369,6 @@ alignments <- c(
 
 
 # predicates ====
-
 #' @title Check if pdf is only 1 page long
 #' @description Checks if pdf is longer than 1 page.
 #' @param x `[character(1)]` giving the path to a pdf file.
@@ -360,9 +383,9 @@ check_pdf1page <- function(x) {
     return("PDF must be 1 page long.")
   }
 }
-assert_pdf1page <- checkmate::makeAssertionFunction(check.fun = check_pdf1page)
-test_pdf1page <- checkmate::makeTestFunction(check.fun = check_pdf1page)
-expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page)
+assert_pdf1page <- makeAssertionFunction(check.fun = check_pdf1page)
+test_pdf1page <- makeTestFunction(check.fun = check_pdf1page)
+expect_pdf1page <- makeExpectationFunction(check.fun = check_pdf1page)
 
 
 #' @title Check if language can be compiled
@@ -374,12 +397,13 @@ expect_pdf1page <- checkmate::makeExpectationFunction(check.fun = check_pdf1page
 check_latex_lang <- function(x) {
   assert_choice(x = x, choices = langs, null.ok = FALSE)
 
-  requireNamespace2(x = "fs")
-
   res <- TRUE
   res <- tryCatch(
     expr = {
-      tex <- md2tex_mem(x = "Because of a bad language, I will never be a PDF.", lang = x)
+      tex <- md2tex_mem(
+        x = "Because of a bad language, I will never be a PDF.",
+        lang = x
+      )
       # watch out: texi2pdf2 can be abstracted, but to be safe, should not be memoised
       # if memoised, we might get an old (from old cache) value, which is not invalidated (of course) on tex distro changes
       suppressMessages(virtually(texi2pdf2)(tex))
@@ -387,7 +411,10 @@ check_latex_lang <- function(x) {
     },
     # unfortunately, above code will return a path
     warning = function(cnd) {
-      bad_lang <- stringr::str_detect(string = conditionMessage(cnd), pattern = ".ldf")
+      bad_lang <- stringr::str_detect(
+        string = conditionMessage(cnd),
+        pattern = ".ldf"
+      )
       if (bad_lang) {
         glue("LaTeX is unable to compile with language {x}: conditionMessage(cnd)")
       } else {
@@ -399,18 +426,17 @@ check_latex_lang <- function(x) {
       glue("LaTeX seems unable to compile with language {x} for an unknown error message: {conditionMessage(cnd)}")
     }
   )
-
   res
 }
 #' @rdname check_latex_lang
-expect_latex_lang <- checkmate::makeExpectationFunction(check.fun = check_latex_lang)
+expect_latex_lang <- makeExpectationFunction(check.fun = check_latex_lang)
 #' @rdname check_latex_lang
-test_latex_lang <- checkmate::makeTestFunction(check.fun = check_latex_lang)
+test_latex_lang <- makeTestFunction(check.fun = check_latex_lang)
 #' @rdname check_latex_lang
-assert_latex_lang <- checkmate::makeAssertionFunction(check.fun = check_latex_lang)
+assert_latex_lang <- makeAssertionFunction(check.fun = check_latex_lang)
+
 
 # FOs ====
-
 #' @title Write file input, read file output
 #' @description Function operator to let functions with disk side effects accept R object as input, and return R object as output.
 #' @param fun A function which accepts a file as an input and returns a file name as an output.
@@ -452,10 +478,13 @@ virtually <- function(fun) {
       res <- readr::read_lines(file = path_out)
     }
 
+    # cleanup, even if its just a temp folder
     fs::file_delete(path = fs::dir_ls(path = ".", regexp = path_in, recursive = FALSE, all = TRUE, fail = FALSE))
     res
   }
 }
+
+
 #' @title Memoise a function if available
 #' @description Memoises a function if [memoise::memoise()] is available.
 #' @param f Function of which to create a memoised copy.
@@ -463,13 +492,11 @@ virtually <- function(fun) {
 memoise2 <- function(f) {
   # input validation
   assert_function(x = f, null.ok = FALSE)
-  if (requireNamespace("memoise")) {
-    return(memoise::memoise(f = f))
-  } else {
-    message("This function runs slow because package memoise is missing. Please install it.")
-    f
-  }
+  requireNamespace2(x = "memoise")
+  memoise::memoise(f = f)
 }
+
+
 # sadly, these have to be down here, *after* virtually, otherwise won't work
 #' @describeIn markup2vector markdown to LaTeX via [pandoc](http://pandoc.org)
 #' @param x `[character()]` *or* `[raw()]` giving the input.
@@ -479,17 +506,22 @@ memoise2 <- function(f) {
 #' @inheritParams wrap_in_latex_env
 #' @return
 #' - For `_mem`, `[character()]` or `[raw()]`.
-md2tex_mem <- memoise2(function(x, path_in = "foo", fontsize_local = "tiny", alignment = "justified", ...) {
+md2tex_mem <- memoise2(
+  function(x, path_in = "foo", fontsize_local = "tiny", alignment = "justified", ...) {
+  # latex wrapping is only available here in the virtualized variant;
+  # because wrapping latex on filesystem would be too awkward/cumbersome
   x <- wrap_in_latex_fontsize(fontsize_local = fontsize_local, tex = x)
   x <- wrap_in_latex_alignment(alignment = alignment, tex = x)
   virtually(fun = md2tex)(x = x, path_in = path_in, ...)
-})
+  }
+)
 #' @describeIn markup2vector latex to pdf via [LaTeX](https://www.latex-project.org)
 texi2pdf2_mem <- memoise2(virtually(fun = texi2pdf2))
 #' @describeIn markup2vector PDF to SVG via [pdf2svg](http://www.cityinthesky.co.uk/opensource/pdf2svg/)
 pdf2svg_mem <- memoise2(virtually(fun = pdf2svg))
 #' @describeIn markup2vector SVG to R graphics (grid) via [grImport2::readPicture()]
 svg2grob_mem <- memoise2(virtually(fun = svg2grob))
+
 
 #' @title Test if path is to a binary file
 #' @description Tests if a path is part of some known text files, otherwise binary
@@ -504,16 +536,13 @@ is_binary <- function(path) {
 # rendering chain ====
 #' @title
 #' Render a list of markdown vectors to a desired format.
-#'
 #' @description
 #' Goes through the conversion chain as long as necessary to return the desired output.
-#'
-#' @param l `[list()]` giving `x`s to be passed to [md2tex_mem()].
+#' @param l `[list()]`
+#' giving `x`s to be passed to [md2tex_mem()].
 #' @eval document_choice_arg(arg_name = "format", choices = render_chain_formats, before = "giving the output format to render items in.", default = "pdf")
 #' @inheritDotParams md2tex_mem
-#'
 #' @keywords internal
-#'
 #' @return `[list()]`
 #' of vectors in output format.
 render_chain <- function(l,
@@ -525,7 +554,7 @@ render_chain <- function(l,
   # how many steps need to be done?
   n_steps <- which(render_chain_formats == format)
 
-  purrr::imap(
+  imap(
     .x = l,
     .f = function(content, name) {
       step <- 1
@@ -583,7 +612,7 @@ find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
   }
   pb$tick(0, tokens = list(name = list_names[1])) # start with 0 before first compute
   # ugly hack to get index right below
-  allowed_fontsizes <- purrr::reduce(
+  allowed_fontsizes <- reduce(
     .x = l,
     .init = fontsizes_local_possible,
     .f = function(lhs, rhs, ...) {
@@ -601,13 +630,19 @@ find_fontsizes_1 <- function(fontsizes_local_possible = fontsizes_local, x, ...)
   assert_character(x = fontsizes_local_possible, unique = TRUE, null.ok = FALSE)
 
   # always enforce proper order
-  fontsizes_local_possible <- fontsizes_local_possible[order(match(fontsizes_local_possible, fontsizes_local))]
+  fontsizes_local_possible <- fontsizes_local_possible[order(
+    match(
+      x = fontsizes_local_possible, table = fontsizes_local
+    )
+  )]
 
   # calculate logical vector on *all* above allowed fontsizes
-  # notice that, strictly speaking, this needs to run *all* fontsizes, because it's possible (given latex complexity) that, say fontsize 1 works, 2 fails and 3 works again
+  # notice that this needs to run *all* fontsizes, because it's possible (given latex complexity) that, say fontsize 1 works, 2 fails and 3 works again
   # could happen because of other latex optimisations
   # so we're not saving runs here, because that might end up being only a local optimum
-  working_fontsizes <- purrr::map_lgl(.x = fontsizes_local_possible, .f = function(this_size) {
+  requireNamespace2("fs")
+  requireNamespace2("withr")
+  working_fontsizes <- map_lgl(.x = fontsizes_local_possible, .f = function(this_size) {
     tex <- md2tex_mem(x = x, fontsize_local = this_size, ...)
     pdf <- texi2pdf2_mem(x = tex)
     out_path <- fs::path("test_fontsize", ext = "pdf")
@@ -617,14 +652,10 @@ find_fontsizes_1 <- function(fontsizes_local_possible = fontsizes_local, x, ...)
   })
 
   if (!(any(working_fontsizes))) {
-    if (is.null(path)) {
-      path <- NA  # just to say something ...
-    }
     stop(
       glue(
-        "Could not find a fontsize to fit the text in {path} on one page given the other arguments.",
+        "Could not find a fontsize to fit the text on one page given the other arguments.",
         "Try shortening the text or using other additional arguments which take up less space.",
-        .na = "element",
         .sep = " "
       ),
       call. = FALSE

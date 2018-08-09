@@ -7,7 +7,8 @@
 render_chain(l, format, ...)
 }
 \arguments{
-\item{l}{\code{[list()]} giving \code{x}s to be passed to \code{\link[=md2tex_mem]{md2tex_mem()}}.}
+\item{l}{\code{[list()]}
+giving \code{x}s to be passed to \code{\link[=md2tex_mem]{md2tex_mem()}}.}
 
 \item{format}{\code{[character(1)]} giving the output format to render items in.
 

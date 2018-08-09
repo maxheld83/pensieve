@@ -46,7 +46,7 @@ test_that(desc = "knit_print returns proper S3 object", code = {
   knitted_items$unnamed <- knit_print(x = items_text_de)
   knitted_items$inline_named <- knit_print(x = items_text_en, inline = TRUE)
   knitted_items$inline_unnamed <- knit_print(x = items_text_de, inline = TRUE)
-  purrr::iwalk(
+  iwalk(
     .x = knitted_items,
     .f = function(x, y) {
       expect_class(

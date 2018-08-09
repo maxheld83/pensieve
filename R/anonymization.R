@@ -85,7 +85,7 @@ anonymize <- function(real_names, lookup_file) {
                       ncols = 2,
                       null.ok = FALSE,
                       info = info)
-    expect_equal(object = names(lookup),
+    testthat::expect_equal(object = names(lookup),
                  expected = c("real_names", "fake_names"),
                  info = info)
 
@@ -149,7 +149,7 @@ anonymize <- function(real_names, lookup_file) {
                                   header = TRUE,
                                   stringsAsFactors = FALSE,
                                   colClasses = c("character", "character"))
-  expect_identical(object = lookup,
+  testthat::expect_identical(object = lookup,
                    expected = lookup_check,
                    info = "Something went writing the 'lookup_file' to disk.")
   message(paste("Lookup file written to",

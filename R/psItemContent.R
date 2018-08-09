@@ -205,7 +205,7 @@ validate_S3.psItemContentText <- function(x, ...) {
 knit_print.psItemContentText <- function(x,
                                          inline = FALSE,
                                          ...) {
-  res <- purrr::imap_chr(
+  res <- imap_chr(
     .x = x,
     .f = function(wording, handle) {
       if (is.integer(handle)) {
@@ -279,10 +279,10 @@ validate_S3.psItemContentBin <- function(x, ...) {
 #' - Given the central status of text items in the methodology and the package, they should by *typeset professionally*.
 #'
 #' To meet these criteria, text items are
-#' 1. converted to **LaTeX**, using [pandoc](https://pandoc.org), then
-#' 2. compiled to **PDF**, using [LaTeX](https://www.latex-project.org) via [tinytex::latexmk()], then
-#' 3. converted to **SVG**, using [pdf2svg](https://github.com/dawbarton/pdf2svg), then
-#' 4. imported to **R Graphics** (grid graphics, to be precise) via [grImport2::readPicture()].
+#' 1. converted to **LaTeX** via [md2tex_mem()], then
+#' 2. compiled to **PDF** via [texi2pdf2_mem()], then
+#' 3. converted to **SVG** via [pdf2svg_mem()], then
+#' 4. imported to **R Graphics** via [svg2grob_mem()].
 #'     Items are now fully available to the R Graphics system and can be used wherever [graphics::plot()] (or, to be precise, [grid::grid.draw()]) works.
 #'
 #' At each step of this necessary, but rather long conversion pipeline more (system) dependencies are required and asserted.
@@ -304,7 +304,7 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
 
   res <- list(foo = "foo", bar = "bar")  # placeholder
 
-  purrr::imap_chr(
+  imap_chr(
     .x = res,
     .f = function(x, y) {
       out_path <- fs::path(dir, y, ext = format)
