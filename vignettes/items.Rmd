@@ -122,9 +122,18 @@ lipset$items["promoting_underdog"]` ``.
 In the output, you will see item `r lipset$items["promoting_underdog"]` in the place of the above inline code, complete with a footnote automatically included.
 If the output format supports this, the footnote will also be hyperlinked.
 
-Inline printing of items has some limitations:
+You can also `knit_print()` several items at once.
 
-- Line breaks, new paragraphs and other advanced markdown formatting is ignored inside the footnotes.^[This would break the underlying pandoc markdown syntax for [pandoc `inline_notes`](https://pandoc.org/MANUAL.html#footnotes).]
+```{r}
+lipset$items[c("civil_liberties", "self_made")]
+```
+
+This also works inline, for example `` `r
+lipset$items[4:5]` `` yields items `r lipset$items[4:5]`.
+
+There are some limitations:
+
+- Line breaks, new paragraphs and other advanced markdown formatting is ignored inside the footnotes when `knit_print()` in inline.^[This would break the underlying pandoc markdown syntax for [pandoc `inline_notes`](https://pandoc.org/MANUAL.html#footnotes).]
 - If you refer to the *same* item multiple times inline, there will be multiple (redundant) footnotes.
   Our `knit_print()` method does not keep track of multiple mentions of items.
   Calling item `r lipset$items["promoting_underdog"]` twice `r lipset$items["promoting_underdog"]` causes two footnotes with the same content.
@@ -134,4 +143,6 @@ Inline printing of items has some limitations:
   ```{r}
   unname(lipset$items["afterlife"])
   ```
+  
+  If used intext, unnamed items yield a footnote without title such as this unnamed item `r unname(lipset$items["race_4_success"])`.
 
