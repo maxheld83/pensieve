@@ -219,9 +219,8 @@ Defaults to \code{FALSE}, in which case the function throws an error if a file e
 Must be one of:
 \itemize{
 \item \code{'tex'}
-\item \code{'pdf'} (\strong{default})
-\item \code{'svg'} or
-\item \code{'grob'}
+\item \code{'pdf'} (\strong{default}) or
+\item \code{'svg'}
 }}
 }
 \value{

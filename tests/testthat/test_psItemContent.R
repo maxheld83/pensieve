@@ -64,3 +64,25 @@ test_that(desc = "knit_print returns proper S3 object", code = {
     }
   )
 })
+
+
+# export method ====
+# setwd(dir = "tests/testthat/") # for interactive testing
+path <- fs::path("test_psItemContent")
+setup(code = {
+  fs::dir_create(path = path)
+})
+teardown(code = {
+  # comment me out to debug results
+  fs::dir_delete(path = path)
+})
+
+test_that(desc = "export method writes files", code = {
+  walk(
+    .x = names(render_chain_formats)[-4],
+    .f = function(x) {
+      files <- export_ps(x = items_text_en, dir = path, format = x)
+      expect_file_exists(x = files, access = "r", extension = x)
+    }
+  )
+})

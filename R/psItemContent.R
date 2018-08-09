@@ -266,6 +266,7 @@ validate_S3.psItemContentBin <- function(x, ...) {
 
 # export method ====
 #' @describeIn psItemContent Export rendered text items to pdf or svg.
+#' @eval document_choice_arg(arg_name = "format", choices = names(render_chain_formats)[-4], before = "giving the output format to render items in.", default = "pdf")
 #' @inheritParams export_ps
 #' @inheritParams render_chain
 #'
@@ -296,13 +297,14 @@ validate_S3.psItemContentBin <- function(x, ...) {
 #' Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format = "pdf") {
   assert_S3(x)
+  assert_choice(x = format, choices = names(render_chain_formats)[-4], null.ok = FALSE)
 
   # capture formatting options
   # lang <- attr(x = items, which = "lang")
   # geometry_opts <- attr(x = items, which = "geometry_opts")
   # alignment <- attr(x = items, which = "alignment")
 
-  res <- list(foo = "foo", bar = "bar")  # placeholder
+  res <- render_chain(l = as.list(x), format = format)
 
   imap_chr(
     .x = res,
@@ -311,11 +313,19 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
       if (!overwrite) {
         assert_no_file(x = out_path)
       }
-      readr::write_file(
-        x = x,
-        path = out_path,
-        append = FALSE
-      )
+      if (format == "tex") {
+        readr::write_lines(
+          x = x,
+          path = out_path,
+          append = FALSE
+        )
+      } else {
+        readr::write_file(
+          x = x,
+          path = out_path,
+          append = FALSE
+        )
+      }
       out_path
     }
   )
