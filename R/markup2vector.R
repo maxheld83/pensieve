@@ -461,7 +461,7 @@ virtually <- function(fun) {
     tmpdir <- fs::path_temp()
     withr::local_dir(new = tmpdir)
     if (is.raw(x)) {
-      writeBin(object = x, con = path_in)
+      readr::write_file(x = x, path = path_in, append = FALSE)
     } else {
       readr::write_lines(x = x, path = path_in, append = FALSE)
     }
@@ -639,7 +639,7 @@ find_fontsizes_1 <- function(fontsizes_local_possible = fontsizes_local, x, ...)
     pdf <- texi2pdf2_mem(x = tex)
     out_path <- fs::path("test_fontsize", ext = "pdf")
     withr::local_file(file = out_path)
-    writeBin(object = pdf, con = out_path)
+    readr::write_file(x = pdf, path = out_path, append = FALSE)
     test_pdf1page(x = out_path)
   })
 
