@@ -405,8 +405,8 @@ render_items <- function(items,
 #' @describeIn psItemContent Export rendered text items to pdf or svg.
 #' @inheritParams export_ps
 #' @eval document_choice_arg(arg_name = "format", choices = item_output_formats, before = "giving the output format to render items in.", default = "pdf")
-export_ps.psItemContentText <- function(items, format = "pdf", dir = ".") {
-  assert_S3(items)
+export_ps.psItemContentText <- function(x, dir = ".", format = "pdf") {
+  assert_S3(x)
   assert_choice(x = format, choices = item_output_formats)
   NULL
 }

@@ -19,7 +19,7 @@ as_psItemContent(obj, ...)
 
 \method{knit_print}{psItemContentText}(x, inline = FALSE, ...)
 
-\method{export_ps}{psItemContentText}(items, format = "pdf", dir = ".")
+\method{export_ps}{psItemContentText}(x, dir = ".", format = "pdf")
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -204,6 +204,11 @@ Must be one of:
 \item{inline}{\code{[logical(1)]} indicating whether knitr is called from \emph{inline} (\code{r 1+1}) or from a chunk.
 Defaults to \code{FALSE}.}
 
+\item{dir}{\code{[character(1)]}
+giving the directory where the exported objects are written to.
+Must be relative from the working directory.
+Defaults to the working directory root.}
+
 \item{format}{\code{[character(1)]} giving the output format to render items in.
 
 Must be one of:
@@ -211,11 +216,6 @@ Must be one of:
 \item \code{'pdf'} (\strong{default}) or
 \item \code{'svg'}
 }}
-
-\item{dir}{\code{[character(1)]}
-giving the directory where the exported objects are written to.
-Must be relative from the working directory.
-Defaults to the working directory root.}
 }
 \value{
 \code{[character()]} with class \code{\link{psItemContent}}.
