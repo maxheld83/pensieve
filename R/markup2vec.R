@@ -550,32 +550,46 @@ render_chain <- function(l,
                          ...) {
   assert_list(x = l, types = "character", any.missing = FALSE, null.ok = FALSE)
   assert_choice(x = format, choices = render_chain_formats)
+  requireNamespace2("progress")
 
   # how many steps need to be done?
   n_steps <- which(render_chain_formats == format)
 
-  imap(
+  pb <- progress::progress_bar$new(
+    total = n_steps * length(l),
+    format = "Rendering element :name, step :step/:n_steps [:bar] :percent eta: :eta"
+  )
+
+  pb$tick(0)  # start with 0 before first compute
+
+  res <- imap(
     .x = l,
     .f = function(content, name) {
+      name <- as.character(name)  # to protect against imap integers from unnamed list elementsL
       step <- 1
+      pb$tick(1, tokens = list(name = name, step = step, n_steps = n_steps))
       tex <- md2tex_mem(x = content, path_in = name, ...)
       step <- step + 1
       if (step > n_steps) {
         return(tex)
       }
+      pb$tick(1, tokens = list(name = name, step = step, n_steps = n_steps))
       pdf <- texi2pdf2_mem(x = tex, path_in = name)
       step <- step + 1
       if (step > n_steps) {
         return(pdf)
       }
+      pb$tick(1, tokens = list(name = name, step = step, n_steps = n_steps))
       svg <- pdf2svg_mem(x = pdf, path_in = name)
       step <- step + 1
       if (step > n_steps) {
         return(svg)
       }
+      pb$tick(1, tokens = list(name = name, step = step, n_steps = n_steps))
       svg2grob_mem(x = svg, path_in = name)
     }
   )
+  res
 }
 render_chain_formats <- c("tex", "pdf", "svg", "grob")
 # these must stay in the order of the conversion chain!
