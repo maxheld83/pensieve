@@ -300,11 +300,19 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
   assert_choice(x = format, choices = names(render_chain_formats)[-4], null.ok = FALSE)
 
   # capture formatting options
-  # lang <- attr(x = items, which = "lang")
-  # geometry_opts <- attr(x = items, which = "geometry_opts")
-  # alignment <- attr(x = items, which = "alignment")
+  formatting_opts <- list(
+    lang = attr(x = x, which = "lang"),
+    alignment = attr(x = x, which = "alignment"),
+    fontsize_global = "10pt"
+  )
+  formatting_opts <- c(formatting_opts, attr(x = x, which = "geometry_opts"))
 
-  res <- render_chain(l = as.list(x), format = format)
+  res <- invoke(
+    .f = render_chain,
+    .x = formatting_opts,
+    l = as.list(x),
+    format = format
+  )
 
   imap_chr(
     .x = res,

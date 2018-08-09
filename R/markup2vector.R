@@ -558,7 +558,12 @@ render_chain <- function(l,
       step <- 1
       while (step <= n_steps) {
         pb$tick(1, tokens = list(name = name, step = step, n_steps = n_steps))
-        res <- invoke(.f = render_chain_formats[[step]], .x = list(x = res, path_in = name), ...)
+        if (step == 1) {
+          # step 1 requires other arguments
+          res <- invoke(.f = render_chain_formats[[step]], .x = list(x = res, path_in = name), ...)
+        } else {
+          res <- invoke(.f = render_chain_formats[[step]], .x = list(x = res, path_in = name))
+        }
         step <- step + 1
       }
       return(res)
