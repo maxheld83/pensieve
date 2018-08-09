@@ -53,7 +53,7 @@ validate_S3.default <- function(x, ps_coll = NULL, ...) {
   if (!(checked)) {
     stop(
       "Can't find a validation method for any of these classes: ",
-      glue::glue_collapse(class(x), sep = ", ", last = " and "),
+      glue_collapse(class(x), sep = ", ", last = " and "),
       ". ",
       "Maybe none of these are a class from pensieve?",
       call. = FALSE
@@ -83,7 +83,7 @@ check_S3.default <- function(x) {
     return(TRUE)
   } else {
     msg <- paste0("* ", msg)
-    msg <- glue::glue_collapse(x = msg, sep = "\n")
+    msg <- glue_collapse(x = msg, sep = "\n")
     return(msg)
   }
 }
@@ -130,7 +130,7 @@ assert_S3 <- function(x, collection = NULL, var.name = NULL) {
 assert_S3.default <- function(x, collection = NULL, var.name = paste(class(x)[1], "S3 class")) {
   res <- check_S3(x)
   if (!isTRUE(res)) {  # only muck with the string unless res is TRUE
-    res <- glue::glue("\n \n", res)  # necessary to get the look right
+    res <- glue("\n \n", res)  # necessary to get the look right
   }
   return(makeAssertion(x = x, res = res, var.name = var.name, collection = collection))
 }
@@ -271,9 +271,9 @@ check_nna_row <- function(x) {
   }
   return(res)
 }
-expect_nna_row <- checkmate::makeExpectationFunction(check.fun = check_nna_row)
-test_nna_row <- checkmate::makeTestFunction(check.fun = check_nna_row)
-assert_nna_row <- checkmate::makeAssertionFunction(check.fun = check_nna_row)
+expect_nna_row <- makeExpectationFunction(check.fun = check_nna_row)
+test_nna_row <- makeTestFunction(check.fun = check_nna_row)
+assert_nna_row <- makeAssertionFunction(check.fun = check_nna_row)
 
 
 # helper: check unique by column
@@ -287,9 +287,9 @@ check_unique_in_column <- function(x) {
     return(TRUE)
   }
 }
-assert_unique_in_column <- checkmate::makeAssertionFunction(check.fun = check_unique_in_column)
-test_unique_in_column <- checkmate::makeTestFunction(check.fun = check_unique_in_column)
-expect_unique_in_column <- checkmate::makeExpectationFunction(check.fun = check_unique_in_column)
+assert_unique_in_column <- makeAssertionFunction(check.fun = check_unique_in_column)
+test_unique_in_column <- makeTestFunction(check.fun = check_unique_in_column)
+expect_unique_in_column <- makeExpectationFunction(check.fun = check_unique_in_column)
 
 
 # helper: check whether a is subset of b ===
@@ -355,9 +355,9 @@ check_names2 <- function(x, type = "strict", ...) {
     check_names(x = x, type = type, ...)
   }
 }
-assert_names2 <- checkmate::makeAssertionFunction(check.fun = check_names2)
-test_names2 <- checkmate::makeTestFunction(check.fun = check_names2)
-expect_names2 <- checkmate::makeExpectationFunction(check.fun = check_names2)
+assert_names2 <- makeAssertionFunction(check.fun = check_names2)
+test_names2 <- makeTestFunction(check.fun = check_names2)
+expect_names2 <- makeExpectationFunction(check.fun = check_names2)
 
 # helper: check whether vector has 0 variance
 # this is sometimes happens, and makes no sense for our purposes
@@ -368,9 +368,9 @@ check_var <- function(x) {
     return(TRUE)
   }
 }
-assert_var <- checkmate::makeAssertionFunction(check.fun = check_var)
-test_var <- checkmate::makeTestFunction(check.fun = check_var)
-expect_var <- checkmate::makeExpectationFunction(check.fun = check_var)
+assert_var <- makeAssertionFunction(check.fun = check_var)
+test_var <- makeTestFunction(check.fun = check_var)
+expect_var <- makeExpectationFunction(check.fun = check_var)
 
 
 #' @title Check whether system dependency is available
@@ -387,7 +387,7 @@ check_sysdep <- function(x) {
   if (sys_test) {
     return(TRUE)
   } else {
-    return(glue::glue("Could not find", x, "system dependency. Try installing it", .sep = " "))
+    return(glue("Could not find", x, "system dependency. Try installing it", .sep = " "))
   }
 }
 assert_sysdep <- makeAssertionFunction(check.fun = check_sysdep)
@@ -434,7 +434,7 @@ expect_fun_args <- makeExpectationFunction(check.fun = check_fun_args)
 #' @description Wrapper around checkmate::assert_file().
 #' @inheritParams checkmate::testFile
 check_no_file <- function(x) {
-  if (checkmate::testFile(x)) {
+  if (testFile(x)) {
     return(glue("File {x} already exists."))
   } else {
     return(TRUE)

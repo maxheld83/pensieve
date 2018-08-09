@@ -34,7 +34,7 @@ export_ps <- function(x, dir = ".", overwrite = FALSE, ...) {
 export_ps.default <- function(x, dir, ...) {
   stop(
     "Can't find an export method for any of these classes: ",
-    glue::glue_collapse(class(x), sep = ", ", last = " and "),
+    glue_collapse(class(x), sep = ", ", last = " and "),
     ". ",
     call. = FALSE
   )

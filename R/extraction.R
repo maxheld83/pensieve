@@ -116,12 +116,12 @@ plot.QLoas <- function(x, summarize = NULL, by = "people", r2 = FALSE, use_js = 
 
   summarize <- assert_n_infer_summarize(summarize = summarize, x = x)
 
-  checkmate::assert_flag(x = r2,
-                         na.ok = FALSE,
-                         null.ok = FALSE)
+  assert_flag(x = r2,
+              na.ok = FALSE,
+              null.ok = FALSE)
 
-  checkmate::assert_choice(x = by,
-                           choices = c("people", "both"))
+  assert_choice(x = by,
+                choices = c("people", "both"))
 
 
   # Data preparation ====

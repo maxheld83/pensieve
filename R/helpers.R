@@ -27,7 +27,7 @@ is_use_js <- function() {
 # assert and infer helpers ====
 
 assert_n_infer_use_js <- function(use_js = NULL) {
-  checkmate::assert_flag(x = use_js,
+  assert_flag(x = use_js,
                          na.ok = FALSE,
                          null.ok = TRUE)
   if (is.null(use_js)) {
@@ -37,7 +37,7 @@ assert_n_infer_use_js <- function(use_js = NULL) {
 }
 
 assert_n_infer_summarize <- function(summarize, x) {
-  checkmate::assert_flag(x = summarize,
+  assert_flag(x = summarize,
                          na.ok = FALSE,
                          null.ok = TRUE)
   if (is.null(summarize)) {
@@ -84,7 +84,7 @@ accio_path <- system.file('accio', package = 'pensieve')
 #' @export
 run_accio <- function() {
   # input validation ====
-  if (!checkmate::test_directory_exists(accio_path)) {
+  if (!test_directory_exists(accio_path)) {
     stop("The 'accio' web frontend (closed source) is not available on this computer. ",
          "See pensieve.maxheld.de for details.")
   }
