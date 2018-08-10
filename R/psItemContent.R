@@ -68,14 +68,11 @@ psItemContent <- function(items,
   if (is.null(dir_bin)) {
     # find fontsize, but don't do this right now (that would be bad for users)
     # instead, pass on the quosure, so we can do this later when we actually need it (in printing)
-    fontsize_local <- rlang::quo(
-      expr = {
-        invoke(
-          .f = find_fontsize,
-          .x = c(lang = lang, geometry_opts, alignment = alignment),
-          l = as.list(items)
-        )
-      }
+    fontsize_local <- partial(
+      ...f = find_fontsize,
+      lang = lang,
+      l = as.list(items),
+      .lazy = FALSE
     )
 
     items <- new_psItemContentText(
@@ -329,7 +326,7 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
     lang = attr(x = x, which = "lang"),
     alignment = attr(x = x, which = "alignment"),
     # no we do the expensive work of actually calculating the fontsize
-    fontsize_local = rlang::eval_tidy(attr(x = x, which = "fontsize_local")),
+    fontsize_local = attr(x = x, which = "fontsize_local")(),
     fontsize_global = "10pt"
   )
   formatting_opts <- c(formatting_opts, attr(x = x, which = "geometry_opts"))
