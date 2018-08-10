@@ -16,7 +16,7 @@ NULL
 #' @inheritParams declare_pandoc_var
 #' @describeIn markup2vector markdown to LaTeX via [pandoc](http://pandoc.org)
 md2tex <- function(path,
-                   fontsize_global = "10pt",
+                   fontsize_global = NULL,
                    lang = NULL,
                    ...) {
 
@@ -495,7 +495,7 @@ virtually <- function(fun) {
 #' @return
 #' - For `_mem`, `[character()]` or `[raw()]`.
 md2tex_mem <- memoise::memoise(
-  function(x, path_in = "foo", fontsize_local = "tiny", alignment = "justified", ...) {
+  function(x, path_in = "foo", fontsize_local = NULL, alignment = "justified", ...) {
   # latex wrapping is only available here in the virtualized variant;
   # because wrapping latex on filesystem would be too awkward/cumbersome
   x <- wrap_in_latex_fontsize(fontsize_local = fontsize_local, tex = x)
