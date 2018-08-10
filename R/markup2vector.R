@@ -598,7 +598,7 @@ find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
   }
   pb <- progress::progress_bar$new(
     total = length(l),
-    format = "Finding maximum fontsize for element :name :spin [:bar] :percent eta: :eta",
+    format = "Finding maximum fontsize for element :name [:bar] :percent eta: :eta",
     show_after = show_after
   )
   # reduce has no handy way to name output, so we have to do this by hand
@@ -616,7 +616,7 @@ find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
       res <- find_fontsizes_1(fontsizes_local_possible = lhs, x = rhs, ...)
       name <- list_names[min(c(match(x = list(rhs), table = l) + 1), length(l))]
       pb$tick(tokens = list(name = name))
-      return(res)
+      res
     }
   )
   pb$terminate()

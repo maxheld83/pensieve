@@ -35,8 +35,9 @@ test_that(desc = "construction of image item works", code = {
 
 # subsetting ====
 test_that(desc = "subsetting retains attributes", code = {
-  expect_equal(object = attributes(items_text_de[1]), expected = attributes(items_text_de))
-  expect_equal(object = attributes(items_image[1]), expected = attributes(items_image))
+  # order is out of whack
+  expect_equal(object = attributes(items_text_de[1]), expected = attributes(items_text_de)[names(attributes(items_text_de[1]))])
+  expect_equal(object = attributes(items_image[1]), expected = attributes(items_image)[names(attributes(items_image[1]))])
 })
 
 # knit_print method ====

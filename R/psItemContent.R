@@ -49,44 +49,51 @@ psItemContent <- function(items,
                           unit = "cm",
                           vcentering = TRUE,
                           hcentering = TRUE,
+                          fontsize_global = NULL,
                           alignment = "justified") {
   assert_string(x = dir_bin, na.ok = FALSE, null.ok = TRUE)
 
-  geometry_opts <- list(
-    paperwidth = paperwidth,
-    paperheight = paperheight,
-    top = top,
-    bottom = bottom,
-    left = left,
-    right = right,
-    vcentering = vcentering,
-    hcentering = hcentering
-  )
-
-
   # construction
   if (is.null(dir_bin)) {
-    # find fontsize, but don't do this right now (that would be bad for users)
-    # instead, pass on the quosure, so we can do this later when we actually need it (in printing)
-    fontsize_local <- partial(
-      ...f = find_fontsize,
-      lang = lang,
-      l = as.list(items),
-      .lazy = FALSE
-    )
-
     items <- new_psItemContentText(
       items = items,
       lang = lang,
-      geometry_opts = geometry_opts,
-      alignment = alignment,
-      fontsize_local = fontsize_local
+      paperwidth = paperwidth,
+      paperheight = paperheight,
+      top = top,
+      bottom = bottom,
+      left = left,
+      right = right,
+      unit = unit,
+      vcentering = vcentering,
+      hcentering = hcentering,
+      fontsize_global = fontsize_global,
+      fontsize_local = NULL,
+      alignment = alignment
+    )
+    # find fontsize, but don't do this right now (that would be bad for users)
+    # instead, pass on the partially evaluated function to do it,
+    # so we can do this later when we actually need it (in printing)
+    attr(x = items, which = "fontsize_local") <- invoke(
+      .f = partial,
+      .x = attributes(items)[!names(attributes(items)) %in% c("fontsize_local", "class", "names")],
+      ...f = find_fontsize,
+      l = as.list(items),
+      .lazy = FALSE
     )
   } else {
     items <- new_psItemContentBin(
       items = items,
       dir_bin = dir_bin,
-      geometry_opts = geometry_opts
+      paperwidth = paperwidth,
+      paperheight = paperheight,
+      top = top,
+      bottom = bottom,
+      left = left,
+      right = right,
+      unit = unit,
+      vcentering = vcentering,
+      hcentering = hcentering
     )
   }
 
@@ -130,11 +137,6 @@ validate_S3.psItemContent <- function(x, ps_coll = NULL, ...) {
     .var.name = "items"
   )
 
-  geometry_opts <- attr(x = x, which = "geometry_opts")
-  if (test_sysdep(x = "pandoc")) {
-    assert_fun_args(x = do.call, y = md2tex_mem, args = c(x = "foo", geometry_opts), add = ps_coll, .var.name = "md2tex_mem")
-  }
-
   NextMethod(ps_coll = ps_coll)
 }
 
@@ -166,33 +168,32 @@ as_psItemContent.character <- function(obj, ...) {
 #' @inheritParams  base::Extract
 #' @export
 #' @noRd
-`[.psItemContentText` <- function(x, i, ...) {
-  new_psItemContent(
-    items = NextMethod(x),
-    lang = attr(x, "lang"),
-    geometry_opts = attr(x, "geometry_opts"),
-    alignment = attr(x, "alignment"),
-    fontsize_local = attr(x, "fontsize_local"),
-    subclass = "psItemContentText"
-  )
-}
-`[.psItemContentBin` <- function(x, i, ...) {
-  new_psItemContent(
-    items = NextMethod(x),
-    dir_bin = attr(x, "dir_bin"),
-    geometry_opts = attr(x, "geometry_opts"),
-    subclass = "psItemContentBin"
+`[.psItemContent` <- function(x, i, ...) {
+  invoke(
+    .f = new_psItemContent,
+    .x = attributes(x)[!names(attributes(x)) %in% c("class", "names")],
+    subclass = attr(x = x, which = "class")[1],
+    items = NextMethod(x)
   )
 }
 
 # subclass text ====
-new_psItemContentText <- function(items, lang, geometry_opts, alignment, fontsize_local) {
+new_psItemContentText <- function(items, lang, paperwidth, paperheight, top, bottom, left, right, unit, vcentering, hcentering, fontsize_global, fontsize_local, alignment) {
   new_psItemContent(
     items = items,
     lang = lang,
-    geometry_opts = geometry_opts,
+    paperwidth = paperwidth,
+    paperheight = paperheight,
+    top = top,
+    bottom = bottom,
+    left = left,
+    right = right,
+    unit = unit,
+    vcentering = vcentering,
+    hcentering = hcentering,
+    fontsize_global = fontsize_global,
+    fontsize_local = NULL,
     alignment = alignment,
-    fontsize_local = fontsize_local,
     subclass = "psItemContentText"
   )
 }
@@ -201,13 +202,12 @@ new_psItemContentText <- function(items, lang, geometry_opts, alignment, fontsiz
 #' @noRd
 #' @export
 validate_S3.psItemContentText <- function(x, ...) {
-  lang <- attr(x = x, which = "lang")
-  alignment <- attr(x = x, which = "alignment")
-
   if (test_sysdep(x = "pandoc")) {
-    assert_fun_args(x = md2tex_mem, y = x[1], lang = lang, add = ps_coll)
+    invoke(
+      .f = partial(...f = assert_fun_args, x = md2tex_mem, y = "foo"),
+      .x = c(attributes(x)[!names(attributes(x)) %in% c("class", "fontsize_local", "names")])
+    )
   }
-
   NextMethod(ps_coll = ps_coll)
 }
 
@@ -216,7 +216,7 @@ validate_S3.psItemContentText <- function(x, ...) {
 #' @inheritParams base::print
 #' @export
 print.psItemContent <- function(x, ...) {
-  attributes(x) <- NULL
+  attributes(x)[!names(attributes(x)) %in% c("names")] <- NULL
   NextMethod()
 }
 
@@ -258,34 +258,6 @@ knit_print.psItemContentText <- function(x,
 }
 
 
-# subclass binary files ====
-new_psItemContentBin <- function(items, dir_bin, geometry_opts) {
-  new_psItemContent(
-    items = items,
-    dir_bin = dir_bin,
-    geometry_opts = geometry_opts,
-    subclass = "psItemContentBin"
-  )
-}
-
-#' @describeIn psItemContent Validation
-#' @noRd
-#' @export
-validate_S3.psItemContentBin <- function(x, ...) {
-  dir_bin <- attr(x = x, which = "dir_bin")
-
-  assert_directory_exists(x = dir_bin, access = "r", add = ps_coll)
-  files <- file.path(dir_bin, as.vector(x))
-  assert_file_exists(
-    x = files,
-    access = "r",
-    .var.name = "file names",
-    add = ps_coll)
-
-  NextMethod(ps_coll = ps_coll)
-}
-
-
 # export method ====
 #' @describeIn psItemContent Export rendered text items to pdf or svg.
 #' @eval document_choice_arg(arg_name = "format", choices = names(render_chain_formats)[-4], before = "giving the output format to render items in.", default = "pdf")
@@ -321,21 +293,13 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
   assert_S3(x)
   assert_choice(x = format, choices = names(render_chain_formats)[-4], null.ok = FALSE)
 
-  # capture formatting options
-  formatting_opts <- list(
-    lang = attr(x = x, which = "lang"),
-    alignment = attr(x = x, which = "alignment"),
-    # no we do the expensive work of actually calculating the fontsize
-    fontsize_local = attr(x = x, which = "fontsize_local")(),
-    fontsize_global = "10pt"
-  )
-  formatting_opts <- c(formatting_opts, attr(x = x, which = "geometry_opts"))
-
   res <- invoke(
     .f = render_chain,
-    .x = formatting_opts,
+    .x = c(attributes(x)[!names(attributes(x)) %in% c("class", "fontsize_local", "names")]),
     l = as.list(x),
-    format = format
+    format = format,
+    # now we figure out what exactly fontsize local should be: expensive call
+    fontsize_local = attr(x = x, which = "fontsize_local")()
   )
 
   imap_chr(
@@ -361,4 +325,40 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
       out_path
     }
   )
+}
+
+
+# subclass binary files ====
+new_psItemContentBin <- function(items, dir_bin, paperwidth, paperheight, top, bottom, left, right, unit, vcentering, hcentering) {
+  new_psItemContent(
+    items = items,
+    dir_bin = dir_bin,
+    paperwidth = paperwidth,
+    paperheight = paperheight,
+    top = top,
+    bottom = bottom,
+    left = left,
+    right = right,
+    unit = unit,
+    vcentering = vcentering,
+    hcentering = hcentering,
+    subclass = "psItemContentBin"
+  )
+}
+
+#' @describeIn psItemContent Validation
+#' @noRd
+#' @export
+validate_S3.psItemContentBin <- function(x, ...) {
+  dir_bin <- attr(x = x, which = "dir_bin")
+
+  assert_directory_exists(x = dir_bin, access = "r", add = ps_coll)
+  files <- file.path(dir_bin, as.vector(x))
+  assert_file_exists(
+    x = files,
+    access = "r",
+    .var.name = "file names",
+    add = ps_coll)
+
+  NextMethod(ps_coll = ps_coll)
 }
