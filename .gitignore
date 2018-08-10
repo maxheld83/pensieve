@@ -14,3 +14,4 @@ vignettes/*.R
 docs/
 inst/doc
 htmlwidgets-1.2/htmlwidgets.js
+test_items/
