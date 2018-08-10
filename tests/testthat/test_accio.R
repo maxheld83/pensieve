@@ -1,5 +1,4 @@
 context("'accio' web frontend")
-skip(message = "testi")
 
 test_that(desc = "accio is not available on CRAN release", code = {
   if (identical(Sys.getenv("NOT_CRAN"), "true")) {

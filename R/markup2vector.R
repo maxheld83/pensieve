@@ -468,7 +468,7 @@ virtually <- function(fun) {
 
     path_out <- fun(path_in, ...)
 
-    if (identical(fun, svg2grob)) {
+    if (grid::is.grob(path_out)) {
       # mildly dirty hack follows.
       # svg2grob is slightly different, because it returns an R object, not a path to a file
       res <- path_out
