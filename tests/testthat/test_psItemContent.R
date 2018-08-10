@@ -41,6 +41,7 @@ test_that(desc = "subsetting retains attributes", code = {
 
 # knit_print method ====
 test_that(desc = "knit_print returns proper S3 object", code = {
+  skip_on_appveyor()
   knitted_items <- NULL
   knitted_items$named <- knit_print(x = items_text_en)
   knitted_items$unnamed <- knit_print(x = items_text_de)
@@ -78,6 +79,7 @@ teardown(code = {
 })
 
 test_that(desc = "export method writes files", code = {
+  skip_on_appveyor()
   walk(
     .x = names(render_chain_formats)[-4],
     .f = function(x) {
