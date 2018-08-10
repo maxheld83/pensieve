@@ -63,13 +63,27 @@ psItemContent <- function(items,
     hcentering = hcentering
   )
 
+
   # construction
   if (is.null(dir_bin)) {
+    # find fontsize, but don't do this right now (that would be bad for users)
+    # instead, pass on the quosure, so we can do this later when we actually need it (in printing)
+    fontsize_local <- rlang::quo(
+      expr = {
+        invoke(
+          .f = find_fontsize,
+          .x = c(lang = lang, geometry_opts, alignment = alignment),
+          l = as.list(items)
+        )
+      }
+    )
+
     items <- new_psItemContentText(
       items = items,
       lang = lang,
       geometry_opts = geometry_opts,
-      alignment = alignment
+      alignment = alignment,
+      fontsize_local = fontsize_local
     )
   } else {
     items <- new_psItemContentBin(
@@ -161,6 +175,7 @@ as_psItemContent.character <- function(obj, ...) {
     lang = attr(x, "lang"),
     geometry_opts = attr(x, "geometry_opts"),
     alignment = attr(x, "alignment"),
+    fontsize_local = attr(x, "fontsize_local"),
     subclass = "psItemContentText"
   )
 }
@@ -174,12 +189,13 @@ as_psItemContent.character <- function(obj, ...) {
 }
 
 # subclass text ====
-new_psItemContentText <- function(items, lang, geometry_opts, alignment) {
+new_psItemContentText <- function(items, lang, geometry_opts, alignment, fontsize_local) {
   new_psItemContent(
     items = items,
     lang = lang,
     geometry_opts = geometry_opts,
     alignment = alignment,
+    fontsize_local = fontsize_local,
     subclass = "psItemContentText"
   )
 }
@@ -303,6 +319,8 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
   formatting_opts <- list(
     lang = attr(x = x, which = "lang"),
     alignment = attr(x = x, which = "alignment"),
+    # no we do the expensive work of actually calculating the fontsize
+    fontsize_local = rlang::eval_tidy(attr(x = x, which = "fontsize_local")),
     fontsize_global = "10pt"
   )
   formatting_opts <- c(formatting_opts, attr(x = x, which = "geometry_opts"))
