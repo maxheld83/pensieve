@@ -214,6 +214,15 @@ validate_S3.psItemContentText <- function(x, ...) {
   NextMethod(ps_coll = ps_coll)
 }
 
+# print ====
+#' @describeIn psItemContent Printing to the console
+#' @inheritParams base::print
+#' @export
+print.psItemContent <- function(x, ...) {
+  attributes(x) <- NULL
+  NextMethod()
+}
+
 # knit_print ====
 #' @describeIn psItemContent Printing inside knitr chunks
 #' @template knit_print

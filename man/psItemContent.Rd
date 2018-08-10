@@ -4,6 +4,7 @@
 \alias{psItemContent}
 \alias{validate_S3.psItemContent}
 \alias{as_psItemContent}
+\alias{print.psItemContent}
 \alias{knit_print.psItemContentText}
 \alias{export_ps.psItemContentText}
 \title{Store item content as character strings}
@@ -16,6 +17,8 @@ psItemContent(items, dir_bin = NULL, lang = NULL, paperwidth = 8.5,
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
 
 as_psItemContent(obj, ...)
+
+\method{print}{psItemContent}(x, ...)
 
 \method{knit_print}{psItemContentText}(x, inline = FALSE, ...)
 
@@ -236,6 +239,8 @@ Storing \strong{full items} can enable deployment and convenience functions, as 
 \section{Methods (by generic)}{
 \itemize{
 \item \code{validate_S3}: Validation
+
+\item \code{print}: Printing to the console
 
 \item \code{knit_print}: Printing inside knitr chunks
 
