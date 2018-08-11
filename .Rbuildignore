@@ -15,6 +15,7 @@ firebase.json
 ^docs$
 logo.*
 vignettes/q-cat.Rmd
+vignettes/items.Rmd
 vignettes/.drafts/
 inst/.jshintrc
 htmlwidgets-1.2/

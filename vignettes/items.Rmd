@@ -4,10 +4,6 @@ author: "Maximilian Held"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: held_library.bib
-vignette: >
-  %\VignetteIndexEntry{Item Generation and Sampling}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 Good, evocative items lie at the heart of a Q study.
@@ -22,7 +18,7 @@ There are some standards and frameworks that can structure your item generation 
 2. Items can be **professionally typeset**, and stored in `pensieve`, so that participants and researchers alike both see the items in the *same, definitive form*, be they text or images.
 3. Arbitrary **additional information** can be stored alongside the items for later "R-way" analysis.
 
-Items and related information are stored in a domain-specific format in `pensieve`, a list of S3 class `psItems`.
+Items and related information are stored in a domain-specific format in `pensieve`, a tibble of S3 class `psItems`.
 You can use the package entirely without `psItems`, though providing additional information about the items is highly recommended.
 For example, providing the full item text (or image) enhances some of the downstream plots.
 
@@ -36,11 +32,9 @@ It stores the **full wording** of items, or, in the case of image items or other
 If it is named, these names are retained as **item handles**.
 Such handles provide a succinct way to refer to items, and can also be displayed in plots and tables.
 In contrast to the conventionally used statement numbers ("`sta_27`"), I recommend short, meaningful labels.
-The handles are *researcher-facing*, they are *not* part of the items and are never shown to participants.
+The handles are *researcher-facing*, they are *not* part of the items and are never shown to participants, lest they influence the sorting.
 
 For an example, let's take the Lipset items from @Brown1980, with some hand-crafted item handles.
-
-<!-- TODO read in lipset items here -->
 
 ```{r}
 library(pensieve)
@@ -84,19 +78,13 @@ names(lipset$items) <- c(
 lipset$items <- psItemContent(items = lipset$items, lang = "en-US")
 ```
 
-You'll notice that `psItemContent()` allows you to specify a language, which can improve the typesetting results later on.
+You'll notice that `psItemContent()` allows you to specify a **language**, which can improve the typesetting results later on.
 To learn more about acceptable language codes, see the help for `psItemContent()`.
-
-`psItemContent()` also allows you to set the way items are typeset (or rendered).
-This defaults to the settings for printing items on standard-issue business cards, but you can provide arbitrary dimensions and margins.
-Just keep in mind that not all options may meet the requirement that your item text *can* in fact be typeset to a *single* page.
-
-
-#### Methods
 
 Now that we have our canonical `psItemContent()`, what can we do with it?
 
-##### `knit_print()`
+
+#### `knit_print()`
 
 First off, we can easily **print items inside knitr documents**, by using the method for `knitr::knit_print()`.
 You can do this by placing an calling `knit_print()` on some item in a knitr chunk:
@@ -146,29 +134,71 @@ There are some limitations:
   
   If used intext, unnamed items yield a footnote without title such as this unnamed item `r unname(lipset$items["race_4_success"])`.
 
- It is often helpful to have a canonical, typeset version of text items, ready for for printing, web publishing or interpretation.
- Rendered text items should meet several criteria:
- - They should always fit on the *same* card size, both for practical reasons and to emphasize the equal "significance" of items, even if they are of different length.
-     Card sizes can be arbitrary, specified via `paperwidth`,`paperheight`.
- - They should always *look identical*, no matter where a participant or researcher encounters them.
-     Even slight variations in, for example, line wrapping, might give an item a slightly different emphasis.
- - Given the central status of text items in the methodology and the package, they should by *typeset professionally*.
 
-To meet these criteria, text items are
-1. converted to **LaTeX** via [md2tex_mem()], then
+#### Rendering
+
+It is often helpful to have a canonical, typeset version of text items, ready for for printing, web publishing or interpretation.
+Rendered text items should meet several criteria:
+
+- For practical reasons, items should fit on the *same* card size.
+  To emphasize the equal "significance" of items, their fontsize and design should also be equal.
+- They should always *look identical*, no matter where a participant or researcher encounters them.
+  Even slight variations in, for example, line wrapping, might give an item a slightly different emphasis.
+- Given the central status of text items in the methodology and the package, they should by *typeset professionally*.
+ 
+`psItemContent()` allows you to set the way items are typeset (or rendered) using a variety of options.
+This defaults to the settings for printing items on standard-issue business cards, but you can provide arbitrary dimensions and margins, as well as other options.
+Just keep in mind that not all options may meet the requirement that your item text *can* in fact be typeset to a *single* page (card), and downstream functions may error out.
+
+You will notice that the `fontsize_global` option in `psItemContent()` does not greatly change results; it should be used for tweaking only.
+Instead, pensieve **automatically chooses the largest possible fontsize**, which still allows all items to fit on one page.
+This optimisation takes place behind the scenes, and will be run whenever necessary.
+However, the process can take several minutes, and will need to rerun whenever you change an item or one of the design parameters.
+To cut down on waiting time, you may want to finish all your items before ever rendering them, and rely on the (sensible) default design parameters.
+You can always inspect your items by printing them to the screen using the normal `print()` method.
+
+All design options are stored as attributes *with* the `psItemContent` object, and should only be set using the `psItemContent()` function.
+For downstream methods and functions, such as `plot()` it is important that items always retain all their attributes in the `psItemContent` object.
+Divergent from standard R behavior, these attributes are retained on subsetting using the standard `'['` operator, but may be lost when you otherwise operate on `psItemContent` objects.
+You can always reconstruct the object by running `psItemContent()` or `as_psItemContent()` anew.
+If you frequently use other operations on `psItemContent` objects and would like to retain attributes, you can suggest it as a feature of pensieve by raising an [issue](https://github.com/maxheld83/pensieve/issues) on github.
+
+In addition to setting design options for *all* items using the arguments in `psItemContent()`, you can also markup *individual* items using (basic) [Pandoc's markdown](https://pandoc.org/MANUAL.html#pandocs-markdown), including *italics*, and many other options.
+Just make sure that using Pandoc's markdown markup does not break the constraint of rendering items on a *single* page (or card).[^byoi]
+
+[^byoi]:  If you would like to customize the look of your items even further than that, you can always use a typesetting program of your choice and provide items as binary assets for the `psItemContentBin` class.
+  For now, this class has very limited support in the package.
+
+Rendering professionally typeset items, pensieve goes through several steps:
+
+1. Items are converted from Pandoc's Markdown (or plain text) to **LaTeX** via [md2tex_mem()], then
 2. compiled to **PDF** via [texi2pdf2_mem()], then
 3. converted to **SVG** via [pdf2svg_mem()], then
 4. imported to **R Graphics** via [svg2grob_mem()].
    Items are now fully available to the R Graphics system and can be used wherever [graphics::plot()] (or, to be precise, [grid::grid.draw()]) works.
 
-At each step of this necessary, but rather long conversion pipeline more (system) dependencies are required and asserted.
-Additionally, because some of the intermediary formats cannot be easily or fully converted, downstream outputs may be faulty.
+At each step of this necessary, but rather long conversion pipeline more (system) dependencies are required and asserted, so you may need to install additional programs on your computer.
+Step 3 (and later) is currently unavailable on machines running Microsoft Windows.
 
-Always use the *earliest* possible output from the above conversion pipeline to maximize fidelity to the original PDF.
-<!-- TODO mention that user-facing functions such as plot and knit_print automatically do this as far as possible. -->
-<!-- TODO explain how you can write stuff to disc -->
-<!-- # TODO explain caching -->
-<!-- explain plotting -->
-<!-- explain subsetting -->
+Once the items are rendered, you can:
 
-Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
+- `plot()` them using R graphics system.
+   This makes the items available in their final, canonical form wherever the R plotting system is.
+   R graphics devices must offer arbitrary aspect ratios, while items have a fixed aspect ratio equal to that of the cards.
+   As a result, items may be surrounded by additional whitespace in the resulting plots.
+   To avoid this, set the aspect ratio of your R graphics to equal that of the cards as seen in the below code chunk.
+   
+   Because it does not make much sense to `plot()` several items at once, `plot()` will always default to the *first* item.
+   You can also subset to your desired item.
+   
+   ```{r, fig.width = attr(lipset$items, which = "paperwidth"), fig.height = attr(lipset$items, which = "paperheight"), fig.cap = "Item 'Moderation'"}
+   #plot(lipset$items["moderation"])
+   ```
+   
+- `output_ps()` them to your file system in one of several vector formats.
+   Because some of the intermediary formats cannot be easily or fully converted, downstream outputs may be faulty.
+   If you can, always use the *earliest* possible output from the above conversion pipeline to maximize fidelity to the original.
+
+
+### Bibliography
+
