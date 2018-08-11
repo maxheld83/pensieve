@@ -37,10 +37,12 @@
 #' `[character()]` with class [`psItemContent`][psItemContent].
 #'
 #' @export
-psItemContent <- function(items,
-                          dir_bin = NULL,
-                          lang = NULL,
-                          paperwidth = 8.5,
+psItemContent <- function(items,  # for all items
+                          dir_bin = NULL,  # only for bin items
+                          lang = NULL,  # only for text items
+                          fontsize_global = NULL,
+                          alignment = "justified",
+                          paperwidth = 8.5,  # for all items
                           paperheight = 5.4,
                           top = 0.5,
                           bottom = 0.5,
@@ -48,16 +50,18 @@ psItemContent <- function(items,
                           right = 0.5,
                           unit = "cm",
                           vcentering = TRUE,
-                          hcentering = TRUE,
-                          fontsize_global = NULL,
-                          alignment = "justified") {
+                          hcentering = TRUE) {
   assert_string(x = dir_bin, na.ok = FALSE, null.ok = TRUE)
 
   # construction
   if (is.null(dir_bin)) {
     items <- new_psItemContentText(
       items = items,
+      all_items = items,
+      # necessary for finding highest possible fontsize for all items after subsetting
       lang = lang,
+      fontsize_global = fontsize_global,
+      alignment = alignment,
       paperwidth = paperwidth,
       paperheight = paperheight,
       top = top,
@@ -66,20 +70,7 @@ psItemContent <- function(items,
       right = right,
       unit = unit,
       vcentering = vcentering,
-      hcentering = hcentering,
-      fontsize_global = fontsize_global,
-      fontsize_local = NULL,
-      alignment = alignment
-    )
-    # find fontsize, but don't do this right now (that would be bad for users)
-    # instead, pass on the partially evaluated function to do it,
-    # so we can do this later when we actually need it (in printing)
-    attr(x = items, which = "fontsize_local") <- invoke(
-      .f = partial,
-      .x = attributes(items)[!names(attributes(items)) %in% c("fontsize_local", "class", "names")],
-      ...f = find_fontsize,
-      l = as.list(items),
-      .lazy = FALSE
+      hcentering = hcentering
     )
   } else {
     items <- new_psItemContentBin(
@@ -178,10 +169,13 @@ as_psItemContent.character <- function(obj, ...) {
 }
 
 # subclass text ====
-new_psItemContentText <- function(items, lang, paperwidth, paperheight, top, bottom, left, right, unit, vcentering, hcentering, fontsize_global, fontsize_local, alignment) {
+new_psItemContentText <- function(items, all_items, lang, fontsize_global, alignment, paperwidth, paperheight, top, bottom, left, right, unit, vcentering, hcentering) {
   new_psItemContent(
     items = items,
+    all_items = all_items,
     lang = lang,
+    fontsize_global = fontsize_global,
+    alignment = alignment,
     paperwidth = paperwidth,
     paperheight = paperheight,
     top = top,
@@ -191,9 +185,6 @@ new_psItemContentText <- function(items, lang, paperwidth, paperheight, top, bot
     unit = unit,
     vcentering = vcentering,
     hcentering = hcentering,
-    fontsize_global = fontsize_global,
-    fontsize_local = NULL,
-    alignment = alignment,
     subclass = "psItemContentText"
   )
 }
@@ -205,7 +196,7 @@ validate_S3.psItemContentText <- function(x, ...) {
   if (test_sysdep(x = "pandoc")) {
     invoke(
       .f = partial(...f = assert_fun_args, x = md2tex_mem, y = "foo"),
-      .x = c(attributes(x)[!names(attributes(x)) %in% c("class", "fontsize_local", "names")])
+      .x = c(attributes(x)[!names(attributes(x)) %in% c("class", "all_items", "names")])
     )
   }
   NextMethod(ps_coll = ps_coll)
@@ -293,13 +284,22 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
   assert_S3(x)
   assert_choice(x = format, choices = names(render_chain_formats)[-4], null.ok = FALSE)
 
+  design_args <- attributes(x)[!names(attributes(x)) %in% c("class", "all_items", "names")]
+  # TODO this is duplicated from the test!
+
+  # now we figure out what exactly fontsize local should be
+  fontsize_local <- invoke(
+    .f = find_fontsize,
+    .x = design_args,
+    l = as.list(attr(x = x, which = "all_items"))
+  )
+
   res <- invoke(
     .f = render_chain,
-    .x = c(attributes(x)[!names(attributes(x)) %in% c("class", "fontsize_local", "names")]),
+    .x = design_args,
     l = as.list(x),
     format = format,
-    # now we figure out what exactly fontsize local should be: expensive call
-    fontsize_local = attr(x = x, which = "fontsize_local")()
+    fontsize_local = fontsize_local
   )
 
   imap_chr(

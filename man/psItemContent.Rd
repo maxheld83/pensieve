@@ -9,10 +9,10 @@
 \alias{export_ps.psItemContentText}
 \title{Store item content as character strings}
 \usage{
-psItemContent(items, dir_bin = NULL, lang = NULL, paperwidth = 8.5,
+psItemContent(items, dir_bin = NULL, lang = NULL,
+  fontsize_global = NULL, alignment = "justified", paperwidth = 8.5,
   paperheight = 5.4, top = 0.5, bottom = 0.5, left = 0.5,
-  right = 0.5, unit = "cm", vcentering = TRUE, hcentering = TRUE,
-  fontsize_global = NULL, alignment = "justified")
+  right = 0.5, unit = "cm", vcentering = TRUE, hcentering = TRUE)
 
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
 
@@ -150,6 +150,26 @@ Must be one of:
 
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
 
+\item{fontsize_global}{\code{[character(1)]} giving the document-wide font size.
+
+Must be one of:
+\itemize{
+\item \code{NULL} in which case the system default fontsize is used. (\strong{default})
+\item \code{'10pt'}
+\item \code{'11pt'} or
+\item \code{'12pt'}
+}}
+
+\item{alignment}{\code{[character(1)]} giving the alignment of the text.
+
+Must be one of:
+\itemize{
+\item \code{'justified'} (\strong{default})
+\item \code{'left'}
+\item \code{'right'} or
+\item \code{'center'}
+}}
+
 \item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
 For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
 Defaults to \code{NULL}.}
@@ -183,26 +203,6 @@ Defaults to \code{FALSE}.}
 
 \item{hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
 Defaults to \code{FALSE}.}
-
-\item{fontsize_global}{\code{[character(1)]} giving the document-wide font size.
-
-Must be one of:
-\itemize{
-\item \code{NULL} in which case the system default fontsize is used. (\strong{default})
-\item \code{'10pt'}
-\item \code{'11pt'} or
-\item \code{'12pt'}
-}}
-
-\item{alignment}{\code{[character(1)]} giving the alignment of the text.
-
-Must be one of:
-\itemize{
-\item \code{'justified'} (\strong{default})
-\item \code{'left'}
-\item \code{'right'} or
-\item \code{'center'}
-}}
 
 \item{x}{\code{[character()]} \emph{or} \code{[raw()]} giving the input.}
 
