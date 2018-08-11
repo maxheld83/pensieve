@@ -4,6 +4,7 @@
 #'
 #' @description
 #' Helper function to append and validate [`psItemContent`][psItemContent] class.
+#' See [vignette](https://pensieve.maxheld.de/articles/items.html) for details.
 # TODO link to psItems class here, once available
 #'
 #' @details
@@ -203,6 +204,7 @@ new_psItemContentText <- function(items, all_items, lang, fontsize_global, align
 #' @noRd
 #' @export
 validate_S3.psItemContentText <- function(x, ...) {
+  # we here test whether the provided design args could be pandocced.
   if (test_sysdep(x = "pandoc")) {
     invoke(
       .f = partial(...f = assert_fun_args, x = md2tex_mem, y = "foo"),
@@ -218,6 +220,7 @@ validate_S3.psItemContentText <- function(x, ...) {
 #' @inheritParams base::print
 #' @export
 print.psItemContent <- function(x, ...) {
+  # we don't want to see all the attributes in the console
   attributes(x)[!names(attributes(x)) %in% c("names")] <- NULL
   NextMethod()
 }
@@ -275,7 +278,7 @@ render_items <- function(x, format) {
 
   design_args <- get_attributes_but(x = x, not_attrs = c("class", "all_items", "names"))
 
-  # now we figure out what exactly fontsize local should be
+  # now we figure out what the fontsize local should be, given all other args
   fontsize_local <- invoke(
     .f = find_fontsize,
     .x = design_args,
@@ -293,38 +296,13 @@ render_items <- function(x, format) {
 
 
 # export method ====
-#' @describeIn psItemContent Export rendered text items to pdf or svg.
+#' @describeIn psItemContent Export rendered text items to vector formats.
 #' @eval document_choice_arg(arg_name = "format", choices = names(render_chain_formats)[-4], before = "giving the output format to render items in.", default = "pdf")
 #' @inheritParams export_ps
 #' @inheritParams render_chain
-#'
-#' @section Rendering items:
-#' It is often helpful to have a canonical, typeset version of text items, ready for for printing, web publishing or interpretation.
-#' Rendered text items should meet several criteria:
-#' - They should always fit on the *same* card size, both for practical reasons and to emphasize the equal "significance" of items, even if they are of different length.
-#'     Card sizes can be arbitrary, specified via `paperwidth`,`paperheight`.
-#' - They should always *look identical*, no matter where a participant or researcher encounters them.
-#'     Even slight variations in, for example, line wrapping, might give an item a slightly different emphasis.
-#' - Given the central status of text items in the methodology and the package, they should by *typeset professionally*.
-#'
-#' To meet these criteria, text items are
-#' 1. converted to **LaTeX** via [md2tex_mem()], then
-#' 2. compiled to **PDF** via [texi2pdf2_mem()], then
-#' 3. converted to **SVG** via [pdf2svg_mem()], then
-#' 4. imported to **R Graphics** via [svg2grob_mem()].
-#'     Items are now fully available to the R Graphics system and can be used wherever [graphics::plot()] (or, to be precise, [grid::grid.draw()]) works.
-#'
-#' At each step of this necessary, but rather long conversion pipeline more (system) dependencies are required and asserted.
-#' Additionally, because some of the intermediary formats cannot be easily or fully converted, downstream outputs may be faulty.
-#'
-#' Always use the *earliest* possible output from the above conversion pipeline to maximize fidelity to the original PDF.
-# TODO mention that user-facing functions such as plot and knit_print automatically do this as far as possible.
-# TODO explain how you can write stuff to disc
-# TODO explain caching
-#'
-#' Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format = "pdf") {
   assert_choice(x = format, choices = names(render_chain_formats)[-4], null.ok = FALSE)
+  # this is less then all; format grob does not make sense in this context.
 
   res <- render_items(x = x, format = format)
 
@@ -365,6 +343,7 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
 #'   This is because R graphics must offer arbitrary aspect ratios, but items have a fixed aspect ratio.
 #'   For good-looking results, you should set the aspect ratio of the plotting area to *equal* that of the items.
 plot.psItemContentText <- function(x) {
+  requireNamespace2("grid")
   grid::grid.newpage()
   grid::grid.draw(render_items(x = x[1], format = "grob")[[1]])
 }
