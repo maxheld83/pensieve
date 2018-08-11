@@ -295,6 +295,7 @@ render_items <- function(x, format) {
   )
 }
 
+
 # export method ====
 #' @describeIn psItemContent Export rendered text items to pdf or svg.
 #' @eval document_choice_arg(arg_name = "format", choices = names(render_chain_formats)[-4], before = "giving the output format to render items in.", default = "pdf")
@@ -357,6 +358,22 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
 }
 
 
+# plot method ====
+#' @describeIn psItemContent Plot rendered item. Defaults to first item.
+#' @section Plotting items
+#' Plotting items to the R graphics system has some limitations:
+#' - You can only plot one item at a time.
+#'   The function defaults to the *first* item.
+#' - The item is placed in the aspect ratio *given by* `psItemContent()` in the middle of the plotting area.
+#'   There may be additional white space around the item.
+#'   This is because R graphics must offer arbitrary aspect ratios, but items have a fixed aspect ratio.
+#'   For good-looking results, you should set the aspect ratio of the plotting area to *equal* that of the items.
+plot.psItemContentText <- function(x) {
+  grid::grid.newpage()
+  grid::grid.draw(render_items(x = x[1], format = "grob")[[1]])
+}
+
+
 # subclass binary files ====
 new_psItemContentBin <- function(items, dir_bin, paperwidth, paperheight, top, bottom, left, right, unit, vcentering, hcentering) {
   new_psItemContent(
@@ -374,6 +391,7 @@ new_psItemContentBin <- function(items, dir_bin, paperwidth, paperheight, top, b
     subclass = "psItemContentBin"
   )
 }
+
 
 #' @describeIn psItemContent Validation
 #' @noRd

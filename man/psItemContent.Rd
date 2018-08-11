@@ -7,6 +7,7 @@
 \alias{print.psItemContent}
 \alias{knit_print.psItemContentText}
 \alias{export_ps.psItemContentText}
+\alias{plot.psItemContentText}
 \title{Store item content as character strings}
 \usage{
 psItemContent(items, dir_bin = NULL, lang = NULL,
@@ -25,6 +26,8 @@ as_psItemContent(obj, ...)
 
 \method{export_ps}{psItemContentText}(x, dir = ".", overwrite = FALSE,
   format = "pdf")
+
+\method{plot}{psItemContentText}(x)
 }
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
@@ -260,6 +263,8 @@ Storing \strong{full items} can enable deployment and convenience functions, as 
 \item \code{knit_print}: Printing inside knitr chunks
 
 \item \code{export_ps}: Export rendered text items to pdf or svg.
+
+\item \code{plot}: Plot rendered item. Defaults to first item.
 }}
 
 \section{Printing in knitr chunks}{
