@@ -79,7 +79,13 @@ teardown(code = {
   fs::dir_delete(path = path)
 })
 
-test_that(desc = "export method writes files", code = {
+test_that(desc = "exported items are 1 page only", code = {
+  test_items <- psItemContent(items = c(short = "short", long = glue_collapse(rep("long", times = 120), sep = " ")))
+  paths <- export_ps(x = test_items, dir = path, overwrite = TRUE)
+  expect_pdf1page(x = paths["long"])
+})
+
+test_that(desc = "export method writes files to all formats", code = {
   skip_on_appveyor()
   walk(
     .x = names(render_chain_formats)[-4],

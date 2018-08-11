@@ -16,7 +16,7 @@ NULL
 #' @inheritParams declare_pandoc_var
 #' @describeIn markup2vector markdown to LaTeX via [pandoc](http://pandoc.org)
 md2tex <- function(path,
-                   fontsize_global = NULL,
+                   fontsize_global = "10pt",
                    lang = NULL,
                    ...) {
 
@@ -495,7 +495,7 @@ virtually <- function(fun) {
 #' @return
 #' - For `_mem`, `[character()]` or `[raw()]`.
 md2tex_mem <- memoise::memoise(
-  function(x, path_in = "foo", fontsize_local = NULL, alignment = "justified", ...) {
+  function(x, path_in = "foo", fontsize_local = "tiny", alignment = "justified", ...) {
   # latex wrapping is only available here in the virtualized variant;
   # because wrapping latex on filesystem would be too awkward/cumbersome
   x <- wrap_in_latex_fontsize(fontsize_local = fontsize_local, tex = x)
@@ -613,11 +613,12 @@ find_fontsize <- function(l, fontsizes_local_possible = fontsizes_local, ...) {
     .x = l,
     .init = fontsizes_local_possible,
     .f = function(lhs, rhs, ...) {
-      res <- find_fontsizes_1(fontsizes_local_possible = lhs, x = rhs, ...)
+      res <- find_fontsizes_1(fontsizes_local_possible = lhs, x = rhs,...)
       name <- list_names[min(c(match(x = list(rhs), table = l) + 1), length(l))]
       pb$tick(tokens = list(name = name))
       res
-    }
+    },
+    ... = ...
   )
   pb$terminate()
   allowed_fontsizes[length(allowed_fontsizes)]
