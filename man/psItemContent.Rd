@@ -42,8 +42,7 @@ An additional subclass \code{psItemContentBin`` is prepended and validated.}lang
 
 \item{dir_bin}{\code{[character(1)]} giving the root from which \code{items} can be found, when \code{items} are paths.
 Defaults to \code{NULL}, in which case \code{items} are expected to be texts.
-Must be relative path \emph{from the working directory}.
-Best constructed with \code{\link[base:file.path]{base::file.path()}}.}
+Must be relative path \emph{from the working directory}.}
 
 \item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
 
@@ -212,7 +211,7 @@ Defaults to \code{FALSE}.}
 \item{hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
 Defaults to \code{FALSE}.}
 
-\item{x}{\code{[character()]} \emph{or} \code{[raw()]} giving the input.}
+\item{x}{An object with one of the pensieve S3 classes.}
 
 \item{ps_coll}{\code{\link{AssertCollection}} ps_coll error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
 
@@ -249,10 +248,9 @@ Must be one of:
 }
 \description{
 Helper function to append and validate \code{\link{psItemContent}} class.
-This class is used as a column class in \code{psItems}.`
 }
 \details{
-Storing \strong{full items} can enable deployment and convenience functions, as well as enhance the presentation of results.
+Store \strong{full items} along with metadata (language, design) to enable deployment and convenience functions, as well as enhance the presentation of results.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -304,6 +302,19 @@ Additionally, because some of the intermediary formats cannot be easily or fully
 Always use the \emph{earliest} possible output from the above conversion pipeline to maximize fidelity to the original PDF.
 
 Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
+}
+
+\section{Plotting items}{
+
+Plotting items to the R graphics system has some limitations:
+\itemize{
+\item You can only plot one item at a time.
+The function defaults to the \emph{first} item.
+\item The item is placed in the aspect ratio \emph{given by} \code{psItemContent()} in the middle of the plotting area.
+There may be additional white space around the item.
+This is because R graphics must offer arbitrary aspect ratios, but items have a fixed aspect ratio.
+For good-looking results, you should set the aspect ratio of the plotting area to \emph{equal} that of the items.
+}
 }
 
 \examples{

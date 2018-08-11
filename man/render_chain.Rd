@@ -20,38 +20,7 @@ Must be one of:
 \item \code{'grob'}
 }}
 
-\item{...}{Arguments passed on to \code{md2tex_mem}
-\describe{
-  \item{x}{\code{[character()]} \emph{or} \code{[raw()]} giving the input.}
-  \item{path_in}{\code{[character(1)]} giving path to use for input file \emph{with or without extension}.
-Defaults to \code{"foo"}.
-Useful for debugging.}
-  \item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
-
-Must be one of:
-\itemize{
-\item \code{NULL} in which case the default local fontsize is used (\strong{default})
-\item \code{'tiny'}
-\item \code{'scriptsize'}
-\item \code{'footnotesize'}
-\item \code{'small'}
-\item \code{'normalsize'}
-\item \code{'large'}
-\item \code{'Large'}
-\item \code{'LARGE'}
-\item \code{'huge'} or
-\item \code{'Huge'}
-}}
-  \item{alignment}{\code{[character(1)]} giving the alignment of the text.
-
-Must be one of:
-\itemize{
-\item \code{'justified'} (\strong{default})
-\item \code{'left'}
-\item \code{'right'} or
-\item \code{'center'}
-}}
-}}
+\item{...}{arguments passed on to downstream formatting functions}
 }
 \value{
 \code{[list()]}

@@ -5,13 +5,11 @@
 #' @description
 #' Helper function to append and validate [`psItemContent`][psItemContent] class.
 # TODO link to psItems class here, once available
-#' This class is used as a column class in `psItems`.`
 #'
 #' @details
-#' Storing **full items** can enable deployment and convenience functions, as well as enhance the presentation of results.
+#' Store **full items** along with metadata (language, design) to enable deployment and convenience functions, as well as enhance the presentation of results.
 #'
-#' @param items
-#' `[character()]` giving the *participant-facing* **item content**.
+#' @param items `[character()]` giving the *participant-facing* **item content**.
 #' Can be named to provide short, *researcher-facing* **item handles**.
 #' - if `dir_bin` is `NULL` (default), `items` must be text.
 #'   Items can be marked up using [Pandoc Markdown](https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html).
@@ -20,14 +18,12 @@
 #'   An additional subclass `psItemContentBin`` is prepended and validated.
 #'   `lang`, `fontsize_global`, `alignment` and `linestretch` are ignored.
 #'
-#' @param dir_bin
-#' `[character(1)]` giving the root from which `items` can be found, when `items` are paths.
+#' @param dir_bin `[character(1)]` giving the root from which `items` can be found, when `items` are paths.
 #' Defaults to `NULL`, in which case `items` are expected to be texts.
 #' Must be relative path *from the working directory*.
-#' Best constructed with [base::file.path()].
 #'
 #' @inheritParams declare_pandoc_var
-#' @inheritParams md2tex
+#' @inheritParams wrap_in_latex_env
 #'
 #' @example tests/testthat/helper_psItemContent.R
 #'
@@ -158,10 +154,10 @@ as_psItemContent.character <- function(obj, ...) {
 #' @title Subsetting method for psItemContents
 #' @description Replacement method for subsetting to retain attributes
 #' @inheritParams psItemContent
-#' @inheritParams  base::Extract
+#' @inheritParams base::Extract
 #' @export
 #' @noRd
-`[.psItemContent` <- function(x, i, ...) {
+`[.psItemContent` <- function(x, i) {
   invoke(
     .f = new_psItemContent,
     .x = get_attributes_but(x = x, not_attrs = c("class", "names")),
@@ -360,7 +356,7 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
 
 # plot method ====
 #' @describeIn psItemContent Plot rendered item. Defaults to first item.
-#' @section Plotting items
+#' @section Plotting items:
 #' Plotting items to the R graphics system has some limitations:
 #' - You can only plot one item at a time.
 #'   The function defaults to the *first* item.

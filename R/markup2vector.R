@@ -540,7 +540,7 @@ is_binary <- function(path) {
 #' @param l `[list()]`
 #' giving `x`s to be passed to [md2tex_mem()].
 #' @eval document_choice_arg(arg_name = "format", choices = names(render_chain_formats), before = "giving the output format to render items in.", default = "pdf")
-#' @inheritDotParams md2tex_mem
+#' @param ... arguments passed on to downstream formatting functions
 #' @keywords internal
 #' @return `[list()]`
 #' of output format objects.
