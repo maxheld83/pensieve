@@ -264,6 +264,37 @@ knit_print.psItemContentText <- function(x,
 }
 
 
+# rendering ====
+#' @title Render items to desired format
+#' @description
+#' Worker function that renders items to desired format according to their design attributes.
+#' Thin wrapper around `render_chain()`.
+#' @inheritParams psItemContent
+#' @inheritParams render_chain
+#' @inheritSection render_chain return
+#' @noRd
+render_items <- function(x, format) {
+  assert_S3(x = x)
+  assert_choice(x = format, choices = names(render_chain_formats), null.ok = FALSE)
+
+  design_args <- get_attributes_but(x = x, not_attrs = c("class", "all_items", "names"))
+
+  # now we figure out what exactly fontsize local should be
+  fontsize_local <- invoke(
+    .f = find_fontsize,
+    .x = design_args,
+    l = as.list(attr(x = x, which = "all_items"))
+  )
+
+  invoke(
+    .f = render_chain,
+    .x = design_args,
+    l = as.list(x),
+    format = format,
+    fontsize_local = fontsize_local
+  )
+}
+
 # export method ====
 #' @describeIn psItemContent Export rendered text items to pdf or svg.
 #' @eval document_choice_arg(arg_name = "format", choices = names(render_chain_formats)[-4], before = "giving the output format to render items in.", default = "pdf")
@@ -296,25 +327,9 @@ knit_print.psItemContentText <- function(x,
 #'
 #' Because items always have to fit on one page, this function errors out when the rendered item would fill more than one page.
 export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format = "pdf") {
-  assert_S3(x)
   assert_choice(x = format, choices = names(render_chain_formats)[-4], null.ok = FALSE)
 
-  design_args <- get_attributes_but(x = x, not_attrs = c("class", "all_items", "names"))
-
-  # now we figure out what exactly fontsize local should be
-  fontsize_local <- invoke(
-    .f = find_fontsize,
-    .x = design_args,
-    l = as.list(attr(x = x, which = "all_items"))
-  )
-
-  res <- invoke(
-    .f = render_chain,
-    .x = design_args,
-    l = as.list(x),
-    format = format,
-    fontsize_local = fontsize_local
-  )
+  res <- render_items(x = x, format = format)
 
   imap_chr(
     .x = res,
