@@ -16,7 +16,8 @@ NULL
 #' @inheritParams declare_pandoc_var
 #' @describeIn markup2vector markdown to LaTeX via [pandoc](http://pandoc.org)
 md2tex <- function(path,
-                   fontsize_global = "10pt",
+                   fontsize_global = NULL,
+                   linestretch = NULL,
                    lang = NULL,
                    ...) {
 
@@ -44,6 +45,7 @@ md2tex <- function(path,
       "--variable=pagestyle:empty",
       declare_pandoc_geometry(...),
       declare_pandoc_fontsize(fontsize_global = fontsize_global),
+      declare_pandoc_linestretch(linestretch = linestretch),
 
       # language
       declare_pandoc_lang(lang = lang),
@@ -177,7 +179,7 @@ set_proper_extension <- function(path, ext) {
 #' @return `[character()]` giving pandoc variable option, option*s* in the case of geometry.
 declare_pandoc_var <- function(key, value) {
   assert_string(x = key, na.ok = FALSE, null.ok = FALSE)
-  assert_string(x = value, na.ok = FALSE, null.ok = TRUE)
+  assert_vector(x = value, any.missing = FALSE, null.ok = TRUE)
   if (is.null(value)) {
     return(character(0))  # to streamline output with other functions; this is the purrr logic type stability
   } else {
@@ -198,6 +200,15 @@ fontsizes_global <- c(
   "11pt",
   "12pt"
 )
+
+#' @describeIn declare_pandoc_var declare `linestretch` (to be passed on to LaTeX [setspace](https://ctan.org/pkg/setspace) package)
+#' @param linestretch `[numeric()]`
+#' giving the line spacing in multiples, e.g. `1.25`, `1.5`.
+#' Defaults to `NULL` for default LaTeX line spacing.
+declare_pandoc_linestretch <- function(linestretch = NULL) {
+  assert_numeric(x = linestretch, lower = 1, finite = TRUE, any.missing = FALSE, len = 1, null.ok = TRUE)
+  declare_pandoc_var(key = "linestretch", value = linestretch)
+}
 
 #' @describeIn declare_pandoc_var declare language
 #' @eval document_choice_arg(arg_name = "lang", choices = langs, before = "giving a [valid BCP 47 language code](https://tools.ietf.org/html/bcp47) code, such as `en_US`.", after = "Used for multilingual typsetting support via [LaTeX's babel package](https://ctan.org/pkg/babel) and others. **Careful**: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use [check_latex_lang()] to verify.", null = "in which case there is no multilingual support", default = "null")
@@ -495,7 +506,7 @@ virtually <- function(fun) {
 #' @return
 #' - For `_mem`, `[character()]` or `[raw()]`.
 md2tex_mem <- memoise::memoise(
-  function(x, path_in = "foo", fontsize_local = "tiny", alignment = "justified", ...) {
+  function(x, path_in = "foo", fontsize_local = NULL, alignment = "justified", ...) {
   # latex wrapping is only available here in the virtualized variant;
   # because wrapping latex on filesystem would be too awkward/cumbersome
   x <- wrap_in_latex_fontsize(fontsize_local = fontsize_local, tex = x)

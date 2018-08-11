@@ -12,7 +12,8 @@
 \alias{svg2grob_mem}
 \title{Convert markup to vector formats}
 \usage{
-md2tex(path, fontsize_global = "10pt", lang = NULL, ...)
+md2tex(path, fontsize_global = NULL, linestretch = NULL, lang = NULL,
+  ...)
 
 texi2pdf2(path)
 
@@ -20,7 +21,7 @@ pdf2svg(path, page = 1)
 
 svg2grob(path)
 
-md2tex_mem(x, path_in = "foo", fontsize_local = "tiny",
+md2tex_mem(x, path_in = "foo", fontsize_local = NULL,
   alignment = "justified", ...)
 
 texi2pdf2_mem(x, path_in = "foo", ...)
@@ -41,6 +42,10 @@ Must be one of:
 \item \code{'11pt'} or
 \item \code{'12pt'}
 }}
+
+\item{linestretch}{\code{[numeric()]}
+giving the line spacing in multiples, e.g. \code{1.25}, \code{1.5}.
+Defaults to \code{NULL} for default LaTeX line spacing.}
 
 \item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
 

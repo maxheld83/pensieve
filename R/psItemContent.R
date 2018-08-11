@@ -18,7 +18,7 @@
 #'   An additional subclass `psItemContentText` is prepended and validated.
 #' - if `dir_bin` is given, `items` must be file paths, relative from `dir_bin`.
 #'   An additional subclass `psItemContentBin`` is prepended and validated.
-#'   `lang` and `alignment` are ignored.
+#'   `lang`, `fontsize_global`, `alignment` and `linestretch` are ignored.
 #'
 #' @param dir_bin
 #' `[character(1)]` giving the root from which `items` can be found, when `items` are paths.
@@ -41,7 +41,8 @@ psItemContent <- function(items,  # for all items
                           dir_bin = NULL,  # only for bin items
                           lang = NULL,  # only for text items
                           fontsize_global = NULL,
-                          alignment = "justified",
+                          alignment = "left",
+                          linestretch = 2,
                           paperwidth = 8.5,  # for all items
                           paperheight = 5.4,
                           top = 0.5,
@@ -62,6 +63,7 @@ psItemContent <- function(items,  # for all items
       lang = lang,
       fontsize_global = fontsize_global,
       alignment = alignment,
+      linestretch = linestretch,
       paperwidth = paperwidth,
       paperheight = paperheight,
       top = top,
@@ -169,13 +171,14 @@ as_psItemContent.character <- function(obj, ...) {
 }
 
 # subclass text ====
-new_psItemContentText <- function(items, all_items, lang, fontsize_global, alignment, paperwidth, paperheight, top, bottom, left, right, unit, vcentering, hcentering) {
+new_psItemContentText <- function(items, all_items, lang, fontsize_global, alignment, linestretch, paperwidth, paperheight, top, bottom, left, right, unit, vcentering, hcentering) {
   new_psItemContent(
     items = items,
     all_items = all_items,
     lang = lang,
     fontsize_global = fontsize_global,
     alignment = alignment,
+    linestretch = linestretch,
     paperwidth = paperwidth,
     paperheight = paperheight,
     top = top,

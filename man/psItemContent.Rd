@@ -10,9 +10,10 @@
 \title{Store item content as character strings}
 \usage{
 psItemContent(items, dir_bin = NULL, lang = NULL,
-  fontsize_global = NULL, alignment = "justified", paperwidth = 8.5,
-  paperheight = 5.4, top = 0.5, bottom = 0.5, left = 0.5,
-  right = 0.5, unit = "cm", vcentering = TRUE, hcentering = TRUE)
+  fontsize_global = NULL, alignment = "left", linestretch = 2,
+  paperwidth = 8.5, paperheight = 5.4, top = 0.5, bottom = 0.5,
+  left = 0.5, right = 0.5, unit = "cm", vcentering = TRUE,
+  hcentering = TRUE)
 
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
 
@@ -33,7 +34,7 @@ Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
 Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
 An additional subclass \code{psItemContentText} is prepended and validated.
 \item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
-An additional subclass \code{psItemContentBin`` is prepended and validated.}lang\code{and}alignment` are ignored.
+An additional subclass \code{psItemContentBin`` is prepended and validated.}lang\code{,}fontsize_global\code{,}alignment\code{and}linestretch` are ignored.
 }}
 
 \item{dir_bin}{\code{[character(1)]} giving the root from which \code{items} can be found, when \code{items} are paths.
@@ -169,6 +170,10 @@ Must be one of:
 \item \code{'right'} or
 \item \code{'center'}
 }}
+
+\item{linestretch}{\code{[numeric()]}
+giving the line spacing in multiples, e.g. \code{1.25}, \code{1.5}.
+Defaults to \code{NULL} for default LaTeX line spacing.}
 
 \item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
 For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.

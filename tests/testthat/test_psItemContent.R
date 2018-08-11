@@ -80,7 +80,7 @@ teardown(code = {
 })
 
 test_that(desc = "exported items are 1 page only", code = {
-  test_items <- psItemContent(items = c(short = "short", long = glue_collapse(rep("long", times = 120), sep = " ")))
+  test_items <- psItemContent(items = c(short = "short", long = glue_collapse(rep("long", times = 60), sep = " ")))
   paths <- export_ps(x = test_items, dir = path, overwrite = TRUE)
   expect_pdf1page(x = paths["long"])
 })

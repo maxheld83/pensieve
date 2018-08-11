@@ -3,6 +3,7 @@
 \name{declare_pandoc_var}
 \alias{declare_pandoc_var}
 \alias{declare_pandoc_fontsize}
+\alias{declare_pandoc_linestretch}
 \alias{declare_pandoc_lang}
 \alias{declare_pandoc_geometry}
 \title{Make pandoc tex variable option}
@@ -10,6 +11,8 @@
 declare_pandoc_var(key, value)
 
 declare_pandoc_fontsize(fontsize_global = NULL)
+
+declare_pandoc_linestretch(linestretch = NULL)
 
 declare_pandoc_lang(lang = NULL)
 
@@ -31,6 +34,10 @@ Must be one of:
 \item \code{'11pt'} or
 \item \code{'12pt'}
 }}
+
+\item{linestretch}{\code{[numeric()]}
+giving the line spacing in multiples, e.g. \code{1.25}, \code{1.5}.
+Defaults to \code{NULL} for default LaTeX line spacing.}
 
 \item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
 
@@ -168,6 +175,8 @@ This function creates pandoc variable key value pairs for LaTeX preamble.
 \section{Functions}{
 \itemize{
 \item \code{declare_pandoc_fontsize}: declare \emph{base} font size
+
+\item \code{declare_pandoc_linestretch}: declare \code{linestretch} (to be passed on to LaTeX \href{https://ctan.org/pkg/setspace}{setspace} package)
 
 \item \code{declare_pandoc_lang}: declare language
 
