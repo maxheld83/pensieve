@@ -164,10 +164,21 @@ as_psItemContent.character <- function(obj, ...) {
 `[.psItemContent` <- function(x, i, ...) {
   invoke(
     .f = new_psItemContent,
-    .x = attributes(x)[!names(attributes(x)) %in% c("class", "names")],
+    .x = get_attributes_but(x = x, not_attrs = c("class", "names")),
+    # class is added again by the constructor
+    # names is retained automatically by subsetting
     subclass = attr(x = x, which = "class")[1],
     items = NextMethod(x)
   )
+}
+
+#' @title Get all attributes except some
+#' @description Helper to get some attributes
+#' @param x `[any]` object with attributes
+#' @param not_attrs `[character()]` giving names of attributes *to omit*
+#' @noRd
+get_attributes_but <- function(x, not_attrs) {
+  attributes(x)[!names(attributes(x)) %in% not_attrs]
 }
 
 # subclass text ====
@@ -199,7 +210,8 @@ validate_S3.psItemContentText <- function(x, ...) {
   if (test_sysdep(x = "pandoc")) {
     invoke(
       .f = partial(...f = assert_fun_args, x = md2tex_mem, y = "foo"),
-      .x = c(attributes(x)[!names(attributes(x)) %in% c("class", "all_items", "names")])
+      .x = get_attributes_but(x = x, not_attrs = c("class", "all_items", "names"))
+      # all other arguments are design args which need testing
     )
   }
   NextMethod(ps_coll = ps_coll)
@@ -287,8 +299,7 @@ export_ps.psItemContentText <- function(x, dir = ".", overwrite = FALSE, format 
   assert_S3(x)
   assert_choice(x = format, choices = names(render_chain_formats)[-4], null.ok = FALSE)
 
-  design_args <- attributes(x)[!names(attributes(x)) %in% c("class", "all_items", "names")]
-  # TODO this is duplicated from the test!
+  design_args <- get_attributes_but(x = x, not_attrs = c("class", "all_items", "names"))
 
   # now we figure out what exactly fontsize local should be
   fontsize_local <- invoke(
