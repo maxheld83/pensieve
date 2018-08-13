@@ -11,7 +11,7 @@ bibliography: held_library.bib
 Q ist ein Ansatz zur wissenschaftlichen Untersuchung von menschlicher 
 Subjektivität und umfasst eine *Methodologie*, ein *Erhebungs-* sowie ein *Analyseverfahren*.
 
-### Theorie des Concourses
+## Theorie des Concourses
 
 Als *ontologische* Grundstruktur bestimmt Q Methodologie einen *Concourse* und meint damit die Gesamtheit aller *möglichen* Aussagen über einen Gegenstand [@stephenson-1982, 240].
 Die Elemente eines Concourses können als Relikte *vergangener* Kommunikation betrachtet werden, welche zunächst einmal unbestimmt zueinander im Verhältnis stehen, bis sie durch die konstitutive Beurteilung eines Individuums ("Consciring") ihren normativen Gehalt erfahren [@stephenson-1988]. 
@@ -35,7 +35,7 @@ Dieser Interpretationsprozess ist kennzeichnend für Q und ermöglicht es, die i
 Daraus folgt außerdem, dass die Einschätzung eines Concourse-Elements wiederrum *nur* mit Rückgriff auf *andere* Elemente möglich ist, und daher im unten beschriebenen Erhebungsverfahren auf ipsative Bewertungen zurückgegriffen wird.
 
 
-### Operante Subjektivität
+## Operante Subjektivität
 
 Die Bedeutungs-Ontologie des Concourses untersucht Q durch eine *Epistemologie* der *operanten Subjektivität*, also der spontanen, in Bezug auf ein konkretes Objekt zu *Verhalten gewordenen Subjektivität*.
 Auch hier birgt Q eine ungewöhnliche Synthese von zunächst widersprüchlichen Paradigmen: 
@@ -67,7 +67,7 @@ Hier bauen die Teilnehmden aus dem Rohmaterial *selbständig* ihre gewünschten 
 Die idealtypische Zusammenfassung und Interpretation der vielfältigen Bauwerke wird somit zum *induktiven* Befund.
 
 
-### Items
+## Items
 
 Im Unterschied zu typischen Fragebogen-Items zeichnen sich die zu sortierenden Q-Items durch eine der induktiven Methodologie entsprechenden, größeren Offenheit aus.
 Q-Items können durchaus mehrdeutig, länger und komplexer sein, sollten aber tendenziell eine bewertende Reaktion hervorrufen.
@@ -130,7 +130,7 @@ Oft genug legen auch Teilnehmende deutliche Einschätzungen zu komplexen aber er
 In diesem Sinne kann Q auch als emanzipatorische Methodologie gelten, die das übliche "Herunterdummen" von Einstellungen in der Fragebogenforschung vermeidet.
 
 
-### Sortieranleitung
+## Sortieranleitung
 
 Die Items können durchaus divers sein, sollten aber hinsichtlich der aus der Forschungsfrage abgeleiteten Sortieranleitung (englisch "condition of instruction") *kommensurabel*, d.h. gemeinsam einzuschätzen sein.
 Etwa sollten Items eines Q-Set nicht gleichzeitig Wahrnehmungen *und* Wünsche beschreiben, da beide kaum unter einer gemeinsamen Sortieranleitung bewertet werden können.
@@ -260,7 +260,7 @@ Bei Expertinnen und Experten, die mit einer Institution (etwa "Steuer") vertraut
 Besonders über den Forschungsgegenstand sachkundige Sortierende werden auch eine ausdifferenziertere Subjektivität hinsichtlich des Gegenstandes aufweisen, und sich damit *ausschließlich* mit einer fokussierten Sortieranleitung und Items angemessen ausdrücken können.
 
 
-### Sortierung
+## Sortierung
 
 Im Q Erhebungsverfahren sortieren Teilnehmende eine größere Anzahl von Items nach dem *Rang* ihrer Zustimmung in Bezug auf eine Sortieranleitung.
 <!-- TODO duplicate! -->
@@ -349,7 +349,7 @@ Perhaps a way to safe the qsort then would be to say that because the full item 
 <!--' Q methodology. -->
 
 
-### Was meinen wir mit Q (und verwandten Ansätzen)?
+## Was meinen wir mit Q (und verwandten Ansätzen)?
 
 Über die historische Methodologie, Erhebungs- und Analyseverfahren von Q hinaus, verwenden wir Q als eine größere Gruppe von empirischen Ansätzen um menschliche Subjektivität zu erheben.
 Je nach Forschungsfrage und forschungspraktischen Erfordernissen variieren unsere Ansätze in der Skala der erhobene Daten (kategorial, ordinal, cardinal), der Dimensionalität der *individuellen* Differenzen (deduktive oder induktive Dimensionen), der dimensionsreduzierenden Projektion *in der Erhebung* und der Polarität der Subjektivität (unipolar oder bipolar).
@@ -398,7 +398,7 @@ Im Idealfall schafft es Q aber, sich diesem Austausch anzunähern, und ihn mit m
 Im Sinne einer transhumanistischen Subjektivität kann Q so moderne Technologie in den Dienst einer demokratischen, emanzipatorischen und pragmatischen Sozialwissenschaft stellen.
 
 
-### Warum Q (für Arbeitssoziologie und Wearables)?
+## Warum Q (für Arbeitssoziologie und Wearables)?
 
 Q Methodologie wird in vielen Feldern eingesetzt, unter anderem Pflege- und Gesundheitswissenschaften [@akthar-danesh-2008; @Exel-Baker-etal-2015; @baker2006q], Marketing [@Andrews-Drennan-etal-2046; @Mandolesi-Nicholas-etal-2015], Public Policy [@Baker-Jeffares-2013], Psychotherapie [@Bambery-Porcerelli-2007], Persönlichkeitsforschung [@Block-1961],  Politikwissenschaft [@brown-1977] und Beteiligungsprozessen [@Donner-2001; @Doody-Kearney-etal-2009; @Niemeyer2013].
 
@@ -410,7 +410,7 @@ Q Methode ist auch besonders empfohlen um *vermachtete Situationen und Diskurse*
 Billard zeigt etwa, wie eine feministische Lesart der Q Methode in der *Unternehmensmitbestimmung* (engl. "industrial relations") demokratische Teilhabe stärken kann [@Billard-1999].
 
 
-#### Q Mindshare (Q als Beteiligungstechnologie für Workshops o.ä.)
+### Q Mindshare (Q als Beteiligungstechnologie für Workshops o.ä.)
 
 Q Methodologie kann auch als *Beteiligungs- und Gesprächstechnologie* in Workshops, Bürgerforen oder ähnlichen Formaten als "Q-Mindshare" Echtzeit-Analyse verwendet werden [zu Q als Beteiligungstechnoglie vgl. @Niemeyer-2011-bookchap; @Donner-2001; @Doody-Kearney-etal-2009].
 
@@ -431,7 +431,7 @@ Die Analyse wird in Echtzeit durchgeführt, und aktualisiert und erweitert sobal
 Die Ergebnisse können dann als "geronnene Subjektivität" der Mitwirkenden gemeinsam interpretiert und besprochen werden.
 
 
-### Q und Big Data
+## Q und Big Data
 
 **Sehr fragmentarisch, noch unbelegt**.
 
@@ -466,7 +466,7 @@ Bisher ist Big Data nur vorläufig als *Quelle* für Q-Items [@Jeffares-2014], j
 Mit neuen, oft im Zuge von Big Data verwandten Analysen (etwa MPCA, Supervised Learning Algorithmen) bieten sich zahlreiche Chancen (siehe unten), das HDLSSS Problem zu lösen, und zu deutlich umfangreicheren (in der Anzahl der Aussagen) und nuancierteren Idealtypen (in der Anzahl der Faktoren) zu kommen.
 
 
-### Ansätze zum HDLSS-Problem von Q
+## Ansätze zum HDLSS-Problem von Q
 
 Wie von @Kampen-Tamas-2014 beschrieben --- wenn auch mit falschen Schlussfolgerungen --- steht Q vor einem grundsätzlichen Problem: 
 In größeren Studien gibt es *mehr* Leute-Variablen als Item-Fälle, was eine solide Extraktion von (vielen) Faktoren erschwert.
@@ -519,7 +519,7 @@ Teilnehmenden alle Items sortieren*.
     (Status: Bisher nur Ideen.)
 
 
-### Kommentiertes Literaturverzeichnis
+## Kommentiertes Literaturverzeichnis
 
 (*ausgewählte Beiträge*)
 
@@ -588,4 +588,4 @@ Methodologie.
 - **@McKeown2013**: Alternative Einführung aus der SAGE Reihe.
 
 
-### Bibliografie
+## Bibliografie

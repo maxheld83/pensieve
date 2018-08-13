@@ -29,7 +29,7 @@ This vector of heights --- somewhat akin to a histogram --- is sometimes also kn
 *pensieve* offers a convenient method to coerce such vectors into `psGrid`s.
 
 
-### Vector Notation
+## Vector Notation
 
 ```{r}
 grid <- as_psGrid(obj = c(1,2,4,5,4,2,1))
@@ -41,7 +41,8 @@ This makes sense when using rectangular grids with the allowed ties approximatin
 
 There is however no reason to assume that *all* sorts follow such strictures, and the logical `psGrid` is a more flexible generalisation. 
 
-### Forced and Free
+
+## Forced and Free
 
 A `psGrid` implies two pieces of information about a sorting study:
 
@@ -59,7 +60,7 @@ Specifying a `psGrid` is highly recommended.
 For optional arguments, see `??psGrid`.
 
 
-### Print Method
+## Print Method
 
 *pensieve* offers a `knit_print()` method to visualise `psGrid`s from inside knitr chunks.
 You can type `knit_print(grid)`, or simply `grid` as in the above chunks.
