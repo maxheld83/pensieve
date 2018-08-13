@@ -16,6 +16,7 @@ firebase.json
 logo.*
 vignettes/q-cat.Rmd
 vignettes/items.Rmd
+vignettes/concourse.Rmd
 vignettes/.drafts/
 inst/.jshintrc
 htmlwidgets-1.2/

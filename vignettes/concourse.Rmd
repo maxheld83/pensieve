@@ -1,0 +1,590 @@
+---
+title: "Warum Q?"
+author:
+  - Maximilian Held
+  - Verena Kasztantowicz
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: held_library.bib
+---
+
+Q ist ein Ansatz zur wissenschaftlichen Untersuchung von menschlicher 
+Subjektivität und umfasst eine *Methodologie*, ein *Erhebungs-* sowie ein *Analyseverfahren*.
+
+### Theorie des Concourses
+
+Als *ontologische* Grundstruktur bestimmt Q Methodologie einen *Concourse* und meint damit die Gesamtheit aller *möglichen* Aussagen über einen Gegenstand [@stephenson-1982, 240].
+Die Elemente eines Concourses können als Relikte *vergangener* Kommunikation betrachtet werden, welche zunächst einmal unbestimmt zueinander im Verhältnis stehen, bis sie durch die konstitutive Beurteilung eines Individuums ("Consciring") ihren normativen Gehalt erfahren [@stephenson-1988]. 
+Sie sind das Rohmaterial *potentieller* Subjektivität.
+<!-- english term: residue -->
+
+Allein in dieser Grundananhme sind eine Reihe theoretischer Bezüge auszumachen:
+Konstruktionistischen Ansätzen entsprechend [etwa @piaget-1926], geht Q von aktiv-handelnden Subjekten aus, die den einzelnen Aussage des Concourses eine durch ihren Kontext (Biografie, Weltwissen etc.) beeinflusste, *individuelle* Bedeutung beimessen.
+Gleichermaßen integriert Q sozialkonstruktivistische Ansätze [@vygotsky-1978; @Berger1966; siehe auch @Watts2012, 42]. Anstelle eines radikalen, atomistischen Konstruktivismus [@glasersfeld-1995] wird der Concourse nämlich als sozial konstruiertes, und damit wechselseitig veränderbares Medium verstanden.
+
+Als Bindeglied zwischen individualistischen und sozialen Bedingungen von Q dient der Symbolische Interaktionismus [@mead1973geist; @blumer-1973]. 
+Wie in Q sind Bedeutungen demnach weder objektiv noch kognitionspsychologisch zu bestimmen, sondern sie sind Produkte sozialer Interaktion, auf deren Grundlage Menschen handeln. 
+Ein objektiver Standard von subjektiver Bedeutung, wie etwa ein hypothetisches Hedometer, steht laut Q nicht zur Verfügung.
+<!-- TODO add source for hedometer -->
+
+> "In Abhängigkeit von der Situation, in die er gestellt ist, sowie der Ausrichtung seiner Handlung sucht der Handelnde die Bedeutungen aus, prüft sie, stellt sie zurück, ordnet sie neu und formt sie um."
+>
+> -- Blumer [-@blumer-1973, 84].
+
+Dieser Interpretationsprozess ist kennzeichnend für Q und ermöglicht es, die individuellen Handlung an Objekten (hier des Concourses) als *geteilte* Sichtweisen empirisch zu erfassen.
+Daraus folgt außerdem, dass die Einschätzung eines Concourse-Elements wiederrum *nur* mit Rückgriff auf *andere* Elemente möglich ist, und daher im unten beschriebenen Erhebungsverfahren auf ipsative Bewertungen zurückgegriffen wird.
+
+
+### Operante Subjektivität
+
+Die Bedeutungs-Ontologie des Concourses untersucht Q durch eine *Epistemologie* der *operanten Subjektivität*, also der spontanen, in Bezug auf ein konkretes Objekt zu *Verhalten gewordenen Subjektivität*.
+Auch hier birgt Q eine ungewöhnliche Synthese von zunächst widersprüchlichen Paradigmen: 
+Die aus dem Behaviorismus [@skinner-1976] entlehnte, rein auf *objektiv* messbares Verhalten ausgerichteten Methodologie trifft auf den philosophischen Begriff der Subjektivität.
+Gemein ist beiden die Ablehnung eines latenten *Geistes* (besser: englisch "Mind"), wie etwa von der Psychoanalytik [@freud-1900] oder der Persönlichkeitsforschung angenommen wird.
+Analog zum radikalen Behaviorismus nimmt Q dagegen an, dass *Subjektivität* als Verhalten untersucht werden kann, und zudem nur *als solches existiert*. 
+Gemäß der Concourse Theorie entsteht Bedeutung erst durch das Handeln an dessen Elementen.
+
+Das unten beschriebene Erhebungsverfahren, die Q Sortierung, folgt dieser *operanten Definition* von Subjektivität. 
+Der Akt des Sortierens bietet eine standardisierte Situation spontanen Verhaltens, die Subjektivität messbar macht -- ohne, dass Forscher_innen Hypothesen oder Konzepte deduktiv vorweggenommen haben.
+Dies verweist auf den Unterschied zwischen operanten und operationalen Definitionen: 
+
+> "Operational definitions begin with concepts in search of behavior; operant definitions begin with behavior in search of concepts.
+> The difference in temporal sequence is of the utmost importance to a behavioral science."
+>
+> ---Brown [-@Brown1980, 28]
+
+Die methodologischen Annahmen von Q lassen sich gut durch das Spiel mit einem Satz Lego-Bausteine illustrieren.
+Analog zur Q-Ontologie sind auch die *einzelnen*, noch unverbunden Steine relativ bedeutungsarm.
+Trotzdem können sich Menschen auch schon über dieses *objektiv existierende* Material verständigen, und sie etwa treffend umschreiben: 
+Ein Hinweis auf "der rote Stein mit den 6 Noppen" ist wahrscheinlich eindeutig, da vergangene sozialkonstruktivistische Tradierung gemeinsame Konzepte von "rot", "Stein" und "Noppen" hinterlassen hat.
+Wie bei Elementen des Concourses, zeigt auch die *Gestaltung* der Steine die Spuren *vergangener*, bewährter Kommunikation.
+In einem Concourse kommen nicht *arbiträre* Elemente vor, sondern nur solche, die in der Vergangenheit nützlich für einen kommunikativen oder konstruktiven Akt waren.
+Fremdsprachliche Aussagen (oder Steine mit inkompatibler Form) kommen nicht vor.
+Plausiblerweise lässt sich auch ein subjektives Lego-Bauwerk besser (jedenfalls induktiver) mittels einer operanten Definition erfassen, als durch eine operationale.
+Eine operationale Definition würde es erfordern, bereits *vorab* ein deduktiv angenommenes Bauwerk zu erstellen -- ein Auto, ein Haus, ein Schiff -- und dieses dann, fertig zusammen gebaut, den Teilnehmenden zur Bewertung vorzulegen.
+In einem operanten Lego-Verfahren hingegen kann darauf verzichtet werden: 
+Hier bauen die Teilnehmden aus dem Rohmaterial *selbständig* ihre gewünschten Strukturen.
+Die idealtypische Zusammenfassung und Interpretation der vielfältigen Bauwerke wird somit zum *induktiven* Befund.
+
+
+### Items
+
+Im Unterschied zu typischen Fragebogen-Items zeichnen sich die zu sortierenden Q-Items durch eine der induktiven Methodologie entsprechenden, größeren Offenheit aus.
+Q-Items können durchaus mehrdeutig, länger und komplexer sein, sollten aber tendenziell eine bewertende Reaktion hervorrufen.
+Je nach Forschungsfrage können Q-Items aus vorfindlichen Quellen wie Zeitungsartikeln oder akademischer Fachliteratur geschöpft oder aber generiert werden durch teilnehmende Beobachtung, Freie Texte, ethnografischen Aufzeichungen oder vorgeschaltete qualitative Interviews.
+Die Auswahl des Samples von Q-Items (sogenanntes Q-Set) aus dem tatsächlichen oder abstrakten Concourse aller möglichen Aussagen sollte *nicht* repräsentativ sein, sondern folgt der Logik eines Sättigungsssamples:
+Mittels des Q-Sets soll ermöglicht werden, alle *denkbaren* Sichtweisen hinsichtlich der Sortieranleitung abzubilden, insbesondere auch seltene oder bisher unbeschriebene Positionen.
+In diesem Sinne ist auch das Konzept eines "ausbalancierten" Q-Sets zu verstehen [etwa @Brown1980, 38]: 
+Wichtig ist weniger, ob gleich viele positiv wie negativ formulierte Items vorkommen, sondern ob es den Teilnehmenden mit den vorliegenden Items möglich ist, widersprechende Sichtweisen aus *sich heraus* konsistent zu beschreiben.
+Tatsächlich kommen in Q Daten *diametral* entgegengesetzte Sichtweisen höchst selten vor: 
+Widersprechende Subjektivitäten sind *anders*, aber selten einander spiegelnde Gegenbilder. 
+^[Darauf deutet etwa, dass in Q Daten selten negative Korrelationen vorkommen.]
+<!-- this is an empirical claim that I would have to support. 
+VK: Yeah, because I had always negative correlations. :/  -->
+Eine *direkte* Verneinung von Aussagen sollte vermieden werden, da Teilnehmende sich damit eingeschränkt, oder getestet fühlen könnten.
+Zudem sind dadurch entstehende doppelte Verneinungen in Sortierung und Interpretation verwirrend, etwa wenn einem bereits negatives Item durch die Position in der Sortierung widersprochen wird.
+
+Das geforderte expressive, theoretisch gesättigte Q-Set sollte als *regulatives Ideal* verstanden werden [vgl. @Kant1781]:
+Auch wenn es nie vollständig erfüllt werden kann, können Q-Forschende durch sprachliche Handwerkskunst, umfangereiche theoretische und empirische Kenntnisse und iterative Forschung die Ausdrucksmöglichkeiten für Teilnehmende stetig verbessern. [^chomski-omnipotence]
+
+[^chomski-omnipotence]: Diese Beschränkung liegt in der Natur der Sache, nämlich der Sprache.
+Natürliche Sprache zeichnet sich dadurch aus, mit einer begrenzten Anzahl von Symbolen unendlich viel, und ex-ante unbestimmte Bedeutung schaffen zu können [@chomsky-1965; @Chomsky1997]. 
+Dies steht im definitorischen Unterschied zu formalen Sprachen, wie etwa in der Informatik.
+So müssen grundsätzlich auch unendlich viele, *theoretisch* noch unbestimmte Sichtweisen angenommen werden.
+Die Ausdrucksfähigkeit eines Q-Sets kann daher immer nur hinsichtlich abduktiv vermuteter Sichtweisen maximiert werden, und muss gegebenfalls zukünftig angepasst werden.
+<!-- VK: Please explain (or delete) the last sentence.  -->
+
+Die oft in der Q Literatur gelobte kombinatorische Explosion der Ausdrücksmöglichkeiten von *gegebenen* Items entspannt die expressive Beschränktheit des Q-Sets keinesfalls vollständig.
+Wenn einem Teilnehmenden wichtige Aussagen in einem Q-Set fehlen, kann die Sortierung der verbleibenden Items auch in ihrer kombinatorischen Vielfalt die expressive Frustration nur geringfügig lindern.
+Deshalb gilt auch den Item-Vorschlägen und offenem Feedback von Teilnehmende schon aus rein methodischen Gründen besonderes Augenmerk.
+
+Um eine expressive Sättigung zu forcieren, kann ein *strukturiertes* Item-Sampling sinnvoll sein [@Brown1980: 38], etwa folgend einem *Balanced Block Design* [@Block-1961].
+Analog zu einem faktoriellen Experimentaldesign können die zum Ausdruck notwendigen Aussagen als Kombinationen von theoretisch erschlossenen, möglichst *orthogonalen* Variablen gefasst werden. 
+^[Die Analogie zum faktoriellen Design ist hier passend, da die Items in Q als *Item-Fälle* dienen, deren *mögliche* Unterschiede über die gemessenen *Leute-Variablen* zentrales Forschunginteresse sind.]
+In einer Q-Studie zur politischen Subjektivität mag es beispielsweise sinnvoll erscheinen, Items zu allen vier möglichen Kombinationen der gegensätzlichen Wertepaare "traditional-secular" and "survival-self-expression" zu samplen [vgl. @WelzelInglehart-2003-aa].
+<!-- TODO hier beispielhaften samplingrahmen einfüllen -->
+Ein solcher Samplingrahmen dient aber am besten als loser Leitfaden, und der Inspiration, er ist kein Garant für ein umfängliches Q-Set (vgl. regulatives Ideal).
+Ein "vollfaktorisiertes" Design ist in Q irreführend, da im Unterschied zur Experimentalforschung nicht *alle* Kombinationen von "unabhängigen" Variablen bedeutsam oder auch nur denkbar sind.
+Auch birgt ein strukturierter Samplingrahmen immer die Gefahr, eine Q-Studie "durch die Hintertür" zu einem deduktiven Hypothesentest zu reduzieren.
+Zwischen der Forschungsfrage und den Sampling-Kategorien des faktoriellen Designs sollte daher genügend Spielraum für überrasschende Sichtweisen der Teilnehmenden bleiben.
+
+In keinem Fall sollte die Q-Sortierung zu einer Wissensabfrage oder einem Test inhaltlicher Konsistenz hinsichtlich des Samplingrahmen degeniereren:
+Es sollte etwa möglich und plausibel sein, dass Teilnehmende Items aus *verschiedenen* Zellen des Samplingrahmen gleichermaßen *positiv* bewerten.
+Als Quelle für einen Samplingrahmen bieten sich deshalb oft *verschiedene* axiologische Grundlagenarbeiten an, da diese *a priori* formuliert sind, und typischerweise recht unabhängig von konkreten Forschungsfragen und empirisch zu beobachtender Subjektivität sind.
+^[@WelzelInglehart-2003-aa sind deshalb *keine* gute Quelle für einen Samplingrahmen, da es sich hierbei um einen a posteriori *empirischen* Befund handelt.
+Wer die Human Development Theory mit Q "überprüfen" möchte, sollte ein Q-Set auswählen, bei dem plausiblerweise auch *andere* Muster von Subjektivität gelegt werden könnten, sonst droht der Reproduktion der Zirkelschluss.]
+
+Um sich diesem *regulativen* Samplingideal anzunähern, ist es oft sinnvoll, auch bisher unbeobachtete, aber theoretisch relevante Aussagen dem Q-Set hinzuzufügen, insbesondere wenn ein Samplingrahmen verwandt wird.
+Kriterium für ein gutes Item ist schließlich *nicht*, wie häufig es verwendet wird, oder wie authentisch es ist, sondern nur, wie gut es dem Sortierenden hilft, sich auszudrücken.
+Im Sinne einer expressiven Vollständigkeit wird es deshalb auch oft Aussagen geben, die viele Teilnehmende noch nie bedacht haben, oder denen sie auch nach reiflicher Überlegung noch ambivalent oder neutral gegenüberstehen.
+Für eine Messung *operanter* Subjektivität ist es sogar relevant, ob, und welches Verhalten Teilnehmende zu ihnen unbekannten Aussagen zeigen: 
+Auch eine etwaige Indifferenz ist empirisch relevant, und legitimer Ausdruck ihrer Sichtweise.
+<!-- add citation: distends from 0 -->
+Die Aufnahme solcher Items findet ihre Rechtfertigung in der Vorstellung einer *hypothetischen* Teilnehmenden, die nur mittels dieser "exotischen" Formulierungen ihre  Sichtweise angemessen ausdrücken kann.
+Im Extremfall kann diese hypothetische Teilnehmende auch die Q-Forschende selber sein, die schließlich auch eine legitime, und oft seltene Subjektivät zum Gegenstand ausdrückt, da sie Expertin ist.
+Auch hier gilt es aber, nicht Forschungsfragen als Aussagen in das Q-Set zu "schmuggeln", und damit in eine deduktive Methodologie abzurutschen.
+Zudem sollten Items in jedem Fall sprachlich verständlich für *alle* Teilnehmenden sein, wenn sie auch nicht für jeden gleichermaßen sinnvoll erscheinen werden.
+Gegegebenfalls sollten für besonders komplexe oder unübliche Aussagen alltagssprachliche Erklärungen und Beispiele *als Teil des Items* ergänzt werden, etwa um Fachbegriffe oder Konzepte zu erklären.
+Solche "lehrreichen" (englisch "remedial") Items verlängern oft die Q-Sortierung, da sie aufwendig zu verstehen sind, können aber eine nuanciertere Subjektivität produzieren.
+Oft genug legen auch Teilnehmende deutliche Einschätzungen zu komplexen aber erklärten Aussagen, zu denen sie *vermeintlich* "keinen Diskurs" hätten.
+In diesem Sinne kann Q auch als emanzipatorische Methodologie gelten, die das übliche "Herunterdummen" von Einstellungen in der Fragebogenforschung vermeidet.
+
+
+### Sortieranleitung
+
+Die Items können durchaus divers sein, sollten aber hinsichtlich der aus der Forschungsfrage abgeleiteten Sortieranleitung (englisch "condition of instruction") *kommensurabel*, d.h. gemeinsam einzuschätzen sein.
+Etwa sollten Items eines Q-Set nicht gleichzeitig Wahrnehmungen *und* Wünsche beschreiben, da beide kaum unter einer gemeinsamen Sortieranleitung bewertet werden können.
+Um solche Inkommensurabilitäten zu vermeiden, ist es sinnvoll, Items so zu reduzieren, dass sie zwar Affekte hervorrufen aber auf metadiskursive Explikationen ("Es ist gut/schön/wahrhaftig, dass ...") zu verzichten.
+
+Das untenstehende Item expliziert beispielsweise einen *moralischen* Gültigkeitsanspruch [vgl. @Habermas-1984]:
+
+```
+Unter einer gerechten Steuerpolitik zahlt jeder nach seiner wirtschaftlichen Leistungsfähigkeit.
+```
+<!-- format this better in bookdown -->
+
+Wenn alle Aussagen moralische Geltungsansprüche enthalten, sollte dies bereits in der Sortieranleitung enthalten sein; eine erneute Formulierung *in* den Items ist dann bestenfalls überflüssig, und schlimmstenfalls irreführend.
+
+In folgendem Fall genügt eine entsprechende Sortieranleitung:
+
+```
+Wie gerecht finden Sie die folgenden Aussagen?
+Bringen Sie die Items in eine Rangordnung nach dem Grad ihrer Zustimmung.
+```
+
+und ein entsprechendes, knapperes Item:
+
+```
+Jeder zahlt Steuern nach seiner wirtschaftlichen Leistungsfähigkeit.
+```
+
+Oft ist gerade die Art des Geltungsanspruches einer Aussage relevant, und möglicherweise unterscheidend zwischen den verschiedenen Sichtweisen.
+Trotzdem sollten die unterschiedlichen diskursiven Modi (etwa gut/schön/wahrhaftig etc.) *nicht* Teil der Items werden, da diese damit *inkommensurabel* hinsichtlich jeder *einzelnen* Sortieranleitung würden.
+Wenn etwa einige Items explizit propositionelle Geltungsansprüche auf *Wahrheit* erheben, andere jedoch auf die *normative Richtigkeit*, sind beide Gruppen von Aussagen nicht gemeinsam bewertbar [vgl. @Habermas-1984: 439].
+
+Als Beispiel eine propositionelle Variante der oben stehenden Aussage:
+
+```
+Zur Zeit zahlt in Deutschland jeder nach seiner wirtschaftlichen Leistungsfähigkeit.
+```
+
+Sortierende müssten *gleichzeitig* danach sortieren, welche *Art* von Geltungsansprüchen ihnen wichtig ist (Wahrheit oder Richtigkeit?), als auch nach dem Grad ihrer Zustimmung *innerhalb* des jeweiligen Geltungsanspruchs.
+Diese zwei- oder höherdimensionale Information kann in der eindimensionalen Q-Sortierung nicht abgebildet werden.
+
+Demzufolge ist es bei einem Forschungsinteresse an unterschiedlichen Geltungsansprüchen (o.ä.) sinnvoller, die Aussagen auf ihren Kern zu reduzieren, und den diskursiven Modus in die Sortieranleitung auszulagern.
+Die Teilnehmenden können dann eingeladen werden, die *selben* Items *mehrfach* zu sortieren, je nach diskursivem Modus (Wahrheit, Gerechtigkeit).
+Im dem von Held vorgeschlagenen, neuen `Q-nD`-Verfahren können solche multidimensionalen Q-Sorts mittels Multiway-Generalisierungen von Hauptkomponentenanalyse und anderen Ansätzen gewinnbringend analysiert werden [@held-2016-a; @kroonenberg-2008; @smilde-bro-etal-2004].
+Durch die unabhängige Erhebung und gemeinsame Analyse wird die *Art* des Geltungsanspruches zum empirischen Phänomen, und die Gestaltung von Items und Sortieranleitung wird von frustrierenden Ambiguitäten befreit.
+
+Die Kommensurabilität von Items hinsichtlich einer Sortieranleitung kann auch durch starke stilistische Unterschiede gefährdet sein.
+Wenn einige Aussagen sehr kurz, eingängig oder provokant ausfallen, andere aber länger, komplex und abgewogen erscheinen, dann können diese Eigenschaften der Items erhebliche Varianz in den Sortierungen auf sich vereinen.
+Je nach Forschungsfrage können diese Eigenschaften als "oberflächlich" gelten, und entstehende, oft starke "Trivialfaktoren" thematisch interessantere Differenzen überdecken, beispielsweise wenn viele Sortierende "krasse" Aussagen meiden, oder "provokanten" eher zustimmen *weil* einige Aussagen prägnanter formuliert sind als andere.
+Die Kommensurabilität ist hier verletzt, wenn Sortierende sowohl hinsichtlich der Substanz als auch der stilistischen Gestaltung von Aussagen unterscheiden möchten.
+In vielen Forschungsvorhaben wird die Unterscheidung zwischen "sprachlicher Gestaltung" und "Inhalt" von Aussagen schwer fallen, und gelegentlich mag auch und gerade die sprachliche Gestaltung von Interesse sein.
+In jedem Fall gibt es hier keine universelle Lösung, insbesondere wenn die sprachliche Zuspitzung der Verständlichkeit dient.
+Ein gewisser diskursethischer Ehrgeiz der Forschenden kann das Problem aber entschärfen.
+Stark unterschiedlich eingängliche Aussagen entstehen leicht, wenn Forschende mit einem oberflächlichen inhaltlichen Verständnis und geringer Distanz eine ihnen fremde Sichtweise formulieren.
+Die so entstandenen Items werden leicht überzeichnete Karikaturen oder verklausulierte Phrasen.
+Wenn Forschende sich bemühen, für *jede* Aussage die bestmögliche, *überzeugendste* Formulierung zu finden, und auch ihnen fremde, oder kritisierte Sichtweisen aus der *Innensicht* zu argumentieren, dann entstehen -- zumindest im regulativen Ideal -- ähnlich prägnante und überzeugende Items, die von den Sortierenden *kommensurabel* bewertet werden können.
+Hier empfehlen sich Pretests, die unglücklich formulierte oder ungeahnte Reaktionen hervorrufende Items bewusst machen können.
+
+Grundsätzlich sind viele Forschungsfragen und entsprechende Sortieranleitungen denkbar, solange damit ein spontantes, subjektivierendes Verhalten zu erwarten ist.
+
+Dies kann vor allem dann *nicht* angenommen werden, wenn die Sortieranleitung (und/oder die Items) falsifizierbar sind, bzw. eine hypothetiko-deduktive Verengung beeinhalten.
+
+Im Falle von falsifizierbaren Items, und einer auf objektive Fakten abzielenden Sortieranleitung ist zunächst die operante Definition als *Rangordnung* analytisch unsinnig: 
+Die ipsative Natur der Messung, und wechselseitige Abhängigkeit von Item-Positionen ist unangemessen für objektive Fakten. 
+In der Q-Sortierung *können* die Sortierenden nicht *mehreren* möglichen Fakten "zustimmen", selbt wenn sie diese *alle* für wahr halten, da das Verfahren eine Rangordnung erzwingt.
+Diese Einschränkung ist nur als *operante* Definition von Subjektivität vertretbar, nicht aber als Messung für --- qua Definition --- *operationale* Formulierungen objektivierbarer Wahrheiten. 
+<!-- TODO MH, VK: Diesen Satz verstehe ich nicht. -->
+
+Darüberhinaus widersprechen falsifizierbare Items grundsätzlich der Methodologie von Q: 
+Zu Fakten *gibt* es keine operante Subjektivität.
+Stattdessen könnten mit falsifizierbaren Items nur binäre Einschätzungen, d.h. richtig oder falsch abgefragt werden.
+Zwar ist es denkbar, eine Forschungsfrage über die subjektiven Abweichungen von Fakten zu formulieren, eine Verwendung von Q in diesem Kontext degeneriert aber leicht zu einem, für Teilnehmende frustrierenden, und der Methodologie zuwiderlaufenden Test.
+Diese Einschränkung gielt aber nur für falsifizierbare Fakten im *engeren* Sinne, wie etwa:
+
+```
+Die oberen 20% der Einkommensverteilung zahlen 80% der Steuern in Deutschland.
+```
+
+Zu unbestimmteren Aussagen können sich Teilnehmende hingegen sehr wohl subjektiv verhalten, weil sie *unoperationalisiert* sind, und damit ihre Überprüfung und Wahrheitsgehalt von widerrum *subjektiven* Entscheidungen abhängt:
+
+```
+Menschen reagieren auf Anreize.
+```
+
+Für Annahmen über menschliches Verhalten gilt dies besonders, da hier Q als sozialwissenschaftlicher Ansatz und pragmatische Epistemologie, nicht von einer biologistischen Bestimmtheit ausgegangen wird.
+<!-- TODO MH, VK: Pragmatik als theoretischer Bezugsrahmen in Abschnitt 1 erwähnen. -->
+Menschliches Verhalten ist immer (auch) durch -- im Item unbestimmte -- Institutionen überformt, welche widerrum menschengemacht, und damit zumindest anteilig legitimer Gegenstand menschlicher Subjektivität sind.
+Der potentiell selbsterfüllende Charakter von unbestimmten Annahmen über menschliches Verhalten lässt sich gut anhand der oben genannten Aussage illustrieren.
+Ob Menschen "auf Anreize reagieren", kann zumindest auch davon abhängen, wie weitverbreitet die Zustimmung zu dieser Aussage ist. 
+Möglicherweise hängt der *objektive* Wahrheitsgehalt der Aussage jedenfalls anteilig davon ab, wieviele Menschen dieser Annahme *subjektiv* zustimmen, und entsprechende Institutionen tradieren.
+Damit wird eine Einschätzung eines vermeintlich falsifierbaren Faktums zum subjektiven Urteil.
+
+Auch im Hinblick auf vermeintliche Annahmen über menschliches Verhalten ensteht ein mögliches Kommensurabilitätsproblem, da natürlich die *Art* des Geltungsanspruches dieser Aussagen selbst strittig ist:
+Ob und zu welchem Maße es ein Fakt --- oder kapitalistische Ideologie --- ist, dass "Menschen auf Anreize reagieren", ist *selbst* eine subjektive Einschätzung.
+Auch hier können Q-Forschende die Kommensurabilität sichern, indem sie diese metadiskursiven Einschätzungen zur empirischen Frage erheben, und in alternative Sortieranleitungen einbetten. 
+Sortierende können, ihrer Subjektivität entsprechend, ein solches Item dann unterschiedlich (oder gleich) legen, je nachdem, ob nach Wahrheit oder Richtigkeit (oder Ähnlichkeit) der Aussage gefragt wird.
+Auch wenn Teilnehmende einen Geltungsanspruch hinsichtlich eines Items metadiskursiv ablehnen --- also etwa die Frage nach der Faktizität für irrelevant halten ---, können Sie entsprechend sortieren:
+Unter dieser Sortieranleitung positionieren Sie das Item in den neutralen Bereich.
+
+Die mittels `Q-nd` extrahierten geteilten Subjektivitäten *über mehrere* Geltungsansprüche haben sich in ersten Tests als besonders interessant herausgestellt, da sie unter anderem eine grundsätzliche und Item-spezifische Politisierung (oder Abwesenheit derselben) in den dann multidimensionalen Sichtweisen abbilden.
+
+Neben Falsifizierbarkeit kann auch eine konzeptionelle Verengung von Sortieranleitung und Items problematisch sein.
+Wenn selbst *subjektiv aufgeladene* oder *strittige* Konzepte wie beispielsweise "Nachhaltigkeit" oder "Emanzipation" Einzug in die Sortieranleitung halten, werden Sortierende massiv im freien Ausdruck ihrer Subjektivität beschränkt.
+Etwa wird eine Kritikerin des Konzeptes der "Nachhaltigkeit" ihre "anti-nachhaltige" Sortierung der Nachhaltigkeits-Items kaum als befriedigende Legung ihrer Subjektivität betrachten: 
+Vermutlich hat sie nicht nur eine *gegensätzliche*, sondern eine *andere* Sichtweise auf eine "größere" Frage nach dem Zusammenleben von Mensch und Natur, oder ähnlich.
+Auch die Q-Forschenden beschränken sich durch so eine Verengung: 
+Wenn "Nachhaltigkeit" in der Sortieranleitung und den Items enthalten ist, wird es kaum überraschende Faktoren und Interpretationen geben.
+Die Q-Studie wird so zu einer tautologischen Echo-Kammer.
+Trivialerweise können viele Menschen einen populären Diskurs über ein populäres Konzept reproduzieren, was sich in den oft 1-Faktorlösungen niederschlägt.
+Im extremen Fall degeneriert eine Q-Studie sogar zu einem hypothetiko-deduktivem Projekt.
+Eine solche Studie verletzt die Gütekriterien zur Erkenntnis von Q-Studien, jedoch *gleichermaßen* die des r-methodologischen Paradigmas.
+Wenn das Konzept hinreichend bekannt (oder obskur), der Diskurs hinreichend homogen (oder heterogen) und die Items hinreichend treffend (oder schwammig) formuliert sind, ist eine *Falsifierung* einer wie auch immer formulierten Hypothese über die erwartete, geteilte Subjektivität unmöglich (unausweichlich), und das Forschungsdesign damit irreführend.
+Es ist also sinnvoll, Sortieranleitung und Items so offen zu formulieren, dass das beforschte Konzept ein *mögliches* Ergebniss einer Faktorinterpretation ist.
+
+Ein ähnliches Problem ergibt sich bei hinsichtlich der Teilnehmenden *relativ* spezialisierten institutionellen Kontexten, etwa wenn Bürger_innen zur Steuerpolitik befragt werden (Held 2014).
+Steuern sind hier für die laienhaften Teilnehmenden bereits *eine* Antwort auf die Fragen der materiellen Gerechtigkeit, der Koexistenz von Markt und Staat und andere.
+^[Eine Teilnehmerin der oben genannten Studie bezog etwa eine feministische Position einer "Ethics of Care", die persönliche Beziehungen und Fürsorge in den Mittelpunkt ihrer Gerechtigkeitstheorie stellt -- nicht ökonomische Abstraktionen, wie Steuer sie darstellt.]
+Zudem ist ihre Subjektivität zum Thema Steuern zum großen Teil Ergebniss ihrer allgemeineren Aufassungen zur Markt- und Mischwirtschaft.
+Eine Q-Sortierung *nur* hinsichtlich Steuern ist somit gewissermaßen *überkommensurabel*, oder *überspezifisch*.
+Die Teilnehmenden haben zwar eine Subjektivität zu Steuern, tatsächlich ist diese aber hinsichtlich eines *größeren* Themas definiert.
+Auch hier bietet es sich an, einen etwas *weiteren* Fokus in Sortieranleitung und Items zu wählen, um den Teilnehmenden einen treffenderen Ausdruck ihrer Subjektivität zu ermöglichen.
+
+Natürlich trifft diese Aufweitung des inhaltlichen Fokus auf Grenzen: 
+Ins Extrem getrieben würde so jede Q Studie zu einer Meditation über die menschliche Bedingung eskalieren, die wenig zu konkreten Forschungsgegenständen und -fragen beitragen könnte.
+Als epistemologisch pragmatische Heuristik mag es dienen, die Q-Studie jeweils *eine* Abstraktionsebene über der Forschungsfrage anzulegen.
+Auch sollten die potentiellen Teilnehmenden in den Blick genommen werden: 
+Bei Expertinnen und Experten, die mit einer Institution (etwa "Steuer") vertraut sind, oder *innerhalb* eines Konzeptes (etwa "Nachhaltigkeit") Differenzen aufweisen, kann ein engerer Fokus sinnvoller sein.
+Besonders über den Forschungsgegenstand sachkundige Sortierende werden auch eine ausdifferenziertere Subjektivität hinsichtlich des Gegenstandes aufweisen, und sich damit *ausschließlich* mit einer fokussierten Sortieranleitung und Items angemessen ausdrücken können.
+
+
+### Sortierung
+
+Im Q Erhebungsverfahren sortieren Teilnehmende eine größere Anzahl von Items nach dem *Rang* ihrer Zustimmung in Bezug auf eine Sortieranleitung.
+<!-- TODO duplicate! -->
+
+Im Q-Sort sortieren Teilnehmende die Items in vorgegebene Felder einer Schablone, die in etwa einer quasi-normalen Verteilung folgt.
+Die Items werden entlang der x-Achse in eine Rangordnung gebracht, mit negativ eingeschätzten Items am linken Ende, positiv beurteilten Items am rechten Ende und neutral oder ambivalent bewerteten Items in der Mitte der Verteilung.
+Die y-Achse der Schablone misst *keine* eigenständige Dimension, sondern dient lediglich der Darstellung von ranggleichen Items (englisch "ties"), zwischen denen der Sortierende indifferent ist, um übereinanderliegende Items zu vermeiden.
+Diese *scheinbare* Zweidimensionalität der Erhebungsoberfläche führt bei Teilnehmenden leicht zu Verwirrung; sie sollten daher erinnert werden *nur* entlang der x-Achse zu Sortieren, und der y-Dimension keine weitere Beachtung zu schenken.
+
+Klassischerweise *erwzingt* die Schablone eine quasi-normale Verteilung ohne Schiefe (= symmetrisch) und mit normaler Wölbung (= mesokurtisch), in der genausoviele Felder zur Verfügung stehen, wie Items zu sortieren sind.
+Damit produzieren die Teilnehmenden alle Sortierungen mit der gleichen Standardabweichung und Durchschnitt (sowie anderen statistischen Momenten), was die Analyse historisch vereinfacht hat.
+Zudem stellt eine erzwungene Verteilung (englisch "forced distribution") eine vollständig ipsative Messung sicher.
+Alle Items werden von Sortierenden anhand der*selben* Skala gemessen, nämlich dem Rang relativ zu *allen anderen Items*.
+Erst diese Annahme ermöglicht es später, die transponierte Datenmatrix zu analysieren.
+
+(...)
+
+<!-- 
+discuss here in greatly more detail: why do we not look at all pairwise comparisons? 
+maybe we should, because then we could seee vNM-inconsistencies, which are so far -- operationally!! -- defined away by the q-sort.
+This should be especially interesting, when we're looking at concrete policy alternatives, thoug that is not always the case.
+these policy alternatives, in any case, should be considered separate from the q-sort, in part because they are incommensurable.
+an obvious problem with the full item pair comparison is that that would of course be an overwhelming number, and quite boring/mechanic.
+Perhaps a way to safe the qsort then would be to say that because the full item pair comparsion would be so mechanic, and prohibitevly frustrating for people, it could NOT be considered spontaneous behavior, because absent collossal discipline or incentives, NO one would actually complete the task.
+-->
+
+<!-- what we want from Q-sort: has to be spontaneous, require very little instruction -->
+
+
+<!-- In dem Verfahren sind Bürger*innen eingeladen, eine größere Anzahl von das Nudging betreffende kontroversen Aussagen und Szenarien in eine Rangordnung zu bringen und offen zu kategorisieren. Diese Sortierungen und Kategorisierungen werden mittels modernen statistischen Dimensionsreduktionsverfahren zu idealtypischen Sichtweisen zum Thema Nudging zusammengefasst. -->
+
+<!-- Diese Sichtweisen können schließlich vom Forscherteam induktiv interpretiert werden. Insbesondere kann mittels des neu entwickelten Q2D Verfahrens ermittelt werden, ob und inwiefern Bürgerinnen und Bürger zwischen (ontologischen) Annahmen und (axiologischen) Bewertungen unterscheiden. -->
+
+<!--' The way people are working is purportedly changing, yet, amidst all the  -->
+<!--' buzzwords of "Work 2.0", "Industry 4.0" and "Digital Economy", even amongst  -->
+<!--' experts, there is little agreement on just what the future workplace *will* look -->
+<!--' like, let alone how it *should* look like. This uncertainty is unsurprising, and -->
+<!--' unlikely to be resolved. As Niels Bohr quipped: prediction is very difficult,  -->
+<!--' especially about the future. -->
+
+<!--' Yet, both todays *beliefs* on what the future *will* hold, and *values* about  -->
+<!--' what it *should* bring informs our current decisions, which, in turn, will shape -->
+<!--' the future. This is the fundamental feedback loop of human institutions: they  -->
+<!--' mould the human condition, as much as they respond to it [compare @Dawkins1976 -->
+<!--' @BeckGiddens-1994-aa]. -->
+
+<!--' Q ist keine "mixed method", sondern eine two-step-method. -->
+
+<!--' generally nice quote: q methodology lets "subjects (sic!) speak for himself  -->
+<!--' (Sic)" brown 45 -->
+
+<!--' Notice "centroid myth -->
+
+<!-- In a word, q method is "subjective" but not "arbitrary" Brown 1980: 257 
+-->
+
+<!--' Happily, within Q, too, considerable disagreement remains (for example, on the  -->
+<!--' appropriate factor extraction technique), though legacy procedures and programs  -->
+<!--' sometimes hamper intellectual progress. Unfortunately, misunderstanding and  -->
+<!--' marginalization is sometimes compounded by a lack of deep statistical  -->
+<!--' understanding, though rarely digressing into glib ignorance of "technicalities"  -->
+<!--' or outright mistakes ("varimax rotation maximizes variation", in the otherwise  -->
+<!--' fine textbook introduction by @Watts2012). -->
+
+<!--' > In moving from R to Q, a fundamental transformation takes place: > In R, one  -->
+<!--' is normally dealing with objectively scorable traits which take meaning from the -->
+<!--' postulation of individual differences between persons, e.g. that individual $a$  -->
+<!--' has more of trait $A$ than does individual $b$; > in Q, one is dealing  -->
+<!--' fundamentally with the individual's subjectivity which takes meaning in terms of -->
+<!--' the proposition that person $a$ values trait $A$ more than $B$. > > [@Brown1980: -->
+<!--' 19] -->
+
+<!--' Q, by contrast, has a *holistic* outlook on human subjectivity. What matters are -->
+<!--' not the individual items, but there overall constellation, that is, how (groups  -->
+<!--' of) participants value these items *relative* to one another. -->
+
+<!--' resemblance to R methodological research, "[t]here never was a single matrix of  -->
+<!--' scores to which *both* R and Q apply" [@Stephenson1935a: 15, emphasis in  -->
+<!--' original]. -->
+
+<!--' Conventional *R* type descriptives are, then, quite  meaningless [Nahinsky 1965  -->
+<!--' as cited in @Brown1980, 265], because they are the same for all participants and -->
+<!--' are defined ex-ante by the forced distribution [^free-distro-descr]. -->
+
+<!--' "Free" distributions are a frequently discussed, if rarely used possibility for  -->
+<!--' Q methodology. -->
+
+
+### Was meinen wir mit Q (und verwandten Ansätzen)?
+
+Über die historische Methodologie, Erhebungs- und Analyseverfahren von Q hinaus, verwenden wir Q als eine größere Gruppe von empirischen Ansätzen um menschliche Subjektivität zu erheben.
+Je nach Forschungsfrage und forschungspraktischen Erfordernissen variieren unsere Ansätze in der Skala der erhobene Daten (kategorial, ordinal, cardinal), der Dimensionalität der *individuellen* Differenzen (deduktive oder induktive Dimensionen), der dimensionsreduzierenden Projektion *in der Erhebung* und der Polarität der Subjektivität (unipolar oder bipolar).
+Diese Daten werden in entsprechenden quantitativen Verfahren zur Dimensionsreduktion zusammengefasst, um dann wieder holistisch, und als Essenzen von *idealtypischen* Subjektivitäten interpretiert werden können.
+
+Diese sehr verschiedenen Datentypen und Analysen einen einige zentrale Annahmen, wie sie ursprünglich Q Methodologe entnommen sind:
+
+- Subjektivität wird als pures Verhalten, also *operant*, gemessen.
+    Demfolgend sollte eine Messung möglichst spontanes Verhalten abbilden und mit möglichst wenigen deduktiven Setzungen auskommen.
+    Ebenso sollte das Verfahren für Teilnehmde möglichst befriedigend sein (etwa durch "gamification").
+- Subjektivität wird *induktiv* (oder *abduktiv*) erforscht.
+    Demfolgend folgt die Analyse einem explorativen Ansatz, und wirkt lediglich dimensionsreduzierend, da weder Hypothesen getestet, noch latente Variablen geschätzt werden.
+- Subjektivität Bedeutung wird *ipsativ* und *holistisch* erfasst, also in den *relativen* Einschätzungen durch Teilnehmende von verschiedenen *Aussagen*.
+    Demfolgend sollte auch die Analyse, soweit möglich (durch Wahl der geeigneten Extrations- und Rotationsmethode) authentische Idealtypen generieren, die so auch tatsächlich beobachtet wurden.
+
+Im Unterschied zu klassischer zu klassischen, jüngst in die Kritik geratenen Q-methodologischen Ansätzen [@Kampen-Tamas-2014], kommen hier aber konventionelle und aktuelle statistische Verfahren und Standards zum Einsatz.
+Analytische Sonderwege, wie etwa die Centroid-Extrationsmethode, oder die Ablehnung von Eigenwert-basierten Auswahl der Faktorenzahl [@Ramlo-2016] sind weder notwendig, noch ausreichend rechtfertigt.
+[^Besonders deutlich wird das in der Debatte über den "Centroid Myth", einem historischen Extraktionsverfahren, das vor der Verfügbarkeit von digitalen Computern als weniger rechenintensivere, aber unbestimmte Annäherung (!) an die aufwendige Hauptkomponentenanalyse entwickelt wurde, bis heute aber *wegen* seiner "Unbestimmtheit" eine besondere Eignung für Q-Methodologie zugesprochen wird.
+Wie Akthar-Danesh [-@Akthar-Danesh-2015] und besonders Peter Schmolck auf der Q-Emailliste ausführlich argumentiert haben, entbehrt dieser Sonderweg jeder nachvollziehbaren Grundlage.
+Einerseits ist die gelobte "Unbestimmtheit" der Centroid-Methode ein algorithmisches Artefakt, was bei computerbasierter Nutzung lediglich dem *Programmierer* eine gewisse Unbestimmtheit (in der Reflektion der Datenvektoren) bietet, aber nicht von Nutzern als solche erfahren, geschweige denn in den Dienst abduktiver Iteration gestellt werden könnte.
+Andererseits ist die Centroid-Methode *unabhängig* von einer eventuellen manuellen Rotation zu beurteilen, da letztere für *alle* faktoranalytischen Methoden zur Verfügung steht, sollte sie denn für angemessen gehalten werden.
+Hinzukommt, dass die Centroid-Methode im Unterschied zur Hauptkomponentenzerlegung ein Verfahren zur Bestimmung *latenter* Variablen ist, und damit augenscheinlich einer Methodologie der *operanten* Subjektivität widerspricht.
+]
+In den Begründungen für diese Sonderwege findet sich oft eine unheilvolle Vermischung von methodologischen Annahmen und statistischen Verfahren, wie etwa wenn Ramlo Q als "Mixed Method" charakterisiert [@Ramlo-2015], um dann irreführenderweise qualitative Konzepte in der quantitativen Analyse anzuwenden, wie etwa "Interpretierbarkeit" als Standard für die *Anzahl* der extrahierten Komponenten.
+Tatsächlich sind Q und verwandte Ansätze keine "Mixed Method", sondern eine *zweischrittige* Methode, mit epistemologisch unabhängigen qualitativen und quantitativen Ansätzen.
+In einem ersten, quantitativen Schritt werden die erhobenen Daten zusammen gefasst.
+Dieser Schritt erfolgt, gewissermaßen aus rein forschungspraktischen Erwägungen, weil eine *individuelle* Interpretation von zahlreichen Q-Sortierungen oft zu aufwendig ist, und schlecht zwischen idiosynkratischen und geteilten Bedeutungsmustern unterschieden werden kann.
+Trotzdem bleiben diese individuellen Sortierungen, sowie parallel erhobene qualitative Daten (etwa Itemfeedback, etc.) das *primäre Datum* in Q, weshalb die Datenreduktion und -aufbereitung auch möglichst nah an *tatsächlich auftretenden* Mustern der Subjektivität ausgerichtet sein sollte (etwa durch eine Quartimax-Rotation oder eine Non-Negative Matrix Factorisation (NMF)).
+Allerdings ist die Datenreduktion trotzdem ein rein "technischer" Schritt, der sich an abstrakten, objektivierbaren Qualitäten wie etwa den Eigenwerten oder den Faktorkorrellationen zu messen hat, *nicht* an wie auch immer gefassten Abduktionen über die Ergebnisse.
+Diese *qualitativen* Gütekriterien kommen erst wieder im *zweiten* Schritt zur Anwendung: der Faktor*interpretation*.
+Die technisch zusammengefassten idealtypischen Sichtweisen werden nun interpretiert, wie auch eine einzelne, zugrundlegende Sortierung zu interpretieren wäre: als individueller Ausdruck von Subjektivität.
+Ob --- oder ob nicht --- es tatsächlich *geteilte* Muster der Subjektivität *gibt*, ist eine rein empirisch-technische Frage, die *weder* die ursprünglichen Sortierung invalidiert, *noch* eine Vermischung von Gütekriterien qualitativer und quantitativer Erkenntnis erlaubt.
+Tatsächlich sollte in einer Q-methodologischen Arbeit die quantitative Technologie zur Zusammenfassung in den Hintergrund treten, sie ist lediglich forschungspraktisches Mittel zum Zweck, und produziert kaum quantitative Ergebnisse von substantiellem Interesse.
+Das bedeutet allerdings auch, dass der erste, dimensionsreduzierende Schritt der Q-Methodologie nicht mit interpretatorischen Erwartungen und qualitativen Gütekriterien überfrachtet wird.
+
+Durch eine solche statistisch-technische Aktualisierung der Q-methodologischen Grundlagen, bei gleichzeitig gestärktem Augenmerk auf eine einfache, elegante Datenerhebung bieten sich auch Möglichkeiten, neue Formate und Erweiterungen des Q Paradigma zu erproben, wie etwa mehrere Sortieranleitungen in der gemeinsamen Analyse (`Q-nD`), oder ein der Repertory Grid Technique (RGT) ähnliches Verfahren (`Q-Cat`) mit offenen Differenzdimensionen.
+Ebenso ergeben sich zahlreiche Verbesserungen und Neuerungen in der Analyse und graphischen Darstellung der Ergebnisse.
+In diesem, weiteren Sinne, versprechen Q und verwandte Ansätze klassische Gegensätze der empirischen Sozialforschung zu entschärfen.
+Q ermöglicht eine holistische und interpretative Sicht auf Subjektivität, schränkt aber im Unterschied zu kritischen, diskurstheoretischen oder ethnographischen Methoden den Forschenden stärker ein: Interpretationen müssen durch falsifizierbare und (u.U.) reproduzierbare Faktorergebnisse plausibilisiert werden.
+Diese quantitative Eingrenzung von Interpretationen kann helfen, die vielfältigen Subjektivitäten der Teilnehmenden gegenüber die Annahmen und Haltungen der Forschenden zu stärken.
+Q erlaubt eine *qualitative* Interpretation der Daten, skaliert aber auch zu größeren Fallzahlen und erlaubt unter Umständen verallgemeinerbare Ergebnisse.
+
+Keine Technologie und keine Methode können menschliche Verständigung automatisieren.
+Nichts ersetzt vollständig die *ursprüngliche* operante (Inter)subjektivität: das mühevolle, intensive Gespräch mit einem anders denkenden Menschen.
+Im Idealfall schafft es Q aber, sich diesem Austausch anzunähern, und ihn mit mehr Menschen zu ermöglichen, als es Forschenden sonst möglich wäre.
+Im Sinne einer transhumanistischen Subjektivität kann Q so moderne Technologie in den Dienst einer demokratischen, emanzipatorischen und pragmatischen Sozialwissenschaft stellen.
+
+### Warum Q (für Arbeitssoziologie und Wearables)?
+
+Q Methodologie wird in vielen Feldern eingesetzt, unter anderem Pflege- und Gesundheitswissenschaften [@akthar-danesh-2008; @Exel-Baker-etal-2015; @baker2006q], Marketing [@Andrews-Drennan-etal-2046; @Mandolesi-Nicholas-etal-2015], Public Policy [@Baker-Jeffares-2013], Psychotherapie [@Bambery-Porcerelli-2007], Persönlichkeitsforschung [@Block-1961],  Politikwissenschaft [@brown-1977] und Beteiligungsprozessen [@Donner-2001; @Doody-Kearney-etal-2009; @Niemeyer2013].
+
+Mittels Q Methode können subjektive Sichtweisen induktiv und operant (also als "pures Verhalten") erfasst, systematisch zusammengefasst, und als idealtypische, geteilte Perspektiven holistisch interpretiert werden. 
+Ein solcher Ansatz zur operanten Subjektivität ist besonders hilfreich zur Untersuchung eines relativ jungen Phänomem wie Wearables, zudem Erfahrungen, Annahmen und Werte gerade erst entstehen, und daher explorativ untersucht werden.
+Q Methode eignet sich ebenfalls gut um *Differenzen* innerhalb eines Diskurses quantitativ zu erheben, wenn sich unter einem Schlagwort recht unterschiedliche Ausprägungen und Lebenswirklichkeiten versammeln [vgl. @ascher1987subjectivity].
+
+Q Methode ist auch besonders empfohlen um *vermachtete Situationen und Diskurse* zu untersuchen, und Teilnemende zu emanzipieren [@Brown-2006].
+Billard zeigt etwa, wie eine feministische Lesart der Q Methode in der *Unternehmensmitbestimmung* (engl. "industrial relations") demokratische Teilhabe stärken kann [@Billard-1999].
+
+
+#### Q Mindshare (Q als Beteiligungstechnologie für Workshops o.ä.)
+
+Q Methodologie kann auch als *Beteiligungs- und Gesprächstechnologie* in Workshops, Bürgerforen oder ähnlichen Formaten als "Q-Mindshare" Echtzeit-Analyse verwendet werden [zu Q als Beteiligungstechnoglie vgl. @Niemeyer-2011-bookchap; @Donner-2001; @Doody-Kearney-etal-2009].
+
+Schon während der Erhebung schafft das Q-Mindshare Verfahren durch die vielfältigen Aussagen eine gemeinsame Gesprächsgrundlage und entlockt den Mitwirkenden neue Ideen, Kommentare und Fragen. 
+Durch die Analyse in Echtzeit hilft Q-Mindshare außerdem, die Diskussion anhand der idealtypischen Sichtweisen zu strukturieren und zu intensivieren: 
+Die Ergebnisse bieten den Mitwirkenden widerrum einen konkreten, fast greifbaren Anlass zur Reflektion und Reaktion.
+Schließlich nutzen die extrahierten Sichtweisen auch als Ergebnisssicherung und Dokumentation der gemeinsamen Arbeit.
+
+Über die Nutzung vor Ort im Workshop hinaus, bietet Q-Mindshare auch die Möglichkeit die Ergebnisse (anonymisiert) online zu stellen. 
+So können andere Interessierte die Sichtweisen der Workshop-Teilnehmerinnen und Teilnehmer mittels einer interaktiven Benutzeroberfläche nachvollziehen. 
+Bei Interesse kann das Verfahren auch dauerhaft online fortgeführt werden, so dass Besucherinnen und Besucher auf die Ergebnissen reagieren, und ihre eigene Subjektivität zum Thema Wearables dem Q-Mindshare hinzufügen können.
+
+Im Rahmen des Labouratory Projektes von Prof. Sabine Pfeiffer an der Universität Hohenheim entwickeln wir basierend auf der Q Methode das Echtzeit Beteiligungs- und Diskussionsverfahren Q-Mindshare. 
+In dem Verfahren sortieren zunächst die Teilnehmenden mittels einer Webanwendung mehrere, vielfältige Aussagen zum Thema (hier Wearables) nach ihrem Grad der Zustimmung auf mehreren Dimensionen (etwa Gegenwart oder Zukunft, Gewünscht oder Erwartet, etc.). 
+Parallel werden offene Rückmeldungen und Ergänzungen der Mitwirkenden zu den Aussagen aufgezeichnet. 
+Anschließend werden die einzelnen Sortierungen mittels einer Hauptkomponentenanalyse dimensionsreduziert, rotiert und als geteilte, idealtypische Sortierungen wieder ausgegegeben. 
+Die Analyse wird in Echtzeit durchgeführt, und aktualisiert und erweitert sobald eine neue vollständige Sortierung in der Webanwendung eingegeben wurde. 
+Die Ergebnisse können dann als "geronnene Subjektivität" der Mitwirkenden gemeinsam interpretiert und besprochen werden.
+
+
+### Q und Big Data
+
+**Sehr fragmentarisch, noch unbelegt**.
+
+Big Data, also die Verwendung von großen Datensätzen (etwa größer als der Arbeitsspeicher) sind in aller Munde und versprechen genauere Erkenntnisse über menschliches Verhalten.
+
+Im Unterschied zur Q Methodologie umfassen die meisten "Big Data" Datensätze bisher vor allem Prozessdaten, also Daten, die "nebenbei", durch eine EDV-vermittelte Transaktion entstehen, wie etwa angeschaute Filme, Bewegungsprofile oder Produktbewertungen.
+Zwar werden diese Daten typischerweise explorativ analysiert (vgl. "Data Mining"), die induktive Reichweite ist aber oft begrenzt, und ein Einblick in menschliche Subjektivität weiter verstellt.
+Um menschlicher Bedeutung auf die Spur zu kommen, steht Big Data hier vor einer doppelten Herausforderung.
+Einerseits sind Künstliche Intelligenz (KI) Algorithmen oft noch nicht in der Lage, um aus offenen aber unstrukturierten Daten, wie etwa freien Textfeldern, nuancierte menschliche Einschätzungen zu erkennen.
+Die Analyse von großen Textkorpi beschränkt sich daher oft auf relativ rudimentäre Elemente menschlicher Subjektivität, wie etwa "Sentiment Analysis", die beispielsweise die Stimmung von freien Kommentartexte schätzen kann.
+Andererseits bieten sich im Rahmen von Big Data auch viele strukturierte Daten, die zwar leichter analysiert werden können, aber typischerweise operationellen Definitionen folgen: Subjektivität beschreiben kann nur, was im Prozess anfällt.
+Diese Einschränkung widerspricht dem Gebot der expressiven Vielfalt eines guten Q-Sets, und birgt die Gefahr eines Zirkelschlusses, wenn aus Prozessdaten Annahmen über menschliche Subjektivität abgeleitet werden.
+Da sich Teilnehmende (oder Nutzer) nur über den Prozess ausdrücken können, wird kaum etwas über einen anderen Prozess in Erfahrung zu bringen sein, oder über tiefere Bedeutungen.
+Beispielsweise lässt sich aus den Pageviews aus dem beschränkten Warenkatalog eines Tierfutter-Versandhändlers wenig darüber ableiten, welche Subjektivität eine Nutzerin zu ihrem Haustier und dessen Ernährung hat.
+Zum einen gilt das, weil die Auswahl an Artikeln, und damit mögliche Pageviews, selbst bei einem großen Versandhändler beschränkt sind.
+Zum anderen ist eine angesehen Seite eines Tierfutterprodukts zwar ein strukturiertes, aber ebenso verengtes Datum: Wir erfahren nicht, *warum* die Nutzerin sich für dieses oder jene Produkt entschieden hat.
+
+Diese Einschränkungen mögen für Big Data naturgemäß, und wenig problematisch sein, etwa wenn es darum geht, Verkaufsverhalten vorherzusagen oder auf Nutzer zugeschnittene Anzeigen zu schalten.
+Das hier relevante menschliche *Verhalten* des Kaufens ist eine recht beschränkte Domäne, und kann einfacher modelliert werden.
+
+Wenn es aber um eine sozialwissenschaftliche Fragestellung, oder auch nur grundlegendere Marktforschung geht, werden die Einschränkungen von Big Data problematisch.
+Fragen nach Institutionen, Kontexten und sozialem Wandel werden sich kaum mit ausschließlich durch *bestehende* Institutionen im Prozess entstandene, und bedeutungsarme Daten zufriedenstellend untersuchen lassen.
+
+Jedenfalls solange KI Algorithmen nicht in der Lage sind natürliche Sprache umfassend und nuanciert zu analysieren, bietet Q hier einen fruchtbareren Ansatz:
+Mittels der Q-Sortierung erhebt Q auch strukturierte Daten, setzt dabei aber auf die größere expressive Vielfalt eines sorgfältig erstellten Q-Sets.
+Zudem kann durch eine ipsative Sortierung *relative* Bedeutung erhoben werden, und durch beliebiges offenes Feedback ergänzt werden.
+Damit kann Q auch bestehende Big Data Ansätze um eine tiefere und holistische Sicht erweitern.
+Hier bieten sich auch gemeinsame Analysen an, um etwa Zusammenhänge zwischen Prozessdaten und Q-Daten zu erkennen.
+
+Umgekehrt kann ein Q-Ansatz von deutlich größeren Datensätzen profitieren.
+Bisher ist Big Data nur vorläufig als *Quelle* für Q-Items [@Jeffares-2014], jedoch nie als Modus einer Q Studie erprobt worden, was unter anderem an dem noch ungelösten HDLSS-Problem von Q liegen mag (s.u.).
+Mit neuen, oft im Zuge von Big Data verwandten Analysen (etwa MPCA, Supervised Learning Algorithmen) bieten sich zahlreiche Chancen (siehe unten), das HDLSSS Problem zu lösen, und zu deutlich umfangreicheren (in der Anzahl der Aussagen) und nuancierteren Idealtypen (in der Anzahl der Faktoren) zu kommen.
+
+
+### Ansätze zum HDLSS-Problem von Q
+
+Wie von @Kampen-Tamas-2014 beschrieben --- wenn auch mit falschen Schlussfolgerungen --- steht Q vor einem grundsätzlichen Problem: 
+In größeren Studien gibt es *mehr* Leute-Variablen als Item-Fälle, was eine solide Extraktion von (vielen) Faktoren erschwert.
+
+Solche Daten und die damit verbundenen Probleme sind unter anderem aus der Biostatistik bekannt, wo sie als "High Dimensionality Low Sample Size" (HDLSS) bezeichnet werden [u.a. @Yata-Aoshima-2015].
+
+Wenn wir da an Mainstream-Veröffentlichungen Anschluss finden wollen, müssen wir dieses Problem bearbeiten. 
+Im Vergleich zu den anderen methodologischen Fragen (etwa: angemessene Rotation, Extraktionsmethode, Faktor- vs. Clustering etc.) ist das HDLSSS-Problem deutlich grundlegender: 
+Ohne eine statistisch fundierte, und im Feld praktikable Lösung bietet Q im Big Data Kontext nur eingeschränkte Chancen.
+
+Da wir aus forschungspraktischen Gründen (Zeitaufwand der Erhebung), die Anzahl der Item-Fälle nicht beliebig steigern können, müssen wir die (informationstheoretische) "Shannon Entropie" [@shannon-weaver-1949] auf andere Weise erhöhen. 
+In aufsteigender Komplexität verfolgen wir da folgende Ansätze:
+
+1. **Q-ND** / **Q-2D**: 
+    Die Teilnehmenden sortieren *dieselben* Items auf mehreren Dimensionen (etwa: Zeitpunkte, "Conditions of Instruction", oder "wünschenswert"
+/ "wahrscheinlich" etc.). 
+    Da die Items vertraut sind, ist eine zweite (und 
+dritte ...) Sortierung schneller erhoben, bietet jedoch trotzdem deutlich mehr 
+Daten.
+    
+    (Status: Recht weit fortgeschritten, notwendige Anpassungen bei Rotation und 
+Parallel Analyse fehlen noch.)
+
+2. **Q-Cat**: 
+    Anstelle einer Valenz-basierten Sortierung (wie bei Q), sortieren die Teilnehmenden die Items (etwa Szenarien, Produkte) aufgrund ihrer *ipsativen kategoriellen oder ordinalen Ähnlichkeit* anhand von *induktiven* Merkmalen, ähnlich wie bei der (auch von NextPractice verwandten) Repertory Grid Technique [RGT, etwa @kelly-1955, @fransella-2004].
+    [^RGTvsQCat]
+
+    [^RGTvsQCat]: In der RGT werden Teilnehmer-definierte Kategorien anhand der (gegebenen) Items korrelliert, *um ähnliche Kategorien zwischen allen Teilnehmenden* zu finden. 
+    Im Q-Cat Verfahren werden dagegen (zunächst) gegebene Items *für jeden Teilnehmenden, anhand dessen Kategorien* korrelliert, um *subjektiv ähnliche Items* zu finden. 
+    In einem späteren Schritt werden dann geteilte Muster dieser subjektiven Ähnlichkeiten extrahiert. Q-Cat erlaubt es somit interindividuelle *Unterschiede* in kategorieller Subjektivität zu erheben, und -- so möglich -- in Idealtypen zusammenzufassen. 
+    Zudem setzt Q-Cat im Unterschied zu RGT auf ein ipsatives Erhebungsverfahren, in dem die Teilnehmenden gegebene Items direkt miteinander vergleichen.
+
+    (Status: In der Entwicklung.
+    Umstellung auf Non-Negative Matrix Factorisation (NNMF) wahrscheinlich nötig, etwa @cichocki-zdunek-etal-2009).
+
+3. **Q-Sparse**: 
+    Hier geben wir die bisherige Annahme von Q auf, das *alle 
+Teilnehmenden alle Items sortieren*. 
+    Anstelle dessen, sortiert jede/r Teilnehmende nur noch eine kleinere Auswahl von Items, so dass *insgesamt* eine größere (>>100) Anzahl von Items erhoben, und das HDLSSS-Problem damit entspannt werden kann. 
+    Bei hinreichender Zahl von Teilnehmenden (>>1000) sind verschiedene Ansätze denkbar um *trotzdem* zu gewohnten Q-Ergebnissen zu kommen, etwa Sparse Matrix PCA, Non-Negative Matrix Factorisation oder (Un)supervised Bayesian classifiers.
+    
+    In einer dynamischen Erweiterung ähnlich der Item Response Theory (IRT), würden den Teilnehmenden automatisch zusätzliche Items präsentiert *basierend auf ihren bereits vorgenommen Sortierungen*. 
+    Ebenso könnten noch nicht sortierte, aber probabilistisch bekannte (und bayesianisch "uninteressante") Items dynamisch entfallen. 
+    In so einer dynamischen Erweiterungen könnten dann auch *Supervised* Machine Learning zum Einsatz kommen.
+    
+    Die aktuellen Entwicklungen im maschinellen Lernen bieten hier viele Möglichkeiten, von denen -- glücklicherweise -- nur ein kleiner, überschaubarer Bereich für eine Q-Anwendung in Frage kommt.
+    
+    Um das HDLSSS-Problem grundsätzlich anzugehen, und Q fruchtbar für Big Data zu machen, sind diese letzteren Ansätze aber wohl die einzig gangbaren.
+    
+    (Status: Bisher nur Ideen.)
+
+
+### Kommentiertes Literaturverzeichnis
+
+(*ausgewählte Beiträge*)
+
+- **@stephenson-1935**: "Gründungsnotiz" der Q-Methode, in der Stephenson sehr knapp vorschlägt, man könne die – damals neue – Faktoranalyse auch für eine transponierte Datentabelle (Leute-Variablen und Item-Fälle) anwenden.
+
+- **@Brown1980**: Die aktuelle, aber orthodoxe Q-Bibel; darin werden unter anderem die heute meist praktizierten Analysenschritte expliziert (Centroid Extraktion, händische Rotation, "Flagging", etc.). 
+    Der methodologische und ideengeschichtliche Teil scheint mir weiter wichtig und brilliant. 
+    Die Statistik hingegen ist schwer haltbar und stellenweise unbelegt.
+
+- **@Kampen-Tamas-2014**: Jüngste, extrem kritische Auseinandersetzung mit der Q
+Methodologie. 
+    Kritisiert wird vor allem die faktoranalytische Zerlegung, wenn es *mehr Leute-Variablen als Item-Fälle* gibt (was leicht vorkommen kann): 
+    in dieser Konstellation *könnte* nicht für jeden Teilnehmenden ein Faktor gebildet werden, selbst wenn dies empirisch der Fall sein sollte. 
+    Tatsächlich ist das aber ein höchst unwahrscheinliches und eher abstraktes Problem: 
+    Es stellt sich selten die Frage, ob derart viele Faktoren erhalten werden können.
+    Die von mir für Q-Daten angepasste Parallelanalyse [nach @Horn-1965; @Glorfeld-1995] löst das Problem eleganter: 
+    Schon nach der Extraktion von einigen wenigen (<10) Komponenten lässt sich oft kein Unterschied zu Zufallsdaten mehr erkennen, und eine weitere Extraktion ist somit hinfällig (Das dokumentiere und argumentiere ich in meinem gegenwärtigen Entwurf zum Thema Parallelanalyse in Q). 
+    Tatsächlich deuten @Kampen-Tamas-2014 aber auf das wohl zentralste Problem von existierender Q Forschung: 
+    Zu viele Veröffentlichungen extrahieren und interpretieren viel zu viele Faktoren von viel zu "flachen" Daten, also Datensätzen mit (viel) *zu wenigen Item-Fällen* für die angebotenen Ergebnisse (siehe oben stehendes HDLSS-Problem).
+
+- **@Akthar-Danesh-2015**, **@Akthar-Danesh-2007**: Eine Reihe von methodologischen Reformvorschlägen für Q, vor allem hinsichtlich der Themen Rotation (Varimax oder Quartimax) und Extraktion (PCA oder Maximum Likelihood, aber kein Centroid). 
+    Liegen leider bisher nur als Konferenzbeiträge vor. Die Artikel hängen anscheinend bei dem orthodoxen Q Journal ("Operant Subjectivity") in der Warteschleife. 
+    Noori Akthar-Danesh hatte im September um eine Befürwortung seines Forschungsantrages gebeten; wir sind im Kontakt über seine Neuerungen.
+
+- **@Jeffares-2014**: Konferenzbeitrag über Q Methodologie und Big Data, hauptsächlich eine methodologische Einordnung von Q und R in Big Data. 
+    Der Autor schlägt vor, Big Data als *Quelle* für den Concourse zu verwenden, in verschiedenen, leider nur knapp umrissenen Forschungsdesigns. 
+    Einen Vorschlag wie Q selber zur Big Data Methode werden könnte, ist nicht enthalten.
+
+- **@Ramlo-2016**: Aktuelle Verteidigung der Q-Orthodoxie; finde ich teilweise unverständlich, großenteils nicht überzeigend -- nur der Vollständigkeit halber. 
+    Würde vorschlagen, dass wir uns von diesem Teil der Literatur fern halten, außer in etwaigen methodologischen Artikeln.
+
+- **@Stephenson-1967**: Methodologisch-theoretische Grundlagenwerke über die Ontologie (?) des Concourses. 
+    Muss ich noch ausführlicher lesen.
+
+- **@Watts2012**: Beliebtes Einführungswerk zur Q Methodologie. 
+    Aus meiner Sicht nicht empfehlenswert für eine Zitation, da es einige sachliche Fehler und Leerstellen enthält.
+
+- **@Zabala-Pascual-2015**: Jüngste Erweiterung von Q Methodologie um eine Bootstrapping-Prozedur, die bessere Signifikanzschätzungen über die Item-Unterschiede liefern soll. 
+    Muss ich mir noch im Detail anschauen und mal ausprobieren. 
+    Vermute aber, dass es letztlich nicht viel anderes produziert als herkömmliche, einfachere Methoden. 
+    Als Beispiel für aktuelle Entwicklungen, besonders mit Software, ganz gut. 
+    Habe mit Aiora Zabala an dem bisherigen ("alten") R Package gearbeitet.
+
+- **@McKeown2013**: Gutes Einführungswerk in renommierter Serie (SAGE).
+
+----
+
+(*eigene (Konferenz-)beiträge, Software etc.*.)
+
+- **@kasztantowicz-held-2016**: `Q-Cat`, Verfahren ähnlich wie Repertory Grid Technique (s.o.). 
+- **@held-2016**: Parallel Analyse für Q (s.o.). 
+- **@held-2016-a**: `Q-2D`, NPCA-Verfahren für multidimensionale Q-Sortierungen.
+- **@held-2016-b**: Klärung der Rotationsverfahren; mittlerweile obsolet. Eine bessere Lösung für "general-factor" Situation (d.h. ein dominierender Faktor) ist wohl Non-Negative Matrix Factorization.
+- **@held-2015**: Plenarvortrag zu Visualisierungen und Data Management auf der Konferenz 2015. 
+- **@Zabala-2014**: "Alte" `qmethod` Q-Software 
+- **@held-2017**: "Neue" `pensieve` Q-Software (Backend), ergänzt durch (closed-source) `accio` Frontend.
+
+----
+
+(*allgemeine Einführungsliteratur für IGZA*)
+
+- **@brown-1993-a**: Gute Kurz-Einführung
+- **@Exel2005**: Noch kürzere Einführung
+- **@Watts2012**: Etwas oberflächlich in der Statistik, aber enthält sehr gute Tipps zur Item-Generierung und gute Faktorinterpretation zur Illustration der Methode. 
+- **@Brown1980**: "Die Bibel". 
+- **@McKeown2013**: Alternative Einführung aus der SAGE Reihe.
+
+
+### Bibliografie
