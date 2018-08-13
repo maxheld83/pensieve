@@ -22,10 +22,10 @@ navbar:
           href: articles/introduction.html
         - text: "-----"
         - text: "Design"
-        - text: "Grid"
-          href: articles/grid.html
         - text: "Items"
           href: articles/items.html
+        - text: "Grid"
+          href: articles/grid.html
   right:
     - icon: fa-cloud
       href: https://maxheld83.shinyapps.io/accio/
