@@ -67,3 +67,17 @@ You can type `knit_print(grid)`, or simply `grid` as in the above chunks.
 Currently only output *from* chunks (not inline) and *to* HTML-outputs (not PDF, Word or others) is supported.
 
 See help for details.
+
+
+## Hexagonal Tiling
+
+*pensieve* also offers experimental support for (loosely defined) hexagonally tiled grids, though these have limited support in other parts of the package.
+For details, see `psGrid()`.
+
+
+|                         | `offset = NULL`      | `offset = 'even'` | `offset = 'odd'` |
+|-------------------------|----------------------|-------------------|------------------|
+| `polygon = 'rectangle'` | Chessboard (default) | Brick wall        | Brick wall       |
+| `polygon = 'hexagon'`   | --                   | Honeycomb         | Honeycomb        |
+
+Table:  Tiling options for `psGrid`.
