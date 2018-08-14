@@ -2,7 +2,7 @@
 % Please edit documentation in R/inanimatus.R
 \name{inanimatus}
 \alias{inanimatus}
-\title{HTML widget factory for sorting grids.}
+\title{HTML widget factory for sorting grids}
 \usage{
 inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)),
   sort = matrix(data = c(NA, NA, NA, NA, "foo", NA, NA, NA, "zap", "bar",

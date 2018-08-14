@@ -10,8 +10,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-***Notice: all visualisations in the below are currently dysfunctional on pensieve.maxheld.de due to a [bug in another package ](https://github.com/maxheld83/pensieve/issues/388)***.
-
 Closed sorts (or Q-sorts) are accomplished using 2-dimensional grids, usually for ranking items across the (horizontal) x-axis, with the (vertical) y-axis used to stack ties.^[In this sense, strictly speaking, the y-dimension of the grid is often meaningless.]
 
 *pensieve* records such grids as `psGrid`s, simple 2-dimensional matrices, where each cell is either `TRUE` or `FALSE` depending on whether the cell is allowed.
@@ -57,7 +55,7 @@ Even under a *completely* free distribution (with all cells `TRUE`), there is a 
 Most *pensieve* functions do not require a `psGrid`, but the design choices it stores can be helpful for validating data and enhance analysis and output methods.
 Specifying a `psGrid` is highly recommended.
 
-For optional arguments, see `??psGrid`.
+For optional arguments, see `psGrid()`.
 
 
 ## Print Method
@@ -65,8 +63,6 @@ For optional arguments, see `??psGrid`.
 *pensieve* offers a `knit_print()` method to visualise `psGrid`s from inside knitr chunks.
 You can type `knit_print(grid)`, or simply `grid` as in the above chunks.
 Currently only output *from* chunks (not inline) and *to* HTML-outputs (not PDF, Word or others) is supported.
-
-See help for details.
 
 
 ## Hexagonal Tiling

@@ -194,7 +194,13 @@ knit_print.psGrid <- function(x,
     NextMethod()
   } else {
     if (knitr::is_html_output()) {
-      # TODO call html5widget in here
+      res <- inanimatus(
+        grid = x,
+        header = header,
+        footer = footer,
+        aspect_ratio_cards = aspect_ratio_cards
+      )
+      knit_print(res, ...)
     } else {
       # no special idea about this format, so pass it on
       NextMethod()
