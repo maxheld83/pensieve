@@ -46,7 +46,7 @@ There is however no reason to assume that *all* sorts follow such strictures, an
 
 A `psGrid` implies two pieces of information about a sorting study:
 
-1. It specifies the *maximum* possible ranks (`r ncol(grid)` for the above example) and number or number of ties (`r nrow(grid)` for the above example) of a sort.
+1. It specifies the *maximum* possible ranks (`r ncol(grid)` for the above example) and number of ties (`r nrow(grid)` for the above example) of a sort.
 2. In conjunction with the number of available items (such as from `psItems`), it specifies whether a distribution is *forced* or *free*.
     Under a forced distribution, there will be exactly as many allowed cells (`TRUE`, `r sum(grid)` in the above example) as there are items, *forcing* participants to occupy every cell.
     Under a free distribution, there will be more cells than items, and participants will be flexible in which of the allowed cells they actually use.

@@ -3,9 +3,9 @@
 \name{psSort}
 \alias{psSort}
 \alias{validate_S3.psSort}
-\title{Store an \emph{individual}  sort (Q-sort) as a character matrix.}
+\title{Store an \emph{individual} sort as a character matrix of \emph{item handles}}
 \usage{
-psSort(sort, grid = NULL, items = NULL, pattern = "chessboard",
+psSort(sort, grid = NULL, items = NULL, polygon = "rectangle",
   offset = NULL)
 
 \method{validate_S3}{psSort}(x, grid = NULL, items = NULL,
@@ -14,9 +14,11 @@ psSort(sort, grid = NULL, items = NULL, pattern = "chessboard",
 \arguments{
 \item{sort}{A character matrix giving the item positions of the sort.
 Items must be identified by their item short handles and must be unique.
-If \code{grid} is specified, only \code{TRUE} cells can have items.}
+If \code{grid} is specified (recommended), only \code{TRUE} cells can have items.
+If \code{items} is specified (recommended), only handles from \code{items} can be used.}
 
-\item{grid}{A logical matrix giving the available cells for Q sorting.
+\item{grid}{\code{[matrix(logical())]}
+giving the available cells for sorting.
 Accepts arbitrary dimnames from grid.
 If any dimnames are missing, sensible defaults will be set.}
 
@@ -30,12 +32,22 @@ An additional subclass \code{psItemContentText} is prepended and validated.
 An additional subclass \code{psItemContentBin`` is prepended and validated.}lang\code{,}fontsize_global\code{,}alignment\code{and}linestretch` are ignored.
 }}
 
-\item{pattern}{A character string, giving the pattern of tesselation to use.
-Must be \code{"chessboard"} (default), the only currently supported pattern.}
+\item{polygon}{\code{[character(1)]} giving polygon to use for tiling
 
-\item{offset}{A character string, giving the rows to be offset.
-Must be \code{"even"}, \code{"odd"} or \code{NULL} (default).
-Applies only to \code{"honeycomb"} and \code{"brickwall"} patterns, otherwise ignored.}
+Must be one of:
+\itemize{
+\item \code{'rectangle'} (\strong{default}) or
+\item \code{'hexagon'}
+}}
+
+\item{offset}{\code{[character(1)]} giving the \emph{rows} to be offset.
+
+Must be one of:
+\itemize{
+\item \code{NULL} in which case no offset is used for a square tiling. (\strong{default})
+\item \code{'even'} or
+\item \code{'odd'}
+}}
 
 \item{x}{An object with one of the pensieve S3 classes.}
 
@@ -74,8 +86,6 @@ sort <- matrix(
 sort <- psSort(
   sort = sort,
   grid = grid,
-  items = items_text_en,
-  pattern = "chessboard",
-  offset = NULL)
+  items = items_text_en)
 }
 \concept{S3 classes from `pensieve`.}

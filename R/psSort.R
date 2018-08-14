@@ -2,8 +2,8 @@
 # these should be subclasses to the more general psSort, and only differentiate in the methods as far as necessary
 # the documentation below is as far as possible already generic, but this needs refactoring.
 
-# helper ===
-#' @title Store an *individual*  sort (Q-sort) as a character matrix.
+# helper ====
+#' @title Store an *individual* sort as a character matrix of *item handles*
 #' @description
 #' Stores *one* sort, by one participant as a character \eqn{i * k} matrix, with sorting columns as columns, sorting rows as rows and *short item handles* (see `psItems`) in cells.
 #'
@@ -19,9 +19,11 @@
 #' @param sort
 #' A character matrix giving the item positions of the sort.
 #' Items must be identified by their item short handles and must be unique.
-#' If `grid` is specified, only `TRUE` cells can have items.
+#' If `grid` is specified (recommended), only `TRUE` cells can have items.
+#' If `items` is specified (recommended), only handles from `items` can be used.
 #'
 #' @inheritParams psGrid
+#' @inheritParams psItemContent
 #'
 #' @family S3 classes from `pensieve`.
 #'
@@ -30,17 +32,17 @@
 #' @example tests/testthat/helper_psSort.R
 #'
 #' @export
-psSort <- function(sort, grid = NULL, items = NULL, pattern = "chessboard", offset = NULL) {
+psSort <- function(sort, grid = NULL, items = NULL, polygon = "rectangle", offset = NULL) {
   # create default variables
-  sort <- new_psSort(sort = sort, pattern = pattern, offset = offset)
+  sort <- new_psSort(sort = sort, polygon = polygon, offset = offset)
   assert_S3(sort)
   return(grid)
 }
 
-new_psSort <- function(sort, pattern, offset) {
+new_psSort <- function(sort, polygon, offset) {
   structure(
     .Data = sort,
-    pattern = pattern,
+    polygon = polygon,
     offset = offset,
     class = c("psSort", "matrix")
   )
@@ -68,20 +70,6 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, loo
   assert_names2(x = rownames(x), type = "unique", add = ps_coll, .var.name = "sort")
 
   #TODO there is some repetition in here with psGrid; perhaps this really ought to be one class with subclasses?!?
-  assert_choice(
-    x = attr(x = x, which = "pattern"),
-    choices = c("honeycomb", "chessboard", "brickwall"),
-    null.ok = FALSE,
-    .var.name = "sort",
-    add = ps_coll
-  )
-  assert_choice(
-    x = attr(x = x, which = "offset"),
-    choices = c("even", "odd"),
-    null.ok = TRUE,
-    .var.name = "sort",
-    add = ps_coll
-  )
 
   # infer and coerce other variable
   if (is.null(grid)) {
@@ -147,20 +135,6 @@ import_psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, lookup =
   assert_names2(x = rownames(x), type = "unique", add = ps_coll, .var.name = "sort")
 
   #TODO there is some repetition in here with psGrid; perhaps this really ought to be one class with subclasses?!?
-  assert_choice(
-    x = attr(x = x, which = "pattern"),
-    choices = c("honeycomb", "chessboard", "brickwall"),
-    null.ok = FALSE,
-    .var.name = "sort",
-    add = ps_coll
-  )
-  assert_choice(
-    x = attr(x = x, which = "offset"),
-    choices = c("even", "odd"),
-    null.ok = TRUE,
-    .var.name = "sort",
-    add = ps_coll
-  )
 
   # infer and coerce other variable
   if (is.null(grid)) {

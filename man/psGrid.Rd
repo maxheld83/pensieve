@@ -10,7 +10,7 @@
 \alias{knit_print.psGrid}
 \title{Store sorting grid as logical matrix.}
 \usage{
-psGrid(grid, pattern = "chessboard", offset = NULL)
+psGrid(grid, polygon = "rectangle", offset = NULL)
 
 \method{validate_S3}{psGrid}(x, ps_coll = NULL, ...)
 
@@ -26,16 +26,27 @@ as_psGrid(obj, ...)
   aspect_ratio_cards = 85/54, inline = FALSE, ...)
 }
 \arguments{
-\item{grid}{A logical matrix giving the available cells for Q sorting.
+\item{grid}{\code{[matrix(logical())]}
+giving the available cells for sorting.
 Accepts arbitrary dimnames from grid.
 If any dimnames are missing, sensible defaults will be set.}
 
-\item{pattern}{A character string, giving the pattern of tesselation to use.
-Must be \code{"chessboard"} (default), the only currently supported pattern.}
+\item{polygon}{\code{[character(1)]} giving polygon to use for tiling
 
-\item{offset}{A character string, giving the rows to be offset.
-Must be \code{"even"}, \code{"odd"} or \code{NULL} (default).
-Applies only to \code{"honeycomb"} and \code{"brickwall"} patterns, otherwise ignored.}
+Must be one of:
+\itemize{
+\item \code{'rectangle'} (\strong{default}) or
+\item \code{'hexagon'}
+}}
+
+\item{offset}{\code{[character(1)]} giving the \emph{rows} to be offset.
+
+Must be one of:
+\itemize{
+\item \code{NULL} in which case no offset is used for a square tiling. (\strong{default})
+\item \code{'even'} or
+\item \code{'odd'}
+}}
 
 \item{x}{An object with one of the pensieve S3 classes.}
 
@@ -78,6 +89,30 @@ Even a free distribution must have a grid, giving the maximum indices of rows an
 
 \item \code{knit_print}: Printing inside knitr chunks
 }}
+
+\section{Hexagonal tiling}{
+
+\link{psGrid} stores \emph{all} sorting grids as \emph{rectangular} matrices, using what is known as the \href{https://www.redblobgames.com/grids/hexagons/}{"offset" notation for hexagonal tiling}.
+In offset notation, hexagonal tilings are saved as if they were normal (square) tilings, with an additional attribute giving which rows are to be offset.
+In this way, both square and hexagonal tilings can be stored in a similar format.
+They are also intuitive to use, where the outer limits of the tiling are rectangular, and rotation is not required, both of which are usually the case for sorting.
+However, linear algebra operations are no longer defined on such hexagonal matrices in offset notation (that would require cube or axial coordinates).
+Remember not to run such operations on hexagonally tiled \link{psGrid}s.
+
+The \code{offset} argument is used to switch between loosely defined tiling patterns.
+Strictly speaking there are  \emph{three regular} tiling patterns: square, hexagonal and triangular.
+However, items are more easily typeset in \emph{rectangles} than in squares, hexagons or triangles.
+You can therefore also use "square" tiling (\code{offset = NULL}) for rectangulary set items, and even "hexagonal" tiling (\code{offset = "even"} or \code{offset = "odd"}) for rectangles (in a "brickwall" pattern) and irregular (stretched or squeezed) hexagons.
+One combination remains impossible: you cannot have "square" tiling (\code{offset = NULL}) with hexagons (\code{polygon = 'hexagon'}).
+
+The aspect ratio of the \emph{irregular} polygons is currently only provided to \code{knit_print.psGrid()}.
+To achieve \emph{regular} square and hexagonal tiling (though this is unlikely to be useful), set \code{aspect_ratio_cards} to \code{1}.
+
+Notice that \code{offset} always refers to \emph{rows}, and as such implies hexagonal tiling in "\strong{pointy}"-topped rotation.
+
+Remember that rows for \code{offset} are given using \emph{R} indices, starting with \code{1}.
+Examples of offset notation in most other programming languages will differ."
+}
 
 \section{Printing in knitr chunks}{
 

@@ -7,6 +7,4 @@ sort <- matrix(
 sort <- psSort(
   sort = sort,
   grid = grid,
-  items = items_text_en,
-  pattern = "chessboard",
-  offset = NULL)
+  items = items_text_en)

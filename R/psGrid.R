@@ -1,5 +1,4 @@
 # helper ====
-# TODO this too works for open and closed sorts!
 #' @title Store sorting grid as logical matrix.
 #'
 #' @description
@@ -9,19 +8,38 @@
 #' *Every* sort must have a grid.
 #' Even a free distribution must have a grid, giving the maximum indices of rows and columns, but with all cells `TRUE`.
 #'
-#' @param grid
-#' A logical matrix giving the available cells for Q sorting.
+#' @param grid `[matrix(logical())]`
+#' giving the available cells for sorting.
 #' Accepts arbitrary dimnames from grid.
 #' If any dimnames are missing, sensible defaults will be set.
 #'
-#' @param pattern
-#' A character string, giving the pattern of tesselation to use.
-#' Must be `"chessboard"` (default), the only currently supported pattern.
+#' @eval document_choice_arg(arg_name = "polygon", choices = polygons, before = "giving polygon to use for tiling", default = "rectangle")
 #'
-#' @param offset
-#' A character string, giving the rows to be offset.
-#' Must be `"even"`, `"odd"` or `NULL` (default).
-#' Applies only to `"honeycomb"` and `"brickwall"` patterns, otherwise ignored.
+#' @eval document_choice_arg(arg_name = "offset", choices = offsets, before = "giving the *rows* to be offset.", default = "null", null = "in which case no offset is used for a square tiling.")
+#'
+#' @section Hexagonal tiling:
+#' [psGrid][psGrid] stores *all* sorting grids as *rectangular* matrices, using what is known as the ["offset" notation for hexagonal tiling](https://www.redblobgames.com/grids/hexagons/).
+#' In offset notation, hexagonal tilings are saved as if they were normal (square) tilings, with an additional attribute giving which rows are to be offset.
+#' In this way, both square and hexagonal tilings can be stored in a similar format.
+#' They are also intuitive to use, where the outer limits of the tiling are rectangular, and rotation is not required, both of which are usually the case for sorting.
+#' However, linear algebra operations are no longer defined on such hexagonal matrices in offset notation (that would require cube or axial coordinates).
+#' Remember not to run such operations on hexagonally tiled [psGrid][psGrid]s.
+# TODO if we ever need "proper" cube/axial coordinates, say for a real honeycomb structure, this should be implemented as a subclass to `psGrid`, with appropriate coercion methods. Seems overkill for now.
+#'
+#' The `offset` argument is used to switch between loosely defined tiling patterns.
+#' Strictly speaking there are  *three regular* tiling patterns: square, hexagonal and triangular.
+#' However, items are more easily typeset in *rectangles* than in squares, hexagons or triangles.
+#' You can therefore also use "square" tiling (`offset = NULL`) for rectangulary set items, and even "hexagonal" tiling (`offset = "even"` or `offset = "odd"`) for rectangles (in a "brickwall" pattern) and irregular (stretched or squeezed) hexagons.
+#' One combination remains impossible: you cannot have "square" tiling (`offset = NULL`) with hexagons (`polygon = 'hexagon'`).
+#'
+#' The aspect ratio of the *irregular* polygons is currently only provided to `knit_print.psGrid()`.
+#' To achieve *regular* square and hexagonal tiling (though this is unlikely to be useful), set `aspect_ratio_cards` to `1`.
+#'
+#' Notice that `offset` always refers to *rows*, and as such implies hexagonal tiling in "**pointy**"-topped rotation.
+# TODO in the astronomically unlikely case of flat topped hex grids, this would need to be another variable; offset would then refer to *columns*
+#'
+#' Remember that rows for `offset` are given using *R* indices, starting with `1`.
+#' Examples of offset notation in most other programming languages will differ."
 #'
 #' @example tests/testthat/helper_psGrid.R
 #'
@@ -30,38 +48,37 @@
 #' @return A logical matrix of class [psGrid][psGrid].
 #'
 #' @export
-# TODO it's not clear that we even need "honeycomb" or "brickwall"; perhaps *both* are saved as axial coordinates, and only the shape is slightly different https://www.redblobgames.com/grids/hexagons/#coordinates, proper term would be hexagonal binning
-# TODO is it really brickwall tesselation? what is the real term for this?
-# TODO in case of hex coord system, you might also need pointy top or flat top as a variable
 psGrid <- function(grid,
-                   pattern = "chessboard",
+                   polygon = "rectangle",
                    offset = NULL) {
+  # prepare row names
   if (is.null(rownames(grid))) {
     rownames(grid) <- LETTERS[1:nrow(grid)]
   }
   if (is.null(colnames(grid))) {
     if (is_even(ncol(grid))) {
-      # this is awkward, seems legit only when unipolar sort, so we take 1:n
+      # even rows make sense only for unipolar sorts really
+      # this is just accepted here, and we do not store for now whether sorts are unipolar or bipolar
       colnames(grid) <- as.character(1:ncol(grid))
     } else {
       extreme <- ncol(grid) %/% 2
       colnames(grid) <- as.character(-extreme:extreme)
     }
   }
-  grid <- new_psGrid(grid = grid, pattern = pattern, offset = offset)
+  grid <- new_psGrid(grid = grid, polygon = polygon, offset = offset)
   assert_S3(grid)
   return(grid)
 }
+offsets <- c("even", "odd")
+polygons <- c("rectangle", "hexagon")
 
 # constructor
-new_psGrid <- function(grid, pattern, offset) {
+new_psGrid <- function(grid, polygon, offset) {
   assert_matrix(x = grid, mode = "logical")
-  assert_string(x = pattern)
-  assert_string(x = offset, null.ok = TRUE)
 
   structure(
     .Data = grid,
-    pattern = pattern,
+    polygon = polygon,
     offset = offset,
     class = c("psGrid", "matrix")
   )
@@ -84,16 +101,15 @@ validate_S3.psGrid <- function(x, ps_coll = NULL, ...) {
   assert_names2(x = rownames(x), type = "unique", add = ps_coll, .var.name = "grid")
 
   assert_choice(
-    x = attr(x = x, which = "pattern"),
-    choices = c("honeycomb", "chessboard", "brickwall"),
+    x = attr(x = x, which = "polygon"),
+    choices = polygons,
     null.ok = FALSE,
     .var.name = "grid",
     add = ps_coll
   )
-
   assert_choice(
     x = attr(x = x, which = "offset"),
-    choices = c("even", "odd"),
+    choices = offsets,
     null.ok = TRUE,
     .var.name = "grid",
     add = ps_coll
@@ -150,7 +166,6 @@ as_psGrid.numeric <- function(obj, ...) {
 #' @rdname psGrid
 #' @export
 as_psGrid.matrix <- function(obj, ...) {
-  # TODO make sure that obj is logical or can be coerced such
   psGrid(grid = obj, ...)
 }
 
@@ -170,8 +185,11 @@ knit_print.psGrid <- function(x,
                               aspect_ratio_cards = 85/54,
                               inline = FALSE,
                               ...) {
+  if (!is.null(attr(x = x, which = "offset"))) {
+    stop("Sorry, do not know how to print non-square tiled grids.
+         If you need this feature, contact the package author.")
+  }
   if (inline) {
-    #TODO this currently does not really work https://github.com/maxheld83/pensieve/issues/385
     # makes no sense / is complicated to print html5_grid inline, so we pass on to default knit_print method for matrix
     NextMethod()
   } else {

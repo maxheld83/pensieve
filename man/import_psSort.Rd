@@ -10,7 +10,8 @@ import_psSort(x, grid = NULL, items = NULL, ps_coll = NULL,
 \arguments{
 \item{x}{An object with one of the pensieve S3 classes.}
 
-\item{grid}{A logical matrix giving the available cells for Q sorting.
+\item{grid}{\code{[matrix(logical())]}
+giving the available cells for sorting.
 Accepts arbitrary dimnames from grid.
 If any dimnames are missing, sensible defaults will be set.}
 

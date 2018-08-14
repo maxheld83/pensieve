@@ -12,13 +12,15 @@ inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)),
   aspect_ratio_cards = 16/9, width = NULL, height = NULL)
 }
 \arguments{
-\item{grid}{A logical matrix giving the available cells for Q sorting.
+\item{grid}{\code{[matrix(logical())]}
+giving the available cells for sorting.
 Accepts arbitrary dimnames from grid.
 If any dimnames are missing, sensible defaults will be set.}
 
 \item{sort}{A character matrix giving the item positions of the sort.
 Items must be identified by their item short handles and must be unique.
-If \code{grid} is specified, only \code{TRUE} cells can have items.}
+If \code{grid} is specified (recommended), only \code{TRUE} cells can have items.
+If \code{items} is specified (recommended), only handles from \code{items} can be used.}
 
 \item{header}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as headers.}
 
