@@ -8,22 +8,23 @@
 #' *Every* sort must have a grid.
 #' Even a free distribution must have a grid, giving the maximum indices of rows and columns, but with all cells `TRUE`.
 #'
-#' @param grid `[matrix(logical())]`
-#' giving the available cells for sorting.
-#' Accepts arbitrary dimnames from grid.
-#' If any dimnames are missing, sensible defaults will be set.
+# this argument is almost the same as sort for psSort; some duplication
+#' @param grid `[matrix()]`
+#' giving the availability of cells for sorting as `logical(1)` values.
+#' At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
+#' Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.
 #'
 #' @eval document_choice_arg(arg_name = "polygon", choices = polygons, before = "giving polygon to use for tiling", default = "rectangle")
 #'
 #' @eval document_choice_arg(arg_name = "offset", choices = offsets, before = "giving the *rows* to be offset.", default = "null", null = "in which case no offset is used for a square tiling.")
 #'
 #' @section Hexagonal tiling:
-#' [psGrid][psGrid] stores *all* sorting grids as *rectangular* matrices, using what is known as the ["offset" notation for hexagonal tiling](https://www.redblobgames.com/grids/hexagons/).
+#' [psGrid][psGrid] and [psSort][psSort] store *all* sorting grids as *rectangular* matrices, using what is known as the ["offset" notation for hexagonal tiling](https://www.redblobgames.com/grids/hexagons/).
 #' In offset notation, hexagonal tilings are saved as if they were normal (square) tilings, with an additional attribute giving which rows are to be offset.
 #' In this way, both square and hexagonal tilings can be stored in a similar format.
 #' They are also intuitive to use, where the outer limits of the tiling are rectangular, and rotation is not required, both of which are usually the case for sorting.
 #' However, linear algebra operations are no longer defined on such hexagonal matrices in offset notation (that would require cube or axial coordinates).
-#' Remember not to run such operations on hexagonally tiled [psGrid][psGrid]s.
+#' Remember not to run such operations on hexagonally tiled [psGrid][psGrid]s or [psSort][psSort]s.
 # TODO if we ever need "proper" cube/axial coordinates, say for a real honeycomb structure, this should be implemented as a subclass to `psGrid`, with appropriate coercion methods. Seems overkill for now.
 #'
 #' The `offset` argument is used to switch between loosely defined tiling patterns.
@@ -32,7 +33,7 @@
 #' You can therefore also use "square" tiling (`offset = NULL`) for rectangulary set items, and even "hexagonal" tiling (`offset = "even"` or `offset = "odd"`) for rectangles (in a "brickwall" pattern) and irregular (stretched or squeezed) hexagons.
 #' One combination remains impossible: you cannot have "square" tiling (`offset = NULL`) with hexagons (`polygon = 'hexagon'`).
 #'
-#' The aspect ratio of the *irregular* polygons is currently only provided to `knit_print.psGrid()`.
+#' The aspect ratio of the *irregular* polygons is currently only provided to respective `knit_print()` methods.
 #' To achieve *regular* square and hexagonal tiling (though this is unlikely to be useful), set `aspect_ratio_cards` to `1`.
 #'
 #' Notice that `offset` always refers to *rows*, and as such implies hexagonal tiling in "**pointy**"-topped rotation.
@@ -51,19 +52,8 @@
 psGrid <- function(grid,
                    polygon = "rectangle",
                    offset = NULL) {
-  # prepare row names
-  if (is.null(rownames(grid))) {
-    rownames(grid) <- LETTERS[1:nrow(grid)]
-  }
-  if (is.null(colnames(grid))) {
-    if (is_even(ncol(grid))) {
-      # even rows make sense only for unipolar sorts really
-      # this is just accepted here, and we do not store for now whether sorts are unipolar or bipolar
-      colnames(grid) <- as.character(1:ncol(grid))
-    } else {
-      extreme <- ncol(grid) %/% 2
-      colnames(grid) <- as.character(-extreme:extreme)
-    }
+  if (is.null(dimnames(grid))) {
+    colnames(grid) <- make_rank_names(max_rank = ncol(grid))
   }
   grid <- new_psGrid(grid = grid, polygon = polygon, offset = offset)
   assert_S3(grid)
@@ -72,9 +62,33 @@ psGrid <- function(grid,
 offsets <- c("even", "odd")
 polygons <- c("rectangle", "hexagon")
 
+#' @title Make rank names for sorting grids
+#' @description
+#' It is useful to have rank names for sorting grids (-1, 0, 1).
+#' This function creates them.
+#' @param max_rank `[integer(1)]`
+#' @return `[character()]`
+#' @noRd
+make_rank_names <- function(max_rank) {
+  if (is_even(max_rank)) {
+    # even rows make sense only for unipolar sorts really
+    # this is just accepted here, and we do not store for now whether sorts are unipolar or bipolar
+    return(as.character(1:max_rank))
+  }
+  extreme <- max_rank %/% 2
+  return(as.character(-extreme:extreme))
+}
+
 # constructor
 new_psGrid <- function(grid, polygon, offset) {
-  assert_matrix(x = grid, mode = "logical")
+  # assert base type
+  assert_matrix(
+    x = grid,
+    mode = "logical",
+    any.missing = FALSE,
+    all.missing = FALSE,
+    null.ok = FALSE
+  )
 
   structure(
     .Data = grid,
@@ -88,15 +102,6 @@ new_psGrid <- function(grid, polygon, offset) {
 #' @inheritParams validate_S3
 #' @export
 validate_S3.psGrid <- function(x, ps_coll = NULL, ...) {
-  assert_matrix(
-    x = x,
-    mode = "logical",
-    any.missing = FALSE,
-    all.missing = FALSE,
-    null.ok = FALSE,
-    add = ps_coll,
-    .var.name = "grid"
-  )
   assert_names2(x = colnames(x), type = "unique", add = ps_coll, .var.name = "grid")
   assert_names2(x = rownames(x), type = "unique", add = ps_coll, .var.name = "grid")
 
@@ -135,7 +140,7 @@ as_psGrid.psGrid <- function(obj, ...) {
   assert_S3(x = obj)
   obj
 }
-#' @describeIn psGrid Coercion
+#' @describeIn psGrid Coercion from other vector forms
 #' @export
 as_psGrid.integer <- function(obj, ...) {
   # input validation
@@ -150,7 +155,14 @@ as_psGrid.integer <- function(obj, ...) {
     return(this_column)
   })
 
-  m <- matrix(data = m, nrow = max(obj), ncol = length(obj), dimnames = list(y = NULL, x = names(obj)))
+  if (is.null(names(obj))) {
+    # this is necessary, because below syntax otherwise yields an empty list
+    dim_names <- NULL
+  } else {
+    # here, as always, we assume that x is the used dimension
+    dim_names <- list(c(NULL), names(obj))
+  }
+  m <- matrix(data = m, nrow = max(obj), ncol = length(obj), dimnames = dim_names)
 
   psGrid(grid =  m, ...)
 }
@@ -167,6 +179,17 @@ as_psGrid.numeric <- function(obj, ...) {
 #' @export
 as_psGrid.matrix <- function(obj, ...) {
   psGrid(grid = obj, ...)
+}
+#' @describeIn psGrid Coercion from sort (sets all to `TRUE`)
+#' @export
+as_psGrid.psSort <- function(obj, ...) {
+  grid <- matrix(data = TRUE, nrow = nrow(obj), ncol = ncol(obj))
+  dimnames(grid) <- dimnames(obj)
+  psGrid(
+    grid = grid,
+    polygon = obj %@% "polygon",
+    offset = obj %@% "offset"
+  )
 }
 
 # print ====

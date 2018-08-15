@@ -7,6 +7,7 @@
 \alias{as_psGrid.integer}
 \alias{as_psGrid.numeric}
 \alias{as_psGrid.matrix}
+\alias{as_psGrid.psSort}
 \alias{knit_print.psGrid}
 \title{Store sorting grid as logical matrix.}
 \usage{
@@ -22,14 +23,16 @@ as_psGrid(obj, ...)
 
 \method{as_psGrid}{matrix}(obj, ...)
 
+\method{as_psGrid}{psSort}(obj, ...)
+
 \method{knit_print}{psGrid}(x, header = TRUE, footer = TRUE,
   aspect_ratio_cards = 85/54, inline = FALSE, ...)
 }
 \arguments{
-\item{grid}{\code{[matrix(logical())]}
-giving the available cells for sorting.
-Accepts arbitrary dimnames from grid.
-If any dimnames are missing, sensible defaults will be set.}
+\item{grid}{\code{[matrix()]}
+giving the availability of cells for sorting as \code{logical(1)} values.
+At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
+Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
 
 \item{polygon}{\code{[character(1)]} giving polygon to use for tiling
 
@@ -85,19 +88,21 @@ Even a free distribution must have a grid, giving the maximum indices of rows an
 \itemize{
 \item \code{validate_S3}: Validation
 
-\item \code{as_psGrid}: Coercion
+\item \code{as_psGrid}: Coercion from other vector forms
+
+\item \code{as_psGrid}: Coercion from sort (sets all to \code{TRUE})
 
 \item \code{knit_print}: Printing inside knitr chunks
 }}
 
 \section{Hexagonal tiling}{
 
-\link{psGrid} stores \emph{all} sorting grids as \emph{rectangular} matrices, using what is known as the \href{https://www.redblobgames.com/grids/hexagons/}{"offset" notation for hexagonal tiling}.
+\link{psGrid} and \link{psSort} store \emph{all} sorting grids as \emph{rectangular} matrices, using what is known as the \href{https://www.redblobgames.com/grids/hexagons/}{"offset" notation for hexagonal tiling}.
 In offset notation, hexagonal tilings are saved as if they were normal (square) tilings, with an additional attribute giving which rows are to be offset.
 In this way, both square and hexagonal tilings can be stored in a similar format.
 They are also intuitive to use, where the outer limits of the tiling are rectangular, and rotation is not required, both of which are usually the case for sorting.
 However, linear algebra operations are no longer defined on such hexagonal matrices in offset notation (that would require cube or axial coordinates).
-Remember not to run such operations on hexagonally tiled \link{psGrid}s.
+Remember not to run such operations on hexagonally tiled \link{psGrid}s or \link{psSort}s.
 
 The \code{offset} argument is used to switch between loosely defined tiling patterns.
 Strictly speaking there are  \emph{three regular} tiling patterns: square, hexagonal and triangular.
@@ -105,7 +110,7 @@ However, items are more easily typeset in \emph{rectangles} than in squares, hex
 You can therefore also use "square" tiling (\code{offset = NULL}) for rectangulary set items, and even "hexagonal" tiling (\code{offset = "even"} or \code{offset = "odd"}) for rectangles (in a "brickwall" pattern) and irregular (stretched or squeezed) hexagons.
 One combination remains impossible: you cannot have "square" tiling (\code{offset = NULL}) with hexagons (\code{polygon = 'hexagon'}).
 
-The aspect ratio of the \emph{irregular} polygons is currently only provided to \code{knit_print.psGrid()}.
+The aspect ratio of the \emph{irregular} polygons is currently only provided to respective \code{knit_print()} methods.
 To achieve \emph{regular} square and hexagonal tiling (though this is unlikely to be useful), set \code{aspect_ratio_cards} to \code{1}.
 
 Notice that \code{offset} always refers to \emph{rows}, and as such implies hexagonal tiling in "\strong{pointy}"-topped rotation.
@@ -127,6 +132,14 @@ The \code{\link[base:print]{base::print()}}ing method of the underlying classes 
 \examples{
 # make simple matrix by hand
 m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
+grid_byhand <- psGrid(grid = m)
+
+# matrix with better dimnames
+dimnames(m) <- list(
+  c(NULL), # rows, or y-dimension is meaningless, used for ties
+  desirable = as.character(x = -1:1)
+  # say, desirable is the short form for the sorting conditition used on x
+)
 grid_byhand <- psGrid(grid = m)
 
 # coerce grid from conventional distribution notation

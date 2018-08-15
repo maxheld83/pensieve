@@ -146,8 +146,18 @@ as_psItemContent.psItemContent <- function(obj, ...) {
   assert_S3(x = obj)
   obj
 }
+#' @describeIn psItemContent Coerce from character vector
 as_psItemContent.character <- function(obj, ...) {
   psItemContent(items = obj, ...)
+}
+#' @describeIn psItemContent Coerce from psSort
+as_psItemContent.psSort <- function(obj, ...) {
+  items <- as.vector(unique(obj))
+  items <- items[!is.na(items)]  # na.omit would leave attributes in its wake
+  names(items) <- items
+  # items[] <- NA
+  # TODO above line would be strictly better, https://github.com/maxheld83/pensieve/issues/420
+  psItemContent(items)
 }
 
 

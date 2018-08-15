@@ -4,6 +4,8 @@
 \alias{psItemContent}
 \alias{validate_S3.psItemContent}
 \alias{as_psItemContent}
+\alias{as_psItemContent.character}
+\alias{as_psItemContent.psSort}
 \alias{print.psItemContent}
 \alias{knit_print.psItemContentText}
 \alias{export_ps.psItemContentText}
@@ -19,6 +21,10 @@ psItemContent(items, dir_bin = NULL, lang = NULL,
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
 
 as_psItemContent(obj, ...)
+
+\method{as_psItemContent}{character}(obj, ...)
+
+\method{as_psItemContent}{psSort}(obj, ...)
 
 \method{print}{psItemContent}(x, ...)
 
@@ -256,6 +262,10 @@ Store \strong{full items} along with metadata (language, design) to enable deplo
 \section{Methods (by generic)}{
 \itemize{
 \item \code{validate_S3}: Validation
+
+\item \code{as_psItemContent}: Coerce from character vector
+
+\item \code{as_psItemContent}: Coerce from psSort
 
 \item \code{print}: Printing to the console
 

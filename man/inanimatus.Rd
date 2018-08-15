@@ -12,15 +12,15 @@ inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)),
   aspect_ratio_cards = 16/9, width = NULL, height = NULL)
 }
 \arguments{
-\item{grid}{\code{[matrix(logical())]}
-giving the available cells for sorting.
-Accepts arbitrary dimnames from grid.
-If any dimnames are missing, sensible defaults will be set.}
+\item{grid}{\code{[matrix()]}
+giving the availability of cells for sorting as \code{logical(1)} values.
+At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
+Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
 
-\item{sort}{A character matrix giving the item positions of the sort.
-Items must be identified by their item short handles and must be unique.
-If \code{grid} is specified (recommended), only \code{TRUE} cells can have items.
-If \code{items} is specified (recommended), only handles from \code{items} can be used.}
+\item{sort}{\code{[matrix()]}
+giving the occupying item of cells as \code{character(1)} strings of \strong{item handles}.
+At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
+Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
 
 \item{header}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as headers.}
 

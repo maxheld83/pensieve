@@ -5,32 +5,23 @@
 \alias{validate_S3.psSort}
 \title{Store an \emph{individual} sort as a character matrix of \emph{item handles}}
 \usage{
-psSort(sort, grid = NULL, items = NULL, polygon = "rectangle",
+psSort(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle",
   offset = NULL)
 
 \method{validate_S3}{psSort}(x, grid = NULL, items = NULL,
-  ps_coll = NULL, lookup = NULL, ...)
+  ps_coll = NULL, ...)
 }
 \arguments{
-\item{sort}{A character matrix giving the item positions of the sort.
-Items must be identified by their item short handles and must be unique.
-If \code{grid} is specified (recommended), only \code{TRUE} cells can have items.
-If \code{items} is specified (recommended), only handles from \code{items} can be used.}
+\item{sort}{\code{[matrix()]}
+giving the occupying item of cells as \code{character(1)} strings of \strong{item handles}.
+At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
+Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
 
-\item{grid}{\code{[matrix(logical())]}
-giving the available cells for sorting.
-Accepts arbitrary dimnames from grid.
-If any dimnames are missing, sensible defaults will be set.}
-
-\item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
-Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
-\itemize{
-\item if \code{dir_bin} is \code{NULL} (default), \code{items} must be text.
-Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
-An additional subclass \code{psItemContentText} is prepended and validated.
-\item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
-An additional subclass \code{psItemContentBin`` is prepended and validated.}lang\code{,}fontsize_global\code{,}alignment\code{and}linestretch` are ignored.
-}}
+\item{desc_x, desc_y}{\code{[character(1)]}
+giving a description of the sorting dimensions, such as the condition of instruction.
+Defaults to \code{NULL}.
+\code{desc_x} is for horizontal sorting across the columns.
+\code{desc_y} is for (rarely used) vertical sorting across the rows.}
 
 \item{polygon}{\code{[character(1)]} giving polygon to use for tiling
 
@@ -51,9 +42,22 @@ Must be one of:
 
 \item{x}{An object with one of the pensieve S3 classes.}
 
-\item{ps_coll}{\code{\link{AssertCollection}} ps_coll error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
+\item{grid}{\code{[matrix()]}
+giving the availability of cells for sorting as \code{logical(1)} values.
+At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
+Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
 
-\item{lookup}{A lookup table.}
+\item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
+Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
+\itemize{
+\item if \code{dir_bin} is \code{NULL} (default), \code{items} must be text.
+Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
+An additional subclass \code{psItemContentText} is prepended and validated.
+\item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
+An additional subclass \code{psItemContentBin`` is prepended and validated.}lang\code{,}fontsize_global\code{,}alignment\code{and}linestretch` are ignored.
+}}
+
+\item{ps_coll}{\code{\link{AssertCollection}} ps_coll error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
 
 \item{...}{further arguments to be passed to methods.}
 }
@@ -61,31 +65,46 @@ Must be one of:
 A character matrix of class \link{psSort}.
 }
 \description{
-Stores \emph{one} sort, by one participant as a character \eqn{i * k} matrix, with sorting columns as columns, sorting rows as rows and \emph{short item handles} (see \code{psItems}) in cells.
+Stores \emph{one} sort, by one participant as an \eqn{i * k} character matrix, with sorting columns as columns, sorting rows as rows and \emph{short item handles} (see \code{psItems}) in cells.
 }
 \details{
 Sorts can be stored in the form in which they were originally created on a table or in a computer user interface.
 The \code{y}-axis, though meaningless (ties) in most studies, is also stored, but this full matrix form makes it easy to reason about the data, and to validate it.
-
-Storing sorts of \emph{several} participants as \emph{lists} of such \code{psSort}s (as is done in \code{psData}) also makes it possible to record sorts where not all participants used exactly the same sorting template (different \code{psGrid}s or tesselation patterns).
-
-Methods are included to rbind \code{psItems} to \code{psData}, as well as to transform them into a tidy matrix.
 }
 \section{Methods (by generic)}{
 \itemize{
 \item \code{validate_S3}: Validation
 }}
 
+\section{Hexagonal tiling}{
+
+\link{psGrid} and \link{psSort} store \emph{all} sorting grids as \emph{rectangular} matrices, using what is known as the \href{https://www.redblobgames.com/grids/hexagons/}{"offset" notation for hexagonal tiling}.
+In offset notation, hexagonal tilings are saved as if they were normal (square) tilings, with an additional attribute giving which rows are to be offset.
+In this way, both square and hexagonal tilings can be stored in a similar format.
+They are also intuitive to use, where the outer limits of the tiling are rectangular, and rotation is not required, both of which are usually the case for sorting.
+However, linear algebra operations are no longer defined on such hexagonal matrices in offset notation (that would require cube or axial coordinates).
+Remember not to run such operations on hexagonally tiled \link{psGrid}s or \link{psSort}s.
+
+The \code{offset} argument is used to switch between loosely defined tiling patterns.
+Strictly speaking there are  \emph{three regular} tiling patterns: square, hexagonal and triangular.
+However, items are more easily typeset in \emph{rectangles} than in squares, hexagons or triangles.
+You can therefore also use "square" tiling (\code{offset = NULL}) for rectangulary set items, and even "hexagonal" tiling (\code{offset = "even"} or \code{offset = "odd"}) for rectangles (in a "brickwall" pattern) and irregular (stretched or squeezed) hexagons.
+One combination remains impossible: you cannot have "square" tiling (\code{offset = NULL}) with hexagons (\code{polygon = 'hexagon'}).
+
+The aspect ratio of the \emph{irregular} polygons is currently only provided to respective \code{knit_print()} methods.
+To achieve \emph{regular} square and hexagonal tiling (though this is unlikely to be useful), set \code{aspect_ratio_cards} to \code{1}.
+
+Notice that \code{offset} always refers to \emph{rows}, and as such implies hexagonal tiling in "\strong{pointy}"-topped rotation.
+
+Remember that rows for \code{offset} are given using \emph{R} indices, starting with \code{1}.
+Examples of offset notation in most other programming languages will differ."
+}
+
 \examples{
-grid <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
-grid <- as_psGrid(grid)
 sort <- matrix(
   data = c(NA, "live_2_work", NA, "work_2_live", NA, NA),
-  nrow = 2)
-# TODO this creates a logical matrix, that's a BUG
-sort <- psSort(
-  sort = sort,
-  grid = grid,
-  items = items_text_en)
+  nrow = 2
+)
+psSort(sort = sort)
 }
 \concept{S3 classes from `pensieve`.}
