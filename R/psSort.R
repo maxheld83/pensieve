@@ -117,36 +117,73 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...
   clean_sort <- matrix(data = NA, nrow = nrow(x), ncol = ncol(x))
   attributes(clean_sort) <- attributes(x)
 
-  # TODO use map here
-  for (row in 1:nrow(dirty_sort)) {
-    for (column in 1:ncol(dirty_sort)) {
-      clean_sort <- inset_psSort(
-        x = clean_sort,
-        i = row,
-        j = column,
-        value = dirty_sort[row, column],
-        grid = grid, items = items
-      )
-    }
-  }
+  inset_psSort(
+    x = clean_sort,
+    value = dirty_sort,
+    grid = grid,
+    items = items
+  )
+
   NextMethod(ps_coll = ps_coll)
 }
 
 
-#' @title Place item into row and column of a closed sort.
+#' @title Place item into rows and columns of a closed sort.
+#' @description
+#' This function accepts vectors and names for i and j, much like `[<-`.
+#' Below inset_psSort1 accepts only a single cell as input
 #' @inheritParams psSort
 #' @inheritParams base::Extract
 #' @return A matrix of class `psSort`.
 #' @noRd
 #TODO this should ideally be an internal generic method, blocked by https://github.com/maxheld83/pensieve/issues/421
-inset_psSort <- function(x, i, j, value = NA, grid = NULL, items = NULL, ...) {
+inset_psSort <- function(x, i = NULL, j = NULL, value = NA, grid = NULL, items = NULL) {
+  # null indices means inset *all*
+  if (is.null(i)) {
+    i <- 1:nrow(x)
+  }
+  if (is.null(j)) {
+    j <- 1:ncol(x)
+  }
+
+  # nested for loops are bad, yes, but
+  # - purrr does not support matrices
+  # - apply makes this harder to read
+  for (row in i) {
+    for (column in j) {
+      x[i, j] <- inset_psSort1(
+        x = x,
+        i = row,
+        j = column,
+        value = value[row, column],
+        grid = grid,
+        items = items
+      )
+    }
+  }
+}
+inset_psSort1 <- function(x, i, j, value = NA, grid = NULL, items = NULL) {
   sort <- x
   row <- i
   column <- j
   item <- value
   # input validation
-  assert_integerish(x = row, lower = 0, upper = nrow(sort), len = 1, null.ok = FALSE)
-  assert_integerish(x = column, lower = 0, upper = ncol(sort), len = 1, null.ok = FALSE)
+  assert_atomic_vector(
+    x = row,
+    any.missing = FALSE,
+    all.missing = FALSE,
+    min.len = 1,
+    max.len = nrow(sort),
+    .var.name = "row"
+  )
+  assert_atomic_vector(
+    x = column,
+    any.missing = FALSE,
+    all.missing = FALSE,
+    min.len = 1,
+    max.len = ncol(sort),
+    .var.name = "column"
+  )
   assert_string(x = item, na.ok = TRUE, null.ok = FALSE)
 
   if (!is.na(item)) {
