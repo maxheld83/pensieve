@@ -408,6 +408,14 @@ check_on_dev_machine <- function(x = c("max")) {
 assert_on_dev_machine <- makeAssertionFunction(check.fun = check_on_dev_machine)
 test_on_dev_machine <- makeTestFunction(check.fun = check_on_dev_machine)
 expect_on_dev_machine <- makeExpectationFunction(check.fun = check_on_dev_machine)
+skip_on_dev_machine <- function() {
+  if (TRUE) {
+    testthat::skip_if(
+      condition = test_on_dev_machine(),
+      message = "Expensive operation skipped on Max's local machine."
+    )
+  }
+}
 
 
 #' @title Check if function works with specified arguments

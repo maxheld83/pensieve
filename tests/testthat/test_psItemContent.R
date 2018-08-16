@@ -43,6 +43,7 @@ test_that(desc = "subsetting retains attributes", code = {
 # knit_print method ====
 test_that(desc = "knit_print returns proper S3 object", code = {
   skip_on_appveyor()
+  skip_on_dev_machine()
   knitted_items <- NULL
   knitted_items$named <- knit_print(x = items_text_en)
   knitted_items$unnamed <- knit_print(x = items_text_de)
@@ -81,6 +82,7 @@ teardown(code = {
 
 test_that(desc = "exported items are 1 page only", code = {
   skip_on_appveyor()
+  skip_on_dev_machine()
   test_items <- psItemContent(items = c(short = "short", long = glue_collapse(rep("long", times = 60), sep = " ")))
   paths <- export_ps(x = test_items, dir = path, overwrite = TRUE)
   expect_pdf1page(x = paths["long"])
@@ -88,6 +90,7 @@ test_that(desc = "exported items are 1 page only", code = {
 
 test_that(desc = "export method writes files to all formats", code = {
   skip_on_appveyor()
+  skip_on_dev_machine()
   walk(
     .x = names(render_chain_formats)[-4],
     .f = function(x) {
