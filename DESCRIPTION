@@ -17,7 +17,6 @@ LazyData: true
 Imports:
   broom (>= 0.4.2),
   checkmate (>= 1.8.1),
-  fs (>= 1.2.3),
   glue (>= 1.2.0),
   ggplot2 (>= 2.2.0),
   knitr (>= 1.13),
@@ -31,6 +30,7 @@ Imports:
   tibble (>= 1.3.3)
 Suggests:
   DT (>= 0.2),
+  fs (>= 1.2.3),
   ggrepel (>= 0.6.5),
   grImport2 (>= 0.1-4),
   grid (>= 3.4),
