@@ -8,8 +8,7 @@
 psSort(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle",
   offset = NULL)
 
-\method{validate_S3}{psSort}(x, grid = NULL, items = NULL,
-  ps_coll = NULL, ...)
+\method{validate_S3}{psSort}(x, grid = NULL, items = NULL, ...)
 }
 \arguments{
 \item{sort}{\code{[matrix()]}
@@ -57,8 +56,6 @@ An additional subclass \code{psItemContentText} is prepended and validated.
 \item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
 An additional subclass \code{psItemContentBin`` is prepended and validated.}lang\code{,}fontsize_global\code{,}alignment\code{and}linestretch` are ignored.
 }}
-
-\item{ps_coll}{\code{\link{AssertCollection}} ps_coll error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
 
 \item{...}{further arguments to be passed to methods.}
 }

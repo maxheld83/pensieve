@@ -101,7 +101,7 @@ new_psGrid <- function(grid, polygon, offset) {
 #' @describeIn psGrid Validation
 #' @inheritParams validate_S3
 #' @export
-validate_S3.psGrid <- function(x, ps_coll = NULL, ...) {
+validate_S3.psGrid <- function(x, ...) {
   assert_names2(x = colnames(x), type = "unique", add = ps_coll, .var.name = "grid")
   assert_names2(x = rownames(x), type = "unique", add = ps_coll, .var.name = "grid")
 

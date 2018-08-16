@@ -71,7 +71,7 @@ new_psSort <- function(sort, desc_x, desc_y, polygon, offset) {
 #' @inheritParams psGrid
 #' @inheritParams psItemContent
 #' @export
-validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...) {
+validate_S3.psSort <- function(x, grid = NULL, items = NULL, ...) {
   # psSort has mostly the same validation on x as psGrid;
   # to avoid duplication, we here use this somewhat hacky trick
   assert_S3(as_psGrid(x), collection = ps_coll, var.name = "sort")

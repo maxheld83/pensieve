@@ -13,7 +13,7 @@
 \usage{
 psGrid(grid, polygon = "rectangle", offset = NULL)
 
-\method{validate_S3}{psGrid}(x, ps_coll = NULL, ...)
+\method{validate_S3}{psGrid}(x, ...)
 
 as_psGrid(obj, ...)
 
@@ -52,8 +52,6 @@ Must be one of:
 }}
 
 \item{x}{An object with one of the pensieve S3 classes.}
-
-\item{ps_coll}{\code{\link{AssertCollection}} ps_coll error collection via \code{\link[checkmate:makeAssertCollection]{checkmate::makeAssertCollection()}}, for internal use.}
 
 \item{...}{further arguments to be passed to methods.}
 
