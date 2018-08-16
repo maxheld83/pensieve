@@ -60,7 +60,7 @@ md2tex <- function(path,
     echo = FALSE,
     echo_cmd = FALSE,
     spinner = FALSE,  # screws up progressbar
-    timeout = 5  # this is just pandoc, should be very fast
+    timeout = 100  # this is just pandoc, should be very fast
   )
   if (res$timeout) {
     stop(
