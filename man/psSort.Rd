@@ -14,6 +14,7 @@ psSort(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle",
 \arguments{
 \item{sort}{\code{[matrix()]}
 giving the occupying item of cells as \code{character(1)} strings of \strong{item handles}.
+\code{NA} is used for empty \emph{and} disallowed cells (see \link{psGrid}).
 At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
 Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
 

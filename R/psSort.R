@@ -14,6 +14,7 @@
 # this argument is almost the same as grid for psGrid; some duplication
 #' @param sort `[matrix()]`
 #' giving the occupying item of cells as `character(1)` strings of **item handles**.
+#' `NA` is used for empty *and* disallowed cells (see [psGrid][psGrid]).
 #' At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
 #' Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.
 #'
@@ -67,47 +68,65 @@ new_psSort <- function(sort, desc_x, desc_y, polygon, offset) {
 #' @inheritParams psItemContent
 #' @export
 validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...) {
-  # TODO finish/enable this
-  # assert_S3(x = as_psGrid(x), collection = ps_coll, var.name = "sort")
-  # reusing some code from psGrid, kinda a bad hack
+  # psSort has mostly the same validation on x as psGrid;
+  # to avoid duplication, we here use this somewhat hacky trick
+  assert_S3(as_psGrid(x), collection = ps_coll, var.name = "sort")
+  # IF desc_x/desc_y are given ensure that they are proper
+  walk(.x = c("desc_x", "desc_y"), .f = function(x) {
+    assert_character(
+      x = x %@% x,
+      any.missing = FALSE,
+      len = 1,
+      null.ok = TRUE,
+      add = ps_coll,
+      .var.name = "sort")
+  })
 
-  # coerce and assert other variables
-  if (is.null(grid)) {
-    grid <- as_psGrid(obj = x)
-  }
-  assert_S3(grid)
   if (is.null(items)) {
     items <- as_psItemContent(obj = x)
   }
-  assert_S3(items)
+
 
   # check x VS grid
   # check if sort rank corresponds to grid rank
-  assert_matrix(
-    x = x,
-    nrows = nrow(grid),
-    ncols = ncol(grid),
-    add = ps_coll
-  )
+  if (!is.null(grid)) {
+    assert_S3(x = grid, collection = ps_coll, var.name = "grid")
+    assert_matrix(
+      x = x,
+      nrows = nrow(grid),
+      ncols = ncol(grid),
+      add = ps_coll,
+      .var.name = "sort"
+    )
+  }
+
 
   # check x VS items
   # check that there are enough cells for all items
-  assert_vector(x = items, max.len = length(x), add = ps_coll)
-  # test that all items in x are also in items
+  # this is pretty strict, but recall that this is methodologically necessary:
+  # dropping some items would imply that the ipsative comparison is no longer the same
+  if (!is.null(items)) {
+    assert_S3(items, collection = ps_coll, var.name = "items")
+    assert_vector(x = items, max.len = length(x), add = ps_coll, .var.name = "sort")
+  }
+
 
   # check per cell and per row
-  clean_sort <- dirty_sort <- x
-  clean_sort[,] <- NA
+  dirty_sort <- x
+  # cannot use simple subsetting method here, because that would trigger tests already
+  clean_sort <- matrix(data = NA, nrow = nrow(x), ncol = ncol(x))
+  attributes(clean_sort) <- attributes(x)
 
   # TODO use map here
   for (row in 1:nrow(dirty_sort)) {
     for (column in 1:ncol(dirty_sort)) {
-      clean_sort <- append_psSort(sort = clean_sort,
-                                  row = row,
-                                  column = column,
-                                  item = dirty_sort[row, column],
-                                  grid = grid,
-                                  items = items)
+      clean_sort <- inset_psSort(
+        x = clean_sort,
+        i = row,
+        j = column,
+        value = dirty_sort[row, column],
+        grid = grid, items = items
+      )
     }
   }
   NextMethod(ps_coll = ps_coll)
@@ -116,35 +135,52 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...
 
 #' @title Place item into row and column of a closed sort.
 #' @inheritParams psSort
-#' @param row An integer scalar giving the row index.
-#' @param column An integer scalar giving the column index.
-#' @param item A character string giving the item handle.
-#' Defaults to `NA`, in which case `row` and `column` cell is set to `NA`.
-#' Useful for *removing* items.
+#' @inheritParams base::Extract
 #' @return A matrix of class `psSort`.
 #' @noRd
-append_psSort <- function(sort, row, column, item = NA, grid = NULL, items = NULL) {
+#TODO this should ideally be an internal generic method, blocked by https://github.com/maxheld83/pensieve/issues/421
+inset_psSort <- function(x, i, j, value = NA, grid = NULL, items = NULL, ...) {
+  sort <- x
+  row <- i
+  column <- j
+  item <- value
   # input validation
   assert_integerish(x = row, lower = 0, upper = nrow(sort), len = 1, null.ok = FALSE)
   assert_integerish(x = column, lower = 0, upper = ncol(sort), len = 1, null.ok = FALSE)
   assert_string(x = item, na.ok = TRUE, null.ok = FALSE)
 
-  # prepare values
-  item <- as.character(item)
-  if (is.null(grid)) {
-    grid <- as_psGrid.psSort(obj = sort)
-  }
-
-  # TODO some of this might be better tested in wrappers; would be called too often in here
-  # consistency checks
-
   if (!is.na(item)) {
+
     # item must not already be placed in sort
-    # when used from JS, remember to first clear sending cell, then write to receiving cell, otherwise this fails
-    assert_false(x = item %in% sort, na.ok = TRUE)
-    # assert_true(x = grid[row, column], na.ok = FALSE, .var.name = paste("row", row, "column", column))
+    if (item %in% sort) {
+      # when used from JS, remember to first clear sending cell, then write to receiving cell, otherwise this fails
+      pos <- which(sort == item, arr.ind = TRUE, useNames = TRUE)
+      stop(
+        glue(
+          "Items must be unique in a sort.
+           Item {item} is already in the sort at row {pos[,'row']} and column row {pos[,'col']}."
+        ),
+        call. = FALSE
+      )
+    }
+
+    # item target position must be allowed as per grid
+    if (!is.null(grid)) {  # we only test this if we actually *have* a grid, otherwise pointless
+      if (!grid[row, column]) {
+        stop(
+          glue("Item {item} cannot be placed into cell at row {row} and column {col}.
+               Cell is 'FALSE' in 'grid' and must therefore remain empty."),
+          call. = FALSE
+        )
+      }
+    }
+
+    # item must be one of items
+    if (!is.null(items)) {  # we only test this if we actually *have* items, otherwise pointless
+      assert_choice(x = item, choices = items, null.ok = FALSE)
+    }
   }
 
-  sort[row, column] <- item
-  return(sort)
+  x[row, column] <- value
+  x
 }
