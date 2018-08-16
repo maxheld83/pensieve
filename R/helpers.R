@@ -63,7 +63,6 @@ assert_n_infer_summarize <- function(summarize, x) {
 #' @return Absolute path to file.
 #' @noRd
 pensieve_system_file <- function(...) {
-  requireNamespace2("fs")
   file <- fs::path(...)
   system.file(file, package = "pensieve")
 }

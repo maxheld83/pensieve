@@ -104,7 +104,6 @@ pdf2svg <- function(path, page = 1) {
   path_in <- set_proper_extension(path = path, ext = "pdf")
 
   # dependencies
-  requireNamespace2(x = "fs")
   requireNamespace2(x = "processx")
   assert_os(os = c("mac", "linux"))
 
@@ -162,7 +161,6 @@ svg2grob <- function(path) {
 #' @return `[character(1)]` giving path to proper file name
 #' @noRd
 set_proper_extension <- function(path, ext) {
-  requireNamespace2("fs")
   assert_file_exists(x = path, access = "r")
   path_proper <- fs::path_ext_set(path = path, ext = ext)  # ensures that input is always proper
   fs::file_move(path = path, new_path = path_proper)
@@ -467,7 +465,6 @@ virtually <- function(fun) {
 
     # dependencies
     requireNamespace2(x = "withr")
-    requireNamespace2(x = "fs")
 
     tmpdir <- fs::path_temp()
     withr::local_dir(new = tmpdir)
@@ -527,7 +524,6 @@ svg2grob_mem <- memoise::memoise(virtually(fun = svg2grob))
 #' @param path `[character(1)]` giving path to a file
 #' @noRd
 is_binary <- function(path) {
-  requireNamespace2(x = "fs")
   !fs::path_ext(path) %in% c("md", "tex", "txt")
 }
 
@@ -649,7 +645,6 @@ find_fontsizes_1 <- function(fontsizes_local_possible = fontsizes_local, x, ...)
   # notice that this needs to run *all* fontsizes, because it's possible (given latex complexity) that, say fontsize 1 works, 2 fails and 3 works again
   # could happen because of other latex optimisations
   # so we're not saving runs here, because that might end up being only a local optimum
-  requireNamespace2("fs")
   requireNamespace2("withr")
   working_fontsizes <- map_lgl(.x = fontsizes_local_possible, .f = function(this_size) {
     tex <- md2tex_mem(x = x, fontsize_local = this_size, ...)
