@@ -90,17 +90,16 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...
     items <- as_psItemContent(obj = x)
   }
 
-
   # check x VS grid
   # check if sort rank corresponds to grid rank
   if (!is.null(grid)) {
     assert_S3(x = grid, collection = ps_coll, var.name = "grid")
     assert_matrix(
-      x = x,
-      nrows = nrow(grid),
-      ncols = ncol(grid),
+      x = grid,
+      nrows = nrow(x),
+      ncols = ncol(x),
       add = ps_coll,
-      .var.name = "sort"
+      .var.name = "grid"
     )
   }
 
@@ -111,7 +110,7 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ps_coll = NULL, ...
   # dropping some items would imply that the ipsative comparison is no longer the same
   if (!is.null(items)) {
     assert_S3(items, collection = ps_coll, var.name = "items")
-    assert_vector(x = items, max.len = length(x), add = ps_coll, .var.name = "sort")
+    assert_vector(x = items, max.len = length(x), add = ps_coll, .var.name = "items")
   }
 
 
@@ -199,7 +198,7 @@ inset_psSort1 <- function(x, i, j, value = NA, grid = NULL, items = NULL) {
       stop(
         glue(
           "Items must be unique in a sort.
-           Item {item} is already in the sort at row {pos[,'row']} and column row {pos[,'col']}."
+           Item {item} is already in the sort at row {pos[,'row']} and column {pos[,'col']}."
         ),
         call. = FALSE
       )
@@ -209,8 +208,10 @@ inset_psSort1 <- function(x, i, j, value = NA, grid = NULL, items = NULL) {
     if (!is.null(grid)) {  # we only test this if we actually *have* a grid, otherwise pointless
       if (!grid[row, column]) {
         stop(
-          glue("Item {item} cannot be placed into cell at row {row} and column {col}.
-               Cell is 'FALSE' in 'grid' and must therefore remain empty."),
+          glue(
+            "Item {item} cannot be placed into cell at row {row} and column {column}.
+               Cell is 'FALSE' in 'grid' and must therefore remain empty."
+          ),
           call. = FALSE
         )
       }

@@ -1,4 +1,4 @@
-sort <- matrix(
+one_sort <- matrix(
   data = c(NA, "live_2_work", NA, "work_2_live", NA, NA),
   nrow = 2,
   dimnames = list(
@@ -9,4 +9,4 @@ sort <- matrix(
     # (here, as typically, x)
   )
 )
-psSort(sort = sort)
+one_sort <- psSort(sort = one_sort)
