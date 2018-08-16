@@ -31,6 +31,10 @@
 #' @example tests/testthat/helper_psSort.R
 #' @export
 psSort <- function(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle", offset = NULL) {
+  # this is DUPLICATE code from psGrid!
+  if (is.null(dimnames(sort))) {
+    colnames(sort) <- make_rank_names(max_rank = ncol(sort))
+  }
   sort <- new_psSort(
     sort = sort,
     desc_x = desc_x,
