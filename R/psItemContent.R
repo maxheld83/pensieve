@@ -214,14 +214,6 @@ new_psItemContentText <- function(items, all_items, lang, fontsize_global, align
 #' @noRd
 #' @export
 validate_S3.psItemContentText <- function(x, ...) {
-  # we here test whether the provided design args could be pandocced.
-  if (test_sysdep(x = "pandoc")) {
-    invoke(
-      .f = partial(...f = assert_fun_args, x = md2tex_mem, y = "foo"),
-      .x = get_attributes_but(x = x, not_attrs = c("class", "all_items", "names"))
-      # all other arguments are design args which need testing
-    )
-  }
   NextMethod(ps_coll = ps_coll)
 }
 
