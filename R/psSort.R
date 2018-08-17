@@ -86,10 +86,6 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ...) {
       .var.name = "sort")
   })
 
-  if (is.null(items)) {
-    items <- as_psItemContent(obj = x)
-  }
-
   # check x VS grid
   # check if sort rank corresponds to grid rank
   if (!is.null(grid)) {
