@@ -71,7 +71,7 @@ Plot S3 class.
 
 \examples{
 # this just runs the calculations, but also classes and validates the results
-cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])  # preliminary step
+cors <- correlate(csorts = civicon_2014$qData$sorts[,,"before"])  # preliminary step
 loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")
 # this just assigns the class, without validation (not recommended)
 loas <- QLoas(loas = loas, validate = FALSE)

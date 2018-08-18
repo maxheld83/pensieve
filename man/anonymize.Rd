@@ -57,10 +57,5 @@ anonymize(real_names = c("Hillary", "Barack", "George"),
 # just as an example, never store lookup file with raw data
 # see `notes` for details
 }
-\seealso{
-Other import helpers: \code{\link{psClosedSorts}}
-
-Other import helpers: \code{\link{psClosedSorts}}
-}
 \concept{import helpers}
 \keyword{internal}

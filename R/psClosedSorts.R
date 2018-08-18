@@ -1,42 +1,47 @@
 # helper ====
-#' @title Check and make psClosedSorts
+#' @title Store multiple sorts as a numeric matrix
+#'
+#' @description
+#' Canonical storage for closed sorts.
+#'
+#' @param csorts `[array()]`
+#' An numeric array with people as rows, item handles as columns, arbitrary dimensions thereafter (such as for multiple sorting dimensions), and item positions in cells.
+#'
+#' @example tests/testthat/helper_psClosedSorts.R
+#'
+#' @family S3 classes from `pensieve`
+#'
+#' @return A numeric matrix of class [psClosedSorts][psClosedSorts].
 #'
 #' @export
-#'
-#' @description Checks and makes psClosedSorts
-#'
-#' @param sorts
-#' An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
-#' Dimensions must be named.
-#'
-#' @template construct
-#'
-#' @family import helpers
-psClosedSorts <- produce_class_constructor(classname = "psClosedSorts", fun = function(sorts) {
-  return(sorts)
-})
+psClosedSorts <- function(csorts) {
+  csorts <- new_psClosedSorts(csorts = csorts)
+  assert_S3(csorts)
+  return(csorts)
+}
 
-#' @describeIn psClosedSorts validation
-#'
+# constructor
+new_psClosedSorts <- function(csorts, ...) {
+  # assert base type
+  assert_array(
+    x = csorts,
+    mode = "numeric",
+    any.missing = TRUE,
+    min.d = 2,
+    null.ok = FALSE
+  )
+
+  structure(
+    .Data = csorts,
+    class = c("psClosedSorts", class(csorts))
+  )
+}
+
+#' @describeIn psClosedSorts Validation
+#' @inheritParams validate_S3
 #' @export
-#'
-#' @template check
-#'
-#' @examples
-#' sorts <- civicon_2014$qData$sorts[,,"before"]
-#' sorts <- psClosedSorts(sorts = sorts, validate = FALSE)
-#' check(x = sorts)
-check.psClosedSorts <- function(x) {
-  res <- NULL
-
-  res$array <- check_array(x = x,
-                           mode = "integer",
-                           any.missing = TRUE,
-                           min.d = 2,
-                           null.ok = FALSE)
-  res <- c(res, check_named_array(x = x))  # via external helper
-
-  return(report_checks(res = res, info = "psClosedSorts"))
+validate_S3.psClosedSorts <- function(x, ...) {
+  NextMethod(ps_coll = ps_coll)
 }
 
 # PLOTTING ====
@@ -51,9 +56,6 @@ check.psClosedSorts <- function(x) {
 #' @param column
 #' Positive integer scalar, giving the column of the psClosedSorts object to plot.
 #' Defaults to `1`, in which case the first column is plotted.
-#'
-#' @examples
-#' plot(x = sorts)
 
 plot.psClosedSorts <- function(x, column = 1, use_js = NULL, ...) {
   # Init (for testing) ====
@@ -62,7 +64,7 @@ plot.psClosedSorts <- function(x, column = 1, use_js = NULL, ...) {
   # use_js <- NULL
 
   # Input validation ====
-  sorts <- psClosedSorts(sorts = x, validate = TRUE)
+  sorts <- psClosedSorts(csorts = x)
   use_js <- assert_n_infer_use_js(use_js = use_js)
 
   # Data Prep ====

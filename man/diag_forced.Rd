@@ -7,9 +7,6 @@
 diag_forced(sorts, grid)
 }
 \arguments{
-\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
-Dimensions must be named.}
-
 \item{grid}{A positive integer vector of a length covering the range of values, specifying maximum allowed counts for each value.
 (in Q-parlance, the maximum column heights for the Q-sorts).}
 }

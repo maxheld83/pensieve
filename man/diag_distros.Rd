@@ -8,10 +8,6 @@
 \usage{
 diag_distros(sorts)
 }
-\arguments{
-\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
-Dimensions must be named.}
-}
 \value{
 An integer matrix with people-variables as rows, values as columns and counts in cells.
 }

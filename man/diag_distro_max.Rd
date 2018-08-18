@@ -6,10 +6,6 @@
 \usage{
 diag_distro_max(sorts)
 }
-\arguments{
-\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
-Dimensions must be named.}
-}
 \value{
 A positive integer vector of counts of length equal to cover the range of values, named by values.
 }

@@ -21,24 +21,24 @@
 #'
 #' @examples
 #' # this just runs the calculations, but also classes and validates the results
-#' cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])
-correlate <- function(sorts, method = "spearman", use = "pairwise.complete.obs") {
+#' cors <- correlate(csorts = civicon_2014$qData$sorts[,,"before"])
+correlate <- function(csorts, method = "spearman", use = "pairwise.complete.obs") {
   # input validation ====
   assert_choice(x = method,
                 choices = c("spearman", "kendall", "pearson"))
   assert_choice(x = use,
                 choices = c("everything", "all.obs", "complete.obs", "na.or.complete", "pairwise.complete.obs"))
-  sorts <- psClosedSorts(sorts = sorts, validate = TRUE)  # assigns class and validates whether ok
+  csorts <- psClosedSorts(csorts = csorts)  # assigns class
 
   # for now, this only deals with 2d objects, so we have to test that too
-  # in general, sorts can be n-dim
-  assert_matrix(x = sorts,
+  # in general, csorts can be n-dim
+  assert_matrix(x = csorts,
                 mode = "integerish",
                 any.missing = TRUE,
                 all.missing = TRUE)
 
   # run correlations ====
-  cors <- stats::cor(x = sorts, use = use, method = method)
+  cors <- stats::cor(x = csorts, use = use, method = method)
 
   # assign classes
   cors <- QCors(cors = cors, validate = TRUE)

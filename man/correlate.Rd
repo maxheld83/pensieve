@@ -7,7 +7,7 @@
 \alias{plot.QCors}
 \title{Correlate Q Sorts.}
 \usage{
-correlate(sorts, method = "spearman", use = "pairwise.complete.obs")
+correlate(csorts, method = "spearman", use = "pairwise.complete.obs")
 
 QCors(cors, validate = TRUE)
 
@@ -17,8 +17,8 @@ QCors(cors, validate = TRUE)
   use_js = NULL, ...)
 }
 \arguments{
-\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
-Dimensions must be named.}
+\item{csorts}{\code{[array()]}
+An numeric array with people as rows, item handles as columns, arbitrary dimensions thereafter (such as for multiple sorting dimensions), and item positions in cells.}
 
 \item{method}{A character string indicating which correlation coeffocient to use.
 Must be \code{"pearson"}, \code{"kendall"} or \code{"spearman"} (recommended default).}
@@ -68,7 +68,7 @@ Plot S3 class.
 
 \examples{
 # this just runs the calculations, but also classes and validates the results
-cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])
+cors <- correlate(csorts = civicon_2014$qData$sorts[,,"before"])
 # this just assigns the class, without validation (not recommended)
 cors <- QCors(cors = cors, validate = FALSE)
 # this validates the class

@@ -6,7 +6,7 @@
 \alias{check.QScores}
 \title{Factor scores.}
 \usage{
-score(loas, sorts)
+score(loas, csorts)
 
 QScores(scores, validate = TRUE)
 
@@ -15,8 +15,8 @@ QScores(scores, validate = TRUE)
 \arguments{
 \item{loas}{A numerical matrix with loadings.}
 
-\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
-Dimensions must be named.}
+\item{csorts}{\code{[array()]}
+An numeric array with people as rows, item handles as columns, arbitrary dimensions thereafter (such as for multiple sorting dimensions), and item positions in cells.}
 
 \item{scores}{A numerical matrix with factor scores.}
 
@@ -38,10 +38,10 @@ Check S3 class.
 }}
 
 \examples{
-sorts <- civicon_2014$qData$sorts[,,"before"]  # preparatory step
-cors <- correlate(sorts = sorts)  # preparatory step
+csorts <- civicon_2014$qData$sorts[,,"before"]  # preparatory step
+cors <- correlate(csorts = csorts)  # preparatory step
 loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")  # preparatory step
-scores <- score(loas = loas, sorts = sorts)
+scores <- score(loas = loas, csorts = csorts)
 # this just assigns the class, without validation (not recommended)
 scores <- QScores(scores = scores, validate = FALSE)
 # this validates the class

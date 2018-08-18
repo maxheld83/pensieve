@@ -7,10 +7,6 @@
 \usage{
 diag_same(sorts)
 }
-\arguments{
-\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
-Dimensions must be named.}
-}
 \value{
 A logical vector of length one, \code{TRUE} when value counts are the same for all people-variables, else \code{FALSE}.
 }

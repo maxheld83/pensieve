@@ -13,18 +13,18 @@
 #' @family scoring functions
 #'
 #' @examples
-#' sorts <- civicon_2014$qData$sorts[,,"before"]  # preparatory step
-#' cors <- correlate(sorts = sorts)  # preparatory step
+#' csorts <- civicon_2014$qData$sorts[,,"before"]  # preparatory step
+#' cors <- correlate(csorts = csorts)  # preparatory step
 #' loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")  # preparatory step
-#' scores <- score(loas = loas, sorts = sorts)
-score <- function(loas, sorts) {
+#' scores <- score(loas = loas, csorts = csorts)
+score <- function(loas, csorts) {
   # Input validation ====
   loas <- QLoas(loas = loas, validate = TRUE)
-  sorts <- psClosedSorts(sorts = sorts, validate = TRUE)
+  csorts <- psClosedSorts(csorts = csorts)
 
   # Calculation ====
   scores <- apply(X = loas, MARGIN = 2, FUN = function(x) {
-    allweighted <- sweep(x = sorts, MARGIN = 2, STATS = x, FUN = "*")
+    allweighted <- sweep(x = csorts, MARGIN = 2, STATS = x, FUN = "*")
     scores <- apply(X = allweighted, MARGIN = 1, FUN = function(x) {
       mean(x, na.rm = TRUE)
     })
@@ -32,7 +32,7 @@ score <- function(loas, sorts) {
     return(scores)
   })
   colnames(scores) <- colnames(loas)
-  rownames(scores) <- rownames(sorts)
+  rownames(scores) <- rownames(csorts)
 
   # Return ====
   scores <- QScores(scores = scores, validate = TRUE)

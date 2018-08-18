@@ -20,7 +20,7 @@
 #'
 #' @examples
 #' # this just runs the calculations, but also classes and validates the results
-#' cors <- correlate(sorts = civicon_2014$qData$sorts[,,"before"])  # preliminary step
+#' cors <- correlate(csorts = civicon_2014$qData$sorts[,,"before"])  # preliminary step
 #' loas <- extract(cors = cors, nfactors = 3, fa_type = "pca")
 extract <- function(cors, nfactors, fa_type = "pca") {
   # Input validation ====

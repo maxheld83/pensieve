@@ -2,55 +2,48 @@
 % Please edit documentation in R/psClosedSorts.R
 \name{psClosedSorts}
 \alias{psClosedSorts}
-\alias{check.psClosedSorts}
+\alias{validate_S3.psClosedSorts}
 \alias{plot.psClosedSorts}
-\title{Check and make psClosedSorts}
+\title{Store multiple sorts as a numeric matrix}
 \usage{
-psClosedSorts(sorts, validate = TRUE)
+psClosedSorts(csorts)
 
-\method{check}{psClosedSorts}(x)
+\method{validate_S3}{psClosedSorts}(x, ...)
 
 \method{plot}{psClosedSorts}(x, column = 1, use_js = NULL, ...)
 }
 \arguments{
-\item{sorts}{An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
-Dimensions must be named.}
+\item{csorts}{\code{[array()]}
+An numeric array with people as rows, item handles as columns, arbitrary dimensions thereafter (such as for multiple sorting dimensions), and item positions in cells.}
 
-\item{validate}{a logical flag, indicating whether the object will be validated on construction.
-Defaults to \code{TRUE}.}
+\item{x}{An object with one of the pensieve S3 classes.}
 
-\item{x}{class object created by respective constructor function.}
+\item{...}{Arguments passed onto other methods.
+Not currently used.}
 
 \item{column}{Positive integer scalar, giving the column of the psClosedSorts object to plot.
 Defaults to \code{1}, in which case the first column is plotted.}
 
 \item{use_js}{A logical flag, indicating whether an interactive, java-script variant of the plot should be returned.
 Defaults to \code{NULL}, in which case the appropriate output is inferred from the runtime environment.}
-
-\item{...}{Arguments passed onto other methods.
-Not currently used.}
+}
+\value{
+A numeric matrix of class \link{psClosedSorts}.
 }
 \description{
-Checks and makes psClosedSorts
-
-Construct S3 class for pensieve.
-
-Check S3 class.
+Canonical storage for closed sorts.
 
 Plot S3 class.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{check}: validation
+\item \code{validate_S3}: Validation
 
 \item \code{plot}: plotting
 }}
 
 \examples{
-sorts <- civicon_2014$qData$sorts[,,"before"]
-sorts <- psClosedSorts(sorts = sorts, validate = FALSE)
-check(x = sorts)
-plot(x = sorts)
+1+1
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{correlate}},
@@ -59,11 +52,8 @@ Other S3 classes from `pensieve`: \code{\link{correlate}},
   \code{\link{psOpenSort}}, \code{\link{psPeople}},
   \code{\link{score}}
 
-Other import helpers: \code{\link{anonymize}}
-
 Other plotting functions: \code{\link{correlate}},
   \code{\link{extract}}
 }
 \concept{S3 classes from `pensieve`}
-\concept{import helpers}
 \concept{plotting functions}
