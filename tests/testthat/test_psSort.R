@@ -31,3 +31,14 @@ test_that(desc = "sorts with item not in items error out", code = {
   x <- psSort(matrix(data = c("zap")))
   expect_error(object = validate_S3(x = x, items = as_psItemContent.character(obj = c(foo = "foo"))))
 })
+
+test_that(desc = "coercion from grid works", code = {
+  x <- as_psSort(obj = grid_byhand)
+  expect_s3_class(object = x, class = c("psSort", "matrix"))
+  expect_S3(x = x)
+  expect_matrix(
+    x = x,
+    nrows = nrow(grid_byhand),
+    ncols = ncol(grid_byhand)
+  )
+})

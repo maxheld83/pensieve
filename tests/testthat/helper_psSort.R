@@ -10,3 +10,6 @@ one_sort <- matrix(
   )
 )
 one_sort <- psSort(sort = one_sort)
+
+# you can coerce empty (all `NA`) sorts from grids
+as_psSort(obj = grid_bycoercion)

@@ -4,6 +4,7 @@
 \alias{psSort}
 \alias{validate_S3.psSort}
 \alias{as_psSort}
+\alias{as_psSort.psGrid}
 \alias{as_psSort.integer}
 \alias{as_psSort.numeric}
 \title{Store an \emph{individual} sort as a character matrix of \emph{item handles}}
@@ -14,6 +15,8 @@ psSort(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle",
 \method{validate_S3}{psSort}(x, grid = NULL, items = NULL, ...)
 
 as_psSort(obj, ...)
+
+\method{as_psSort}{psGrid}(obj, ...)
 
 \method{as_psSort}{integer}(obj, grid = NULL, ...)
 
@@ -87,6 +90,8 @@ The \code{y}-axis, though meaningless (ties) in most studies, is also stored, bu
 \itemize{
 \item \code{validate_S3}: Validation
 
+\item \code{as_psSort}: Coercion from \link{psGrid} (sets all to \code{NA})
+
 \item \code{as_psSort}: Coercion from other vector forms
 }}
 
@@ -115,6 +120,22 @@ Examples of offset notation in most other programming languages will differ."
 }
 
 \examples{
+# create simple grids ====
+
+# make simple matrix by hand
+m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
+grid_byhand <- psGrid(grid = m)
+
+# matrix with better dimnames
+dimnames(m) <- list(
+  c(NULL), # rows, or y-dimension is meaningless, used for ties
+  desirable = as.character(x = -1:1)
+  # say, desirable is the short form for the sorting conditition used on x
+)
+grid_byhand <- psGrid(grid = m)
+
+# coerce grid from conventional distribution notation
+grid_bycoercion <- as_psGrid(obj = c(1,2,1))
 one_sort <- matrix(
   data = c(NA, "live_2_work", NA, "work_2_live", NA, NA),
   nrow = 2,
@@ -127,5 +148,8 @@ one_sort <- matrix(
   )
 )
 one_sort <- psSort(sort = one_sort)
+
+# you can coerce empty (all `NA`) sorts from grids
+as_psSort(obj = grid_bycoercion)
 }
 \concept{S3 classes from `pensieve`.}

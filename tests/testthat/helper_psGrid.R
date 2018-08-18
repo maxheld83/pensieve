@@ -1,3 +1,5 @@
+# create simple grids ====
+
 # make simple matrix by hand
 m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
 grid_byhand <- psGrid(grid = m)

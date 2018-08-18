@@ -28,6 +28,7 @@
 #' @inheritSection psGrid Hexagonal tiling
 #' @family S3 classes from `pensieve`.
 #' @return A character matrix of class [psSort][psSort].
+#' @example tests/testthat/helper_psGrid.R
 #' @example tests/testthat/helper_psSort.R
 #' @export
 psSort <- function(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle", offset = NULL) {
@@ -239,6 +240,21 @@ as_psSort.default <- function(obj, ...) {
 as_psSort.psSort <- function(obj, ...) {
   assert_S3(x = obj)
   obj
+}
+
+#' @describeIn psSort Coercion from [psGrid][psGrid] (sets all to `NA`)
+#' @export
+as_psSort.psGrid <- function(obj, ...) {
+  assert_S3(obj)
+
+  sort <- matrix(data = NA, nrow = nrow(obj), ncol = ncol(obj))
+  storage.mode(x = sort) <- "character"
+  dimnames(sort) <- dimnames(obj)
+  psSort(
+    sort = sort,
+    polygon = obj %@% "polygon",
+    offset = obj %@% "offset"
+  )
 }
 
 #' @describeIn psSort Coercion from other vector forms
