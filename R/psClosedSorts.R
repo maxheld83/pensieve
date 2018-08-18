@@ -1,9 +1,9 @@
 # helper ====
-#' @title Check and make QSorts
+#' @title Check and make psClosedSorts
 #'
 #' @export
 #'
-#' @description Checks and makes QSorts
+#' @description Checks and makes psClosedSorts
 #'
 #' @param sorts
 #' An integer array with item handles as first dimension, people as second dimension, arbitrary dimensions thereafter, and item positions in cells.
@@ -12,11 +12,11 @@
 #' @template construct
 #'
 #' @family import helpers
-QSorts <- produce_class_constructor(classname = "QSorts", fun = function(sorts) {
+psClosedSorts <- produce_class_constructor(classname = "psClosedSorts", fun = function(sorts) {
   return(sorts)
 })
 
-#' @describeIn QSorts validation
+#' @describeIn psClosedSorts validation
 #'
 #' @export
 #'
@@ -24,9 +24,9 @@ QSorts <- produce_class_constructor(classname = "QSorts", fun = function(sorts) 
 #'
 #' @examples
 #' sorts <- civicon_2014$qData$sorts[,,"before"]
-#' sorts <- QSorts(sorts = sorts, validate = FALSE)
+#' sorts <- psClosedSorts(sorts = sorts, validate = FALSE)
 #' check(x = sorts)
-check.QSorts <- function(x) {
+check.psClosedSorts <- function(x) {
   res <- NULL
 
   res$array <- check_array(x = x,
@@ -36,33 +36,33 @@ check.QSorts <- function(x) {
                            null.ok = FALSE)
   res <- c(res, check_named_array(x = x))  # via external helper
 
-  return(report_checks(res = res, info = "QSorts"))
+  return(report_checks(res = res, info = "psClosedSorts"))
 }
 
 # PLOTTING ====
-#' @describeIn QSorts plotting
+#' @describeIn psClosedSorts plotting
 #'
 #' @export
 #'
 #' @template plot
 #'
-#' @inheritParams QSorts
+#' @inheritParams psClosedSorts
 #'
 #' @param column
-#' Positive integer scalar, giving the column of the QSorts object to plot.
+#' Positive integer scalar, giving the column of the psClosedSorts object to plot.
 #' Defaults to `1`, in which case the first column is plotted.
 #'
 #' @examples
 #' plot(x = sorts)
 
-plot.QSorts <- function(x, column = 1, use_js = NULL, ...) {
+plot.psClosedSorts <- function(x, column = 1, use_js = NULL, ...) {
   # Init (for testing) ====
   # x <- sorts
   # column <- 1
   # use_js <- NULL
 
   # Input validation ====
-  sorts <- QSorts(sorts = x, validate = TRUE)
+  sorts <- psClosedSorts(sorts = x, validate = TRUE)
   use_js <- assert_n_infer_use_js(use_js = use_js)
 
   # Data Prep ====

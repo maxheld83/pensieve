@@ -21,8 +21,8 @@ people <- psPeople(data.frame(Name = c("Ann", "Kim", "Joe"),
                                     stringsAsFactors = FALSE))
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QSorts}},
-  \code{\link{correlate}}, \code{\link{extract}},
+Other S3 classes from `pensieve`: \code{\link{correlate}},
+  \code{\link{extract}}, \code{\link{psClosedSorts}},
   \code{\link{psGrid}}, \code{\link{psItemContent}},
   \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
   \code{\link{score}}

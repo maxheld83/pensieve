@@ -144,8 +144,8 @@ grid_byhand <- psGrid(grid = m)
 grid_bycoercion <- as_psGrid(obj = c(1,2,1))
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QSorts}},
-  \code{\link{correlate}}, \code{\link{extract}},
+Other S3 classes from `pensieve`: \code{\link{correlate}},
+  \code{\link{extract}}, \code{\link{psClosedSorts}},
   \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
   \code{\link{psOpenSort}}, \code{\link{psPeople}},
   \code{\link{score}}

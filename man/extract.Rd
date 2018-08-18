@@ -86,14 +86,14 @@ plot(x = loas, use_js = NULL, by = "both")
 Other analysis functions: \code{\link{correlate}},
   \code{\link{score}}
 
-Other S3 classes from `pensieve`: \code{\link{QSorts}},
-  \code{\link{correlate}}, \code{\link{psGrid}},
+Other S3 classes from `pensieve`: \code{\link{correlate}},
+  \code{\link{psClosedSorts}}, \code{\link{psGrid}},
   \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
   \code{\link{psOpenSort}}, \code{\link{psPeople}},
   \code{\link{score}}
 
-Other plotting functions: \code{\link{QSorts}},
-  \code{\link{correlate}}
+Other plotting functions: \code{\link{correlate}},
+  \code{\link{psClosedSorts}}
 }
 \concept{S3 classes from `pensieve`}
 \concept{analysis functions}

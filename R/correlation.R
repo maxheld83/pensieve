@@ -5,7 +5,7 @@
 #'
 #' @export
 #'
-#' @inherit QSorts params
+#' @inherit psClosedSorts params
 #'
 #' @param method
 #' A character string indicating which correlation coeffocient to use.
@@ -28,7 +28,7 @@ correlate <- function(sorts, method = "spearman", use = "pairwise.complete.obs")
                 choices = c("spearman", "kendall", "pearson"))
   assert_choice(x = use,
                 choices = c("everything", "all.obs", "complete.obs", "na.or.complete", "pairwise.complete.obs"))
-  sorts <- QSorts(sorts = sorts, validate = TRUE)  # assigns class and validates whether ok
+  sorts <- psClosedSorts(sorts = sorts, validate = TRUE)  # assigns class and validates whether ok
 
   # for now, this only deals with 2d objects, so we have to test that too
   # in general, sorts can be n-dim

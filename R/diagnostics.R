@@ -9,7 +9,7 @@
 #'
 #' @keywords internal
 #'
-#' @inherit QSorts params
+#' @inherit psClosedSorts params
 #'
 #' @return
 #' An integer matrix with people-variables as rows, values as columns and counts in cells.
@@ -51,7 +51,7 @@ diag_distros <- count_distros <- function(sorts) {
 #'
 #' @keywords internal
 #'
-#' @inherit QSorts params
+#' @inherit psClosedSorts params
 #'
 #' @return
 #' A logical vector of length one, `TRUE` when value counts are the same for all people-variables, else `FALSE`.
@@ -92,7 +92,7 @@ diag_same <- is_same <- function(sorts) {
 #'
 #' @keywords internal
 #'
-#' @inherit QSorts params
+#' @inherit psClosedSorts params
 #'
 #' @return A positive integer vector of counts of length equal to cover the range of values, named by values.
 #'
@@ -125,7 +125,7 @@ diag_distro_max <- function(sorts) {
 #' @param grid A positive integer vector of a length covering the range of values, specifying maximum allowed counts for each value.
 #' (in Q-parlance, the maximum column heights for the Q-sorts).
 #'
-#' @inherit QSorts params
+#' @inherit psClosedSorts params
 #'
 #' @return A logical vector of length 1, `TRUE` if all people-variables fall inside the grid, else `FALSE`.
 #'
@@ -172,7 +172,7 @@ diag_inside_grid <- function(sorts, grid) {
 #' A positive integer vector of a length covering the range of values, specifying maximum allowed counts for each value.
 #' (in Q-parlance, the maximum column heights for the Q-sorts).
 #'
-#' @inherit QSorts params
+#' @inherit psClosedSorts params
 #'
 #' @details
 #' If all people-variables display the same value counts, respondents plausibly faced a *forced* distribution, but this does not strictly speaking follow.

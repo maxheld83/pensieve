@@ -7,7 +7,7 @@
 #'
 #' @inheritParams QLoas
 #'
-#' @inheritParams QSorts
+#' @inheritParams psClosedSorts
 #'
 #' @family analysis functions
 #' @family scoring functions
@@ -20,7 +20,7 @@
 score <- function(loas, sorts) {
   # Input validation ====
   loas <- QLoas(loas = loas, validate = TRUE)
-  sorts <- QSorts(sorts = sorts, validate = TRUE)
+  sorts <- psClosedSorts(sorts = sorts, validate = TRUE)
 
   # Calculation ====
   scores <- apply(X = loas, MARGIN = 2, FUN = function(x) {
