@@ -3,12 +3,15 @@
 \name{psSort}
 \alias{psSort}
 \alias{validate_S3.psSort}
+\alias{as_psSort}
 \title{Store an \emph{individual} sort as a character matrix of \emph{item handles}}
 \usage{
 psSort(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle",
   offset = NULL)
 
 \method{validate_S3}{psSort}(x, grid = NULL, items = NULL, ...)
+
+as_psSort(obj, ...)
 }
 \arguments{
 \item{sort}{\code{[matrix()]}
@@ -58,6 +61,8 @@ An additional subclass \code{psItemContentBin`` is prepended and validated.}lang
 }}
 
 \item{...}{further arguments to be passed to methods.}
+
+\item{obj}{An object which can be coerced to a character matrix of class \link{psSort}, currently one of:}
 }
 \value{
 A character matrix of class \link{psSort}.

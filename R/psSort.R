@@ -222,3 +222,20 @@ inset_psSort1 <- function(x, i, j, value = NA, grid = NULL, items = NULL) {
   x[row, column] <- value
   x
 }
+
+
+# coercion ====
+#' @rdname psSort
+#' @param obj
+#' An object which can be coerced to a character matrix of class [psSort][psSort], currently one of:
+#' @export
+as_psSort <- function(obj, ...) {
+  UseMethod("as_psSort")
+}
+as_psSort.default <- function(obj, ...) {
+  stop_coercion(obj = obj, target_class = "psSort")
+}
+as_psSort.psSort <- function(obj, ...) {
+  assert_S3(x = obj)
+  obj
+}
