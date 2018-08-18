@@ -339,11 +339,11 @@ items_image <- psItemContent(
 )
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{psGrid}},
-  \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
-  \code{\link{psPeople}}, \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{QSorts}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{psGrid}}, \code{\link{psOpenSorts}},
+  \code{\link{psOpenSort}}, \code{\link{psPeople}},
+  \code{\link{score}}
 
 Other print functions: \code{\link{psGrid}}
 }

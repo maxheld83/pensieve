@@ -58,11 +58,9 @@ anonymize(real_names = c("Hillary", "Barack", "George"),
 # see `notes` for details
 }
 \seealso{
-Other import helpers: \code{\link{QPreSorts}},
-  \code{\link{QSorts}}
+Other import helpers: \code{\link{QSorts}}
 
-Other import helpers: \code{\link{QPreSorts}},
-  \code{\link{QSorts}}
+Other import helpers: \code{\link{QSorts}}
 }
 \concept{import helpers}
 \keyword{internal}

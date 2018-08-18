@@ -53,14 +53,13 @@ check(x = sorts)
 plot(x = sorts)
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
-  \code{\link{correlate}}, \code{\link{extract}},
-  \code{\link{psGrid}}, \code{\link{psItemContent}},
-  \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
-  \code{\link{psPeople}}, \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{correlate}},
+  \code{\link{extract}}, \code{\link{psGrid}},
+  \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
+  \code{\link{psOpenSort}}, \code{\link{psPeople}},
+  \code{\link{score}}
 
-Other import helpers: \code{\link{QPreSorts}},
-  \code{\link{anonymize}}
+Other import helpers: \code{\link{anonymize}}
 
 Other plotting functions: \code{\link{correlate}},
   \code{\link{extract}}

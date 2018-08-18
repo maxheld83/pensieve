@@ -144,11 +144,11 @@ grid_byhand <- psGrid(grid = m)
 grid_bycoercion <- as_psGrid(obj = c(1,2,1))
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{QPreSorts}},
-  \code{\link{QSorts}}, \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{psItemContent}},
-  \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
-  \code{\link{psPeople}}, \code{\link{score}}
+Other S3 classes from `pensieve`: \code{\link{QSorts}},
+  \code{\link{correlate}}, \code{\link{extract}},
+  \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
+  \code{\link{psOpenSort}}, \code{\link{psPeople}},
+  \code{\link{score}}
 
 Other print functions: \code{\link{psItemContent}}
 }
