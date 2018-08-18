@@ -228,6 +228,7 @@ inset_psSort1 <- function(x, i, j, value = NA, grid = NULL, items = NULL) {
 #' @rdname psSort
 #' @param obj
 #' An object which can be coerced to a character matrix of class [psSort][psSort], currently one of:
+#' - a (named) integer(ish) vector, giving the x-axis item ranks per item (names are retained as item handles).
 #' @export
 as_psSort <- function(obj, ...) {
   UseMethod("as_psSort")
@@ -238,4 +239,31 @@ as_psSort.default <- function(obj, ...) {
 as_psSort.psSort <- function(obj, ...) {
   assert_S3(x = obj)
   obj
+}
+
+#' @describeIn psSort Coercion from other vector forms
+#' @export
+as_psSort.integer <- function(obj, grid = NULL, ...) {
+  # input validation
+  assert_integer(x = obj, any.missing = TRUE)
+
+  # infer grid
+  if (!is.null(grid)) {
+    grid <- as_psGrid(obj = unclass(table(obj)), ...)
+    # ... pass on polygon and offset
+  }
+  assert_S3(grid)
+
+  NULL
+}
+
+#' @rdname psSort
+#' @export
+as_psSort.numeric <- function(obj, grid = NULL, ...) {
+  if (test_integerish(x = obj)) {
+    as_psSort(obj = as.integer(obj), ...)
+  } else {
+    # TODO also offer method for numerics, such as z-scores
+    NextMethod()
+  }
 }

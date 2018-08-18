@@ -4,6 +4,8 @@
 \alias{psSort}
 \alias{validate_S3.psSort}
 \alias{as_psSort}
+\alias{as_psSort.integer}
+\alias{as_psSort.numeric}
 \title{Store an \emph{individual} sort as a character matrix of \emph{item handles}}
 \usage{
 psSort(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle",
@@ -12,6 +14,10 @@ psSort(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle",
 \method{validate_S3}{psSort}(x, grid = NULL, items = NULL, ...)
 
 as_psSort(obj, ...)
+
+\method{as_psSort}{integer}(obj, grid = NULL, ...)
+
+\method{as_psSort}{numeric}(obj, grid = NULL, ...)
 }
 \arguments{
 \item{sort}{\code{[matrix()]}
@@ -62,7 +68,10 @@ An additional subclass \code{psItemContentBin`` is prepended and validated.}lang
 
 \item{...}{further arguments to be passed to methods.}
 
-\item{obj}{An object which can be coerced to a character matrix of class \link{psSort}, currently one of:}
+\item{obj}{An object which can be coerced to a character matrix of class \link{psSort}, currently one of:
+\itemize{
+\item a (named) integer(ish) vector, giving the x-axis item ranks per item (names are retained as item handles).
+}}
 }
 \value{
 A character matrix of class \link{psSort}.
@@ -77,6 +86,8 @@ The \code{y}-axis, though meaningless (ties) in most studies, is also stored, bu
 \section{Methods (by generic)}{
 \itemize{
 \item \code{validate_S3}: Validation
+
+\item \code{as_psSort}: Coercion from other vector forms
 }}
 
 \section{Hexagonal tiling}{
