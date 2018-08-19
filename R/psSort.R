@@ -259,7 +259,7 @@ as_psSort.psGrid <- function(obj, ...) {
 
 #' @describeIn psSort Coercion from integer(ish) vector
 #' @export
-as_psSort.integer <- function(obj, ...) {
+as_psSort.integer <- function(obj, grid = NULL, ...) {
   # input validation
   assert_integer(x = obj, any.missing = TRUE)
 
@@ -274,6 +274,8 @@ as_psSort.integer <- function(obj, ...) {
     )
   }
 
+  # TODO impute continuous colnames, warn if missing
+
   col_heights <- unclass(table(obj))
   obj <- sort(obj)
 
@@ -286,6 +288,25 @@ as_psSort.integer <- function(obj, ...) {
   m <- reshape2::acast(data = df, formula = -y ~ x, value.var = "cell")
   # we're supposed to be using tidyr and reshape2 is retired, but this is really easier and more meaningful in matrix form
   rownames(m) <- NULL  # these are just ties, no meaningful rownames
+
+  if (!is.null(grid)) {
+    if (nrow(m) > nrow(grid)) {
+      stop(
+        "Cannot coerce 'obj' in accordance with 'grid': ",
+        "There are more ties in 'obj' than there are rows in 'grid'.",
+        call. = FALSE
+      )
+    }
+    if (ncol(m) > ncol(grid)) {
+      stop(
+        "Cannot coerce 'obj' in accordance with 'grid': ",
+        "There are more ranks in 'obj' than there are columns in 'grid'."
+      )
+    }
+    # TODO enforce that m colnames are subset of grid colnames
+
+    # TODO fill in from the bottom up, at the right colnames
+  }
   psSort(sort = m, ...)
 }
 

@@ -18,7 +18,7 @@ as_psSort(obj, ...)
 
 \method{as_psSort}{psGrid}(obj, ...)
 
-\method{as_psSort}{integer}(obj, ...)
+\method{as_psSort}{integer}(obj, grid = NULL, ...)
 
 \method{as_psSort}{numeric}(obj, ...)
 }
