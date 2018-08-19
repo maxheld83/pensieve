@@ -84,7 +84,7 @@ The \code{y}-axis, though meaningless (ties) in most studies, is also stored, bu
 
 \item \code{as_psSort}: Coercion from \link{psGrid} (sets all to \code{NA})
 
-\item \code{as_psSort}: Coercion from integer(ish) vector; names are retained as item handles.
+\item \code{as_psSort}: Coercion from integer(ish) vector of item positions; names are retained as item handles.
 }}
 
 \section{Hexagonal tiling}{

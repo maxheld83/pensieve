@@ -230,13 +230,13 @@ as_psSort.psGrid <- function(obj, ...) {
   )
 }
 
-#' @describeIn psSort Coercion from integer(ish) vector; names are retained as item handles.
+#' @describeIn psSort Coercion from integer(ish) vector of item positions; names are retained as item handles.
 #' @export
 as_psSort.integer <- function(obj, grid = NULL, ...) {
   # input validation
   assert_integer(x = obj, any.missing = TRUE)
 
-  if (!test_named(x = obj, type = "strict")) {
+  if (!test_named(x = obj, type = "unique")) {
     nos <- formatC(x = 1:length(obj), width = nchar(trunc(length(obj))), flag = 0)
     names(obj) <- nos
     warning(
@@ -247,9 +247,13 @@ as_psSort.integer <- function(obj, grid = NULL, ...) {
     )
   }
 
-  # TODO impute continuous colnames, warn if missing
+  # map seems overkill, but is safer than simple table, see below
+  all_cols <- min(obj):max(obj)
+  names(all_cols) <- as.character(all_cols)  # hack job to get proper map res
+  col_heights <- map_int(.x = all_cols, .f = function(x) {
+    sum(obj == x)
+  })
 
-  col_heights <- unclass(table(obj))
   obj <- sort(obj)
 
   df <- tibble::tibble(
@@ -258,8 +262,37 @@ as_psSort.integer <- function(obj, grid = NULL, ...) {
     cell = names(obj)
   )
 
-  m <- reshape2::acast(data = df, formula = -y ~ x, value.var = "cell")
+  # it is possible that some of the positions are never used in obj
+  # in that case, we must add it before transforming to matrix
+  # must also warn users if this has happened
+  if (any(col_heights == 0)) {
+    empty_cols <- names(col_heights)[which(col_heights == 0)]
+    # add empty rows with unused x vals
+    df <- tibble::add_row(
+      .data = df,
+      x = empty_cols,
+      y = 1
+    )
+    warning(
+      "There are no items placed at positions ",
+      glue_collapse(
+        x = glue("{empty_cols}"),
+        last = " and ",
+        sep = ", "
+      ),
+      ". You might want to check whether this is correct.",
+      call. = FALSE
+    )
+  }
+
   # we're supposed to be using tidyr and reshape2 is retired, but this is really easier and more meaningful in matrix form
+  m <- reshape2::acast(
+    data = df,
+    formula = -y ~ x,
+    value.var = "cell",
+    drop = FALSE,
+    fill = NA
+  )
   rownames(m) <- NULL  # these are just ties, no meaningful rownames
 
   if (!is.null(grid)) {
