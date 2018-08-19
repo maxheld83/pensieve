@@ -53,7 +53,7 @@ psGrid <- function(grid,
                    polygon = "rectangle",
                    offset = NULL) {
   if (is.null(dimnames(grid))) {
-    colnames(grid) <- make_rank_names(max_rank = ncol(grid))
+    colnames(grid) <- make_pos_names(max_pos = ncol(grid))
   }
   grid <- new_psGrid(grid = grid, polygon = polygon, offset = offset)
   assert_S3(grid)
@@ -62,20 +62,20 @@ psGrid <- function(grid,
 offsets <- c("even", "odd")
 polygons <- c("rectangle", "hexagon")
 
-#' @title Make rank names for sorting grids
+#' @title Make sorting position names for sorting grids
 #' @description
-#' It is useful to have rank names for sorting grids (-1, 0, 1).
+#' For interval-scaled (integer only) grids, sorting position names are important (-1, 0, 1).
 #' This function creates them.
-#' @param max_rank `[integer(1)]`
+#' @param max_pos `[integer(1)]`
 #' @return `[character()]`
 #' @noRd
-make_rank_names <- function(max_rank) {
-  if (is_even(max_rank)) {
+make_pos_names <- function(max_pos) {
+  if (is_even(max_pos)) {
     # even rows make sense only for unipolar sorts really
     # this is just accepted here, and we do not store for now whether sorts are unipolar or bipolar
-    return(as.character(1:max_rank))
+    return(as.character(1:max_pos))
   }
-  extreme <- max_rank %/% 2
+  extreme <- max_pos %/% 2
   return(as.character(-extreme:extreme))
 }
 

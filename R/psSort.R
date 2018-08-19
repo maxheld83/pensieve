@@ -34,7 +34,7 @@
 psSort <- function(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle", offset = NULL) {
   # this is DUPLICATE code from psGrid!
   if (is.null(dimnames(sort))) {
-    colnames(sort) <- make_rank_names(max_rank = ncol(sort))
+    colnames(sort) <- make_pos_names(max_pos = ncol(sort))
   }
   sort <- new_psSort(
     sort = sort,
