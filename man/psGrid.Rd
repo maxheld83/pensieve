@@ -56,12 +56,7 @@ Must be one of:
 
 \item{...}{further arguments to be passed to methods.}
 
-\item{obj}{An object which can be coerced to a logical matrix of class \link{psGrid}, currently one of:
-\itemize{
-\item a (named) integer(ish) vector, giving the column height of \code{TRUE}s from the bottom (names are retained as column names),
-\item a logical matrix as per \link{psGrid} and
-\item a character matrix as per \link{psSort} (sets all cells to \code{TRUE})
-}}
+\item{obj}{An object which can be coerced to a logical matrix of class \link{psGrid}.}
 
 \item{header, footer}{A logical flag, defaults to \code{TRUE}, in which case column or row names from \code{grid} are included as headers or footers, respectively.
 Missing row or column names are replaced with sensible defaults.}
@@ -87,9 +82,11 @@ Even a free distribution must have a grid, giving the maximum indices of rows an
 \itemize{
 \item \code{validate_S3}: Validation
 
-\item \code{as_psGrid}: Coercion from other vector forms
+\item \code{as_psGrid}: Coercion from (named) integer(ish) vector, giving the column height of \code{TRUE}s from the bottom (names are retained as column names).
 
-\item \code{as_psGrid}: Coercion from sort (sets all to \code{TRUE})
+\item \code{as_psGrid}: Coercion from a logical matrix as per \link{psGrid}.
+
+\item \code{as_psGrid}: Coercion from a character matrix \link{psSort} (sets all cells to \code{TRUE}).
 
 \item \code{knit_print}: Printing inside knitr chunks
 }}

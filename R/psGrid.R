@@ -113,10 +113,7 @@ validate_S3.psGrid <- function(x, ...) {
 # coercion ====
 #' @rdname psGrid
 #' @param obj
-#' An object which can be coerced to a logical matrix of class [psGrid][psGrid], currently one of:
-#' - a (named) integer(ish) vector, giving the column height of `TRUE`s from the bottom (names are retained as column names),
-#' - a logical matrix as per [psGrid][psGrid] and
-#' - a character matrix as per [psSort][psSort] (sets all cells to `TRUE`)
+#' An object which can be coerced to a logical matrix of class [psGrid][psGrid].
 #' @export
 as_psGrid <- function(obj, ...) {
   UseMethod("as_psGrid")
@@ -128,7 +125,7 @@ as_psGrid.psGrid <- function(obj, ...) {
   assert_S3(x = obj)
   obj
 }
-#' @describeIn psGrid Coercion from other vector forms
+#' @describeIn psGrid Coercion from (named) integer(ish) vector, giving the column height of `TRUE`s from the bottom (names are retained as column names).
 #' @export
 as_psGrid.integer <- function(obj, ...) {
   # input validation
@@ -170,12 +167,12 @@ as_psGrid.numeric <- function(obj, ...) {
     NextMethod()
   }
 }
-#' @rdname psGrid
+#' @describeIn psGrid Coercion from a logical matrix as per [psGrid][psGrid].
 #' @export
 as_psGrid.matrix <- function(obj, ...) {
   psGrid(grid = obj, ...)
 }
-#' @describeIn psGrid Coercion from sort (sets all to `TRUE`)
+#' @describeIn psGrid Coercion from a character matrix [psSort][psSort] (sets all cells to `TRUE`).
 #' @export
 as_psGrid.psSort <- function(obj, ...) {
   grid <- matrix(data = TRUE, nrow = nrow(obj), ncol = ncol(obj))
