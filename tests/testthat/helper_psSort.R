@@ -11,5 +11,8 @@ one_sort <- matrix(
 )
 one_sort <- psSort(sort = one_sort)
 
-# you can coerce empty (all `NA`) sorts from grids
+# you can coerce an empty (all `NA`) sort from grid
 as_psSort(obj = grid_bycoercion)
+
+# you can coerce a sort from an integer(ish) vector, with cells filled from the bottom up
+one_sort_from_vec <- as_psSort(obj = c(foo = -1, bar = 0, zap = 1, zong = 1))

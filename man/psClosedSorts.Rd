@@ -43,7 +43,7 @@ Plot S3 class.
 }}
 
 \examples{
-# create sorts ====
+# create sorts
 # simple case with one condition of instruction
 csorts <- matrix(
   data = c(-1, 0, 1, -1),

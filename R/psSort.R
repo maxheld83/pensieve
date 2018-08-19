@@ -257,27 +257,43 @@ as_psSort.psGrid <- function(obj, ...) {
   )
 }
 
-#' @describeIn psSort Coercion from other vector forms
+#' @describeIn psSort Coercion from named integer(ish) vector
 #' @export
 as_psSort.integer <- function(obj, grid = NULL, ...) {
   # input validation
   assert_integer(x = obj, any.missing = TRUE)
+  assert_named(x = obj, type = "strict")
+
+  col_heights <- unclass(table(obj))
+  obj <- sort(obj)
+
+  df <- tibble::tibble(
+    x = obj,
+    y = sequence(col_heights),  # just count from 1: col height for every column
+    cell = names(obj)
+  )
+
+  m <- reshape2::acast(data = df, formula = -y ~ x, value.var = "cell")
+  # we're supposed to be using tidyr and reshape2 is retired, but this is really easier and more meaningful in matrix form
+  rownames(m) <- NULL  # these are just ties, no meaningful rownames
+  sort <- psSort(sort = m)
+  sort
 
   # infer grid
-  if (!is.null(grid)) {
-    grid <- as_psGrid(obj = unclass(table(obj)), ...)
-    # ... pass on polygon and offset
-  }
-  assert_S3(grid)
-
-  NULL
+  # if (!is.null(grid)) {
+  #   grid <- as_psGrid(obj = unclass(table(obj)), ...)
+  #   # ... pass on polygon and offset
+  # }
+  # assert_S3(grid)
+  #
+  # sort <- as_psSort(obj = grid)  # creates all NA sort
 }
 
 #' @rdname psSort
 #' @export
 as_psSort.numeric <- function(obj, grid = NULL, ...) {
   if (test_integerish(x = obj)) {
-    as_psSort(obj = as.integer(obj), ...)
+    as_psSort(obj = rlang::as_integer(obj), ...)
   } else {
     # TODO also offer method for numerics, such as z-scores
     NextMethod()

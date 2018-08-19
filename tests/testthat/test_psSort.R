@@ -42,3 +42,20 @@ test_that(desc = "coercion from grid works", code = {
     ncols = ncol(grid_byhand)
   )
 })
+
+test_that(desc = "coercion from integer(ish) vector works", code = {
+  expect_s3_class(object = one_sort_from_vec, class = c("psSort", "matrix"))
+  expect_S3(x = one_sort_from_vec)
+  expect_identical(
+    object = one_sort_from_vec,
+    expected = psSort(
+      matrix(
+        data = c(NA, NA, "zong", "foo", "bar", "zap"),
+        nrow = 2,
+        byrow = TRUE
+      )
+    )
+  )
+  # should error on unnamed integers
+  expect_error(object = as_psSort(obj = c(1,1,2,0)))
+})
