@@ -257,12 +257,22 @@ as_psSort.psGrid <- function(obj, ...) {
   )
 }
 
-#' @describeIn psSort Coercion from named integer(ish) vector
+#' @describeIn psSort Coercion from integer(ish) vector
 #' @export
 as_psSort.integer <- function(obj, grid = NULL, ...) {
   # input validation
   assert_integer(x = obj, any.missing = TRUE)
-  assert_named(x = obj, type = "strict")
+
+  if (!test_named(x = obj, type = "strict")) {
+    nos <- formatC(x = 1:length(obj), width = nchar(trunc(length(obj))), flag = 0)
+    names(obj) <- glue("sta{nos}")
+    warning(
+      "Because 'obj' was unnamed, cells contain vector indices as pseudo item handles. ",
+      "Consider adding meaningful item handles as names to 'obj'.",
+      call. = FALSE,
+      immediate. = FALSE
+    )
+  }
 
   col_heights <- unclass(table(obj))
   obj <- sort(obj)

@@ -41,6 +41,7 @@ new_psClosedSorts <- function(csorts, ...) {
 #' @inheritParams validate_S3
 #' @export
 validate_S3.psClosedSorts <- function(x, ...) {
+
   NextMethod(ps_coll = ps_coll)
 }
 

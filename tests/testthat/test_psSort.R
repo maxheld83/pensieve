@@ -56,6 +56,6 @@ test_that(desc = "coercion from integer(ish) vector works", code = {
       )
     )
   )
-  # should error on unnamed integers
-  expect_error(object = as_psSort(obj = c(1,1,2,0)))
+  # should warn on unnamed integers
+  expect_warning(object = as_psSort(obj = c(1,1,2,0)))
 })
