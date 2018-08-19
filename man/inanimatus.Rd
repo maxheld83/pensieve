@@ -19,10 +19,11 @@ Dimensions can be named (recommended), giving a short description of the sorting
 Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
 \item{sort}{\code{[matrix()]}
-giving the occupying item of cells as \code{character(1)} strings of \strong{item handles}.
+giving the occupying item of cells for sorting as \code{character(1)} strings of \strong{item handles}.
 \code{NA} is used for empty \emph{and} disallowed cells (see \link{psGrid}).
-At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
-Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
+The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
+Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
+Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
 \item{header}{A logical flag, defaults to \code{TRUE}, in which case column or row names from \code{grid} are included as headers or footers, respectively.
 Missing row or column names are replaced with sensible defaults.}

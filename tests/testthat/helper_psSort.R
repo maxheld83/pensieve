@@ -4,7 +4,7 @@ one_sort <- matrix(
   dimnames = list(
     c(NULL),
     # this is for rownames, of which there are none, because those are just ties
-    desirable = as.character(-1:1)
+    desirable = NULL  # no really useful dimnames
     # 'desirable' is a short name for the description of the sorting axis
     # (here, as typically, x)
   )

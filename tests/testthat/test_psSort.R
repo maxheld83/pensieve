@@ -46,7 +46,7 @@ test_that(desc = "coercion from grid works", code = {
 test_that(desc = "coercion from integer(ish) vector works", code = {
   expect_s3_class(object = one_sort_from_vec, class = c("psSort", "matrix"))
   expect_S3(x = one_sort_from_vec)
-  expect_identical(
+  expect_equivalent(
     object = one_sort_from_vec,
     expected = psSort(
       matrix(

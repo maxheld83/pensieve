@@ -9,8 +9,7 @@
 \alias{as_psSort.numeric}
 \title{Store an \emph{individual} sort as a character matrix of \emph{item handles}}
 \usage{
-psSort(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle",
-  offset = NULL)
+psSort(sort, polygon = "rectangle", offset = NULL)
 
 \method{validate_S3}{psSort}(x, grid = NULL, items = NULL, ...)
 
@@ -24,16 +23,11 @@ as_psSort(obj, ...)
 }
 \arguments{
 \item{sort}{\code{[matrix()]}
-giving the occupying item of cells as \code{character(1)} strings of \strong{item handles}.
+giving the occupying item of cells for sorting as \code{character(1)} strings of \strong{item handles}.
 \code{NA} is used for empty \emph{and} disallowed cells (see \link{psGrid}).
-At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
-Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
-
-\item{desc_x, desc_y}{\code{[character(1)]}
-giving a description of the sorting dimensions, such as the condition of instruction.
-Defaults to \code{NULL}.
-\code{desc_x} is for horizontal sorting across the columns.
-\code{desc_y} is for (rarely used) vertical sorting across the rows.}
+The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
+Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
+Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
 \item{polygon}{\code{[character(1)]} giving polygon to use for tiling
 
@@ -72,10 +66,7 @@ An additional subclass \code{psItemContentBin`` is prepended and validated.}lang
 
 \item{...}{further arguments to be passed to methods.}
 
-\item{obj}{An object which can be coerced to a character matrix of class \link{psSort}, currently one of:
-\itemize{
-\item a (named) integer(ish) vector, giving the x-axis item ranks per item (names are retained as item handles).
-}}
+\item{obj}{An object which can be coerced to a character matrix of class \link{psSort}.}
 }
 \value{
 A character matrix of class \link{psSort}.
@@ -93,7 +84,7 @@ The \code{y}-axis, though meaningless (ties) in most studies, is also stored, bu
 
 \item \code{as_psSort}: Coercion from \link{psGrid} (sets all to \code{NA})
 
-\item \code{as_psSort}: Coercion from integer(ish) vector
+\item \code{as_psSort}: Coercion from integer(ish) vector; names are retained as item handles.
 }}
 
 \section{Hexagonal tiling}{
@@ -143,7 +134,7 @@ one_sort <- matrix(
   dimnames = list(
     c(NULL),
     # this is for rownames, of which there are none, because those are just ties
-    desirable = as.character(-1:1)
+    desirable = NULL  # no really useful dimnames
     # 'desirable' is a short name for the description of the sorting axis
     # (here, as typically, x)
   )

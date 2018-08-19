@@ -11,18 +11,13 @@
 #' Sorts can be stored in the form in which they were originally created on a table or in a computer user interface.
 #' The `y`-axis, though meaningless (ties) in most studies, is also stored, but this full matrix form makes it easy to reason about the data, and to validate it.
 #'
-#TODO this argument is almost the same as grid for psGrid; some duplication
+# this argument is almost the same as sort for psSort; some duplication
 #' @param sort `[matrix()]`
-#' giving the occupying item of cells as `character(1)` strings of **item handles**.
+#' giving the occupying item of cells for sorting as `character(1)` strings of **item handles**.
 #' `NA` is used for empty *and* disallowed cells (see [psGrid][psGrid]).
-#' At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
-#' Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.
-#'
-#' @param desc_x,desc_y `[character(1)]`
-#' giving a description of the sorting dimensions, such as the condition of instruction.
-#' Defaults to `NULL`.
-#' `desc_x` is for horizontal sorting across the columns.
-#' `desc_y` is for (rarely used) vertical sorting across the rows.
+#' The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
+#' Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
+#' Row and column *indeces* can also be named, but names are purely cosmetic.
 #'
 #' @inheritParams psGrid
 #' @inheritSection psGrid Hexagonal tiling
@@ -31,15 +26,9 @@
 #' @example tests/testthat/helper_psGrid.R
 #' @example tests/testthat/helper_psSort.R
 #' @export
-psSort <- function(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle", offset = NULL) {
-  # TODO this is DUPLICATE code from psGrid!
-  if (is.null(dimnames(sort))) {
-    colnames(sort) <- make_pos_names(max_pos = ncol(sort))
-  }
+psSort <- function(sort, polygon = "rectangle", offset = NULL) {
   sort <- new_psSort(
     sort = sort,
-    desc_x = desc_x,
-    desc_y = desc_y,
     polygon = polygon,
     offset = offset
   )
@@ -47,7 +36,7 @@ psSort <- function(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle", of
   return(sort)
 }
 
-new_psSort <- function(sort, desc_x, desc_y, polygon, offset) {
+new_psSort <- function(sort, polygon, offset) {
   # assert base type
   assert_matrix(
     x = sort,
@@ -59,8 +48,6 @@ new_psSort <- function(sort, desc_x, desc_y, polygon, offset) {
 
   structure(
     .Data = sort,
-    desc_x = desc_x,
-    desc_y = desc_y,
     polygon = polygon,
     offset = offset,
     class = c("psSort", "matrix")
@@ -76,19 +63,9 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ...) {
   # psSort has mostly the same validation on x as psGrid;
   # to avoid duplication, we here use this somewhat hacky trick
   assert_S3(as_psGrid(x), collection = ps_coll, var.name = "sort")
-  # IF desc_x/desc_y are given ensure that they are proper
-  walk(.x = c("desc_x", "desc_y"), .f = function(x) {
-    assert_character(
-      x = x %@% x,
-      any.missing = FALSE,
-      len = 1,
-      null.ok = TRUE,
-      add = ps_coll,
-      .var.name = "sort")
-  })
 
   # check x VS grid
-  # check if sort rank corresponds to grid rank
+  # check if sort rank corresponds *exactly* to grid rank
   if (!is.null(grid)) {
     assert_S3(x = grid, collection = ps_coll, var.name = "grid")
     assert_matrix(
@@ -100,7 +77,6 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ...) {
     )
   }
 
-
   # check x VS items
   # check that there are enough cells for all items
   # this is pretty strict, but recall that this is methodologically necessary:
@@ -109,7 +85,6 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ...) {
     assert_S3(items, collection = ps_coll, var.name = "items")
     assert_vector(x = items, max.len = length(x), add = ps_coll, .var.name = "items")
   }
-
 
   # check per cell and per row
   dirty_sort <- x
@@ -228,8 +203,7 @@ inset_psSort1 <- function(x, i, j, value = NA, grid = NULL, items = NULL) {
 # coercion ====
 #' @rdname psSort
 #' @param obj
-#' An object which can be coerced to a character matrix of class [psSort][psSort], currently one of:
-#' - a (named) integer(ish) vector, giving the x-axis item ranks per item (names are retained as item handles).
+#' An object which can be coerced to a character matrix of class [psSort][psSort].
 #' @export
 as_psSort <- function(obj, ...) {
   UseMethod("as_psSort")
@@ -241,7 +215,6 @@ as_psSort.psSort <- function(obj, ...) {
   assert_S3(x = obj)
   obj
 }
-
 #' @describeIn psSort Coercion from [psGrid][psGrid] (sets all to `NA`)
 #' @export
 as_psSort.psGrid <- function(obj, ...) {
@@ -257,7 +230,7 @@ as_psSort.psGrid <- function(obj, ...) {
   )
 }
 
-#' @describeIn psSort Coercion from integer(ish) vector
+#' @describeIn psSort Coercion from integer(ish) vector; names are retained as item handles.
 #' @export
 as_psSort.integer <- function(obj, grid = NULL, ...) {
   # input validation
@@ -265,7 +238,7 @@ as_psSort.integer <- function(obj, grid = NULL, ...) {
 
   if (!test_named(x = obj, type = "strict")) {
     nos <- formatC(x = 1:length(obj), width = nchar(trunc(length(obj))), flag = 0)
-    names(obj) <- glue("sta{nos}")
+    names(obj) <- nos
     warning(
       "Because 'obj' was unnamed, cells contain vector indices as pseudo item handles. ",
       "Consider adding meaningful item handles as names to 'obj'.",
