@@ -18,9 +18,9 @@ as_psSort(obj, ...)
 
 \method{as_psSort}{psGrid}(obj, ...)
 
-\method{as_psSort}{integer}(obj, grid = NULL, ...)
+\method{as_psSort}{integer}(obj, ...)
 
-\method{as_psSort}{numeric}(obj, grid = NULL, ...)
+\method{as_psSort}{numeric}(obj, ...)
 }
 \arguments{
 \item{sort}{\code{[matrix()]}
@@ -154,5 +154,13 @@ as_psSort(obj = grid_bycoercion)
 
 # you can coerce a sort from an integer(ish) vector, with cells filled from the bottom up
 one_sort_from_vec <- as_psSort(obj = c(foo = -1, bar = 0, zap = 1, zong = 1))
+# you can also pass on other arguments to `psSort()`
+one_sort_from_vec_hex <- as_psSort(
+  obj = c(foo = -1, bar = 0, zap = 1, zong = 1),
+  polygon = "hexagon",
+  offset = "odd"
+)
+
+
 }
 \concept{S3 classes from `pensieve`.}

@@ -58,4 +58,7 @@ test_that(desc = "coercion from integer(ish) vector works", code = {
   )
   # should warn on unnamed integers
   expect_warning(object = as_psSort(obj = c(1,1,2,0)))
+  # should pass on non-default attributes
+  expect_identical(object = one_sort_from_vec_hex %@% "polygon", expected = "hexagon")
+  expect_identical(object = one_sort_from_vec_hex %@% "offset", expected = "odd")
 })

@@ -259,7 +259,7 @@ as_psSort.psGrid <- function(obj, ...) {
 
 #' @describeIn psSort Coercion from integer(ish) vector
 #' @export
-as_psSort.integer <- function(obj, grid = NULL, ...) {
+as_psSort.integer <- function(obj, ...) {
   # input validation
   assert_integer(x = obj, any.missing = TRUE)
 
@@ -286,22 +286,12 @@ as_psSort.integer <- function(obj, grid = NULL, ...) {
   m <- reshape2::acast(data = df, formula = -y ~ x, value.var = "cell")
   # we're supposed to be using tidyr and reshape2 is retired, but this is really easier and more meaningful in matrix form
   rownames(m) <- NULL  # these are just ties, no meaningful rownames
-  sort <- psSort(sort = m)
-  sort
-
-  # infer grid
-  # if (!is.null(grid)) {
-  #   grid <- as_psGrid(obj = unclass(table(obj)), ...)
-  #   # ... pass on polygon and offset
-  # }
-  # assert_S3(grid)
-  #
-  # sort <- as_psSort(obj = grid)  # creates all NA sort
+  psSort(sort = m, ...)
 }
 
 #' @rdname psSort
 #' @export
-as_psSort.numeric <- function(obj, grid = NULL, ...) {
+as_psSort.numeric <- function(obj, ...) {
   if (test_integerish(x = obj)) {
     as_psSort(obj = rlang::as_integer(obj), ...)
   } else {
