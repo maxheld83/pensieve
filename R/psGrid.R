@@ -11,8 +11,9 @@
 # this argument is almost the same as sort for psSort; some duplication
 #' @param grid `[matrix()]`
 #' giving the availability of cells for sorting as `logical(1)` values.
-#' At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
-#' Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.
+#' The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
+#' Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
+#' Row and column *indeces* can also be named, but names are purely cosmetic.
 #'
 #' @eval document_choice_arg(arg_name = "polygon", choices = polygons, before = "giving polygon to use for tiling", default = "rectangle")
 #'
@@ -52,32 +53,12 @@
 psGrid <- function(grid,
                    polygon = "rectangle",
                    offset = NULL) {
-  if (is.null(dimnames(grid))) {
-    colnames(grid) <- make_pos_names(max_pos = ncol(grid))
-  }
   grid <- new_psGrid(grid = grid, polygon = polygon, offset = offset)
   assert_S3(grid)
   return(grid)
 }
 offsets <- c("even", "odd")
 polygons <- c("rectangle", "hexagon")
-
-#' @title Make sorting position names for sorting grids
-#' @description
-#' For interval-scaled (integer only) grids, sorting position names are important (-1, 0, 1).
-#' This function creates them.
-#' @param max_pos `[integer(1)]`
-#' @return `[character()]`
-#' @noRd
-make_pos_names <- function(max_pos) {
-  if (is_even(max_pos)) {
-    # even rows make sense only for unipolar sorts really
-    # this is just accepted here, and we do not store for now whether sorts are unipolar or bipolar
-    return(as.character(1:max_pos))
-  }
-  extreme <- max_pos %/% 2
-  return(as.character(-extreme:extreme))
-}
 
 # constructor
 new_psGrid <- function(grid, polygon, offset) {
@@ -102,8 +83,14 @@ new_psGrid <- function(grid, polygon, offset) {
 #' @inheritParams validate_S3
 #' @export
 validate_S3.psGrid <- function(x, ...) {
-  assert_names2(x = colnames(x), type = "unique", add = ps_coll, .var.name = "grid")
-  assert_names2(x = rownames(x), type = "unique", add = ps_coll, .var.name = "grid")
+  map(.x = list(colnames(x), rownames(x)), .f = function(x) {
+    assert_names2(
+      x = x,
+      type = "unique",
+      add = ps_coll,
+      .var.name = "grid"
+    )
+  })
 
   assert_choice(
     x = attr(x = x, which = "polygon"),
@@ -128,7 +115,8 @@ validate_S3.psGrid <- function(x, ...) {
 #' @param obj
 #' An object which can be coerced to a logical matrix of class [psGrid][psGrid], currently one of:
 #' - a (named) integer(ish) vector, giving the column height of `TRUE`s from the bottom (names are retained as column names),
-#' - a logical matrix, as per [psGrid].
+#' - a logical matrix as per [psGrid][psGrid] and
+#' - a character matrix as per [psSort][psSort] (sets all cells to `TRUE`)
 #' @export
 as_psGrid <- function(obj, ...) {
   UseMethod("as_psGrid")
@@ -145,13 +133,15 @@ as_psGrid.psGrid <- function(obj, ...) {
 as_psGrid.integer <- function(obj, ...) {
   # input validation
   assert_integer(x = obj, lower = 0, any.missing = FALSE, null.ok = FALSE)
-  assert_names2(x = names(obj), type = "unique")
 
   overall_height <- max(obj)
 
   # purrr isn't good for this job because it only returns tibbles; overkill here
   m <- sapply(X = obj, FUN = function(this_height) {
-    this_column <- c(rep(FALSE, overall_height - this_height), rep(TRUE, this_height))
+    this_column <- c(
+      rep(FALSE, overall_height - this_height),
+      rep(TRUE, this_height)
+    )
     return(this_column)
   })
 
@@ -162,7 +152,12 @@ as_psGrid.integer <- function(obj, ...) {
     # here, as always, we assume that x is the used dimension
     dim_names <- list(c(NULL), names(obj))
   }
-  m <- matrix(data = m, nrow = max(obj), ncol = length(obj), dimnames = dim_names)
+  m <- matrix(
+    data = m,
+    nrow = max(obj),
+    ncol = length(obj),
+    dimnames = dim_names
+  )
 
   psGrid(grid =  m, ...)
 }
@@ -194,8 +189,8 @@ as_psGrid.psSort <- function(obj, ...) {
 
 # print ====
 #' @describeIn psGrid Printing inside knitr chunks
-#' @param header A logical flag, defaults to `TRUE`, in which case column names  from `grid` are included as headers.
-#' @param footer A logical flag, defaults to `TRUE`, in which case column names  from `grid` are included as footers.
+#' @param header,footer A logical flag, defaults to `TRUE`, in which case column or row names from `grid` are included as headers or footers, respectively.
+#' Missing row or column names are replaced with sensible defaults.
 #' @param aspect_ratio_cards
 #' A numeric scalar, giving width divided by height of *individual cards* (such as 16/9 for screen dimensions).
 #' Aspect ratio of *cards* is required to appropriately set the resulting dimensions of the *grid*.
@@ -208,6 +203,12 @@ knit_print.psGrid <- function(x,
                               aspect_ratio_cards = 85/54,
                               inline = FALSE,
                               ...) {
+  if (is.null(colnames(x))) {
+    colnames(x) <- make_pos_names(max_pos = ncol(x))
+  }
+  if (is.null(rownames(x))) {
+    rownames(x) <- LETTERS[1:nrow(x)]
+  }
   if (!is.null(attr(x = x, which = "offset"))) {
     stop("Sorry, do not know how to print non-square tiled grids.
          If you need this feature, contact the package author.")
@@ -229,4 +230,20 @@ knit_print.psGrid <- function(x,
       NextMethod()
     }
   }
+}
+
+#' @title Make sorting position names for sorting grids
+#' @description
+#' These are just cosmetic names.
+#' @param max_pos `[integer(1)]`
+#' @return `[character()]`
+#' @noRd
+make_pos_names <- function(max_pos) {
+  if (is_even(max_pos)) {
+    # even rows make sense only for unipolar sorts really
+    # this is just accepted here, and we do not store for now whether sorts are unipolar or bipolar
+    return(as.character(1:max_pos))
+  }
+  extreme <- max_pos %/% 2
+  return(as.character(-extreme:extreme))
 }

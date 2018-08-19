@@ -7,7 +7,7 @@ grid_byhand <- psGrid(grid = m)
 # matrix with better dimnames
 dimnames(m) <- list(
   c(NULL), # rows, or y-dimension is meaningless, used for ties
-  desirable = as.character(x = -1:1)
+  desirable = NULL  # no use in adding actual column names
   # say, desirable is the short form for the sorting conditition used on x
 )
 grid_byhand <- psGrid(grid = m)

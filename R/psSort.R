@@ -11,7 +11,7 @@
 #' Sorts can be stored in the form in which they were originally created on a table or in a computer user interface.
 #' The `y`-axis, though meaningless (ties) in most studies, is also stored, but this full matrix form makes it easy to reason about the data, and to validate it.
 #'
-# this argument is almost the same as grid for psGrid; some duplication
+#TODO this argument is almost the same as grid for psGrid; some duplication
 #' @param sort `[matrix()]`
 #' giving the occupying item of cells as `character(1)` strings of **item handles**.
 #' `NA` is used for empty *and* disallowed cells (see [psGrid][psGrid]).
@@ -32,7 +32,7 @@
 #' @example tests/testthat/helper_psSort.R
 #' @export
 psSort <- function(sort, desc_x = NULL, desc_y = NULL, polygon = "rectangle", offset = NULL) {
-  # this is DUPLICATE code from psGrid!
+  # TODO this is DUPLICATE code from psGrid!
   if (is.null(dimnames(sort))) {
     colnames(sort) <- make_pos_names(max_pos = ncol(sort))
   }

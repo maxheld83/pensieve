@@ -31,8 +31,9 @@ as_psGrid(obj, ...)
 \arguments{
 \item{grid}{\code{[matrix()]}
 giving the availability of cells for sorting as \code{logical(1)} values.
-At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
-Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
+The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
+Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
+Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
 \item{polygon}{\code{[character(1)]} giving polygon to use for tiling
 
@@ -58,12 +59,12 @@ Must be one of:
 \item{obj}{An object which can be coerced to a logical matrix of class \link{psGrid}, currently one of:
 \itemize{
 \item a (named) integer(ish) vector, giving the column height of \code{TRUE}s from the bottom (names are retained as column names),
-\item a logical matrix, as per \link{psGrid}.
+\item a logical matrix as per \link{psGrid} and
+\item a character matrix as per \link{psSort} (sets all cells to \code{TRUE})
 }}
 
-\item{header}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as headers.}
-
-\item{footer}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as footers.}
+\item{header, footer}{A logical flag, defaults to \code{TRUE}, in which case column or row names from \code{grid} are included as headers or footers, respectively.
+Missing row or column names are replaced with sensible defaults.}
 
 \item{aspect_ratio_cards}{A numeric scalar, giving width divided by height of \emph{individual cards} (such as 16/9 for screen dimensions).
 Aspect ratio of \emph{cards} is required to appropriately set the resulting dimensions of the \emph{grid}.
@@ -137,7 +138,7 @@ grid_byhand <- psGrid(grid = m)
 # matrix with better dimnames
 dimnames(m) <- list(
   c(NULL), # rows, or y-dimension is meaningless, used for ties
-  desirable = as.character(x = -1:1)
+  desirable = NULL  # no use in adding actual column names
   # say, desirable is the short form for the sorting conditition used on x
 )
 grid_byhand <- psGrid(grid = m)

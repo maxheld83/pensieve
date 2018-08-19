@@ -14,8 +14,9 @@ inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)),
 \arguments{
 \item{grid}{\code{[matrix()]}
 giving the availability of cells for sorting as \code{logical(1)} values.
-At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
-Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
+The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
+Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
+Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
 \item{sort}{\code{[matrix()]}
 giving the occupying item of cells as \code{character(1)} strings of \strong{item handles}.
@@ -23,9 +24,11 @@ giving the occupying item of cells as \code{character(1)} strings of \strong{ite
 At least one dimension should be named (see examples), or the x-axis (column names) is assumed to be the sorting direction.
 Unnamed dimensions are assumed to be meaningless, i.e. used for stacking tied items.}
 
-\item{header}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as headers.}
+\item{header}{A logical flag, defaults to \code{TRUE}, in which case column or row names from \code{grid} are included as headers or footers, respectively.
+Missing row or column names are replaced with sensible defaults.}
 
-\item{footer}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as footers.}
+\item{footer}{A logical flag, defaults to \code{TRUE}, in which case column or row names from \code{grid} are included as headers or footers, respectively.
+Missing row or column names are replaced with sensible defaults.}
 
 \item{aspect_ratio_cards}{A numeric scalar, giving width divided by height of \emph{individual cards} (such as 16/9 for screen dimensions).
 Aspect ratio of \emph{cards} is required to appropriately set the resulting dimensions of the \emph{grid}.
