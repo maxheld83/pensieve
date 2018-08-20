@@ -1,4 +1,4 @@
-# helper ====
+# construction ====
 #' @title Store multiple sorts as a numeric matrix
 #'
 #' @description
@@ -36,6 +36,8 @@ new_psClosedSorts <- function(csorts, ...) {
     class = c("psClosedSorts", class(csorts))
   )
 }
+
+# validation ====
 
 #' @describeIn psClosedSorts Validation against items and grid (recommended)
 #' @inheritParams validate_S3
@@ -77,6 +79,49 @@ validate_S3.psClosedSorts <- function(x, items = NULL, grid = NULL, ...) {
 
   NextMethod(ps_coll = ps_coll)
 }
+
+# coercion ====
+#' @rdname psClosedSorts
+#' @param obj
+#' An object which can be coerced to an integer array of class [psClosedSorts][psClosedSorts].
+#' @export
+as_psClosedSorts <- function(obj, ...) {
+  UseMethod("as_psClosedSorts")
+}
+as_psClosedSorts.default <- function(obj, ...) {
+  stop_coercion(obj = obj, target_class = "psClosedSorts")
+}
+as_psClosedSorts.psClosedSorts <- function(obj, ...) {
+  assert_S3(x = obj)
+  obj
+}
+#' @describeIn psClosedSorts Coercion from [psSort][psSort] (creates one row)
+#' @export
+as_psClosedSorts.psSort <- function(obj, ...) {
+  assert_S3(obj)
+  # TODO allow coercion against items, to make sure we have everything in place
+
+  res <- reshape2::melt(obj, na.rm = TRUE)
+
+  if (!is.null(obj %@% "offset")) {
+    # add offsets
+    if (obj %@% "offset" == "even") {
+      res[is_even(res[[1]]),2] <- res[is_even(res[[1]]),2] + 0.5
+    }
+    if (obj %@% "offset" == "odd") {
+      res[!is_even(res[[1]]),2] <- res[!is_even(res[[1]]),2] + 0.5
+    }
+    res[,2] <- res[,2] * 2  # make sure we have integers again
+  }
+
+  m <- matrix(
+    data = res[[2]],  # x coordinates
+    nrow = 1
+  )
+  colnames(m) <- as.character(res[[3]])
+  psClosedSorts(m)
+}
+
 
 # PLOTTING ====
 #' @describeIn psClosedSorts plotting

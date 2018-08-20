@@ -3,12 +3,18 @@
 \name{psClosedSorts}
 \alias{psClosedSorts}
 \alias{validate_S3.psClosedSorts}
+\alias{as_psClosedSorts}
+\alias{as_psClosedSorts.psSort}
 \alias{plot.psClosedSorts}
 \title{Store multiple sorts as a numeric matrix}
 \usage{
 psClosedSorts(csorts)
 
 \method{validate_S3}{psClosedSorts}(x, items = NULL, grid = NULL, ...)
+
+as_psClosedSorts(obj, ...)
+
+\method{as_psClosedSorts}{psSort}(obj, ...)
 
 \method{plot}{psClosedSorts}(x, column = 1, use_js = NULL, ...)
 }
@@ -37,6 +43,8 @@ Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 \item{...}{Arguments passed onto other methods.
 Not currently used.}
 
+\item{obj}{An object which can be coerced to an integer array of class \link{psClosedSorts}.}
+
 \item{column}{Positive integer scalar, giving the column of the psClosedSorts object to plot.
 Defaults to \code{1}, in which case the first column is plotted.}
 
@@ -55,11 +63,13 @@ Plot S3 class.
 \itemize{
 \item \code{validate_S3}: Validation against items and grid (recommended)
 
+\item \code{as_psClosedSorts}: Coercion from \link{psSort} (creates one row)
+
 \item \code{plot}: plotting
 }}
 
 \examples{
-# create sorts ====
+# multiple sorts ====
 # simple case with one condition of instruction
 csorts <- matrix(
   data = c(-1, 0, 1, -1),
