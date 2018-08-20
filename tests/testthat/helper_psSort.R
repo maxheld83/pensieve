@@ -23,4 +23,13 @@ one_sort_from_vec_hex <- as_psSort(
   offset = "odd"
 )
 
-
+# you can also coerce a sort from a long data.frame, like so:
+df <- tibble::tribble(
+  ~x, ~y, ~cell,
+  1,   1, "foo",
+  # notice that there is no item at x = 2;
+  # the missing NA will be added by the below coercion method
+  3,   1, "bar"
+)
+one_sort_from_df <- suppressMessages(as_psSort(df))
+# message would inform about no item at position 2

@@ -64,3 +64,17 @@ test_that(desc = "coercion from integer(ish) vector works", code = {
   expect_identical(object = one_sort_from_vec_hex %@% "polygon", expected = "hexagon")
   expect_identical(object = one_sort_from_vec_hex %@% "offset", expected = "odd")
 })
+
+test_that(desc = "coercion from long data.frame works", code = {
+  expect_s3_class(object = one_sort_from_df, class = c("psSort", "matrix"))
+  expect_S3(x = one_sort_from_df)
+  expect_equivalent(
+    object = one_sort_from_df,
+    expected = psSort(
+      matrix(
+        data = c("foo", NA, "bar"),
+        nrow = 1
+      )
+    )
+  )
+})
