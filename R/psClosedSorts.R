@@ -43,8 +43,14 @@ new_psClosedSorts <- function(csorts, ...) {
 #' @export
 validate_S3.psClosedSorts <- function(x, items = NULL, grid = NULL, ...) {
   walk(.x = dimnames(x), .f = function(x) {
-    assert_names2(x = x, type = "strict")
+    assert_names2(x = x, type = "strict", add = ps_coll)
   })
+
+  if (!is.null(items)) {
+    as_psItemContent(items)
+    assert_named(x = items, add = ps_coll)
+    assert_set_equal(x = colnames(x), y = names(items), add = ps_coll)
+  }
 
   NextMethod(ps_coll = ps_coll)
 }
