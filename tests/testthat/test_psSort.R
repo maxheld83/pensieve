@@ -1,12 +1,23 @@
 context(desc = "psSort class")
 
-test_that(desc = "construction of sorts works", code = {
-  expect_s3_class(object = one_sort, class = c(
-    "psSort",
-    "matrix"
-  ))
+# construction ====
+test_that(desc = "construction and coercion of sorts yields proper psSort", code = {
+  x <- list(
+    one_sort = one_sort,
+    one_sort_from_grid = one_sort_from_grid,
+    one_sort_from_vec = one_sort_from_vec,
+    one_sort_from_vec_hex = one_sort_from_vec_hex,
+    one_sort_from_df = one_sort_from_df,
+    one_sort_from_narrow_m1 = one_sort_from_narrow_m1,
+    one_sort_from_narrow_m2 = one_sort_from_narrow_m2
+  )
+  iwalk(.x = x, .f = function(x, y) {
+    expect_s3_class(object = x, class = c("psSort","matrix"))
+    expect_S3(x = x, label = y)
+  })
 })
 
+# validation ====
 test_that(desc = "validation errors out when 'grid' is not of same rank", code = {
   x <- psSort(matrix(data = c("foo", "bar", NA, NA), nrow = 2))
   expect_error(object = validate_S3(x, grid = grid_byhand))
@@ -32,20 +43,16 @@ test_that(desc = "sorts with item not in items error out", code = {
   expect_error(object = validate_S3(x = x, items = as_psItemContent.character(obj = c(foo = "foo"))))
 })
 
+# coercion ====
 test_that(desc = "coercion from grid works", code = {
-  x <- as_psSort(obj = grid_byhand)
-  expect_s3_class(object = x, class = c("psSort", "matrix"))
-  expect_S3(x = x)
   expect_matrix(
-    x = x,
+    x = one_sort_from_grid,
     nrows = nrow(grid_byhand),
     ncols = ncol(grid_byhand)
   )
 })
 
 test_that(desc = "coercion from integer(ish) vector works", code = {
-  expect_s3_class(object = one_sort_from_vec, class = c("psSort", "matrix"))
-  expect_S3(x = one_sort_from_vec)
   expect_equivalent(
     object = one_sort_from_vec,
     expected = psSort(
@@ -66,8 +73,6 @@ test_that(desc = "coercion from integer(ish) vector works", code = {
 })
 
 test_that(desc = "coercion from long data.frame works", code = {
-  expect_s3_class(object = one_sort_from_df, class = c("psSort", "matrix"))
-  expect_S3(x = one_sort_from_df)
   expect_equivalent(
     object = one_sort_from_df,
     expected = psSort(
@@ -75,6 +80,57 @@ test_that(desc = "coercion from long data.frame works", code = {
         data = c("foo", NA, "bar"),
         nrow = 1
       )
+    )
+  )
+})
+
+test_that(desc = "coercion from matrix works", code = {
+  expect_equivalent(
+    object = one_sort_from_narrow_m1,
+    expected = psSort(
+      matrix(
+        data = c(NA, "bar", NA, NA, "foo", NA),
+        nrow = 2,
+        byrow = TRUE
+      )
+    )
+  )
+  expect_equivalent(
+    object = one_sort_from_narrow_m2,
+    expected = psSort(
+      matrix(
+        data = c(NA, "bar", NA, NA, "foo", "zap"),
+        nrow = 2,
+        byrow = TRUE
+      )
+    )
+  )
+
+  # place narrower grid in wider grid
+  # wider m can't go in narrower grid
+  expect_error(
+    object = as_psSort(
+      obj = matrix(
+        data = LETTERS[1:8],
+        ncol = 4
+      ),
+      grid = grid_byhand
+    )
+  )
+  # must have index arg
+  expect_error(
+    object = as_psSort(
+      obj = m2,
+      grid = grid_byhand
+      # no index arg should error out
+    )
+  )
+  # index arg must not be too high
+  expect_error(
+    object = as_psSort(
+      obj = m2,
+      grid = grid_byhand,
+      insert_at_grid_col = 3
     )
   )
 })

@@ -335,23 +335,51 @@ as_psSort.data.frame <- function(obj, ...) {
 #' @describeIn psSort Coercion from a matrix similar to [psSort][psSort], in accordance with a [psGrid][psGrid] in `grid`:
 #' - Will place smaller matrices in bigger matrices.
 #' - Will fill in only *allowed* cells from the bottom (highest row) up.
-as_psSort.matrix <- function(obj, grid = NULL, ...) {
+#' @export
+#' @param insert_at_grid_col `[integer(1)]`
+#' Giving the column index at which to begin insetting a *narrower* `obj`, into a *wider* sort in accordance with `grid`.
+#' Ignored unless needed.
+#' May be necessary if, for example, a narrower `obj` has no items placed in extreme columns, and empty columns are ommitted from `obj`.
+as_psSort.matrix <- function(obj, grid = NULL, insert_at_grid_col = NULL, ...) {
   m <- obj
 
   if (!is.null(grid)) {
-    if (nrow(m) > nrow(grid)) {
-      stop(
-        "Cannot coerce 'obj' in accordance with 'grid': ",
-        "There are more ties in 'obj' than there are rows in 'grid'.",
-        call. = FALSE
-      )
-    }
+    # ensure that m is narrower or equal to grid
     if (ncol(m) > ncol(grid)) {
       stop(
         "Cannot coerce 'obj' in accordance with 'grid': ",
-        "There are more ranks in 'obj' than there are columns in 'grid'."
+        "There are more columns in 'obj' (~ values of x) than in 'grid'."
       )
     }
+
+    # fix if m is narrower than grid
+    if (ncol(m) < ncol(grid)) {
+      if (is.null(insert_at_grid_col)) {
+        stop(
+          "Cannot coerce narrower 'obj' in accordance with wider 'grid': ",
+          "Please supply 'insert_at_grid_col' to indicate at which column in 'grid' 'obj' should be placed."
+        )
+      }
+
+      assert_integerish(
+        x = insert_at_grid_col,
+        lower = 0,
+        upper = ncol(grid) - ncol(m) + 1,
+        any.missing = FALSE,
+        len = 1,
+        null.ok = FALSE  # important, we need an insert_at_grid_col, see above
+      )
+
+      # insert m into bigger m at appropriate place
+      widened_m <- as_psSort(grid)
+      inner_cols <- insert_at_grid_col:(insert_at_grid_col + ncol(m) - 1)
+      widened_m[, inner_cols] <- m
+
+      m <- widened_m
+    }
+
+    # TODO fill allowed cells from the bottom, as far as possible
+
   }
 
   psSort(sort = m, ...)
