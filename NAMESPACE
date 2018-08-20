@@ -2,6 +2,7 @@
 
 S3method("[",psItemContent)
 S3method(as_psGrid,integer)
+S3method(as_psGrid,logical)
 S3method(as_psGrid,matrix)
 S3method(as_psGrid,numeric)
 S3method(as_psGrid,psSort)

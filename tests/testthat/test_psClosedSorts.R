@@ -10,17 +10,9 @@ test_that(desc = "validation against 'items' works", code = {
 })
 
 test_that(desc = "validation against 'grid' works", code = {
-  skip("in dev")
-  bad_sorts <- matrix(
-    data = c(
-      -1, 0, 1, # correct
-      -1, -1, 0,  # incorrect, FALSE cell occupied
-      -1, -1, -1  # out of range of grid
-    ),
-    nrow = 3,
-    byrow = TRUE
+  # this is reusing the tests from other functions, so no need to run a lot of tests here
+  expect_error(
+    object = assert_S3(x = csorts_multiple_conds, grid = grid_byhand[1, ])
   )
-  bad_sorts <- psClosedSorts(csorts = bad_sorts)
-  validate_S3(x = bad_sorts, grid = grid_bycoercion)
 })
 

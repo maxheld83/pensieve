@@ -47,9 +47,32 @@ validate_S3.psClosedSorts <- function(x, items = NULL, grid = NULL, ...) {
   })
 
   if (!is.null(items)) {
-    as_psItemContent(items)
+    items <- as_psItemContent(items)
     assert_named(x = items, add = ps_coll, .var.name = "items")
-    assert_set_equal(x = colnames(x), y = names(items), add = ps_coll, .var.name = "items")
+    assert_set_equal(
+      x = colnames(x),
+      y = names(items),
+      add = ps_coll,
+      .var.name = "items"
+    )
+  }
+
+  if (!is.null(grid)) {
+    grid <- as_psGrid(grid)
+
+    # the validations already all exist in the below functions, so we reuse them here
+    # purrr can't do arrays well, plyr doesn't know index, so it's a for loo
+    plyr::a_ply(
+      .data = x,
+      .margins = 1:length(dim(x))[-2],
+      .inform = TRUE,
+      # should split by all dims, except 2 (= cols), which is items
+      # as a result, x should always be an integer vector
+      .fun = function(x) {
+        suppressWarnings(assert_fun_args(x = as_psSort, y = x, grid = grid, add = ps_coll))
+      }
+      # TODO this is not great; above assertion does not know its index, so we don't know where the problem is.
+    )
   }
 
   NextMethod(ps_coll = ps_coll)

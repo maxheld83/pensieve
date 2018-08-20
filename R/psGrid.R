@@ -172,6 +172,12 @@ as_psGrid.numeric <- function(obj, ...) {
 as_psGrid.matrix <- function(obj, ...) {
   psGrid(grid = obj, ...)
 }
+#' @describeIn psGrid Coerction from a logical vector (very unlikely).
+#' @export
+as_psGrid.logical <- function(obj, ...) {
+  m <- t(as.matrix(x = obj))
+  psGrid(grid = m, ...)
+}
 #' @describeIn psGrid Coercion from a character matrix [psSort][psSort] (sets all cells to `TRUE`).
 #' @export
 as_psGrid.psSort <- function(obj, ...) {

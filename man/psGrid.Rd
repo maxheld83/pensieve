@@ -7,6 +7,7 @@
 \alias{as_psGrid.integer}
 \alias{as_psGrid.numeric}
 \alias{as_psGrid.matrix}
+\alias{as_psGrid.logical}
 \alias{as_psGrid.psSort}
 \alias{knit_print.psGrid}
 \title{Store sorting grid as logical matrix.}
@@ -22,6 +23,8 @@ as_psGrid(obj, ...)
 \method{as_psGrid}{numeric}(obj, ...)
 
 \method{as_psGrid}{matrix}(obj, ...)
+
+\method{as_psGrid}{logical}(obj, ...)
 
 \method{as_psGrid}{psSort}(obj, ...)
 
@@ -85,6 +88,8 @@ Even a free distribution must have a grid, giving the maximum indices of rows an
 \item \code{as_psGrid}: Coercion from (named) integer(ish) vector, giving the column height of \code{TRUE}s from the bottom (names are retained as column names).
 
 \item \code{as_psGrid}: Coercion from a logical matrix as per \link{psGrid}.
+
+\item \code{as_psGrid}: Coerction from a logical vector (very unlikely).
 
 \item \code{as_psGrid}: Coercion from a character matrix \link{psSort} (sets all cells to \code{TRUE}).
 

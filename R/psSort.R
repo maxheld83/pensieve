@@ -344,6 +344,7 @@ as_psSort.matrix <- function(obj, grid = NULL, insert_at_grid_col = NULL, ...) {
   m <- obj
 
   if (!is.null(grid)) {
+    grid <- as_psGrid(grid)
     # ensure that m is narrower or equal to grid
     if (ncol(m) > ncol(grid)) {
       stop(
