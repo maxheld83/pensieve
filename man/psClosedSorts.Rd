@@ -8,7 +8,7 @@
 \usage{
 psClosedSorts(csorts)
 
-\method{validate_S3}{psClosedSorts}(x, ...)
+\method{validate_S3}{psClosedSorts}(x, items = NULL, grid = NULL, ...)
 
 \method{plot}{psClosedSorts}(x, column = 1, use_js = NULL, ...)
 }
@@ -17,6 +17,22 @@ psClosedSorts(csorts)
 An numeric array with people as rows, item handles as columns, arbitrary dimensions thereafter (such as for multiple sorting dimensions), and item positions in cells.}
 
 \item{x}{An object with one of the pensieve S3 classes.}
+
+\item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
+Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
+\itemize{
+\item if \code{dir_bin} is \code{NULL} (default), \code{items} must be text.
+Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
+An additional subclass \code{psItemContentText} is prepended and validated.
+\item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
+An additional subclass \code{psItemContentBin`` is prepended and validated.}lang\code{,}fontsize_global\code{,}alignment\code{and}linestretch` are ignored.
+}}
+
+\item{grid}{\code{[matrix()]}
+giving the availability of cells for sorting as \code{logical(1)} values.
+The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
+Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
+Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
 \item{...}{Arguments passed onto other methods.
 Not currently used.}
@@ -37,7 +53,7 @@ Plot S3 class.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{validate_S3}: Validation
+\item \code{validate_S3}: Validation against items and grid (recommended)
 
 \item \code{plot}: plotting
 }}

@@ -37,10 +37,14 @@ new_psClosedSorts <- function(csorts, ...) {
   )
 }
 
-#' @describeIn psClosedSorts Validation
+#' @describeIn psClosedSorts Validation against items and grid (recommended)
 #' @inheritParams validate_S3
+#' @inheritParams psSort
 #' @export
-validate_S3.psClosedSorts <- function(x, ...) {
+validate_S3.psClosedSorts <- function(x, items = NULL, grid = NULL, ...) {
+  walk(.x = dimnames(x), .f = function(x) {
+    assert_names2(x = x, type = "strict")
+  })
 
   NextMethod(ps_coll = ps_coll)
 }
