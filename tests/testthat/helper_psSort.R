@@ -56,3 +56,26 @@ one_sort_from_narrow_m2 <- as_psSort(
   grid = grid_byhand,  # this is wider, a 2x3 matrix
   insert_at_grid_col = 2  # this is where we start placing obj into grid
 )
+
+# coercion from a matrix will fill in available cells in grid from the bottom up
+grid2 <- matrix(
+  data = c(
+    TRUE, FALSE, TRUE,
+    FALSE, FALSE, TRUE,
+    TRUE, TRUE, FALSE
+    ),
+  ncol = 3
+)
+grid2 <- psGrid(grid = grid2)
+m3 <- matrix(
+  data = c(
+    NA, "foo", "bar",
+    NA, NA, "zap",
+    "zong", NA, NA
+  ),
+  ncol = 3
+)
+one_sort_from_m3 <- as_psSort(
+  obj = m3,  # notice how the NAs are *in the wrong order* as per grid
+  grid = grid2
+)

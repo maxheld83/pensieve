@@ -9,7 +9,8 @@ test_that(desc = "construction and coercion of sorts yields proper psSort", code
     one_sort_from_vec_hex = one_sort_from_vec_hex,
     one_sort_from_df = one_sort_from_df,
     one_sort_from_narrow_m1 = one_sort_from_narrow_m1,
-    one_sort_from_narrow_m2 = one_sort_from_narrow_m2
+    one_sort_from_narrow_m2 = one_sort_from_narrow_m2,
+    one_sort_from_m3 = one_sort_from_m3
   )
   iwalk(.x = x, .f = function(x, y) {
     expect_s3_class(object = x, class = c("psSort","matrix"))
@@ -132,5 +133,25 @@ test_that(desc = "coercion from matrix works", code = {
       grid = grid_byhand,
       insert_at_grid_col = 3
     )
+  )
+
+  # intersperse matrix correctly given some grid
+  expect_equivalent(
+    object = one_sort_from_m3,
+    expected = psSort(
+      matrix(
+        data = c("foo", NA, "bar", NA, NA, "zap", NA, "zong", NA),
+        nrow = 3
+      )
+    )
+  )
+  expect_error(
+    object = {
+      m3[1, 1] <- "wop"  # this is too many items for allowed cells
+      as_psSort(
+        obj = m3,
+        grid = grid2
+      )
+    }
   )
 })

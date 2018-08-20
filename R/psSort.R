@@ -378,8 +378,31 @@ as_psSort.matrix <- function(obj, grid = NULL, insert_at_grid_col = NULL, ...) {
       m <- widened_m
     }
 
-    # TODO fill allowed cells from the bottom, as far as possible
+    # now fill in allowed cells from the bottom, as far as possible
+    intersp_m <- as_psSort(grid)
+    # loop over columns
+    for (i in 1:ncol(intersp_m)) {
+      items_2_fill <- m[!is.na(m[,i]), i]
+      n_of_items_2_fill <- length(items_2_fill)
+      cells_avail <- sum(grid[,i])
 
+      if (cells_avail < n_of_items_2_fill) {
+        stop(
+          "Cannot coerce 'obj' in accordance with 'grid': ",
+          glue("There are more values in column {i} of 'obj' than allowed cells in 'grid'."),
+          call = FALSE
+        )
+      }
+
+      out_items <- c(
+        rep(NA, times = cells_avail - n_of_items_2_fill),
+        items_2_fill
+      )
+
+      intersp_m[grid[,i], i] <- out_items
+    }
+
+    m <- intersp_m
   }
 
   psSort(sort = m, ...)
