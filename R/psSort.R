@@ -230,9 +230,22 @@ as_psSort.psGrid <- function(obj, ...) {
   )
 }
 
+#' @rdname psSort
+#' @export
+as_psSort.numeric <- function(obj, ...) {
+  if (test_integerish(x = obj)) {
+    as_psSort(obj = rlang::as_integer(obj), ...)
+  } else {
+    # TODO also offer method for numerics, such as z-scores
+    NextMethod()
+  }
+}
+
+
 #' @describeIn psSort Coercion from integer(ish) vector of item positions; names are retained as item handles.
 #' @export
-as_psSort.integer <- function(obj, grid = NULL, ...) {
+# this only coerces from integer to long df, passes the rest on to later coercion methods
+as_psSort.integer <- function(obj, ...) {
   # input validation
   assert_integer(x = obj, any.missing = TRUE)
 
@@ -247,12 +260,8 @@ as_psSort.integer <- function(obj, grid = NULL, ...) {
     )
   }
 
-  # map seems overkill, but is safer than simple table, see below
-  all_cols <- min(obj):max(obj)
-  names(all_cols) <- as.character(all_cols)  # hack job to get proper map res
-  col_heights <- map_int(.x = all_cols, .f = function(x) {
-    sum(obj == x)
-  })
+  # this does not fill in missing integers; this is a job for a later coercion method
+  col_heights <- unclass(table(obj))
 
   obj <- sort(obj)
 
@@ -262,26 +271,50 @@ as_psSort.integer <- function(obj, grid = NULL, ...) {
     cell = names(obj)
   )
 
-  # it is possible that some of the positions are never used in obj
-  # in that case, we must add it before transforming to matrix
-  # must also warn users if this has happened
+  as_psSort(df, ...)
+}
+
+
+#' @describeIn psSort Coercion from a long dataframe with `x`/`y` item positions as first/second columns, and **item handles** as third column.
+#' @export
+as_psSort.data.frame <- function(obj, ...) {
+  df <- obj
+  colnames(df) <- c("x", "y", "cell")
+
+  # maybe this is unnecessary in this place?
+  assert_integerish(x = df$x, any.missing = FALSE, null.ok = FALSE)
+  assert_integerish(x = df$y, any.missing = FALSE, null.ok = FALSE)
+  assert_character(x = df$cell, unique = TRUE, null.ok = FALSE)
+
+  # figure out whether there are any MISSING columns for some value of x in the df
+  # for example, there may cards at 1 and 3, but not at 2.
+  # the corresponding row SHOULD be cell = NA in the df, but it may in fact be missing.
+  # first, let's find all x values (columns) which SHOULD be there
+  all_cols <- min(df$x):max(df$x)
+  names(all_cols) <- as.character(all_cols)  # hack job to get proper map res
+  # figure out how often each x value is actually used in the df
+  col_heights <- map_int(.x = all_cols, .f = function(x) {
+    sum(df$x == x)
+  })
+  # now we add the missing col_heights as ROWS to the df,
+  # and warn users that this has happened
   if (any(col_heights == 0)) {
     empty_cols <- names(col_heights)[which(col_heights == 0)]
     # add empty rows with unused x vals
     df <- tibble::add_row(
       .data = df,
-      x = empty_cols,
-      y = 1
+      x = empty_cols,  # can be one or longer
+      y = 1,  # these get recycled
+      cell = NA  # these get recycled
     )
-    warning(
-      "There are no items placed at positions ",
+    message(
+      "There are no items placed at position/s ",
       glue_collapse(
         x = glue("{empty_cols}"),
         last = " and ",
         sep = ", "
       ),
-      ". You might want to check whether this is correct.",
-      call. = FALSE
+      ". You might want to check whether this is correct."
     )
   }
 
@@ -294,6 +327,16 @@ as_psSort.integer <- function(obj, grid = NULL, ...) {
     fill = NA
   )
   rownames(m) <- NULL  # these are just ties, no meaningful rownames
+
+  as_psSort(m, ...)
+}
+
+
+#' @describeIn psSort Coercion from a matrix similar to [psSort][psSort], in accordance with a [psGrid][psGrid] in `grid`:
+#' - Will place smaller matrices in bigger matrices.
+#' - Will fill in only *allowed* cells from the bottom (highest row) up.
+as_psSort.matrix <- function(obj, grid = NULL, ...) {
+  m <- obj
 
   if (!is.null(grid)) {
     if (nrow(m) > nrow(grid)) {
@@ -309,20 +352,7 @@ as_psSort.integer <- function(obj, grid = NULL, ...) {
         "There are more ranks in 'obj' than there are columns in 'grid'."
       )
     }
-    # TODO enforce that m colnames are subset of grid colnames
-
-    # TODO fill in from the bottom up, at the right colnames
   }
+
   psSort(sort = m, ...)
-}
-
-#' @rdname psSort
-#' @export
-as_psSort.numeric <- function(obj, ...) {
-  if (test_integerish(x = obj)) {
-    as_psSort(obj = rlang::as_integer(obj), ...)
-  } else {
-    # TODO also offer method for numerics, such as z-scores
-    NextMethod()
-  }
 }

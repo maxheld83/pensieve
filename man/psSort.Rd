@@ -5,8 +5,10 @@
 \alias{validate_S3.psSort}
 \alias{as_psSort}
 \alias{as_psSort.psGrid}
-\alias{as_psSort.integer}
 \alias{as_psSort.numeric}
+\alias{as_psSort.integer}
+\alias{as_psSort.data.frame}
+\alias{as_psSort.matrix}
 \title{Store an \emph{individual} sort as a character matrix of \emph{item handles}}
 \usage{
 psSort(sort, polygon = "rectangle", offset = NULL)
@@ -17,9 +19,13 @@ as_psSort(obj, ...)
 
 \method{as_psSort}{psGrid}(obj, ...)
 
-\method{as_psSort}{integer}(obj, grid = NULL, ...)
-
 \method{as_psSort}{numeric}(obj, ...)
+
+\method{as_psSort}{integer}(obj, ...)
+
+\method{as_psSort}{data.frame}(obj, ...)
+
+\method{as_psSort}{matrix}(obj, grid = NULL, ...)
 }
 \arguments{
 \item{sort}{\code{[matrix()]}
@@ -85,6 +91,14 @@ The \code{y}-axis, though meaningless (ties) in most studies, is also stored, bu
 \item \code{as_psSort}: Coercion from \link{psGrid} (sets all to \code{NA})
 
 \item \code{as_psSort}: Coercion from integer(ish) vector of item positions; names are retained as item handles.
+
+\item \code{as_psSort}: Coercion from a long dataframe with \code{x}/\code{y} item positions as first/second columns, and \strong{item handles} as third column.
+
+\item \code{as_psSort}: Coercion from a matrix similar to \link{psSort}, in accordance with a \link{psGrid} in \code{grid}:
+\itemize{
+\item Will place smaller matrices in bigger matrices.
+\item Will fill in only \emph{allowed} cells from the bottom (highest row) up.
+}
 }}
 
 \section{Hexagonal tiling}{
