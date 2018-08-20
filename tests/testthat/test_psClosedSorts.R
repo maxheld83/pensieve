@@ -6,8 +6,7 @@ test_that(desc = "construction works", code = {
 })
 
 test_that(desc = "validation against 'items' works", code = {
-  #TODO should really expect error here, but assert_ does not yet pass on additional args
-  expect_character(x = validate_S3(x = csorts, items = c(foo = "foo")))
+  expect_error(x = assert_S3(x = csorts, items = c(foo = "foo")))
 })
 
 test_that(desc = "validation against 'grid' works", code = {

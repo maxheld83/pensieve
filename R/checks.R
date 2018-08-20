@@ -70,15 +70,15 @@ validate_S3.default <- function(x, ps_coll = NULL, ...) {
 
 #' @rdname validate_S3
 #' @export
-check_S3 <- function(x) {
+check_S3 <- function(x, ...) {
   UseMethod(generic = "check_S3")
 }
 
 #' @rdname validate_S3
 #' @noRd
 #' @export
-check_S3.default <- function(x) {
-  msg <- validate_S3(x)
+check_S3.default <- function(x, ...) {
+  msg <- validate_S3(x, ...)
   if (is.null(msg)) {
     return(TRUE)
   } else {
@@ -90,45 +90,45 @@ check_S3.default <- function(x) {
 
 #' @rdname validate_S3
 #' @export
-test_S3 <- function(x) {
+test_S3 <- function(x, ...) {
   UseMethod(generic = "test_S3")
 }
 
 #' @rdname validate_S3
 #' @noRd
 #' @export
-test_S3.default <- function(x) {
-  res <- check_S3(x)
+test_S3.default <- function(x, ...) {
+  res <- check_S3(x, ...)
   return(makeTest(res = res))
 }
 
 #' @rdname validate_S3
 #' @inheritParams checkmate::makeExpectation
 #' @export
-expect_S3 <- function(x, info = NULL, label = NULL) {
+expect_S3 <- function(x, info = NULL, label = NULL, ...) {
   UseMethod(generic = "expect_S3")
 }
 
 #' @rdname validate_S3
 #' @noRd
 #' @export
-expect_S3.default <- function(x, info = NULL, label = paste(class(x)[1], "S3 class")) {
-  res <- check_S3(x)
+expect_S3.default <- function(x, info = NULL, label = paste(class(x)[1], "S3 class"), ...) {
+  res <- check_S3(x, ...)
   return(makeExpectation(x = x, res = res, info = info, label = label))
 }
 
 #' @rdname validate_S3
 #' @inheritParams checkmate::makeAssertion
 #' @export
-assert_S3 <- function(x, collection = NULL, var.name = NULL) {
+assert_S3 <- function(x, collection = NULL, var.name = NULL, ...) {
   UseMethod(generic = "assert_S3")
 }
 
 #' @rdname validate_S3
 #' @noRd
 #' @export
-assert_S3.default <- function(x, collection = NULL, var.name = paste(class(x)[1], "S3 class")) {
-  res <- check_S3(x)
+assert_S3.default <- function(x, collection = NULL, var.name = paste(class(x)[1], "S3 class"), ...) {
+  res <- check_S3(x, ...)
   if (!isTRUE(res)) {  # only muck with the string unless res is TRUE
     res <- glue("\n \n", res)  # necessary to get the look right
   }
@@ -137,15 +137,15 @@ assert_S3.default <- function(x, collection = NULL, var.name = paste(class(x)[1]
 
 #' @rdname validate_S3
 #' @export
-need_S3 <- function(x, label = NULL) {
+need_S3 <- function(x, label = NULL, ...) {
   UseMethod(generic = "need_S3")
 }
 
 #' @rdname validate_S3
 #' @noRd
 #' @export
-need_S3.default <- function(x, label = NULL) {
-  res <- check_S3(x)
+need_S3.default <- function(x, label = NULL, ...) {
+  res <- check_S3(x, ...)
   return(makeNeed(x = x, res = res, label = label))
 }
 

@@ -14,15 +14,15 @@ validate_S3(x, ...)
 
 \method{validate_S3}{default}(x, ps_coll = NULL, ...)
 
-check_S3(x)
+check_S3(x, ...)
 
-test_S3(x)
+test_S3(x, ...)
 
-expect_S3(x, info = NULL, label = NULL)
+expect_S3(x, info = NULL, label = NULL, ...)
 
-assert_S3(x, collection = NULL, var.name = NULL)
+assert_S3(x, collection = NULL, var.name = NULL, ...)
 
-need_S3(x, label = NULL)
+need_S3(x, label = NULL, ...)
 }
 \arguments{
 \item{x}{An object with one of the pensieve S3 classes.}
