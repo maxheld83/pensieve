@@ -62,18 +62,21 @@ validate_S3.psClosedSorts <- function(x, items = NULL, grid = NULL, ...) {
     grid <- as_psGrid(grid)
 
     # the validations already all exist in the below functions, so we reuse them here
-    # purrr can't do arrays well, plyr doesn't know index, so it's a for loo
-    plyr::a_ply(
-      .data = x,
-      .margins = 1:length(dim(x))[-2],
-      .inform = TRUE,
-      # should split by all dims, except 2 (= cols), which is items
-      # as a result, x should always be an integer vector
-      .fun = function(x) {
-        suppressWarnings(assert_fun_args(x = as_psSort, y = x, grid = grid, add = ps_coll))
-      }
-      # TODO this is not great; above assertion does not know its index, so we don't know where the problem is.
-    )
+    iwalk(.x = tibble::as_tibble(t(x)), .f = function(one_row, name) {
+      # add item names to row again, these are lost in above transformation
+      names(one_row) <- colnames(x)
+      class(one_row) <- NULL  # this triggers false coercion method otherwise
+      # run existing coercion to capture errors
+      suppressWarnings(
+        assert_fun_args(
+          x = as_psSort,
+          y = one_row,
+          grid = grid,
+          add = ps_coll,
+          .var.name = name
+        )
+      )
+    })
   }
 
   NextMethod(ps_coll = ps_coll)
