@@ -69,7 +69,106 @@ Plot S3 class.
 }}
 
 \examples{
-# multiple sorts ====
+# create simple grids ====
+
+# make simple matrix by hand
+m <- matrix(data = c(FALSE, TRUE, TRUE, TRUE, FALSE, TRUE), nrow = 2)
+grid_byhand <- psGrid(grid = m)
+
+# matrix with better dimnames
+dimnames(m) <- list(
+  c(NULL), # rows, or y-dimension is meaningless, used for ties
+  desirable = NULL  # no use in adding actual column names
+  # say, desirable is the short form for the sorting conditition used on x
+)
+grid_byhand <- psGrid(grid = m)
+
+# coerce grid from conventional distribution notation
+grid_bycoercion <- as_psGrid(obj = c(1,2,1))
+# create a single sort ====
+
+one_sort <- matrix(
+  data = c(NA, "live_2_work", NA, "work_2_live", NA, NA),
+  nrow = 2,
+  dimnames = list(
+    c(NULL),
+    # this is for rownames, of which there are none, because those are just ties
+    desirable = NULL  # no really useful dimnames
+    # 'desirable' is a short name for the description of the sorting axis
+    # (here, as typically, x)
+  )
+)
+one_sort <- psSort(sort = one_sort)
+
+# you can coerce an empty (all `NA`) sort from grid
+one_sort_from_grid <- as_psSort(obj = grid_byhand)
+
+# you can coerce a sort from an integer(ish) vector, with cells filled from the bottom up
+one_sort_from_vec <- as_psSort(obj = c(foo = -1, bar = 0, zap = 1, zong = 1))
+
+# you can also pass on other arguments to `psSort()`
+one_sort_from_vec_hex <- as_psSort(
+  obj = c(foo = -1, bar = 0, zap = 1, zong = 1),
+  polygon = "hexagon",
+  offset = "odd"
+)
+
+# you can also coerce a sort from a long data.frame, like so:
+df <- tibble::tribble(
+  ~x, ~y, ~cell,
+  1,   1, "foo",
+  # notice that there is no item at x = 2;
+  # the missing NA will be added by the below coercion method
+  3,   1, "bar"
+)
+one_sort_from_df <- suppressMessages(as_psSort(df))
+# message would inform about no item at position 2
+
+# you can coerce a narrower matrix inside a wider one, as per grid
+m1 <- matrix(  # a 2 x 1 matrix
+  data = c("bar", "foo"),
+  nrow = 2,
+  byrow = TRUE
+)
+one_sort_from_narrow_m1 <- as_psSort(
+  obj = m1,  # this is narrower, a 2x1 matrix
+  grid = grid_byhand,  # this is wider, a 2x3 matrix
+  insert_at_grid_col = 2  # this is where we start placing obj into grid
+)
+m2 <- matrix(  # a 2 x 2 matrix
+  data = c("bar", NA, "foo", "zap"),
+  nrow = 2,
+  byrow = TRUE
+)
+one_sort_from_narrow_m2 <- as_psSort(
+  obj = m2,  # this is narrower, a 2x2 matrix
+  grid = grid_byhand,  # this is wider, a 2x3 matrix
+  insert_at_grid_col = 2  # this is where we start placing obj into grid
+)
+
+# coercion from a matrix will fill in available cells in grid from the bottom up
+grid2 <- matrix(
+  data = c(
+    TRUE, FALSE, TRUE,
+    FALSE, FALSE, TRUE,
+    TRUE, TRUE, FALSE
+    ),
+  ncol = 3
+)
+grid2 <- psGrid(grid = grid2)
+m3 <- matrix(
+  data = c(
+    NA, "foo", "bar",
+    NA, NA, "zap",
+    "zong", NA, NA
+  ),
+  ncol = 3
+)
+one_sort_from_m3 <- as_psSort(
+  obj = m3,  # notice how the NAs are *in the wrong order* as per grid
+  grid = grid2
+)
+# create multiple sorts ====
 # simple case with one condition of instruction
 csorts <- matrix(
   data = c(-1, 0, 1, -1),
@@ -81,6 +180,11 @@ csorts <- matrix(
   )
 )
 csorts <- psClosedSorts(csorts)
+
+# you can coerce a *row* (person) of a 'psClosedSorts' object from a *single* "raw" psSort
+csorts_from_one_sort <- as_psClosedSorts(obj = one_sort)
+# this also works for psSort with offsets
+csorts_from_one_sort_hex <- as_psClosedSorts(obj = one_sort_from_vec_hex)
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{correlate}},

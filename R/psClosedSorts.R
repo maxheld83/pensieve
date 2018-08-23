@@ -7,7 +7,9 @@
 #' @param csorts `[array()]`
 #' An numeric matrix with people as rows, item handles as columns and item positions in cells.
 #'
-#' @example tests/testthat/helper_psClosedSorts.R
+#' @example tests/testthat/helper_01_psGrid.R
+#' @example tests/testthat/helper_03_psSort.R
+#' @example tests/testthat/helper_04_psClosedSorts.R
 #'
 #' @family S3 classes from `pensieve`
 #'

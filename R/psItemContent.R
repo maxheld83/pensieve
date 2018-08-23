@@ -26,7 +26,7 @@
 #' @inheritParams declare_pandoc_var
 #' @inheritParams wrap_in_latex_env
 #'
-#' @example tests/testthat/helper_psItemContent.R
+#' @example tests/testthat/helper_02_psItemContent.R
 #'
 #' @family S3 classes from `pensieve`
 #'

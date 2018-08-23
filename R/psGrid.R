@@ -43,7 +43,7 @@
 #' Remember that rows for `offset` are given using *R* indices, starting with `1`.
 #' Examples of offset notation in most other programming languages will differ."
 #'
-#' @example tests/testthat/helper_psGrid.R
+#' @example tests/testthat/helper_01_psGrid.R
 #'
 #' @family S3 classes from `pensieve`
 #'

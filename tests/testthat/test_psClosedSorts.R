@@ -18,11 +18,6 @@ test_that(desc = "validation against 'grid' works", code = {
 })
 
 # coercion ====
-#TODO below should be in helper, but won't work there because of loading order or something
-csorts_from_one_sort <- as_psClosedSorts(obj = one_sort)
-# this also works for psSort with offsets
-csorts_from_one_sort_hex <- as_psClosedSorts(obj = one_sort_from_vec_hex)
-
 test_that(desc = "coercion produces valid 'psClosedSorts'", code = {
   # you can coerce a single "row" of psClosedSorts from psSort
   x <- list(

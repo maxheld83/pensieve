@@ -23,8 +23,8 @@
 #' @inheritSection psGrid Hexagonal tiling
 #' @family S3 classes from `pensieve`.
 #' @return A character matrix of class [psSort][psSort].
-#' @example tests/testthat/helper_psGrid.R
-#' @example tests/testthat/helper_psSort.R
+#' @example tests/testthat/helper_01_psGrid.R
+#' @example tests/testthat/helper_03_psSort.R
 #' @export
 psSort <- function(sort, polygon = "rectangle", offset = NULL) {
   sort <- new_psSort(

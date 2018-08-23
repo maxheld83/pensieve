@@ -148,6 +148,8 @@ grid_byhand <- psGrid(grid = m)
 
 # coerce grid from conventional distribution notation
 grid_bycoercion <- as_psGrid(obj = c(1,2,1))
+# create a single sort ====
+
 one_sort <- matrix(
   data = c(NA, "live_2_work", NA, "work_2_live", NA, NA),
   nrow = 2,
