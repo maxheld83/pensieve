@@ -23,32 +23,28 @@ find_unique_substring <- function(strings) {
   # trim whitespace
   strings <- stringr::str_trim(string = strings, side = "both")
   strings <- stringr::str_squish(string = strings)
-  # make unique (otherwise below matrix op doesn't work)
-  strings <- make.unique(names = strings, sep = " ")
 
-  # this is from here https://stackoverflow.com/questions/47714390/shortest-unique-substrings-of-a-vector
+  # split up into a matrix
   m <- stringr::str_split_fixed(string = strings, pattern = " ", n = Inf)
 
-  res <- find_unique_words(x = m)
-  # remove whitespace again
-  stringr::str_trim(string = res, side = "both")
-}
-## function to extract unique words
-find_unique_words <- function(x, # matrix of words
-                              n = nrow(x), # number of original strings
-                              nc = 1, # number of columns (words) to use
-                              prev = character() # previously found words
-) {
-  ## join the first nc words
-  s <- apply(x[, 1:nc, drop = FALSE], 1, stringr::str_c, collapse = " ")
-  ## find non-duplicated words and combine with any previously found
-  r <- c(prev, s[!s %in% s[stringi::stri_duplicated(s)]])
-  ## if some strings are not unique, do it agin, increasing nc by one
-  if (length(r) < n) r <- find_unique_words(x[!s %in% r, ], n = n, nc = nc + 1, prev = r)
-  ## return the result
-  r
-}
+  for (i in 1:nrow(m)) {
+    this_row <- m[i, ]
 
+    # make sure cells are strictly valid R names
+    this_row <- stringr::str_subset(string = this_row, pattern = "^[.]*[a-zA-Z]+[a-zA-Z0-9._]*$")
+    # regex is from https://mllg.github.io/checkmate/reference/checkNames.html
+
+    unique_words <- !(this_row %in% m[-i, ])
+    if (any(unique_words)) {
+      # take words which are globally unique
+      strings[i] <- this_row[unique_words][1]
+    } else {
+      # otherwise, make up a name
+      strings[i] <- glue("sta{i}")
+    }
+  }
+  strings
+}
 
 is_even <- function(x) x %% 2 == 0
 
