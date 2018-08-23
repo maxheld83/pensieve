@@ -12,6 +12,9 @@
 #'
 #' @param items `[character()]` giving the *participant-facing* **item content**.
 #' Can be named to provide short, *researcher-facing* **item handles**.
+#' Names must be unique, valid R names, as per [base::make.names()].
+#' If names are missing, they are automatically added using a string of the first unique words.
+#' You can also provide handles as if they were a full item wording.
 #' - if `dir_bin` is `NULL` (default), `items` must be text.
 #'   Items can be marked up using [Pandoc Markdown](https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html).
 #'   An additional subclass `psItemContentText` is prepended and validated.
@@ -50,6 +53,10 @@ psItemContent <- function(items,  # for all items
                           vcentering = TRUE,
                           hcentering = TRUE) {
   assert_string(x = dir_bin, na.ok = FALSE, null.ok = TRUE)
+
+  if (!rlang::is_named(x = items)) {
+    names(items) <- make_unique_names_from_strings(strings = items)
+  }
 
   # construction
   if (is.null(dir_bin)) {
@@ -106,6 +113,8 @@ new_psItemContent <- function(items, ..., subclass = NULL) {
   )
 }
 
+
+# validation ====
 #' @describeIn psItemContent Validation
 #' @inheritParams validate_S3
 #' @export
@@ -120,7 +129,7 @@ validate_S3.psItemContent <- function(x, ps_coll = NULL, ...) {
     .var.name = "items"
   )
 
-  assert_names2(
+  assert_names(
     x = names(x),
     type = "strict",
     add = ps_coll,

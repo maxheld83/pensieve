@@ -124,14 +124,14 @@ as_psClosedSorts.psSort <- function(obj, items = NULL, ...) {
   colnames(m) <- as.character(res[[3]])
 
   if (!is.null(items)) {
-    # TODO make this work for proper psItemContent and/or string of handles
-    assert_subset(x = colnames(m), choices = items)
+    items <- as_psItemContent(items)
+    assert_subset(x = colnames(m), choices = names(items))
 
     m_w_all_items <- matrix(
       data = NA,
       nrow = 1,
       ncol = length(items),
-      dimnames = list(NULL, items = items)
+      dimnames = list(NULL, items = names(items))
     )
     m_w_all_items[, colnames(m)] <- m
 

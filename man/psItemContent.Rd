@@ -38,6 +38,9 @@ as_psItemContent(obj, ...)
 \arguments{
 \item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
 Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
+Names must be unique, valid R names, as per \code{\link[base:make.names]{base::make.names()}}.
+If names are missing, they are automatically added using a string of the first unique words.
+You can also provide handles as if they were a full item wording.
 \itemize{
 \item if \code{dir_bin} is \code{NULL} (default), \code{items} must be text.
 Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
