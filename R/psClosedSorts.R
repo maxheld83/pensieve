@@ -101,9 +101,8 @@ as_psClosedSorts.psClosedSorts <- function(obj, ...) {
 }
 #' @describeIn psClosedSorts Coercion from [psSort][psSort] (creates one row)
 #' @export
-as_psClosedSorts.psSort <- function(obj, ...) {
+as_psClosedSorts.psSort <- function(obj, items = NULL, ...) {
   assert_S3(obj)
-  # TODO allow coercion against items, to make sure we have everything in place
 
   res <- reshape2::melt(obj, na.rm = TRUE)
 
@@ -123,6 +122,22 @@ as_psClosedSorts.psSort <- function(obj, ...) {
     nrow = 1
   )
   colnames(m) <- as.character(res[[3]])
+
+  if (!is.null(items)) {
+    # TODO make this work for proper psItemContent and/or string of handles
+    assert_subset(x = colnames(m), choices = items)
+
+    m_w_all_items <- matrix(
+      data = NA,
+      nrow = 1,
+      ncol = length(items),
+      dimnames = list(NULL, items = items)
+    )
+    m_w_all_items[, colnames(m)] <- m
+
+    m <- m_w_all_items
+  }
+
   psClosedSorts(m)
 }
 

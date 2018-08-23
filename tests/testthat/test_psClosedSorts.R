@@ -22,7 +22,8 @@ test_that(desc = "coercion produces valid 'psClosedSorts'", code = {
   # you can coerce a single "row" of psClosedSorts from psSort
   x <- list(
     csorts_from_one_sort = csorts_from_one_sort,
-    csorts_from_one_sort_hex = csorts_from_one_sort_hex
+    csorts_from_one_sort_hex = csorts_from_one_sort_hex,
+    csorts_w_items = csorts_w_items
   )
   iwalk(.x = x, .f = function(x, y) {
     expect_s3_class(object = x, class = c("psClosedSorts"))
@@ -56,6 +57,20 @@ test_that(desc = "coercion from 'psSort' works", code = {
   expect_equivalent(
     object = colnames(csorts_from_one_sort_hex),
     expected = c("foo", "bar", "zong", "zap")
+  )
+  expect_equal(
+    object = colnames(csorts_w_items),
+    expected = c("work_2_live", "live_2_work", "enjoy_work"),
+    info = "Expect correct item order."
+  )
+  expect_equivalent(
+    object = csorts_w_items,
+    expected = psClosedSorts(
+      csorts = matrix(
+        data = c(2, 1, NA),
+        nrow = 1
+      )
+    )
   )
 })
 
