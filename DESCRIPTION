@@ -57,6 +57,8 @@ Suggests:
   withr (>= 1.0.2)
 VignetteBuilder: knitr
 RoxygenNote: 6.1.0
+Remotes:
+  tidyverse/tibble
 SystemRequirements:
   cairo (>= 1.2 http://www.cairographics.org/),
   poppler,
