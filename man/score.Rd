@@ -16,7 +16,7 @@ QScores(scores, validate = TRUE)
 \item{loas}{A numerical matrix with loadings.}
 
 \item{csorts}{\code{[array()]}
-An numeric array with people as rows, item handles as columns, arbitrary dimensions thereafter (such as for multiple sorting dimensions), and item positions in cells.}
+An numeric matrix with people as rows, item handles as columns and item positions in cells.}
 
 \item{scores}{A numerical matrix with factor scores.}
 

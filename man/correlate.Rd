@@ -18,7 +18,7 @@ QCors(cors, validate = TRUE)
 }
 \arguments{
 \item{csorts}{\code{[array()]}
-An numeric array with people as rows, item handles as columns, arbitrary dimensions thereafter (such as for multiple sorting dimensions), and item positions in cells.}
+An numeric matrix with people as rows, item handles as columns and item positions in cells.}
 
 \item{method}{A character string indicating which correlation coeffocient to use.
 Must be \code{"pearson"}, \code{"kendall"} or \code{"spearman"} (recommended default).}

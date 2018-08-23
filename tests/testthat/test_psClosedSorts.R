@@ -3,7 +3,6 @@ context("psClosedSorts class")
 # construction ====
 test_that(desc = "construction produces", code = {
   expect_s3_class(object = csorts, class = c("psClosedSorts", "matrix"))
-  expect_s3_class(object = csorts_multiple_conds, class = c("psClosedSorts", "array"))
 })
 
 # validation ====
@@ -14,7 +13,7 @@ test_that(desc = "validation against 'items' works", code = {
 test_that(desc = "validation against 'grid' works", code = {
   # this is reusing the tests from other functions, so no need to run a lot of tests here
   expect_error(
-    object = assert_S3(x = csorts_multiple_conds, grid = grid_byhand[1, ])
+    object = assert_S3(x = csorts, grid = grid_byhand[1, ])
   )
 })
 

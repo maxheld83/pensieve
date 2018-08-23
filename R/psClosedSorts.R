@@ -5,7 +5,7 @@
 #' Canonical storage for closed sorts.
 #'
 #' @param csorts `[array()]`
-#' An numeric array with people as rows, item handles as columns, arbitrary dimensions thereafter (such as for multiple sorting dimensions), and item positions in cells.
+#' An numeric matrix with people as rows, item handles as columns and item positions in cells.
 #'
 #' @example tests/testthat/helper_psClosedSorts.R
 #'
@@ -23,17 +23,16 @@ psClosedSorts <- function(csorts) {
 # constructor
 new_psClosedSorts <- function(csorts, ...) {
   # assert base type
-  assert_array(
+  assert_matrix(
     x = csorts,
     mode = "numeric",
     any.missing = TRUE,
-    min.d = 2,
     null.ok = FALSE
   )
 
   structure(
     .Data = csorts,
-    class = c("psClosedSorts", class(csorts))
+    class = c("psClosedSorts", "matrix")
   )
 }
 

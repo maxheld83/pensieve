@@ -20,7 +20,7 @@ as_psClosedSorts(obj, ...)
 }
 \arguments{
 \item{csorts}{\code{[array()]}
-An numeric array with people as rows, item handles as columns, arbitrary dimensions thereafter (such as for multiple sorting dimensions), and item positions in cells.}
+An numeric matrix with people as rows, item handles as columns and item positions in cells.}
 
 \item{x}{An object with one of the pensieve S3 classes.}
 
@@ -81,18 +81,6 @@ csorts <- matrix(
   )
 )
 csorts <- psClosedSorts(csorts)
-
-# two conditions of instruction are planes in a 3-d array
-csorts_multiple_conds <- array(
-  data = c(-1, 0, 1, -1, 0, 1, -1, 0),
-  dim = c(2, 2, 2),
-  dimnames = list(
-    people = c("Lisa", "Peter"),
-    items = c("live_2_work", "work_2_live"),
-    conditions = c("desirable", "probable")
-  )
-)
-csorts_multiple_conds <- psClosedSorts(csorts_multiple_conds)
 }
 \seealso{
 Other S3 classes from `pensieve`: \code{\link{correlate}},
