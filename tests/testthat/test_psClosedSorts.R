@@ -49,7 +49,7 @@ test_that(desc = "coercion from 'psSort' works", code = {
     object = csorts_from_one_sort_hex,
     expected = psClosedSorts(
       csorts = matrix(
-        data = c(-2, 0, 3, 2),
+        data = c(2, 4, 7, 6),
         nrow = 1
       )
     )
@@ -71,6 +71,13 @@ test_that(desc = "coercion from 'psSort' works", code = {
         nrow = 1
       )
     )
+  )
+  expect_equivalent(
+    object = {
+      sort_with_cosmetic_colnames <- psSort(sort = matrix(data = c("foo", "bar"), ncol = 2, dimnames = list(NULL, cols = c("col1", "col2"))))
+      as_psClosedSorts(obj = sort_with_cosmetic_colnames)
+    },
+    expected = psClosedSorts(csorts = matrix(data = c(1,2), ncol = 2, dimnames = list(NULL, c("foo", "bar"))))
   )
 })
 

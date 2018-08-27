@@ -4,7 +4,7 @@
 #' @description
 #' Canonical storage for closed sorts.
 #'
-#' @param csorts `[array()]`
+#' @param csorts `[matrix()]`
 #' An numeric matrix with people as rows, item handles as columns and item positions in cells.
 #'
 #' @example tests/testthat/helper_01_psGrid.R
@@ -103,6 +103,11 @@ as_psClosedSorts.psClosedSorts <- function(obj, ...) {
 #' @export
 as_psClosedSorts.psSort <- function(obj, items = NULL, ...) {
   assert_S3(obj)
+
+  # TODO this is a bit of hack job, maybe fix this
+  # when there *are* dimnames, these would be taken as x coords, which they are not
+  # we only want indices
+  dimnames(obj) <- NULL
 
   res <- reshape2::melt(obj, na.rm = TRUE)
 

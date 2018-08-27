@@ -17,7 +17,7 @@ QCors(cors, validate = TRUE)
   use_js = NULL, ...)
 }
 \arguments{
-\item{csorts}{\code{[array()]}
+\item{csorts}{\code{[matrix()]}
 An numeric matrix with people as rows, item handles as columns and item positions in cells.}
 
 \item{method}{A character string indicating which correlation coeffocient to use.

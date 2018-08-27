@@ -15,7 +15,7 @@ QScores(scores, validate = TRUE)
 \arguments{
 \item{loas}{A numerical matrix with loadings.}
 
-\item{csorts}{\code{[array()]}
+\item{csorts}{\code{[matrix()]}
 An numeric matrix with people as rows, item handles as columns and item positions in cells.}
 
 \item{scores}{A numerical matrix with factor scores.}

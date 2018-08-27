@@ -19,7 +19,7 @@ as_psClosedSorts(obj, ...)
 \method{plot}{psClosedSorts}(x, column = 1, use_js = NULL, ...)
 }
 \arguments{
-\item{csorts}{\code{[array()]}
+\item{csorts}{\code{[matrix()]}
 An numeric matrix with people as rows, item handles as columns and item positions in cells.}
 
 \item{x}{An object with one of the pensieve S3 classes.}
