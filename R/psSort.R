@@ -192,7 +192,7 @@ inset_psSort1 <- function(x, i, j, value = NA, grid = NULL, items = NULL) {
     # item must be one of items
     if (!is.null(items)) {  # we only test this if we actually *have* items, otherwise pointless
       items <- as_psItemContent(items)
-      assert_choice(x = item, choices = items, null.ok = FALSE)
+      assert_choice(x = item, choices = names(items), null.ok = FALSE)
     }
   }
 
