@@ -82,6 +82,7 @@ validate_S3.psSort <- function(x, grid = NULL, items = NULL, ...) {
   # this is pretty strict, but recall that this is methodologically necessary:
   # dropping some items would imply that the ipsative comparison is no longer the same
   if (!is.null(items)) {
+    items <- as_psItemContent(items)
     assert_S3(items, collection = ps_coll, var.name = "items")
     assert_vector(x = items, max.len = length(x), add = ps_coll, .var.name = "items")
   }
