@@ -4,12 +4,8 @@
 \alias{inanimatus}
 \title{HTML widget factory for sorting grids}
 \usage{
-inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)),
-  sort = matrix(data = c(NA, NA, NA, NA, "foo", NA, NA, NA, "zap", "bar",
-  NA, NA, "hup", "op", "schwupp", "rip", "zonk", "oupsi", "what", "omg",
-  NA, NA, "zor", "arr", "apple", NA, NA, NA, "warp", "glips", NA, NA, NA,
-  NA, "ronk"), ncol = 7), header = TRUE, footer = TRUE,
-  aspect_ratio_cards = 16/9, width = NULL, height = NULL)
+inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)), header = TRUE,
+  footer = TRUE, aspect_ratio_cards = 16/9, width = NULL, height = NULL)
 }
 \arguments{
 \item{grid}{\code{[matrix()]}
@@ -18,15 +14,7 @@ The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y
 Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
 Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
-\item{sort}{\code{[matrix()]}
-giving the occupying item of cells for sorting as \code{character(1)} strings of \strong{item handles}.
-\code{NA} is used for empty \emph{and} disallowed cells (see \link{psGrid}).
-The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
-Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
-Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
-
-\item{header}{A logical flag, defaults to \code{TRUE}, in which case column or row names from \code{grid} are included as headers or footers, respectively.
-Missing row or column names are replaced with sensible defaults.}
+\item{header}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as headers.}
 
 \item{footer}{A logical flag, defaults to \code{TRUE}, in which case column or row names from \code{grid} are included as headers or footers, respectively.
 Missing row or column names are replaced with sensible defaults.}
