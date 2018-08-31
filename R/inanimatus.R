@@ -27,6 +27,14 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
   rowheight <- rowheight / aspect_ratio_cards
   rowheight <- glue(rowheight, "%")
 
+  # create col and row names when there are none
+  if (is.null(colnames(grid))) {
+    colnames(grid) <- as.character(1:ncol(grid))
+  }
+  if (is.null(rownames(grid))) {
+    rownames(grid) <- LETTERS[1:nrow(grid)]
+  }
+
   x <- list(grid = grid,
             colnames = colnames(grid),
             rownames = rownames(grid),
