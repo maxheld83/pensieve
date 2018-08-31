@@ -4,8 +4,9 @@
 \alias{inanimatus}
 \title{HTML widget factory for sorting grids}
 \usage{
-inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)), header = TRUE,
-  footer = TRUE, aspect_ratio_cards = 16/9, width = NULL, height = NULL)
+inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)),
+  header = TRUE, footer = TRUE, aspect_ratio_cards = 16/9,
+  width = NULL, height = NULL)
 }
 \arguments{
 \item{grid}{\code{[matrix()]}
@@ -14,7 +15,8 @@ The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y
 Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
 Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
-\item{header}{A logical flag, defaults to \code{TRUE}, in which case column names  from \code{grid} are included as headers.}
+\item{header}{A logical flag, defaults to \code{TRUE}, in which case column or row names from \code{grid} are included as headers or footers, respectively.
+Missing row or column names are replaced with sensible defaults.}
 
 \item{footer}{A logical flag, defaults to \code{TRUE}, in which case column or row names from \code{grid} are included as headers or footers, respectively.
 Missing row or column names are replaced with sensible defaults.}
