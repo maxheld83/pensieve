@@ -22,11 +22,6 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
   assert_flag(x = footer, na.ok = FALSE, null.ok = FALSE)
   assert_scalar(x = aspect_ratio_cards, na.ok = FALSE, null.ok = FALSE)
 
-  # calculate height in css percent of parents for cells/rows (= same)
-  rowheight <- 100/ncol(grid)
-  rowheight <- rowheight / aspect_ratio_cards
-  rowheight <- glue(rowheight, "%")
-
   # create col and row names when there are none
   if (is.null(colnames(grid))) {
     colnames(grid) <- as.character(1:ncol(grid))
@@ -52,7 +47,8 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
     sizingPolicy = htmlwidgets::sizingPolicy(
       browser.fill = TRUE,
       browser.padding = "0",
-      knitr.figure = TRUE
+      knitr.figure = FALSE, # this is not a plot!
+      knitr.defaultWidth = "100%"
     )
   )
 }
