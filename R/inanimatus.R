@@ -48,5 +48,11 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
     package = "pensieve",
     x = x,
     width = width,
-    height = height)
+    height = height,
+    sizingPolicy = htmlwidgets::sizingPolicy(
+      browser.fill = TRUE,
+      browser.padding = "0",
+      knitr.figure = TRUE
+    )
+  )
 }
