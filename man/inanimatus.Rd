@@ -6,7 +6,7 @@
 \usage{
 inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)),
   header = TRUE, footer = TRUE, aspect_ratio_cards = 16/9,
-  scale_2_height = FALSE, width = NULL, height = NULL)
+  scale_2_height = NULL, width = NULL, height = NULL)
 }
 \arguments{
 \item{grid}{\code{[matrix()]}
@@ -27,8 +27,8 @@ Defaults to standard business cards.}
 
 \item{scale_2_height}{\code{[logical()]}
 giving whether widget should, in addition to width, \emph{also} be scaled to an ancestor height.
-Defaults to \code{FALSE}, in which case widget is scaled to width only.
-Only set \code{TRUE} if you are sure that the surrounding markup passes down a valid css height property.}
+Only set \code{TRUE} if you are sure that the surrounding markup passes down a valid css height property, otherwise you will get bad css for the widget.
+Defaults to \code{NULL}; \code{FALSE} when rendering via knitr, otherwise \code{TRUE}.}
 
 \item{width}{Fixed width for widget (in css units). The default is
 \code{NULL}, which results in intelligent automatic sizing based on the

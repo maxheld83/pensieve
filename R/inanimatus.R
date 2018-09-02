@@ -7,15 +7,15 @@
 #' @inheritParams htmlwidgets::createWidget
 #' @param scale_2_height `[logical()]`
 #' giving whether widget should, in addition to width, *also* be scaled to an ancestor height.
-#' Defaults to `FALSE`, in which case widget is scaled to width only.
-#' Only set `TRUE` if you are sure that the surrounding markup passes down a valid css height property.
+#' Only set `TRUE` if you are sure that the surrounding markup passes down a valid css height property, otherwise you will get bad css for the widget.
+#' Defaults to `NULL`; `FALSE` when rendering via knitr, otherwise `TRUE`.
 #' @return An htmlwidget.
 #' @export
 inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
                        header = TRUE,
                        footer = TRUE,
                        aspect_ratio_cards = 16/9,
-                       scale_2_height = FALSE,
+                       scale_2_height = NULL,
                        width = NULL,
                        height = NULL) {
   # dependencies
@@ -25,7 +25,7 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
   grid <- as_psGrid(grid)
   assert_flag(x = header, na.ok = FALSE, null.ok = FALSE)
   assert_flag(x = footer, na.ok = FALSE, null.ok = FALSE)
-  assert_flag(x = scale_2_height, na.ok = FALSE, null.ok = FALSE)
+  assert_flag(x = scale_2_height, na.ok = FALSE, null.ok = TRUE)
   assert_scalar(x = aspect_ratio_cards, na.ok = FALSE, null.ok = FALSE)
 
   # create col and row names when there are none
@@ -34,6 +34,11 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
   }
   if (is.null(rownames(grid))) {
     rownames(grid) <- LETTERS[1:nrow(grid)]
+  }
+
+  # infer scale_2_height from runtime
+  if (is.null(scale_2_height)) {
+    scale_2_height <- !is_knitr()
   }
 
   x <- list(

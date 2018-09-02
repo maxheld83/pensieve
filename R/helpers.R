@@ -70,6 +70,9 @@ is_html <- function() {
 is_use_js <- function() {
   isTRUE(is_rstudio() | is_html())
 }
+is_knitr <- function() {
+  isTRUE(getOption('knitr.in.progress'))
+}
 
 
 # assert and infer helpers ====
