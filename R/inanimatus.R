@@ -5,12 +5,17 @@
 #' End users should use the convenient print method wrappers.
 #' @inheritParams psGrid
 #' @inheritParams htmlwidgets::createWidget
+#' @param scale_2_height `[logical()]`
+#' giving whether widget should, in addition to width, *also* be scaled to an ancestor height.
+#' Defaults to `FALSE`, in which case widget is scaled to width only.
+#' Only set `TRUE` if you are sure that the surrounding markup passes down a valid css height property.
 #' @return An htmlwidget.
 #' @export
 inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
                        header = TRUE,
                        footer = TRUE,
                        aspect_ratio_cards = 16/9,
+                       scale_2_height = FALSE,
                        width = NULL,
                        height = NULL) {
   # dependencies
@@ -20,6 +25,7 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
   grid <- as_psGrid(grid)
   assert_flag(x = header, na.ok = FALSE, null.ok = FALSE)
   assert_flag(x = footer, na.ok = FALSE, null.ok = FALSE)
+  assert_flag(x = scale_2_height, na.ok = FALSE, null.ok = FALSE)
   assert_scalar(x = aspect_ratio_cards, na.ok = FALSE, null.ok = FALSE)
 
   # create col and row names when there are none
@@ -30,12 +36,15 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
     rownames(grid) <- LETTERS[1:nrow(grid)]
   }
 
-  x <- list(grid = grid,
-            colnames = colnames(grid),
-            rownames = rownames(grid),
-            header = header,
-            footer = footer,
-            aspect_ratio_cards = aspect_ratio_cards)
+  x <- list(
+    grid = grid,
+    colnames = colnames(grid),
+    rownames = rownames(grid),
+    header = header,
+    footer = footer,
+    aspect_ratio_cards = aspect_ratio_cards,
+    scale_2_height = scale_2_height
+  )
 
   # create the widget
   htmlwidgets::createWidget(
@@ -47,8 +56,10 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
     sizingPolicy = htmlwidgets::sizingPolicy(
       browser.fill = TRUE,
       browser.padding = "0",
+      viewer.padding = "0",
       knitr.figure = FALSE, # this is not a plot!
-      knitr.defaultWidth = "100%"
+      knitr.defaultWidth = "100%",
+      knitr.defaultHeight = "inherit"
     )
   )
 }

@@ -4,6 +4,7 @@
 function resizePsGrid(inan) {
   // define required vars
   var aspectRatioCards = inan.data("aspect_ratio_cards");
+  var scale2Height = inan.data("scale_2_height");
   var nRows = inan.data("n_rows");
   var nCols = inan.data("n_cols");
   
@@ -13,7 +14,13 @@ function resizePsGrid(inan) {
   // find new dims
   // we take innerHeight() and subtract the height of header and footer
   var netAvailHeight = inan.innerHeight() - inan.find(".ps-grid thead tr").outerHeight(true) - inan.find(".ps-grid tfoot tr").outerHeight(true);
-  var newDims = resize2AspRatio(inan.innerWidth(), netAvailHeight, tableAspRatio);
+  
+  if (scale2Height) {
+    var newDims = resize2AspRatio(inan.innerWidth(), netAvailHeight, tableAspRatio);
+  } else {
+    var newDims = resize2Width(inan.innerWidth(), tableAspRatio);
+  }
+  
   // height is required as card height, not overall height
   var newCardHeight = Math.floor(newDims.newHeight/nRows) + "px";
   
@@ -23,6 +30,20 @@ function resizePsGrid(inan) {
   inan.find(".ps-grid").css("width", Math.floor(newDims.newWidth) + "px");
 }
 
+// this is the simpler case, where we only rescale to width
+function resize2Width(availWidth, reqAspRatio) {
+  var newWidth = availWidth;
+  var newHeight = availWidth / reqAspRatio;
+  
+  var newDims = {
+    newWidth: newWidth,
+    newHeight: newHeight
+  };
+  
+  return newDims;
+}
+
+// this is the more complicated case, where we rescale to width AND height
 function resize2AspRatio(availWidth, availHeight, reqAspRatio) {
   var availAspRat = availWidth / availHeight;
   
