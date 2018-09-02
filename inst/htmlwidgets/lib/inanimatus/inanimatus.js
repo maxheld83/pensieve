@@ -16,9 +16,11 @@ function resizePsGrid(inan) {
   var netAvailHeight = inan.innerHeight() - inan.find(".ps-grid thead tr").outerHeight(true) - inan.find(".ps-grid tfoot tr").outerHeight(true);
   
   if (scale2Height) {
+    // this is the more complicated case, where we rescale to width AND height
     var newDims = resize2AspRatio(inan.innerWidth(), netAvailHeight, tableAspRatio);
   } else {
-    var newDims = resize2Width(inan.innerWidth(), tableAspRatio);
+    // this is the simple case where we just rescale to width, so netAvailHeight is inf
+    var newDims = resize2AspRatio(inan.innerWidth(), Infinity, tableAspRatio);
   }
   
   // height is required as card height, not overall height
@@ -30,20 +32,6 @@ function resizePsGrid(inan) {
   inan.find(".ps-grid").css("width", Math.floor(newDims.newWidth) + "px");
 }
 
-// this is the simpler case, where we only rescale to width
-function resize2Width(availWidth, reqAspRatio) {
-  var newWidth = availWidth;
-  var newHeight = availWidth / reqAspRatio;
-  
-  var newDims = {
-    newWidth: newWidth,
-    newHeight: newHeight
-  };
-  
-  return newDims;
-}
-
-// this is the more complicated case, where we rescale to width AND height
 function resize2AspRatio(availWidth, availHeight, reqAspRatio) {
   var availAspRat = availWidth / availHeight;
   
