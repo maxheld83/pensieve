@@ -7,22 +7,26 @@ HTMLWidgets.widget({
   factory: function(el, width, height) {
 
     var inan = $(el);
+    // this is just used as a flag to store init state
+    var initialized = false; 
 
     return {
 
       renderValue: function(x) {
+        
+        if (!initialized) {
+          // prepend html for table
+          inan.prepend(createTable(x.grid, x.colnames, x.rownames, x.header, x.footer, x.aspect_ratio_cards));
 
-        // prepend html for table
-        inan.prepend(createTable(x.grid, x.colnames, x.rownames, x.header, x.footer, x.aspect_ratio_cards));
+          // write info necessary for resizing into data attribute
+          inan.attr("data-aspect_ratio_cards", x.aspect_ratio_cards);
+          inan.attr("data-scale_2_height", x.scale_2_height);
+          inan.attr("data-n_rows", Object.keys(x.rownames).length);
+          inan.attr("data-n_cols", Object.keys(x.colnames).length);
 
-        // write info necessary for resizing into data attribute
-        inan.attr("data-aspect_ratio_cards", x.aspect_ratio_cards);
-        inan.attr("data-scale_2_height", x.scale_2_height);
-        inan.attr("data-n_rows", Object.keys(x.rownames).length);
-        inan.attr("data-n_cols", Object.keys(x.colnames).length);
-
-        // initial resizing
-        resizePsGrid(inan);
+          // initial resizing
+          resizePsGrid(inan);
+        }
       },
 
       resize: function(width, height) {
