@@ -5,12 +5,23 @@
 \title{HTML widget factory for sorting grids}
 \usage{
 inanimatus(grid = as_psGrid(obj = c(1, 2, 3, 5, 3, 2, 1)),
-  header = TRUE, footer = TRUE, aspect_ratio_cards = 16/9,
-  scale_2_height = NULL, width = NULL, height = NULL)
+  sort = matrix(data = c(NA, NA, NA, "foo", NA, NA, NA, NA, NA, NA,
+  "bar", NA, NA, NA, NA, NA, "zap", "zop", "zong", NA, NA, NA, "wap",
+  "gum", "pap", "wep", "pel", NA, "rom", "com", "jul", "rob", "di", "nir",
+  "omg"), byrow = TRUE, nrow = 5), header = TRUE, footer = TRUE,
+  aspect_ratio_cards = 16/9, scale_2_height = NULL, width = NULL,
+  height = NULL)
 }
 \arguments{
 \item{grid}{\code{[matrix()]}
 giving the availability of cells for sorting as \code{logical(1)} values.
+The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
+Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
+Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
+
+\item{sort}{\code{[matrix()]}
+giving the occupying item of cells for sorting as \code{character(1)} strings of \strong{item handles}.
+\code{NA} is used for empty \emph{and} disallowed cells (see \link{psGrid}).
 The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
 Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
 Row and column \emph{indeces} can also be named, but names are purely cosmetic.}

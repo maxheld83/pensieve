@@ -4,6 +4,7 @@
 #' Wraps pensieve's inanimatus.js.
 #' End users should use the convenient print method wrappers.
 #' @inheritParams psGrid
+#' @inheritParams psSort
 #' @inheritParams htmlwidgets::createWidget
 #' @param scale_2_height `[logical()]`
 #' giving whether widget should, in addition to width, *also* be scaled to an ancestor height.
@@ -12,6 +13,17 @@
 #' @return An htmlwidget.
 #' @export
 inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
+                       sort = matrix(
+                         data = c(
+                           NA, NA, NA, "foo", NA, NA, NA,
+                           NA, NA, NA, "bar", NA, NA, NA,
+                           NA, NA, "zap", "zop", "zong", NA, NA,
+                           NA, "wap", "gum", "pap", "wep", "pel", NA,
+                           "rom", "com", "jul", "rob", "di", "nir", "omg"
+                         ),
+                         byrow = TRUE,
+                         nrow = 5
+                       ),
                        header = TRUE,
                        footer = TRUE,
                        aspect_ratio_cards = 16/9,
@@ -39,6 +51,12 @@ inanimatus <- function(grid = as_psGrid(obj = c(1,2,3,5,3,2,1)),
   # infer scale_2_height from runtime
   if (is.null(scale_2_height)) {
     scale_2_height <- !is_knitr()
+  }
+
+  # prepare sort if given
+  if (!is.null(sort)) {
+    sort <- as_psSort(sort)
+    reshape2::melt(data = sort, na.rm = TRUE)
   }
 
   x <- list(
