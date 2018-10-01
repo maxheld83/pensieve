@@ -25,6 +25,73 @@ This makes it akin to a [Domain Specific Language](https://en.wikipedia.org/wiki
 `pensieve`, is, in other words, a very nich enterprise, much like Q Methodology itself: endowed with great hopes by its creator, and perhaps some yet-unrealised potential.
 
 
+## Software for Open Science and Reproducible Research
+
+<!-- TODO MCH: find some reproducible quote? what is it -->
+
+Good software for the following Q methodological analyses should fulfill the following criteria:
+
+- *Reproducibility.*
+  It should be easy to document and reproduce all the steps undertaken from raw data to the final factor interpretation.
+  This will be especially important during the factor extraction and (indeterminate!) rotation phases, where consequential and sometimes controversial methodological decisions must be made.
+  <!-- TODO: is it really indeterminate? -->
+- *Open Access.*
+  A lot of Q research is funded mostly by tax money, all of this scientific work should be conveniently available to the public.
+  Research on deliberation and citizen participation, especially, should be *Open* Science.
+- *Specialized for Q Methodology.*
+  At its heart, Q methodology involves factor analyses and similar data reduction techniques, procedures that are widely used and available in all general-purpose statistics programs.
+  However, Q methodology also requires some specialized operations, not easily accomplished in general-purpose programs.
+  The transposed correlation matrix, flagging participants and compositing weighted factor scores in particular, are hard or counter-intuitive to do in mainstream software.
+- *Programmatic Extensibility.*
+  It should be easy to programmatically extend this software.
+
+
+## Do We Need another program?
+
+The following free / open source and closed / proprietary programs are available:
+
+ | General-Purpose | Specialized
+ -|----|----
+ Closed Source | [SPSS](http://www-01.ibm.com/software/analytics/spss/), [STATA](http://www.stata.com) | [PCQ](http://www.pcqsoft.com)
+ Open Source | [R](http://www.r-project.org) | R: [qmethod](https://github.com/aiorazabala/qmethod) package, [PQMethod](http://schmolck.userweb.mwn.de/qmethod/)
+
+Table: Overview of Q Methodology Software
+
+<!-- TODO update this list -->
+
+The closed-source, general-purpose programs offer some programmatic extensibility, but are poorly suited for Q methodology.
+These commercial, and often expensive offerings also make it hard to reproduce and open up research.
+The special-purpose `PQMethod` was originally written for mainframe in 1992 by John Atkinson at Kent State University in Kent, OH, and has since been ported for PCs and generously maintained by Peter Schmolck at the University of the Armed Forces in Munich, Germany.
+<!-- TODO MCH: add citation for PQMethod -->
+While nominally free and open-source, `PQMethod` consists largely of legacy FORTRAN code, which few people today can read or write.
+`PQMethod` also offers little programmatic extensibility, because it is a standalone program running within layers of emulators.
+
+The [`qmethod`](https://github.com/aiorazabala/qmethod) package [@Zabala-2014], implementing Q methodology in the free and open source [R programming language and software environment for statistical computing](http://www.r-project.org) [@R-2014] is the best fit for the above criteria.
+R is freely available for all platforms, and supported by a vibrant community of developers.
+`Qmethod`, while released only recently, has been thoroughly validated [@Zabala-2014-a], leverages existing packages for extraction and rotation and conveniently wraps specialized Q functions.
+Running inside the R environment, `qmethod` can be easily extended, now including several functions developed for this dissertation and contributed back to the open source project.
+<!-- TODO MCH add citation for my contribs -->
+Most importantly, using `R`, every step from raw data to final factor interpretation can be traced back, using publicly available and vetted code, down to base functions.
+<!-- TODO MCH find nice open source quote -->
+
+
+### Literate Programming
+
+Machine-readable code, its results, and human-readable explanation of *what that code does* are often written and stored separately.
+Not only does such separation invite mistakes when code, result and explanation diverge, but it also makes research harder to reproduce and is conceptually flawed.
+<!-- TODO maybe relate to the Rogoff Reinhart paper, cite LaCour retractions -->
+At least in the context of statistical analysis, what we want a machine to do, why we want it, and to what effect are *one* intellectual operation, and should be presented as such.
+Programs must not be considered black boxes that "do" things of their own accord, to be explained ex-post, but code should be a near equivalent of the same thought expressed in prose.
+
+Donald Knuth has formulated this central tenet of his *Literate Programming* approach thus:
+
+> Let us change our traditional attitude to the construction of programs:
+> Instead of imagining that our main task is to instruct a computer what to do, let us concentrate rather on explaining to humans what we want the computer to do.
+> --- @Knuth-1984
+
+*pensieve* supports this approach by offering plot and print methods suitable for inclusion in prose via the  [`knitr`](http://yihui.name/knitr/) R package [@knitr].
+<!-- TODO add knitr, literate programming ref -->
+
 # The OO System
 
 One of the dirty secrets of quantitative work is that a good 80\% of the time is often spent on "cleaning and preparing" messy data [@dasu_exploratory_2003 as cited in @Wickham_2014_Tidy: 1].
