@@ -22,6 +22,8 @@ navbar:
           href: articles/introduction.html
         - text: "-----"
         - text: "Design"
+        - text: "Methodology"
+          href: articles/methodology.html
         - text: "Items"
           href: articles/items.html
         - text: "Grid"

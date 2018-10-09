@@ -1,0 +1,13 @@
+---
+title: "What is Q?"
+author: "Maximilian Held"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: held_library.bib
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<!-- Q ist ein Ansatz zur wissenschaftlichen Untersuchung von menschlicher Subjektivität und umfasst eine *Methodologie*, ein *Erhebungs-* sowie ein *Analyseverfahren*. -->

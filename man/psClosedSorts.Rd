@@ -34,7 +34,7 @@ You can also provide handles as if they were a full item wording.
 Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
 An additional subclass \code{psItemContentText} is prepended and validated.
 \item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
-An additional subclass \code{psItemContentBin`` is prepended and validated.}lang\code{,}fontsize_global\code{,}alignment\code{and}linestretch` are ignored.
+An additional subclass \code{psItemContentBin`` is prepended and validated. }lang\code{, }fontsize_global\code{, }alignment\code{and}linestretch` are ignored.
 }}
 
 \item{grid}{\code{[matrix()]}

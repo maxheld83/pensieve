@@ -1,10 +1,10 @@
 ---
-title: "Warum Q?"
+title: "Methodology"
 author:
   - Maximilian Held
   - Verena Kasztantowicz
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::html_document
 bibliography: held_library.bib
 ---
 
@@ -19,7 +19,7 @@ Sie sind das Rohmaterial *potentieller* Subjektivität.
 <!-- english term: residue -->
 
 Allein in dieser Grundananhme sind eine Reihe theoretischer Bezüge auszumachen:
-Konstruktionistischen Ansätzen entsprechend [etwa @piaget-1926], geht Q von aktiv-handelnden Subjekten aus, die den einzelnen Aussage des Concourses eine durch ihren Kontext (Biografie, Weltwissen etc.) beeinflusste, *individuelle* Bedeutung beimessen.
+Konstruktionistischen Ansätzen entsprechend [etwa @piaget-1926], geht Q von aktiv handelnden Subjekten aus, die den einzelnen Aussage des Concourses eine durch ihren Kontext (Biografie, Weltwissen etc.) beeinflusste, *individuelle* Bedeutung beimessen.
 Gleichermaßen integriert Q sozialkonstruktivistische Ansätze [@vygotsky-1978; @Berger1966; siehe auch @Watts2012, 42]. Anstelle eines radikalen, atomistischen Konstruktivismus [@glasersfeld-1995] wird der Concourse nämlich als sozial konstruiertes, und damit wechselseitig veränderbares Medium verstanden.
 
 Als Bindeglied zwischen individualistischen und sozialen Bedingungen von Q dient der Symbolische Interaktionismus [@mead1973geist; @blumer-1973]. 
@@ -114,7 +114,7 @@ Als Quelle für einen Samplingrahmen bieten sich deshalb oft *verschiedene* axio
 ^[@WelzelInglehart-2003-aa sind deshalb *keine* gute Quelle für einen Samplingrahmen, da es sich hierbei um einen a posteriori *empirischen* Befund handelt.
 Wer die Human Development Theory mit Q "überprüfen" möchte, sollte ein Q-Set auswählen, bei dem plausiblerweise auch *andere* Muster von Subjektivität gelegt werden könnten, sonst droht der Reproduktion der Zirkelschluss.]
 
-Um sich diesem *regulativen* Samplingideal anzunähern, ist es oft sinnvoll, auch bisher unbeobachtete, aber theoretisch relevante Aussagen dem Q-Set hinzuzufügen, insbesondere wenn ein Samplingrahmen verwandt wird.
+Um sich diesem *regulativen* Samplingideal anzunähern, ist es oft sinnvoll, auch bisher unbeobachtete, aber theoretisch relevante Aussagen dem Q-Set hinzuzufügen, insbesondere wenn ein Samplingrahmen verwendet wird.
 Kriterium für ein gutes Item ist schließlich *nicht*, wie häufig es verwendet wird, oder wie authentisch es ist, sondern nur, wie gut es dem Sortierenden hilft, sich auszudrücken.
 Im Sinne einer expressiven Vollständigkeit wird es deshalb auch oft Aussagen geben, die viele Teilnehmende noch nie bedacht haben, oder denen sie auch nach reiflicher Überlegung noch ambivalent oder neutral gegenüberstehen.
 Für eine Messung *operanter* Subjektivität ist es sogar relevant, ob, und welches Verhalten Teilnehmende zu ihnen unbekannten Aussagen zeigen: 
@@ -223,7 +223,7 @@ Möglicherweise hängt der *objektive* Wahrheitsgehalt der Aussage jedenfalls an
 Damit wird eine Einschätzung eines vermeintlich falsifierbaren Faktums zum subjektiven Urteil.
 
 Auch im Hinblick auf vermeintliche Annahmen über menschliches Verhalten ensteht ein mögliches Kommensurabilitätsproblem, da natürlich die *Art* des Geltungsanspruches dieser Aussagen selbst strittig ist:
-Ob und zu welchem Maße es ein Fakt --- oder kapitalistische Ideologie --- ist, dass "Menschen auf Anreize reagieren", ist *selbst* eine subjektive Einschätzung.
+Ob und zu welchem Maße es ein Fakt -- oder kapitalistische Ideologie -- ist, dass "Menschen auf Anreize reagieren", ist *selbst* eine subjektive Einschätzung.
 Auch hier können Q-Forschende die Kommensurabilität sichern, indem sie diese metadiskursiven Einschätzungen zur empirischen Frage erheben, und in alternative Sortieranleitungen einbetten. 
 Sortierende können, ihrer Subjektivität entsprechend, ein solches Item dann unterschiedlich (oder gleich) legen, je nachdem, ob nach Wahrheit oder Richtigkeit (oder Ähnlichkeit) der Aussage gefragt wird.
 Auch wenn Teilnehmende einen Geltungsanspruch hinsichtlich eines Items metadiskursiv ablehnen --- also etwa die Frage nach der Faktizität für irrelevant halten ---, können Sie entsprechend sortieren:
@@ -396,18 +396,6 @@ Keine Technologie und keine Methode können menschliche Verständigung automatis
 Nichts ersetzt vollständig die *ursprüngliche* operante (Inter)subjektivität: das mühevolle, intensive Gespräch mit einem anders denkenden Menschen.
 Im Idealfall schafft es Q aber, sich diesem Austausch anzunähern, und ihn mit mehr Menschen zu ermöglichen, als es Forschenden sonst möglich wäre.
 Im Sinne einer transhumanistischen Subjektivität kann Q so moderne Technologie in den Dienst einer demokratischen, emanzipatorischen und pragmatischen Sozialwissenschaft stellen.
-
-
-## Warum Q (für Arbeitssoziologie und Wearables)?
-
-Q Methodologie wird in vielen Feldern eingesetzt, unter anderem Pflege- und Gesundheitswissenschaften [@akthar-danesh-2008; @Exel-Baker-etal-2015; @baker2006q], Marketing [@Andrews-Drennan-etal-2046; @Mandolesi-Nicholas-etal-2015], Public Policy [@Baker-Jeffares-2013], Psychotherapie [@Bambery-Porcerelli-2007], Persönlichkeitsforschung [@Block-1961],  Politikwissenschaft [@brown-1977] und Beteiligungsprozessen [@Donner-2001; @Doody-Kearney-etal-2009; @Niemeyer2013].
-
-Mittels Q Methode können subjektive Sichtweisen induktiv und operant (also als "pures Verhalten") erfasst, systematisch zusammengefasst, und als idealtypische, geteilte Perspektiven holistisch interpretiert werden. 
-Ein solcher Ansatz zur operanten Subjektivität ist besonders hilfreich zur Untersuchung eines relativ jungen Phänomem wie Wearables, zudem Erfahrungen, Annahmen und Werte gerade erst entstehen, und daher explorativ untersucht werden.
-Q Methode eignet sich ebenfalls gut um *Differenzen* innerhalb eines Diskurses quantitativ zu erheben, wenn sich unter einem Schlagwort recht unterschiedliche Ausprägungen und Lebenswirklichkeiten versammeln [vgl. @ascher1987subjectivity].
-
-Q Methode ist auch besonders empfohlen um *vermachtete Situationen und Diskurse* zu untersuchen, und Teilnemende zu emanzipieren [@Brown-2006].
-Billard zeigt etwa, wie eine feministische Lesart der Q Methode in der *Unternehmensmitbestimmung* (engl. "industrial relations") demokratische Teilhabe stärken kann [@Billard-1999].
 
 
 ### Q Mindshare (Q als Beteiligungstechnologie für Workshops o.ä.)
