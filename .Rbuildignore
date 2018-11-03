@@ -11,7 +11,7 @@
 setup.R
 ^_pkgdown\.yml$
 firebase.json
-^inst/accio/\.git$
+inst/accio/
 ^docs$
 logo.*
 vignettes/q-cat.Rmd
