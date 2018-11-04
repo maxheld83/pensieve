@@ -1,6 +1,6 @@
 if (Sys.getenv()["LOGNAME"] %in% c("max")) {
   message("I'm running some preparatory steps because this is a dev machine.")
-  imports <- devtools::parse_ns_file()$imports  # capture all imports from namespace file
+  imports <- pkgload::parse_ns_file()$imports  # capture all imports from namespace file
   imports <- purrr::discard(.x = imports, .p = is.list)  # only take the full imports
   suppressMessages(
     purrr::walk(.x = c(imports, "devtools", "testthat"), .f = library, character.only = TRUE)
