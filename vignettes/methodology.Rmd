@@ -6,6 +6,10 @@ author:
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 bibliography: held_library.bib
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 Q ist ein Ansatz zur wissenschaftlichen Untersuchung von menschlicher 
