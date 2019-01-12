@@ -13,7 +13,7 @@ expect_latex_lang(x, info = NULL, label = vname(x))
 
 test_latex_lang(x)
 
-assert_latex_lang(x, .var.name = vname(x), add = NULL)
+assert_latex_lang(x, .var.name = checkmate::vname(x), add = NULL)
 }
 \arguments{
 \item{x}{\code{[character(1)} giving a pandoc language, same as \code{lang} in \code{\link[=md2tex]{md2tex()}}.}
