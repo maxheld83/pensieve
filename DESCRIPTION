@@ -58,10 +58,9 @@ Suggests:
   tinytex (>= 0.6),
   withr (>= 1.0.2)
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Remotes:
-  tidyverse/tibble,
-  r-lib/devtools@v1.13.6
+  tidyverse/tibble
 SystemRequirements:
   cairo (>= 1.2 http://www.cairographics.org/),
   poppler,
