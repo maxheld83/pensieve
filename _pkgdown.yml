@@ -4,7 +4,7 @@ authors:
     href: http://www.maxheld.de
 template:
   params:
-    ganalytics: UA-48816137-13
+    ganalytics: UA-48816137-1
     docsearch:
       api_key: 3cb428b0eb896bffce7bf64509cf7054
       index_name: pensieve
