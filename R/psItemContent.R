@@ -4,7 +4,7 @@
 #'
 #' @description
 #' Helper function to append and validate [`psItemContent`][psItemContent] class.
-#' See [vignette](https://pensieve.maxheld.de/articles/items.html) for details.
+#' See [vignette](https://www.maxheld.de/pensieve/articles/items.html) for details.
 # TODO link to psItems class here, once available
 #'
 #' @details

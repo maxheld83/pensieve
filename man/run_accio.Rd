@@ -11,5 +11,5 @@ Run accio, the web frontend for pensieve, if available.
 }
 \details{
 Accio is the closed-source web frontend for pensieve.
-Learn more at https://pensieve.maxheld.de.
+Learn more at https://www.maxheld.de/pensieve
 }

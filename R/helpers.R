@@ -130,14 +130,14 @@ accio_path <- system.file('accio', package = 'pensieve')
 #'
 #' @details
 #' Accio is the closed-source web frontend for pensieve.
-#' Learn more at https://pensieve.maxheld.de.
+#' Learn more at https://www.maxheld.de/pensieve
 #'
 #' @export
 run_accio <- function() {
   # input validation ====
   if (!test_directory_exists(accio_path)) {
     stop("The 'accio' web frontend (closed source) is not available on this computer. ",
-         "See pensieve.maxheld.de for details.")
+         "See www.maxheld.de/pensieve for details.")
   }
 
   requireNamespace2(x = "shiny")

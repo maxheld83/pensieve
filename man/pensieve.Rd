@@ -11,7 +11,7 @@ Provides tools for the scientific study of human subjectivity.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/maxheld83/pensieve}
+  \item \url{https://www.maxheld.de/pensieve}
   \item Report bugs at \url{https://github.com/maxheld83/pensieve/issues}
 }
 

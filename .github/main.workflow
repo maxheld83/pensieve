@@ -46,17 +46,10 @@ action "Master Branch" {
 }
 
 action "Deploy" {
-  needs = [
-    "Master Branch"
-  ]
-  uses = "w9jds/firebase-action@v1.0.1"
-  args = [
-    "deploy --only hosting"
-  ]
+  uses = "maxheld83/ghpages@v0.1.1"
   env = {
-    PROJECT_ID = "pensieve-169bf"
+    BUILD_DIR = "docs"
   }
-  secrets = [
-    "FIREBASE_TOKEN"
-  ]
+  secrets = ["GH_PAT"]
+  needs = ["Master Branch"]
 }

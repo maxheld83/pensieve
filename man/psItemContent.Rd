@@ -257,7 +257,7 @@ Must be one of:
 }
 \description{
 Helper function to append and validate \code{\link{psItemContent}} class.
-See \href{https://pensieve.maxheld.de/articles/items.html}{vignette} for details.
+See \href{https://www.maxheld.de/pensieve/articles/items.html}{vignette} for details.
 }
 \details{
 Store \strong{full items} along with metadata (language, design) to enable deployment and convenience functions, as well as enhance the presentation of results.

@@ -11,7 +11,6 @@
 ^man-roxygen$
 setup.R
 ^_pkgdown\.yml$
-firebase.json
 inst/accio
 ^docs$
 logo.*
