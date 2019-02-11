@@ -86,6 +86,7 @@ teardown(code = {
 })
 
 test_that(desc = "exported items are 1 page only", code = {
+  skip(message = "Skipping because currently no new pandoc on verse image.")
   skip_on_appveyor()
   skip_on_dev_machine()
   test_items <- psItemContent(items = c(short = "short", long = glue_collapse(rep("long", times = 60), sep = " ")))
@@ -94,6 +95,7 @@ test_that(desc = "exported items are 1 page only", code = {
 })
 
 test_that(desc = "export method writes files to all formats", code = {
+  skip(message = "Skipping because currently no new pandoc on verse image.")
   skip_on_appveyor()
   skip_on_dev_machine()
   walk(

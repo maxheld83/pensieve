@@ -1,3 +1,4 @@
+skip(message = "Skipping because currently no new pandoc on verse image.")
 context("Conversions")
 skip_on_dev_machine()
 skip_on_appveyor()  # no latex, no pandoc, no pdf2svg, no nothin'
