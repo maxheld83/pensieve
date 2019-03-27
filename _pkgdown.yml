@@ -28,9 +28,11 @@ navbar:
           href: articles/items.html
         - text: "Grid"
           href: articles/grid.html
+        - text: "-----"
+        - text: "New Approaches"
+        - text: "Pairwise"
+          href: articles/pairwise.html
   right:
-    - icon: fa-cloud
-      href: https://maxheld83.shinyapps.io/accio/
     - icon: fa-github
       href: https://github.com/maxheld83/pensieve
 theme: cosmo

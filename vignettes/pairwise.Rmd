@@ -1,0 +1,126 @@
+---
+title: "PairWise"
+author:
+  - Maximilian Held
+  - Verena Held
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: held_library.bib
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The goal here is to choose, and if necessary, develop a methodology to measure human subjectivity which combines the following criteria:
+
+Ipsativity
+
+:  Participants should assess items *relative to one another*, not on some absolute standard (= normative measurement).
+   This makes measurements comparable between individuals, because they all used the *same* standard, namely, *all other items*.
+   Ipsative measurement violates the independency of item measurements, but allows q-ways analysis of results.
+   Additionally, ipsative measurement may be a more plausible operationalisation of human choice.
+   
+   It should be noted that a *ranking* is always an ipsative measure, but not all ipsative measures need to be ordinal.
+
+
+Exploration
+
+:  Studying human subjectivity requires an *exploratory design*.
+   There can be no hypothetico-deductive assumptions baked into the items, or causal mechanisms sought in the analysis, both of which would necessarily curtail the free expression of human subjectivity.
+   
+   While individual items may express particular theories, the total sample of items should be widely diverse and serve to maximize the expression of participants.
+   
+   Likewise, any statistical analysis will be strictly concerned with detecting, summarising and visualizing patterns in the data.
+
+
+Holism
+
+:  Participants will find individual items to be frustratringly crude or muddled tools to express their subjectivity.
+   This is a matter of neccessity, caused by the inherent polysemy of human speech: 
+   individual utterances, or items, always imply context or beget clarification, neither of which a static item can offer.
+   
+   Items are *always* ambiguous.
+   Methods for operant subjectivity do not differ much from traditional survey research in this regard; they just take this problem more seriously.
+   Instead of trying to narrow down the meaning of items, or triangulating around a hypothetico-deductive concept, operant methodologies give items *some* context, by relying on *all other items*.
+   
+   Analysis and interpretation of operant subjectivity must therefore always be holistic: 
+   it is never the position of an *individual* item that matters, but the *shared* pattern across *all* items.
+
+Q methodology has been the founding implementation of measuring operant subjectivity.
+Unfortunately, this traditional approach faces some severe limitations:
+
+1. The physical sorting procedure of cards is hard translate to digital interfaces.
+  When many items or small screens are used, legibility suffers and the assumption of an ipsative comparison of all items against all items becomes increasingly implausible.
+  Evidence also suggests that participants also Q-sort more hastily when using computer interfaces.
+  Participants also appear to find digital sorting much less enjoyable.
+
+2. Q-sorting imposes fairly harsh constraints on participants expression of subjectivity:
+   - The Q-sort must, by definition, be *von Neumann & Morgenstern (vNM) compliant* preferences with no Condorcet cycles or other deformities.
+   - Users must project their subjectivity over the given items down to a *one-dimensional* space, often with pre-specified number of ties.
+  
+  These constraints greatly simplify the sorting procedure and any downstream analysis, but there appear to be no reasons to assume that these are ontologically or epistemologically justified.
+  Quite the opposite, evidence of vNM-deformant preferences abound, and the very dimensionality of individual subjectivity is a worthwhile empirical question.
+  
+3. Q methodology, when applying rigorous statistical standards, affords only a very low-resolution view of human subjectivity, strictly limited by the number of items.
+  Because a one-dimensional projection of preferences with many ties has relatively little information-theoretic value, it requires a *lot* of items to be able to reliably detect non-random patterns (factors or components) in the resultant data.
+  Even with item numbers that scrape the upper limit of feasibility (>70), usually no more than 2-5 factors can be retained, often with relatively little explained variance (<60%).
+  
+  This problem is exacerbated whenever screen real estate or completion time further constrain the item count.
+  Partial sorts with `NA` are generally not possible in Q methodology because they would violate the ipsativity of measurements.
+
+
+We here suggest **pairwise comparisons of all possible item combinations** (in short, pairwise) as a procedure to alleviate these shortcomings:
+
+1. Pairwise comparisons are relatively easy to implement in a wide variety of interfaces, including on small screens.
+2. Pairwise comparisons do not impose any constraints on the dimensionality or consistency of participants assessments.
+3. For any given number of items, the combinatorial explosion yields a much greater information-theoretic value.
+
+However, the procedure remains highly time-intensive and potentially unpalatable for participants when *all* item combinations are assessed.
+We therefore suggest an implementation that works with (many) `NA` values from partial comparisons.
+
+
+## Alpha Test
+
+We fielded the pairwise procedure in an initial alpha test to assess three basic premises of the method:
+
+1. The face validity of pairwise comparisons.
+2. An acceptable user experience.
+3. Intelligible results.
+
+The alpha test was conducted with roughly 40 experts in industrial relations, using a subset of 11 items from the [denkzeug](http://datascience.phil.fau.de/denkzeug/) study.
+16 experts and two researchers completed the assessment.
+
+To simplify the initial analysis, participants assessed *all* `r ((11^2)-11)/2` combinations of the 11 chosen items, though this is not intendended in the final implementation.
+
+The test relied on a rudimentary web interface, where participants could choose one of the two presented items or express indifference.
+In addition to just choosing a winning item, participants were also encouraged to award integer points to the winning item to express a magnitude of the perceived difference between the items.
+The web interface displayed the *average* perceived difference of a users past assessments, and participants were encouraged tp keep their average differences around `4`, thus enforcing something akin to a constant-sum budget of differences and strengthening ipsativity.
+
+In addition, the interface provided a progress indicator and allowed users to enter open-ended feedback for any given item pair (few did).
+
+
+### Field Report
+
+The overall response from users was quite critical, though given the limited time, a surprising number of users (16) completed the test, and there was also isolated enthusiastic feedback.
+
+Some of the criticism may have stemmed from the research context in which the alpha test was fielded.
+We ran the test as part of a progress report presentation on an ongoing research project concerning wearable computing in manufacturing and logistics, and many participants expected to hear about that subject matter or where skeptical of the suitability of this research method.
+
+However, much of the criticism must be taken at face value.
+
+- Some participants were frustrated by the complete assessment of all pairs: 
+  The combinatorial explosion over very few items made the exercise repetitive and boring for many.
+  Future iterations will need to allow many more items with [partial completion](https://github.com/maxheld83/pairwise/issues/36).
+- Likewise, some of the item pairs comparisons were judged to be nonsensical.
+  This was expected, but should be avoided in the future by [sampling "better" pairs](https://github.com/maxheld83/pensieve/issues/446) more often. 
+- The purpose and procedure of the assessment remained opaque to some users: 
+  Future iterations will require better [explanation and onboarding](https://github.com/maxheld83/pairwise/issues/37)
+- The existing indicators in the web application ([average difference](https://github.com/maxheld83/pairwise/issues/39) and [percent completion](https://github.com/maxheld83/pairwise/issues/38)) were sometimes not understood and will need to be improved.
+
+
+### Analysis
+
+```{r}
+```
+
