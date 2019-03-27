@@ -121,6 +121,44 @@ However, much of the criticism must be taken at face value.
 
 ### Analysis
 
+The assessments, true to the condition of instruction, are stored as *distances* between the items in an $J \times J \times K$ array $\underline{X}$ of order
+
+$$items \times items \times people$$
+
+.
+By convention, the item presented first gives the row $J_r$, and the item presented second gives the column $J_c$, and the slice index $K_p$ gives the person.
+The cells in the upper diagonal of every slice are the assessments as given by the participants.
+For example, if a user prefers the first item by a distance of `3`, then cell $X_{rcp}$ has the value `3`.
+The equivalent cell in the lower diagonal $X_{crp}$ receives the value `-3`.
+When a participant is indifferent, both cells receive the value `0`.
+Item pairs that have not been assessed are all `NA`.
+
+The diagonal is all `0`s, because supposedly any participant would be indifferent between an item and the same item.
+
+
+#### Individual Analysis
+
+Before considering the array of all assessments by all participants, we begin by describing and analysing the pairwise data of the one participant we know best -- the author(s).
+Face validity of the procedure, as well as intelligility of results should be easiest to test here, because *know* what an appropriate representation of our subjectivity might be.
+Of course, we might be biased observers and our judgement can only be a  necessary condition for the usefulness of the method.
+
+The below figure gives the absolute distance matrix.
+The *directions* of differences are here omitted, because they do not matter for the downstream analysis; distances are always non-negative.^[There was also [a bug](https://github.com/maxheld83/pairwise/issues/41) in the alpha software which prevented the sign from being correctly recorded for some participants.]
+The signs of the distances will only serve again later for correct rotation.
+
 ```{r}
+library(pensieve)
+slice <- abs(hbs_alpha[,,"Max"])
+pensieve:::plot_heatmap(
+  color_matrix = slice, 
+  color_title = "Distance",
+  limits = NULL
+)
 ```
 
+The full distance matrix plotted as a heatmap in the above is not very informative.
+Any potential patterns cannot be easily discerned from the distance matrix.
+The distance matrix, while efficient for recording n-dimensional spaces, is not suitable for human visual perception.
+We are used to (euclidian) coordinate systems, not distances.
+
+In addition, for the assessments of even one participant to be meaningful, *if there are patterns*, we need to reduce the dimensionality to the largest, most salient dimensions to make sense of the data.

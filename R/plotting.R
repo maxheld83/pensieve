@@ -1,8 +1,13 @@
 # This includes just the plotting functions, none of which are exported
 # they are the workers behind the respective plotting *methods*
 
-plot_heatmap <- function(color_matrix, color_title) {
+plot_heatmap <- function(color_matrix, color_title, limits = c(-1,1)) {
   value <- x <- y <- Correlation <- NULL # hack job to appease R CMD CHECK as per http://stackoverflow.com/questions/9439256/how-can-i-handle-r-cmd-check-no-visible-binding-for-global-variable-notes-when
+
+  if (is.null(limits)) {
+    max_abs <- max(abs(range(color_matrix)))
+    limits <- c(-max_abs, max_abs)
+  }
 
   # Data preparation ====
   df <- reshape2::melt(data = color_matrix, varnames = c("x", "y"))
@@ -14,13 +19,15 @@ plot_heatmap <- function(color_matrix, color_title) {
   g <- g + scale_fill_gradient2(low = "red",
                                 high = "blue",
                                 mid = "white",
-                                limits = c(-1, 1),  # make sure whole range of values is covered
+                                limits = limits,  # make sure whole range of values is covered
                                 name = color_title)
   g <- g + geom_text()
   g <- g + theme(axis.title = element_blank())  # kill axis labels
   if (isSymmetric(object = color_matrix)) {  # this only makes sense if object is symmetric, otherwise plenty of space
-    g <- g + theme(axis.text.x = element_text(angle = 90, hjust = 1))  # rotate x axis labels
+    g <- g + theme(axis.text.x = element_text(angle = 90, hjust = -0))  # rotate x axis labels
   }
+  g <- g + scale_x_discrete(position = "top", limits = colnames(color_matrix))
+  g <- g + scale_y_discrete(limits = rev(rownames(color_matrix)))
   return(g)
 }
 
