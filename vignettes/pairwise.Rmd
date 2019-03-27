@@ -162,3 +162,23 @@ The distance matrix, while efficient for recording n-dimensional spaces, is not 
 We are used to (euclidian) coordinate systems, not distances.
 
 In addition, for the assessments of even one participant to be meaningful, *if there are patterns*, we need to reduce the dimensionality to the largest, most salient dimensions to make sense of the data.
+
+A multi-dimensional scaling (MDS) accomplishes both these goals.
+
+```{r}
+res <- cmdscale(d = slice, k = 3, eig = TRUE, x.ret = TRUE)
+
+res$points[, 1] <- res$points[, 1] * -1 
+res$points[, 2] <- res$points[, 2] * -1 
+df <- as.data.frame(res$points)
+
+library(ggplot2)
+g <- ggplot(
+  data = df,
+  mapping = aes(x = V1, y = V2, label = rownames(df))
+) + 
+  geom_point() + 
+  ggrepel::geom_label_repel()
+g
+```
+
