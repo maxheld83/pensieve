@@ -18,14 +18,6 @@ assert_latex_lang(x, .var.name = checkmate::vname(x), add = NULL)
 \arguments{
 \item{x}{\code{[character(1)} giving a pandoc language, same as \code{lang} in \code{\link[=md2tex]{md2tex()}}.}
 
-\item{info}{[character(1)]\cr
-Extra information to be included in the message for the testthat reporter.
-See \code{\link[testthat]{expect_that}}.}
-
-\item{label}{[\code{character(1)}]\cr
-Name of the checked object to print in messages. Defaults to
-the heuristic implemented in \code{\link{vname}}.}
-
 \item{.var.name}{[\code{character(1)}]\cr
 Name of the checked object to print in assertions. Defaults to
 the heuristic implemented in \code{\link{vname}}.}
