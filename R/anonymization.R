@@ -58,10 +58,9 @@
 
 anonymize <- function(real_names, lookup_file) {
   # Input validation ====
-  expect_vector(x = real_names,
+  expect_atomic_vector(x = real_names,
                 any.missing = FALSE,
                 all.missing = FALSE,
-                null.ok = TRUE,
                 unique = TRUE)
   expect_string(x = lookup_file,
                 na.ok = FALSE,

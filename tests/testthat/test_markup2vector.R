@@ -104,12 +104,12 @@ test_that(desc = "from/to R objects works", code = {
   virt_tex <- md2tex_mem(x = c("bar", "zap"))
   expect_character(x = virt_tex, any.missing = FALSE, null.ok = FALSE)
   virt_pdf <- texi2pdf2_mem(x = virt_tex)
-  expect_vector(x = virt_pdf, null.ok = FALSE)
+  expect_atomic_vector(x = virt_pdf)
   skip_on_os(os = c("windows"))
   virt_svg <- pdf2svg_mem(x = virt_pdf)
-  expect_vector(x = virt_svg, null.ok = FALSE)
+  expect_atomic_vector(x = virt_svg)
   virt_grob <- svg2grob_mem(x = virt_svg)
-  expect_vector(x = virt_svg, null.ok = FALSE)
+  expect_atomic_vector(x = virt_svg)
 })
 
 

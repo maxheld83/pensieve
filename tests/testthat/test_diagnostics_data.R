@@ -30,12 +30,10 @@ test_that(desc = "work with civicon_2014",
               info = "diag_same with civicon_2014")
 
   res <- diag_distro_max(sorts = sorts)
-  expect_vector(x = res,
-                strict = FALSE,
+  expect_atomic_vector(x = res,
                 any.missing = FALSE,
                 all.missing = FALSE,
-                names = "unique",
-                null.ok = FALSE)
+                names = "unique")
   expect_integer(x = res,
                  lower = 0,
                  any.missing = FALSE,

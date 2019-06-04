@@ -47,12 +47,10 @@ draw_rand_sort <- function(grid = NULL,  # named integer vector of grid
                            p = NULL) { # number of item-cases
 
   # input validation ====
-  expect_vector(x = grid,
-                strict = TRUE,
+  expect_atomic_vector(x = grid,
                 any.missing = FALSE,
                 all.missing = FALSE,
-                names = "unique",
-                null.ok = FALSE)
+                names = "unique")
   expect_integerish(x = grid,
                     min.len = 1,
                     lower = 0)

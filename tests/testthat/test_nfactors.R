@@ -47,10 +47,8 @@ test_that(desc = "works with civicon_2014",
                       centile = .95,
                       runs = 10,
                       grid = diag_distro_max(sorts = dataset))
-  expect_vector(x = res,
-                strict = TRUE,
+  expect_atomic_vector(x = res,
                 any.missing = FALSE,
                 all.missing = FALSE,
-                len = 18,
-                null.ok = FALSE)
+                len = 18)
 })

@@ -140,12 +140,10 @@ diag_distro_max <- function(sorts) {
 diag_inside_grid <- function(sorts, grid) {
   # input validation ====
   # not necessary for dataset, done inside class (at some point)
-  expect_vector(x = grid,
-                strict = TRUE,
+  expect_atomic_vector(x = grid,
                 any.missing = FALSE,
                 all.missing = FALSE,
-                names = "unique",
-                null.ok = FALSE)
+                names = "unique")
   expect_integerish(x = grid,
                     lower = 0,
                     any.missing = FALSE,
