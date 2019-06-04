@@ -22,3 +22,5 @@ inst/.jshintrc
 htmlwidgets-1.2/
 test_items/
 Dockerfile
+.envrc
+.secrets/
