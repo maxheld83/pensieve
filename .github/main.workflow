@@ -31,7 +31,7 @@ action "Decompress Cache" {
 }
 
 action "Install Dependencies" {
-  uses = "r-lib/ghactions/actions/install-deps@master"
+  uses = "r-lib/ghactions/actions/install-deps@v0.2.0"
   needs = [
     "Decompress Cache"
   ]
@@ -46,35 +46,35 @@ action "Compress Cache" {
 }
 
 action "Document Package" {
-  uses = "r-lib/ghactions/actions/document@master"
+  uses = "r-lib/ghactions/actions/document@v0.2.0"
   needs = [
     "Install Dependencies"
   ]
 }
 
 action "Build Package" {
-  uses = "r-lib/ghactions/actions/build@master"
+  uses = "r-lib/ghactions/actions/build@v0.2.0"
   needs = [
     "Document Package"
   ]
 }
 
 action "Check Package" {
-  uses = "r-lib/ghactions/actions/check@master"
+  uses = "r-lib/ghactions/actions/check@v0.2.0"
   needs = [
     "Build Package"
   ]
 }
 
 action "Install Package" {
-  uses = "r-lib/ghactions/actions/install@master"
+  uses = "r-lib/ghactions/actions/install@v0.2.0"
   needs = [
     "Build Package"
   ]
 }
 
 action "Build Website" {
-  uses = "r-lib/ghactions/actions/pkgdown@master"
+  uses = "r-lib/ghactions/actions/pkgdown@v0.2.0"
   needs = [
     "Install Package"
   ]
@@ -108,7 +108,7 @@ action "Upload Cache" {
 }
 
 action "Code Coverage" {
-  uses = "r-lib/ghactions/actions/covr@master"
+  uses = "r-lib/ghactions/actions/covr@v0.2.0"
   needs = [
     "Filter Not Act"
   ]
