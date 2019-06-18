@@ -6,6 +6,7 @@
 
 <img src="https://github.com/maxheld83/pensieve/blob/master/logo.png?raw=true" width=200/>
 
+
 # Pensieve: An R package for the Scientific Study of Human Subjectivity.
 
 > *The name 'Pensieve' is a homonym of 'pensive', meaning deeply, seriously thoughtful; but it also a pun, the 'sieve' part of the word alluding to the object's function of sorting meanings from a mass of thoughts or memories.*
