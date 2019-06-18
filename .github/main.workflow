@@ -7,6 +7,14 @@ workflow "Build, Check, Document and Deploy" {
   ]
 }
 
+workflow "Build, Check and Document" {
+  on = "pull_request"
+  resolves = [
+    "Build Website",
+    "Check Package"
+  ]
+}
+
 action "GCP Authenticate" {
   uses = "actions/gcloud/auth@ba93088eb19c4a04638102a838312bb32de0b052"
   secrets = [
