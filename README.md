@@ -27,5 +27,3 @@ As a feature-rich, one-stop-shop, the software supports a Q study all the way fr
 - Interactive plots, aiding in the presentation and interpretation of Q methodological results.
 
 The package adheres to best practices in (R) software development and reproducible research, including source control and dependency management, unit and integration testing as well as an extensive documentation.
-
-Additional, planned features are discussed, feedback and contributions are invited.
