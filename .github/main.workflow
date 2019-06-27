@@ -7,22 +7,6 @@ workflow "Build, Check, Document and Deploy" {
   ]
 }
 
-workflow "Build, Check and Document" {
-  on = "pull_request"
-  resolves = [
-    "Build Website",
-    "Check Package"
-  ]
-}
-
-workflow "Build, Check and Document" {
-  on = "check_suite"
-  resolves = [
-    "Build Website",
-    "Check Package"
-  ]
-}
-
 action "GCP Authenticate" {
   uses = "actions/gcloud/auth@ba93088eb19c4a04638102a838312bb32de0b052"
   secrets = [
@@ -47,7 +31,7 @@ action "Decompress Cache" {
 }
 
 action "Install Dependencies" {
-  uses = "r-lib/ghactions/actions/install-deps@0c71330b5d9bca082cf47c7d21603659095f5034"
+  uses = "r-lib/ghactions/actions/install-deps@progcom"
   needs = [
     "Decompress Cache"
   ]
@@ -62,35 +46,35 @@ action "Compress Cache" {
 }
 
 action "Document Package" {
-  uses = "r-lib/ghactions/actions/document@0c71330b5d9bca082cf47c7d21603659095f5034"
+  uses = "r-lib/ghactions/actions/document@progcom"
   needs = [
     "Install Dependencies"
   ]
 }
 
 action "Build Package" {
-  uses = "r-lib/ghactions/actions/build@0c71330b5d9bca082cf47c7d21603659095f5034"
+  uses = "r-lib/ghactions/actions/build@0progcom"
   needs = [
     "Document Package"
   ]
 }
 
 action "Check Package" {
-  uses = "r-lib/ghactions/actions/check@0c71330b5d9bca082cf47c7d21603659095f5034"
+  uses = "r-lib/ghactions/actions/check@progcom"
   needs = [
     "Build Package"
   ]
 }
 
 action "Install Package" {
-  uses = "r-lib/ghactions/actions/install@0c71330b5d9bca082cf47c7d21603659095f5034"
+  uses = "r-lib/ghactions/actions/install@progcom"
   needs = [
     "Build Package"
   ]
 }
 
 action "Build Website" {
-  uses = "r-lib/ghactions/actions/pkgdown@0c71330b5d9bca082cf47c7d21603659095f5034"
+  uses = "r-lib/ghactions/actions/pkgdown@progcom"
   needs = [
     "Install Package"
   ]
