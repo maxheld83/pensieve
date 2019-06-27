@@ -53,7 +53,7 @@ action "Document Package" {
 }
 
 action "Build Package" {
-  uses = "r-lib/ghactions/actions/build@04711de56843c3e2fa52875668f6bde6dcfbaf07d"
+  uses = "r-lib/ghactions/actions/build@4711de56843c3e2fa52875668f6bde6dcfbaf07d"
   needs = [
     "Document Package"
   ]
