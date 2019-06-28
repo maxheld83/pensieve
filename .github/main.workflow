@@ -51,7 +51,7 @@ action "Document Package" {
     "Install Dependencies"
   ]
   args = [
-    "--after-code='commit'"
+    "--after-code=commit"
   ]
   secrets = [
     "GITHUB_TOKEN"
