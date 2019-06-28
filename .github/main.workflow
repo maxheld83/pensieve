@@ -57,6 +57,7 @@ action "Build Package" {
   needs = [
     "Document Package"
   ]
+  args = "--after-code='commit'"
 }
 
 action "Check Package" {
