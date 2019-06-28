@@ -57,7 +57,12 @@ action "Build Package" {
   needs = [
     "Document Package"
   ]
-  args = "--after-code='commit'"
+  args = [
+    "--after-code='commit'"
+  ]
+  secrets = [
+    "GITHUB_TOKEN"
+  ]
 }
 
 action "Check Package" {
