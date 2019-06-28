@@ -57,8 +57,7 @@ action "Build Package" {
   needs = [
     "Document Package"
   ]
-  runs = [
-    "/ghactions-source/actions/document/document.R",
+  args = [
     "--after-code='commit'"
   ]
   secrets = [
