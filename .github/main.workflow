@@ -50,18 +50,18 @@ action "Document Package" {
   needs = [
     "Install Dependencies"
   ]
+  args = [
+    "--after-code='commit'"
+  ]
+  secrets = [
+    "GITHUB_TOKEN"
+  ]
 }
 
 action "Build Package" {
   uses = "r-lib/ghactions/actions/build@bd0633cceedf4b4fe590c79304a7ae802b27c5ca"
   needs = [
     "Document Package"
-  ]
-  args = [
-    "--after-code='commit'"
-  ]
-  secrets = [
-    "GITHUB_TOKEN"
   ]
 }
 
