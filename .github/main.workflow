@@ -31,7 +31,7 @@ action "Decompress Cache" {
 }
 
 action "Install Dependencies" {
-  uses = "r-lib/ghactions/actions/install-deps@2b3345be3e99010a3cc11875b2f4c7f92c09d92d"
+  uses = "r-lib/ghactions/actions/install-deps@e3996339bf3364fb8e78b605c4ce6231adad9cba"
   needs = [
     "Decompress Cache"
   ]
@@ -46,7 +46,7 @@ action "Compress Cache" {
 }
 
 action "Document Package" {
-  uses = "r-lib/ghactions/actions/document@2b3345be3e99010a3cc11875b2f4c7f92c09d92d"
+  uses = "r-lib/ghactions/actions/document@e3996339bf3364fb8e78b605c4ce6231adad9cba"
   needs = [
     "Install Dependencies"
   ]
@@ -59,28 +59,28 @@ action "Document Package" {
 }
 
 action "Build Package" {
-  uses = "r-lib/ghactions/actions/build@2b3345be3e99010a3cc11875b2f4c7f92c09d92d"
+  uses = "r-lib/ghactions/actions/build@e3996339bf3364fb8e78b605c4ce6231adad9cba"
   needs = [
     "Document Package"
   ]
 }
 
 action "Check Package" {
-  uses = "r-lib/ghactions/actions/check@2b3345be3e99010a3cc11875b2f4c7f92c09d92d"
+  uses = "r-lib/ghactions/actions/check@e3996339bf3364fb8e78b605c4ce6231adad9cba"
   needs = [
     "Build Package"
   ]
 }
 
 action "Install Package" {
-  uses = "r-lib/ghactions/actions/install@2b3345be3e99010a3cc11875b2f4c7f92c09d92d"
+  uses = "r-lib/ghactions/actions/install@e3996339bf3364fb8e78b605c4ce6231adad9cba"
   needs = [
     "Build Package"
   ]
 }
 
 action "Build Website" {
-  uses = "r-lib/ghactions/actions/pkgdown@2b3345be3e99010a3cc11875b2f4c7f92c09d92d"
+  uses = "r-lib/ghactions/actions/pkgdown@e3996339bf3364fb8e78b605c4ce6231adad9cba"
   needs = [
     "Install Package"
   ]
