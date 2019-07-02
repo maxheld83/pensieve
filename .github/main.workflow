@@ -114,7 +114,7 @@ action "Upload Cache" {
 }
 
 action "Code Coverage" {
-  uses = "r-lib/ghactions/actions/covr@0c71330b5d9bca082cf47c7d21603659095f5034"
+  uses = "r-lib/ghactions/actions/covr@bc9b6b4cba39c28f651fdfc16ffdab98678da4b9"
   needs = [
     "Filter Not Act"
   ]
