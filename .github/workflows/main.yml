@@ -20,7 +20,8 @@ jobs:
             libcurl4-openssl-dev \
             pdf2svg \
             libudunits2-dev \
-            libpoppler-cpp-dev
+            libpoppler-cpp-dev \
+            libfontconfig1-dev
       - name: Install Package Dependencies
         run: |-
           Rscript -e "install.packages('remotes', repos = 'https://demo.rstudiopm.com/all/__linux__/bionic/latest')"
