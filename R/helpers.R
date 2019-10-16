@@ -121,7 +121,11 @@ pensieve_system_file <- function(...) {
 
 # find path to *built* accio, always root of pensieve
 # this gives "" if folder does not exist
-accio_path <- system.file('accio', package = 'pensieve')
+get_accio_path <- function() {
+  # this needs to be a function, not an object, because otherwise a harcoded path is stored which trips up R CMD check
+  # see https://developer.r-project.org/Blog/public/2019/02/14/staged-install/ for details
+  system.file('accio', package = 'pensieve')
+}
 
 #' @title Run accio
 #'
@@ -135,7 +139,7 @@ accio_path <- system.file('accio', package = 'pensieve')
 #' @export
 run_accio <- function() {
   # input validation ====
-  if (!test_directory_exists(accio_path)) {
+  if (!test_directory_exists(get_accio_path())) {
     stop("The 'accio' web frontend (closed source) is not available on this computer. ",
          "See www.maxheld.de/pensieve for details.")
   }
@@ -143,7 +147,7 @@ run_accio <- function() {
   requireNamespace2(x = "shiny")
 
   # run it! ====
-  shiny::runApp(appDir = accio_path)
+  shiny::runApp(appDir = get_accio_path())
 }
 
 # always returns TRUE or FALSE (if error = FALSE) or error
