@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 bibliography: held_library.bib
 vignette: >
-  %\VignetteIndexEntry{Design}
+  %\VignetteIndexEntry{Grid Generation and Plotting}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

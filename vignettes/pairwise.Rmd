@@ -7,7 +7,7 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: held_library.bib
 vignette: >
-  %\VignetteIndexEntry{Introduction}
+  %\VignetteIndexEntry{PairWise}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
