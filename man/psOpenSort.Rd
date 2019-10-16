@@ -178,6 +178,7 @@ roberta <- matrix(
 roberta <- psOpenSort(osort = roberta)
 
 # plotting ====
+library(ggraph)  # must be attached while running below
 ggplot2::autoplot(object = lisa)
 ggplot2::autoplot(object = rebecca)
 
@@ -187,7 +188,6 @@ petercodes <- tibble::tibble(category = c("in_homes", "in_homes", "quiet", "herb
                              length = c("medium", "medium", "medium", "short")
                              # notice the duplicates to allow for multiple codes
                              )
-library(ggraph)  # must be attached while running below
 ggplot2::autoplot(object = peter, edge_codings = petercodes)
 summary(peter)
 

@@ -312,6 +312,7 @@ tidy.psLogicalOpenSort <- function(x) {
 #'
 #' @examples
 #' # plotting ====
+#' library(ggraph)  # must be attached while running below
 #' ggplot2::autoplot(object = lisa)
 #' ggplot2::autoplot(object = rebecca)
 #'
@@ -321,7 +322,6 @@ tidy.psLogicalOpenSort <- function(x) {
 #'                              length = c("medium", "medium", "medium", "short")
 #'                              # notice the duplicates to allow for multiple codes
 #'                              )
-#' library(ggraph)  # must be attached while running below
 #' ggplot2::autoplot(object = peter, edge_codings = petercodes)
 #' @export
 autoplot.psLogicalOpenSort <- function(object, edge_codings = NULL, str_wrap_width = 30) {
