@@ -12,7 +12,7 @@
 setup.R
 ^_pkgdown\.yml$
 inst/accio
-^docs$
+docs/
 logo.*
 vignettes/q-cat.Rmd
 vignettes/items.Rmd
@@ -24,3 +24,4 @@ test_items/
 Dockerfile
 .envrc
 .secrets/
+pkgdown/
