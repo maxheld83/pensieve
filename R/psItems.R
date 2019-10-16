@@ -29,11 +29,3 @@ check_qset_v_lookup <- function(q_set, lookup) {
                  vname(lookup)))
   }
 }
-
-
-# TODO this would be a helpful hint for people who only have bad q_set
-# #' @importFrom lettercase make_names
-# #' @name make_names
-# #' @rdname make_names
-# #' @export
-# NULL

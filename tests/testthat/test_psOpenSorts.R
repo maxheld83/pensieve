@@ -38,7 +38,7 @@ test_that(desc = "works with komki csvs",
                   stringsAsFactors = FALSE,
                   row.names = 1)
   ass <- as.matrix(ass)
-  rownames(ass) <- lettercase::make_names(names = rownames(ass))  # old csv has bad names
+  rownames(ass) <- vctrs::vec_as_names(names = rownames(ass))  # old csv has bad names
   canon_cat <- as_psLogicalOpenSorts(logical_open_sorts = ass, descriptions_messy = desc)
 
   expect_list(x = canon_cat,
