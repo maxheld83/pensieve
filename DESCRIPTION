@@ -43,7 +43,7 @@ Suggests:
   ggrepel (>= 0.6.5),
   grImport2 (>= 0.1-4),
   grid (>= 3.4),
-  ggraph (>= 1.0.0),
+  ggraph (>= 2.0.0),
   htmlwidgets (>= 1.2),
   igraph (>= 1.1.2),
   markdown (>= 0.8),
