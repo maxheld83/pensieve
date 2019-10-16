@@ -2,15 +2,11 @@ url: http://www.maxheld.de/pensieve
 authors:
   Maximilian Held:
     href: http://www.maxheld.de
-template:
-  params:
-    ganalytics: UA-48816137-1
-    docsearch:
-      api_key: 3cb428b0eb896bffce7bf64509cf7054
-      index_name: pensieve
+development:
+  mode: auto
+  destination: "."
 navbar:
   title: "pensieve"
-  type: inverse
   left:
     - icon: fa-home
       href: index.html
@@ -35,4 +31,10 @@ navbar:
   right:
     - icon: fa-github
       href: https://github.com/maxheld83/pensieve
-theme: cosmo
+template:
+  params:
+    bootswatch: cosmo
+    ganalytics: UA-48816137-1
+    docsearch:
+      api_key: 3cb428b0eb896bffce7bf64509cf7054
+      index_name: pensieve

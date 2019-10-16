@@ -10,7 +10,7 @@ Authors@R:
     email = "info@maxheld.de",
     comment = c(ORCID = "0000-0002-4703-5388")
   )
-URL: https://www.maxheld.de/pensieve
+URL: https://www.maxheld.de/pensieve, https://github.com/maxheld83/pensieve
 URLNote: https://github.com/maxheld83/pensieve
 BugReports: https://github.com/maxheld83/pensieve/issues
 Description: Provides tools for the scientific study of human subjectivity.

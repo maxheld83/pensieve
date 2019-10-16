@@ -1,12 +1,15 @@
-[![Actions Status](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/badge/maxheld83/pensieve)](https://github.com/maxheld83/pensieve/actions)
-[![codecov](https://codecov.io/gh/maxheld83/pensieve/branch/master/graph/badge.svg)](https://codecov.io/gh/maxheld83/pensieve)
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
-[![](http://www.r-pkg.org/badges/version/pensieve)](http://www.r-pkg.org/pkg/pensieve)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/pensieve)](http://www.r-pkg.org/pkg/pensieve)
-
-<img src="https://github.com/maxheld83/pensieve/blob/master/logo.png?raw=true" width=200/>
-
 # Pensieve: An R package for the Scientific Study of Human Subjectivity.
+
+<img src="https://github.com/maxheld83/pensieve/blob/master/logo.png?raw=true" align="right" height=140/>
+
+<!-- badges: start -->
+[![Actions Status](https://github.com/maxheld83/pensieve/workflows/CICD/badge.svg)](https://github.com/maxheld83/pensieve/actions)
+[![codecov](https://codecov.io/gh/maxheld83/pensieve/branch/master/graph/badge.svg)](https://codecov.io/gh/maxheld83/pensieve)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![CRAN status](https://www.r-pkg.org/badges/version/ghactions)](https://cran.r-project.org/package=ghactions)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/pensieve)](http://www.r-pkg.org/pkg/pensieve)
+<!-- badges: end -->
 
 > *The name 'Pensieve' is a homonym of 'pensive', meaning deeply, seriously thoughtful; but it also a pun, the 'sieve' part of the word alluding to the object's function of sorting meanings from a mass of thoughts or memories.*
 
@@ -28,3 +31,12 @@ As a feature-rich, one-stop-shop, the software supports a Q study all the way fr
 The package adheres to best practices in (R) software development and reproducible research, including source control and dependency management, unit and integration testing as well as an extensive documentation.
 
 Additional, planned features are discussed, feedback and contributions are invited.
+
+
+## Installation
+
+To install, run:
+
+```r
+remotes::install_github("maxheld83/pensieve")
+```
