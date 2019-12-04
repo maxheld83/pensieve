@@ -12,19 +12,19 @@ export_ps(x, dir = ".", overwrite = FALSE, ...)
 \arguments{
 \item{x}{An object with one of the pensieve S3 classes.}
 
-\item{dir}{\code{[character(1)]}
+\item{dir}{\verb{[character(1)]}
 giving the directory where the exported objects are written to.
 Must be relative from the working directory.
 Defaults to the working directory root.}
 
-\item{overwrite}{\code{[logical(1)]}
+\item{overwrite}{\verb{[logical(1)]}
 indicating whether existing files should be overwritten.
 Defaults to \code{FALSE}, in which case the function throws an error if a file exists already.}
 
 \item{...}{further arguments to be passed to methods.}
 }
 \value{
-\code{[character()]}
+\verb{[character()]}
 (invisible) giving the paths to the exported files.
 }
 \description{

@@ -8,11 +8,19 @@
 \usage{
 as_psLogicalOpenSorts(logical_open_sorts, ...)
 
-\method{as_psLogicalOpenSorts}{matrix}(logical_open_sorts,
-  descriptions_messy = NULL, keep_LETTERS = TRUE, ...)
+\method{as_psLogicalOpenSorts}{matrix}(
+  logical_open_sorts,
+  descriptions_messy = NULL,
+  keep_LETTERS = TRUE,
+  ...
+)
 
-\method{as_psLogicalOpenSorts}{data.frame}(logical_open_sorts,
-  descriptions_messy = NULL, keep_LETTERS = TRUE, ...)
+\method{as_psLogicalOpenSorts}{data.frame}(
+  logical_open_sorts,
+  descriptions_messy = NULL,
+  keep_LETTERS = TRUE,
+  ...
+)
 }
 \arguments{
 \item{logical_open_sorts}{a character matrix with rows as items, columns as participants and  \strong{logical category assignments} as character strings in cells.

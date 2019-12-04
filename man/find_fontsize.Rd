@@ -7,15 +7,15 @@
 find_fontsize(l, fontsizes_local_possible = fontsizes_local, ...)
 }
 \arguments{
-\item{l}{\code{[list()]}
+\item{l}{\verb{[list()]}
 giving \code{x}s to be passed to \code{\link[=md2tex_mem]{md2tex_mem()}}.}
 
-\item{fontsizes_local_possible}{\code{[character()]} giving possible fontsizes_local, defaults to all allowed values as per \code{\link[=md2tex_mem]{md2tex_mem()}}.}
+\item{fontsizes_local_possible}{\verb{[character()]} giving possible fontsizes_local, defaults to all allowed values as per \code{\link[=md2tex_mem]{md2tex_mem()}}.}
 
 \item{...}{arguments passed on to downstream formatting functions}
 }
 \value{
-\code{[character(1)]} giving largest possible fontsize
+\verb{[character(1)]} giving largest possible fontsize
 }
 \description{
 Finds largest possible fontsize for list of markdown vectors to fit on one PDF page.

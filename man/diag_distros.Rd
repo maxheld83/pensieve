@@ -20,8 +20,10 @@ diag_distros(sorts = civicon_2014$qData$sorts[,,"before"])
 
 }
 \seealso{
-Other distribution helpers: \code{\link{diag_distro_max}},
-  \code{\link{diag_inside_grid}}, \code{\link{diag_same}}
+Other distribution helpers: 
+\code{\link{diag_distro_max}()},
+\code{\link{diag_inside_grid}()},
+\code{\link{diag_same}()}
 }
 \concept{distribution helpers}
 \keyword{internal}

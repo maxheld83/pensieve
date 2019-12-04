@@ -4,10 +4,10 @@
 \alias{knit_print_docs}
 \title{Documents knit_print}
 \arguments{
-\item{inline}{\code{[logical(1)]} indicating whether knitr is called from \emph{inline} (\code{r 1+1}) or from a chunk.
+\item{inline}{\verb{[logical(1)]} indicating whether knitr is called from \emph{inline} (\verb{r 1+1}) or from a chunk.
 Defaults to \code{FALSE}.}
 
-\item{use_js}{\code{[logical(1)]}, indicating whether an interactive, java-script variant of the printed result should be returned.
+\item{use_js}{\verb{[logical(1)]}, indicating whether an interactive, java-script variant of the printed result should be returned.
 Applicable only to HTML-outputs.
 Defaults to \code{NULL}, in which case the appropriate output is inferred from the runtime environment.}
 }

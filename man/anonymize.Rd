@@ -26,7 +26,7 @@ It is sometimes helpful in Q analyses to be able to refer to people-variables by
 
 This function looks up \code{real_names} in the \code{lookup_file} and returns the respective fake names.
 
-The \code{lookup_file} must always be a \code{*.csv}-file with two columns of character vectors, named \code{real_names} and \code{fake_names}.
+The \code{lookup_file} must always be a \verb{*.csv}-file with two columns of character vectors, named \code{real_names} and \code{fake_names}.
 
 If the specified \code{lookup_file} does not exist, new random \code{fake_names} are sampled from \code{randomNames}, and written to disc as the specified file.
 Generated \code{fake_names} are unique and can be used as R variable names.
@@ -45,7 +45,7 @@ If you are unsure, or do not understand the below caveats, \emph{do not rely on 
 \enumerate{
 \item The lookup table with real and fake names must be stored in a safe place, ideally \emph{encrypted} and \emph{not together with the raw data or results}.
 \item Your data may still be deanonymized if it includes other personal information and/or few participants.
-\item Make sure no \code{real names} are included in your command history, caches or other R objects and scripts.
+\item Make sure no \verb{real names} are included in your command history, caches or other R objects and scripts.
 }
 }
 \examples{

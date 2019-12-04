@@ -37,8 +37,8 @@ See \code{\link[testthat]{expect_that}}}
 \item{label}{[\code{character(1)}]\cr
 See \code{\link[testthat]{expect_that}}}
 
-\item{collection}{[\code{\link{AssertCollection}}]\cr
-If an \code{\link{AssertCollection}} is provided, the error message is stored
+\item{collection}{[\code{\link[checkmate]{AssertCollection}}]\cr
+If an \code{\link[checkmate]{AssertCollection}} is provided, the error message is stored
 in it. If \code{NULL}, an exception is raised if \code{res} is not
 \code{TRUE}.}
 

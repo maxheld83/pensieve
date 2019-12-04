@@ -17,16 +17,13 @@ psOpenSort(osort, descriptions = NULL, scale = NULL)
 
 as_psOpenSort(osort, descriptions = NULL, scale = NULL)
 
-\method{as_psOpenSort}{matrix}(osort, descriptions = NULL,
-  scale = NULL)
+\method{as_psOpenSort}{matrix}(osort, descriptions = NULL, scale = NULL)
 
-\method{as_psOpenSort}{data.frame}(osort, descriptions = NULL,
-  scale = NULL)
+\method{as_psOpenSort}{data.frame}(osort, descriptions = NULL, scale = NULL)
 
 \method{tidy}{psLogicalOpenSort}(x)
 
-\method{autoplot}{psLogicalOpenSort}(object, edge_codings = NULL,
-  str_wrap_width = 30)
+\method{autoplot}{psLogicalOpenSort}(object, edge_codings = NULL, str_wrap_width = 30)
 
 \method{summary}{psLogicalOpenSort}(object, ...)
 }
@@ -47,7 +44,7 @@ Defaults to \code{NULL}, in which case no user-provided dimension descriptions a
 \item \code{logical} for \emph{nominally}-scaled sort, where an open dimension applies (\code{TRUE}) or does not apply (\code{FALSE}).
 \code{osort} must be a logical matrix.
 The subclass \code{"psLogicalOpenSort"} is prepended and validated.
-\item \code{ordinal} for an \emph{ordinally}-scaled sort, where an open dimension applies to some item \emph{more} (\code{2nd} rank) \emph{or less} (\code{3rd} rank) than to another other item.
+\item \code{ordinal} for an \emph{ordinally}-scaled sort, where an open dimension applies to some item \emph{more} (\verb{2nd} rank) \emph{or less} (\verb{3rd} rank) than to another other item.
 \code{osort} must be an \code{integer} matrix.
 The subclass \code{"psOrdinalOpenSort"} is prepended and validated.
 \item \code{interval} for \emph{interval} or \emph{ratio}-scaled sort, where an open dimension applies to some item \emph{by some amount more or less} (say \code{2.4} units) than to another item.
@@ -193,10 +190,14 @@ summary(peter)
 
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{psClosedSorts}},
-  \code{\link{psGrid}}, \code{\link{psItemContent}},
-  \code{\link{psOpenSorts}}, \code{\link{psPeople}},
-  \code{\link{score}}
+Other S3 classes from \code{pensieve}: 
+\code{\link{correlate}()},
+\code{\link{extract}()},
+\code{\link{psClosedSorts}()},
+\code{\link{psGrid}()},
+\code{\link{psItemContent}()},
+\code{\link{psOpenSorts}()},
+\code{\link{psPeople}()},
+\code{\link{score}()}
 }
-\concept{S3 classes from `pensieve`}
+\concept{S3 classes from \code{pensieve}}

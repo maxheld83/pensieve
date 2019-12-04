@@ -13,11 +13,11 @@ wrap_in_latex_fontsize(tex, fontsize_local = NULL)
 wrap_in_latex_alignment(tex, alignment = "justified")
 }
 \arguments{
-\item{tex}{\code{[character()]} giving some character vector.}
+\item{tex}{\verb{[character()]} giving some character vector.}
 
-\item{env}{\code{[character(1)]} giving a latex environment, defaults to \code{NULL} for no latex environment.}
+\item{env}{\verb{[character(1)]} giving a latex environment, defaults to \code{NULL} for no latex environment.}
 
-\item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
+\item{fontsize_local}{\verb{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
 
 Must be one of:
 \itemize{
@@ -34,7 +34,7 @@ Must be one of:
 \item \code{'Huge'}
 }}
 
-\item{alignment}{\code{[character(1)]} giving the alignment of the text.
+\item{alignment}{\verb{[character(1)]} giving the alignment of the text.
 
 Must be one of:
 \itemize{
@@ -45,7 +45,7 @@ Must be one of:
 }}
 }
 \value{
-\code{[character()]} a character vector of valid latex
+\verb{[character()]} a character vector of valid latex
 }
 \description{
 These are helper functions to apply latex environments.

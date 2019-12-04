@@ -20,13 +20,11 @@ test(x)
 
 expect(x, info = NULL, label = NULL)
 
-\method{expect}{default}(x, info = NULL, label = paste(class(x),
-  "S3 class"))
+\method{expect}{default}(x, info = NULL, label = paste(class(x), "S3 class"))
 
 assert(x, collection = NULL, var.name = NULL)
 
-\method{assert}{default}(x, collection = NULL,
-  var.name = paste(class(x)[1], "S3 class"))
+\method{assert}{default}(x, collection = NULL, var.name = paste(class(x)[1], "S3 class"))
 
 need(x, label = NULL)
 
@@ -41,8 +39,8 @@ See \code{\link[testthat]{expect_that}}}
 \item{label}{[\code{character(1)}]\cr
 See \code{\link[testthat]{expect_that}}}
 
-\item{collection}{[\code{\link{AssertCollection}}]\cr
-If an \code{\link{AssertCollection}} is provided, the error message is stored
+\item{collection}{[\code{\link[checkmate]{AssertCollection}}]\cr
+If an \code{\link[checkmate]{AssertCollection}} is provided, the error message is stored
 in it. If \code{NULL}, an exception is raised if \code{res} is not
 \code{TRUE}.}
 

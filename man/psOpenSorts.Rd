@@ -141,10 +141,14 @@ ggplot2::autoplot(object = los)
 
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{psClosedSorts}},
-  \code{\link{psGrid}}, \code{\link{psItemContent}},
-  \code{\link{psOpenSort}}, \code{\link{psPeople}},
-  \code{\link{score}}
+Other S3 classes from \code{pensieve}: 
+\code{\link{correlate}()},
+\code{\link{extract}()},
+\code{\link{psClosedSorts}()},
+\code{\link{psGrid}()},
+\code{\link{psItemContent}()},
+\code{\link{psOpenSort}()},
+\code{\link{psPeople}()},
+\code{\link{score}()}
 }
-\concept{S3 classes from `pensieve`}
+\concept{S3 classes from \code{pensieve}}

@@ -19,12 +19,12 @@ as_psClosedSorts(obj, ...)
 \method{plot}{psClosedSorts}(x, column = 1, use_js = NULL, ...)
 }
 \arguments{
-\item{csorts}{\code{[matrix()]}
+\item{csorts}{\verb{[matrix()]}
 An numeric matrix with people as rows, item handles as columns and item positions in cells.}
 
 \item{x}{An object with one of the pensieve S3 classes.}
 
-\item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
+\item{items}{\verb{[character()]} giving the \emph{participant-facing} \strong{item content}.
 Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
 Names must be unique, valid R names, as per \code{\link[base:make.names]{base::make.names()}}.
 If names are missing, they are automatically added using a string of the first unique words.
@@ -34,10 +34,10 @@ You can also provide handles as if they were a full item wording.
 Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
 An additional subclass \code{psItemContentText} is prepended and validated.
 \item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
-An additional subclass \code{psItemContentBin`` is prepended and validated. }lang\code{, }fontsize_global\code{, }alignment\code{and}linestretch` are ignored.
+An additional subclass \verb{psItemContentBin`` is prepended and validated. }lang\verb{, }fontsize_global\verb{, }alignment\code{and}linestretch` are ignored.
 }}
 
-\item{grid}{\code{[matrix()]}
+\item{grid}{\verb{[matrix()]}
 giving the availability of cells for sorting as \code{logical(1)} values.
 The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
 Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
@@ -198,14 +198,19 @@ csorts_w_items <- as_psClosedSorts(
 
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{psGrid}},
-  \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
-  \code{\link{psOpenSort}}, \code{\link{psPeople}},
-  \code{\link{score}}
+Other S3 classes from \code{pensieve}: 
+\code{\link{correlate}()},
+\code{\link{extract}()},
+\code{\link{psGrid}()},
+\code{\link{psItemContent}()},
+\code{\link{psOpenSorts}()},
+\code{\link{psOpenSort}()},
+\code{\link{psPeople}()},
+\code{\link{score}()}
 
-Other plotting functions: \code{\link{correlate}},
-  \code{\link{extract}}
+Other plotting functions: 
+\code{\link{correlate}()},
+\code{\link{extract}()}
 }
-\concept{S3 classes from `pensieve`}
+\concept{S3 classes from \code{pensieve}}
 \concept{plotting functions}

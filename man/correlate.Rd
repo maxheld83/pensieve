@@ -13,11 +13,10 @@ QCors(cors, validate = TRUE)
 
 \method{check}{QCors}(x)
 
-\method{plot}{QCors}(x, summarize = NULL, n_obs = NULL,
-  use_js = NULL, ...)
+\method{plot}{QCors}(x, summarize = NULL, n_obs = NULL, use_js = NULL, ...)
 }
 \arguments{
-\item{csorts}{\code{[matrix()]}
+\item{csorts}{\verb{[matrix()]}
 An numeric matrix with people as rows, item handles as columns and item positions in cells.}
 
 \item{method}{A character string indicating which correlation coeffocient to use.
@@ -81,19 +80,25 @@ plot(x = cors, use_js = NULL, type = "density", n_obs = nrow(civicon_2014$qData$
 
 }
 \seealso{
-Other analysis functions: \code{\link{extract}},
-  \code{\link{score}}
+Other analysis functions: 
+\code{\link{extract}()},
+\code{\link{score}()}
 
-Other S3 classes from `pensieve`: \code{\link{extract}},
-  \code{\link{psClosedSorts}}, \code{\link{psGrid}},
-  \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
-  \code{\link{psOpenSort}}, \code{\link{psPeople}},
-  \code{\link{score}}
+Other S3 classes from \code{pensieve}: 
+\code{\link{extract}()},
+\code{\link{psClosedSorts}()},
+\code{\link{psGrid}()},
+\code{\link{psItemContent}()},
+\code{\link{psOpenSorts}()},
+\code{\link{psOpenSort}()},
+\code{\link{psPeople}()},
+\code{\link{score}()}
 
-Other plotting functions: \code{\link{extract}},
-  \code{\link{psClosedSorts}}
+Other plotting functions: 
+\code{\link{extract}()},
+\code{\link{psClosedSorts}()}
 }
-\concept{S3 classes from `pensieve`}
+\concept{S3 classes from \code{pensieve}}
 \concept{analysis functions}
 \concept{correlation functions}
 \concept{plotting functions}

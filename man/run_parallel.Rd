@@ -4,8 +4,15 @@
 \alias{run_parallel}
 \title{Extract many random matrix eigenvalues.}
 \usage{
-run_parallel(dataset = NULL, centile = 0.95, runs = 5000,
-  cutoff = NULL, grid = NULL, n = NULL, p = NULL)
+run_parallel(
+  dataset = NULL,
+  centile = 0.95,
+  runs = 5000,
+  cutoff = NULL,
+  grid = NULL,
+  n = NULL,
+  p = NULL
+)
 }
 \arguments{
 \item{dataset}{An integer matrix with item-cases as rows and people-variables as columns.
@@ -69,7 +76,8 @@ run_parallel(dataset = dataset,  # parameters are inferred
 }
 }
 \seealso{
-Other parallel-analysis: \code{\link{draw_rand_sort}}
+Other parallel-analysis: 
+\code{\link{draw_rand_sort}()}
 }
 \author{
 Maximilian Held

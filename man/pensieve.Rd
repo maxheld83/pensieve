@@ -12,11 +12,12 @@ Provides tools for the scientific study of human subjectivity.
 Useful links:
 \itemize{
   \item \url{https://www.maxheld.de/pensieve}
+  \item \url{https://github.com/maxheld83/pensieve}
   \item Report bugs at \url{https://github.com/maxheld83/pensieve/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Max Held \email{info@maxheld.de} (0000-0002-4703-5388)
+\strong{Maintainer}: Max Held \email{info@maxheld.de} (\href{https://orcid.org/0000-0002-4703-5388}{ORCID})
 
 }

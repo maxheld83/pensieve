@@ -16,16 +16,24 @@ declare_pandoc_linestretch(linestretch = NULL)
 
 declare_pandoc_lang(lang = NULL)
 
-declare_pandoc_geometry(paperwidth = NULL, paperheight = NULL,
-  top = NULL, bottom = NULL, left = NULL, right = NULL,
-  unit = "cm", vcentering = FALSE, hcentering = FALSE)
+declare_pandoc_geometry(
+  paperwidth = NULL,
+  paperheight = NULL,
+  top = NULL,
+  bottom = NULL,
+  left = NULL,
+  right = NULL,
+  unit = "cm",
+  vcentering = FALSE,
+  hcentering = FALSE
+)
 }
 \arguments{
-\item{key}{\code{[character(1)]} giving the key, such as \code{"geometry"}.}
+\item{key}{\verb{[character(1)]} giving the key, such as \code{"geometry"}.}
 
-\item{value}{\code{[character(1)]} giving the value, such as \code{"margin=1in"}.}
+\item{value}{\verb{[character(1)]} giving the value, such as \code{"margin=1in"}.}
 
-\item{fontsize_global}{\code{[character(1)]} giving the document-wide font size.
+\item{fontsize_global}{\verb{[character(1)]} giving the document-wide font size.
 
 Must be one of:
 \itemize{
@@ -35,11 +43,11 @@ Must be one of:
 \item \code{'12pt'}
 }}
 
-\item{linestretch}{\code{[numeric()]}
+\item{linestretch}{\verb{[numeric()]}
 giving the line spacing in multiples, e.g. \code{1.25}, \code{1.5}.
 Defaults to \code{NULL} for default LaTeX line spacing.}
 
-\item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
+\item{lang}{\verb{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
 
 Must be one of:
 \itemize{
@@ -148,14 +156,14 @@ Must be one of:
 
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
 
-\item{paperwidth, paperheight}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
+\item{paperwidth, paperheight}{\verb{[numeric(1)]} giving the width and height of documents in \code{unit}.
 For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
 Defaults to \code{NULL}.}
 
-\item{top, bottom, left, right}{\code{[numeric(1)]} giving the margin in \code{unit}.
+\item{top, bottom, left, right}{\verb{[numeric(1)]} giving the margin in \code{unit}.
 Defaults to \code{NULL}.}
 
-\item{unit}{\code{[character(1)]} giving the units for the above dimensions.
+\item{unit}{\verb{[character(1)]} giving the units for the above dimensions.
 
 Must be one of:
 \itemize{
@@ -163,11 +171,11 @@ Must be one of:
 \item \code{'in'} for \emph{imperial}
 }}
 
-\item{vcentering, hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+\item{vcentering, hcentering}{\verb{[logical(1)]} indicating whether content should be vertically/horizontally centered.
 Defaults to \code{FALSE}.}
 }
 \value{
-\code{[character()]} giving pandoc variable option, option\emph{s} in the case of geometry.
+\verb{[character()]} giving pandoc variable option, option\emph{s} in the case of geometry.
 }
 \description{
 This function creates pandoc variable key value pairs for LaTeX preamble.

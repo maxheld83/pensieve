@@ -12,8 +12,7 @@
 \alias{svg2grob_mem}
 \title{Convert markup to vector formats}
 \usage{
-md2tex(path, fontsize_global = NULL, linestretch = NULL, lang = NULL,
-  ...)
+md2tex(path, fontsize_global = NULL, linestretch = NULL, lang = NULL, ...)
 
 texi2pdf2(path)
 
@@ -21,8 +20,13 @@ pdf2svg(path, page = 1)
 
 svg2grob(path)
 
-md2tex_mem(x, path_in = "foo", fontsize_local = NULL,
-  alignment = "justified", ...)
+md2tex_mem(
+  x,
+  path_in = "foo",
+  fontsize_local = NULL,
+  alignment = "justified",
+  ...
+)
 
 texi2pdf2_mem(x, path_in = "foo", ...)
 
@@ -31,9 +35,9 @@ pdf2svg_mem(x, path_in = "foo", ...)
 svg2grob_mem(x, path_in = "foo", ...)
 }
 \arguments{
-\item{path}{\code{[character(1)]} to an input file \emph{with or without extension}}
+\item{path}{\verb{[character(1)]} to an input file \emph{with or without extension}}
 
-\item{fontsize_global}{\code{[character(1)]} giving the document-wide font size.
+\item{fontsize_global}{\verb{[character(1)]} giving the document-wide font size.
 
 Must be one of:
 \itemize{
@@ -43,11 +47,11 @@ Must be one of:
 \item \code{'12pt'}
 }}
 
-\item{linestretch}{\code{[numeric()]}
+\item{linestretch}{\verb{[numeric()]}
 giving the line spacing in multiples, e.g. \code{1.25}, \code{1.5}.
 Defaults to \code{NULL} for default LaTeX line spacing.}
 
-\item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
+\item{lang}{\verb{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
 
 Must be one of:
 \itemize{
@@ -156,44 +160,45 @@ Must be one of:
 
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
 
-\item{...}{Arguments passed on to \code{declare_pandoc_geometry}
-\describe{
-  \item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
+\item{...}{
+  Arguments passed on to \code{\link[=declare_pandoc_geometry]{declare_pandoc_geometry}}
+  \describe{
+    \item{\code{paperwidth}}{\verb{[numeric(1)]} giving the width and height of documents in \code{unit}.
 For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
 Defaults to \code{NULL}.}
-  \item{paperheight}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
+    \item{\code{paperheight}}{\verb{[numeric(1)]} giving the width and height of documents in \code{unit}.
 For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
 Defaults to \code{NULL}.}
-  \item{top}{\code{[numeric(1)]} giving the margin in \code{unit}.
+    \item{\code{top}}{\verb{[numeric(1)]} giving the margin in \code{unit}.
 Defaults to \code{NULL}.}
-  \item{bottom}{\code{[numeric(1)]} giving the margin in \code{unit}.
+    \item{\code{bottom}}{\verb{[numeric(1)]} giving the margin in \code{unit}.
 Defaults to \code{NULL}.}
-  \item{left}{\code{[numeric(1)]} giving the margin in \code{unit}.
+    \item{\code{left}}{\verb{[numeric(1)]} giving the margin in \code{unit}.
 Defaults to \code{NULL}.}
-  \item{right}{\code{[numeric(1)]} giving the margin in \code{unit}.
+    \item{\code{right}}{\verb{[numeric(1)]} giving the margin in \code{unit}.
 Defaults to \code{NULL}.}
-  \item{unit}{\code{[character(1)]} giving the units for the above dimensions.
+    \item{\code{unit}}{\verb{[character(1)]} giving the units for the above dimensions.
 
 Must be one of:
 \itemize{
 \item \code{'cm'} for \emph{metric} (\strong{default}) or
 \item \code{'in'} for \emph{imperial}
 }}
-  \item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+    \item{\code{vcentering}}{\verb{[logical(1)]} indicating whether content should be vertically/horizontally centered.
 Defaults to \code{FALSE}.}
-  \item{hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+    \item{\code{hcentering}}{\verb{[logical(1)]} indicating whether content should be vertically/horizontally centered.
 Defaults to \code{FALSE}.}
-}}
+  }}
 
-\item{page}{\code{[integer(1)]} giving the page in the pdf to convert.}
+\item{page}{\verb{[integer(1)]} giving the page in the pdf to convert.}
 
-\item{x}{\code{[character()]} \emph{or} \code{[raw()]} giving the input.}
+\item{x}{\verb{[character()]} \emph{or} \verb{[raw()]} giving the input.}
 
-\item{path_in}{\code{[character(1)]} giving path to use for input file \emph{with or without extension}.
+\item{path_in}{\verb{[character(1)]} giving path to use for input file \emph{with or without extension}.
 Defaults to \code{"foo"}.
 Useful for debugging.}
 
-\item{fontsize_local}{\code{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
+\item{fontsize_local}{\verb{[character(1)]} giving a valid \href{https://en.wikibooks.org/wiki/LaTeX/Fonts#Sizing_text}{LaTeX font size}.
 
 Must be one of:
 \itemize{
@@ -210,7 +215,7 @@ Must be one of:
 \item \code{'Huge'}
 }}
 
-\item{alignment}{\code{[character(1)]} giving the alignment of the text.
+\item{alignment}{\verb{[character(1)]} giving the alignment of the text.
 
 Must be one of:
 \itemize{
@@ -223,19 +228,19 @@ Must be one of:
 \value{
 depending on the function postfix:
 \itemize{
-\item for the base functions, \code{[character(1)]} (invisibly) giving path to output file \emph{with extension}.
+\item for the base functions, \verb{[character(1)]} (invisibly) giving path to output file \emph{with extension}.
 \strong{Exception}: \code{\link[=svg2grob]{svg2grob()}} always returns a grid grob.
 }
 
 \itemize{
-\item For \code{_mem}, \code{[character()]} or \code{[raw()]}.
+\item For \verb{_mem}, \verb{[character()]} or \verb{[raw()]}.
 }
 }
 \description{
 Call various tools with options to convert vector formats.
 }
 \details{
-Functions with the \code{_mem} postfix abstract away file system operations and have been cached via \code{\link[memoise:memoise]{memoise::memoise()}}.
+Functions with the \verb{_mem} postfix abstract away file system operations and have been cached via \code{\link[memoise:memoise]{memoise::memoise()}}.
 }
 \section{Functions}{
 \itemize{

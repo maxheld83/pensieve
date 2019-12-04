@@ -13,8 +13,7 @@ QLoas(loas, validate = TRUE)
 
 \method{check}{QLoas}(x)
 
-\method{plot}{QLoas}(x, summarize = NULL, by = "people", r2 = FALSE,
-  use_js = NULL, ...)
+\method{plot}{QLoas}(x, summarize = NULL, by = "people", r2 = FALSE, use_js = NULL, ...)
 }
 \arguments{
 \item{cors}{A numerical matrix with correlations.}
@@ -83,19 +82,25 @@ plot(x = loas, use_js = NULL, by = "both")
 
 }
 \seealso{
-Other analysis functions: \code{\link{correlate}},
-  \code{\link{score}}
+Other analysis functions: 
+\code{\link{correlate}()},
+\code{\link{score}()}
 
-Other S3 classes from `pensieve`: \code{\link{correlate}},
-  \code{\link{psClosedSorts}}, \code{\link{psGrid}},
-  \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
-  \code{\link{psOpenSort}}, \code{\link{psPeople}},
-  \code{\link{score}}
+Other S3 classes from \code{pensieve}: 
+\code{\link{correlate}()},
+\code{\link{psClosedSorts}()},
+\code{\link{psGrid}()},
+\code{\link{psItemContent}()},
+\code{\link{psOpenSorts}()},
+\code{\link{psOpenSort}()},
+\code{\link{psPeople}()},
+\code{\link{score}()}
 
-Other plotting functions: \code{\link{correlate}},
-  \code{\link{psClosedSorts}}
+Other plotting functions: 
+\code{\link{correlate}()},
+\code{\link{psClosedSorts}()}
 }
-\concept{S3 classes from `pensieve`}
+\concept{S3 classes from \code{pensieve}}
 \concept{analysis functions}
 \concept{extraction functions}
 \concept{plotting functions}

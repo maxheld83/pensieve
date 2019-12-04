@@ -15,7 +15,7 @@ QScores(scores, validate = TRUE)
 \arguments{
 \item{loas}{A numerical matrix with loadings.}
 
-\item{csorts}{\code{[matrix()]}
+\item{csorts}{\verb{[matrix()]}
 An numeric matrix with people as rows, item handles as columns and item positions in cells.}
 
 \item{scores}{A numerical matrix with factor scores.}
@@ -48,15 +48,20 @@ scores <- QScores(scores = scores, validate = FALSE)
 check(x = scores)
 }
 \seealso{
-Other analysis functions: \code{\link{correlate}},
-  \code{\link{extract}}
+Other analysis functions: 
+\code{\link{correlate}()},
+\code{\link{extract}()}
 
-Other S3 classes from `pensieve`: \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{psClosedSorts}},
-  \code{\link{psGrid}}, \code{\link{psItemContent}},
-  \code{\link{psOpenSorts}}, \code{\link{psOpenSort}},
-  \code{\link{psPeople}}
+Other S3 classes from \code{pensieve}: 
+\code{\link{correlate}()},
+\code{\link{extract}()},
+\code{\link{psClosedSorts}()},
+\code{\link{psGrid}()},
+\code{\link{psItemContent}()},
+\code{\link{psOpenSorts}()},
+\code{\link{psOpenSort}()},
+\code{\link{psPeople}()}
 }
-\concept{S3 classes from `pensieve`}
+\concept{S3 classes from \code{pensieve}}
 \concept{analysis functions}
 \concept{scoring functions}

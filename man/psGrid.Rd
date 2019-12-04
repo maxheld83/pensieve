@@ -28,17 +28,23 @@ as_psGrid(obj, ...)
 
 \method{as_psGrid}{psSort}(obj, ...)
 
-\method{knit_print}{psGrid}(x, header = TRUE, footer = TRUE,
-  aspect_ratio_cards = 85/54, inline = FALSE, ...)
+\method{knit_print}{psGrid}(
+  x,
+  header = TRUE,
+  footer = TRUE,
+  aspect_ratio_cards = 85/54,
+  inline = FALSE,
+  ...
+)
 }
 \arguments{
-\item{grid}{\code{[matrix()]}
+\item{grid}{\verb{[matrix()]}
 giving the availability of cells for sorting as \code{logical(1)} values.
 The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
 Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
 Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
-\item{polygon}{\code{[character(1)]} giving polygon to use for tiling
+\item{polygon}{\verb{[character(1)]} giving polygon to use for tiling
 
 Must be one of:
 \itemize{
@@ -46,7 +52,7 @@ Must be one of:
 \item \code{'hexagon'}
 }}
 
-\item{offset}{\code{[character(1)]} giving the \emph{rows} to be offset.
+\item{offset}{\verb{[character(1)]} giving the \emph{rows} to be offset.
 
 Must be one of:
 \itemize{
@@ -68,7 +74,7 @@ Missing row or column names are replaced with sensible defaults.}
 Aspect ratio of \emph{cards} is required to appropriately set the resulting dimensions of the \emph{grid}.
 Defaults to standard business cards.}
 
-\item{inline}{\code{[logical(1)]} indicating whether knitr is called from \emph{inline} (\code{r 1+1}) or from a chunk.
+\item{inline}{\verb{[logical(1)]} indicating whether knitr is called from \emph{inline} (\verb{r 1+1}) or from a chunk.
 Defaults to \code{FALSE}.}
 }
 \value{
@@ -149,13 +155,18 @@ grid_byhand <- psGrid(grid = m)
 grid_bycoercion <- as_psGrid(obj = c(1,2,1))
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{psClosedSorts}},
-  \code{\link{psItemContent}}, \code{\link{psOpenSorts}},
-  \code{\link{psOpenSort}}, \code{\link{psPeople}},
-  \code{\link{score}}
+Other S3 classes from \code{pensieve}: 
+\code{\link{correlate}()},
+\code{\link{extract}()},
+\code{\link{psClosedSorts}()},
+\code{\link{psItemContent}()},
+\code{\link{psOpenSorts}()},
+\code{\link{psOpenSort}()},
+\code{\link{psPeople}()},
+\code{\link{score}()}
 
-Other print functions: \code{\link{psItemContent}}
+Other print functions: 
+\code{\link{psItemContent}()}
 }
-\concept{S3 classes from `pensieve`}
+\concept{S3 classes from \code{pensieve}}
 \concept{print functions}

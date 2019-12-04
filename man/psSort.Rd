@@ -25,18 +25,17 @@ as_psSort(obj, ...)
 
 \method{as_psSort}{data.frame}(obj, ...)
 
-\method{as_psSort}{matrix}(obj, grid = NULL, insert_at_grid_col = NULL,
-  ...)
+\method{as_psSort}{matrix}(obj, grid = NULL, insert_at_grid_col = NULL, ...)
 }
 \arguments{
-\item{sort}{\code{[matrix()]}
+\item{sort}{\verb{[matrix()]}
 giving the occupying item of cells for sorting as \code{character(1)} strings of \strong{item handles}.
 \code{NA} is used for empty \emph{and} disallowed cells (see \link{psGrid}).
 The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
 Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
 Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
-\item{polygon}{\code{[character(1)]} giving polygon to use for tiling
+\item{polygon}{\verb{[character(1)]} giving polygon to use for tiling
 
 Must be one of:
 \itemize{
@@ -44,7 +43,7 @@ Must be one of:
 \item \code{'hexagon'}
 }}
 
-\item{offset}{\code{[character(1)]} giving the \emph{rows} to be offset.
+\item{offset}{\verb{[character(1)]} giving the \emph{rows} to be offset.
 
 Must be one of:
 \itemize{
@@ -55,13 +54,13 @@ Must be one of:
 
 \item{x}{An object with one of the pensieve S3 classes.}
 
-\item{grid}{\code{[matrix()]}
+\item{grid}{\verb{[matrix()]}
 giving the availability of cells for sorting as \code{logical(1)} values.
 The (horizontal) x-axis is assumed to be the sorting direction, the (vertical) y-axis for recording ties.
 Dimensions can be named (recommended), giving a short description of the sorting dimension (only applicable to the x-axis).
 Row and column \emph{indeces} can also be named, but names are purely cosmetic.}
 
-\item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
+\item{items}{\verb{[character()]} giving the \emph{participant-facing} \strong{item content}.
 Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
 Names must be unique, valid R names, as per \code{\link[base:make.names]{base::make.names()}}.
 If names are missing, they are automatically added using a string of the first unique words.
@@ -71,14 +70,14 @@ You can also provide handles as if they were a full item wording.
 Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
 An additional subclass \code{psItemContentText} is prepended and validated.
 \item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
-An additional subclass \code{psItemContentBin`` is prepended and validated. }lang\code{, }fontsize_global\code{, }alignment\code{and}linestretch` are ignored.
+An additional subclass \verb{psItemContentBin`` is prepended and validated. }lang\verb{, }fontsize_global\verb{, }alignment\code{and}linestretch` are ignored.
 }}
 
 \item{...}{further arguments to be passed to methods.}
 
 \item{obj}{An object which can be coerced to a character matrix of class \link{psSort}.}
 
-\item{insert_at_grid_col}{\code{[integer(1)]}
+\item{insert_at_grid_col}{\verb{[integer(1)]}
 Giving the column index at which to begin insetting a \emph{narrower} \code{obj}, into a \emph{wider} sort in accordance with \code{grid}.
 Ignored unless needed.
 May be necessary if, for example, a narrower \code{obj} has no items placed in extreme columns, and empty columns are ommitted from \code{obj}.}
@@ -235,4 +234,4 @@ one_sort_from_m3 <- as_psSort(
   grid = grid2
 )
 }
-\concept{S3 classes from `pensieve`.}
+\concept{S3 classes from \code{pensieve}.}

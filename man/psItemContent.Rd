@@ -12,11 +12,23 @@
 \alias{plot.psItemContentText}
 \title{Store item content as character strings}
 \usage{
-psItemContent(items, dir_bin = NULL, lang = NULL,
-  fontsize_global = NULL, alignment = "left", linestretch = 2,
-  paperwidth = 8.5, paperheight = 5.4, top = 0.5, bottom = 0.5,
-  left = 0.5, right = 0.5, unit = "cm", vcentering = TRUE,
-  hcentering = TRUE)
+psItemContent(
+  items,
+  dir_bin = NULL,
+  lang = NULL,
+  fontsize_global = NULL,
+  alignment = "left",
+  linestretch = 2,
+  paperwidth = 8.5,
+  paperheight = 5.4,
+  top = 0.5,
+  bottom = 0.5,
+  left = 0.5,
+  right = 0.5,
+  unit = "cm",
+  vcentering = TRUE,
+  hcentering = TRUE
+)
 
 \method{validate_S3}{psItemContent}(x, ps_coll = NULL, ...)
 
@@ -30,13 +42,12 @@ as_psItemContent(obj, ...)
 
 \method{knit_print}{psItemContentText}(x, inline = FALSE, ...)
 
-\method{export_ps}{psItemContentText}(x, dir = ".", overwrite = FALSE,
-  format = "pdf")
+\method{export_ps}{psItemContentText}(x, dir = ".", overwrite = FALSE, format = "pdf")
 
 \method{plot}{psItemContentText}(x)
 }
 \arguments{
-\item{items}{\code{[character()]} giving the \emph{participant-facing} \strong{item content}.
+\item{items}{\verb{[character()]} giving the \emph{participant-facing} \strong{item content}.
 Can be named to provide short, \emph{researcher-facing} \strong{item handles}.
 Names must be unique, valid R names, as per \code{\link[base:make.names]{base::make.names()}}.
 If names are missing, they are automatically added using a string of the first unique words.
@@ -46,14 +57,14 @@ You can also provide handles as if they were a full item wording.
 Items can be marked up using \href{https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html}{Pandoc Markdown}.
 An additional subclass \code{psItemContentText} is prepended and validated.
 \item if \code{dir_bin} is given, \code{items} must be file paths, relative from \code{dir_bin}.
-An additional subclass \code{psItemContentBin`` is prepended and validated. }lang\code{, }fontsize_global\code{, }alignment\code{and}linestretch` are ignored.
+An additional subclass \verb{psItemContentBin`` is prepended and validated. }lang\verb{, }fontsize_global\verb{, }alignment\code{and}linestretch` are ignored.
 }}
 
-\item{dir_bin}{\code{[character(1)]} giving the root from which \code{items} can be found, when \code{items} are paths.
+\item{dir_bin}{\verb{[character(1)]} giving the root from which \code{items} can be found, when \code{items} are paths.
 Defaults to \code{NULL}, in which case \code{items} are expected to be texts.
 Must be relative path \emph{from the working directory}.}
 
-\item{lang}{\code{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
+\item{lang}{\verb{[character(1)]} giving a \href{https://tools.ietf.org/html/bcp47}{valid BCP 47 language code} code, such as \code{en_US}.
 
 Must be one of:
 \itemize{
@@ -162,7 +173,7 @@ Must be one of:
 
 Used for multilingual typsetting support via \href{https://ctan.org/pkg/babel}{LaTeX's babel package} and others. \strong{Careful}: Depending on the local tex distribution, not all valid languages may also be supported by LaTeX. Use \code{\link[=check_latex_lang]{check_latex_lang()}} to verify.}
 
-\item{fontsize_global}{\code{[character(1)]} giving the document-wide font size.
+\item{fontsize_global}{\verb{[character(1)]} giving the document-wide font size.
 
 Must be one of:
 \itemize{
@@ -172,7 +183,7 @@ Must be one of:
 \item \code{'12pt'}
 }}
 
-\item{alignment}{\code{[character(1)]} giving the alignment of the text.
+\item{alignment}{\verb{[character(1)]} giving the alignment of the text.
 
 Must be one of:
 \itemize{
@@ -182,31 +193,31 @@ Must be one of:
 \item \code{'center'}
 }}
 
-\item{linestretch}{\code{[numeric()]}
+\item{linestretch}{\verb{[numeric()]}
 giving the line spacing in multiples, e.g. \code{1.25}, \code{1.5}.
 Defaults to \code{NULL} for default LaTeX line spacing.}
 
-\item{paperwidth}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
+\item{paperwidth}{\verb{[numeric(1)]} giving the width and height of documents in \code{unit}.
 For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
 Defaults to \code{NULL}.}
 
-\item{paperheight}{\code{[numeric(1)]} giving the width and height of documents in \code{unit}.
+\item{paperheight}{\verb{[numeric(1)]} giving the width and height of documents in \code{unit}.
 For good typographical results, should be as close as possible to the \emph{actual} physical measurements of documents encountered by users.
 Defaults to \code{NULL}.}
 
-\item{top}{\code{[numeric(1)]} giving the margin in \code{unit}.
+\item{top}{\verb{[numeric(1)]} giving the margin in \code{unit}.
 Defaults to \code{NULL}.}
 
-\item{bottom}{\code{[numeric(1)]} giving the margin in \code{unit}.
+\item{bottom}{\verb{[numeric(1)]} giving the margin in \code{unit}.
 Defaults to \code{NULL}.}
 
-\item{left}{\code{[numeric(1)]} giving the margin in \code{unit}.
+\item{left}{\verb{[numeric(1)]} giving the margin in \code{unit}.
 Defaults to \code{NULL}.}
 
-\item{right}{\code{[numeric(1)]} giving the margin in \code{unit}.
+\item{right}{\verb{[numeric(1)]} giving the margin in \code{unit}.
 Defaults to \code{NULL}.}
 
-\item{unit}{\code{[character(1)]} giving the units for the above dimensions.
+\item{unit}{\verb{[character(1)]} giving the units for the above dimensions.
 
 Must be one of:
 \itemize{
@@ -214,10 +225,10 @@ Must be one of:
 \item \code{'in'} for \emph{imperial}
 }}
 
-\item{vcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+\item{vcentering}{\verb{[logical(1)]} indicating whether content should be vertically/horizontally centered.
 Defaults to \code{FALSE}.}
 
-\item{hcentering}{\code{[logical(1)]} indicating whether content should be vertically/horizontally centered.
+\item{hcentering}{\verb{[logical(1)]} indicating whether content should be vertically/horizontally centered.
 Defaults to \code{FALSE}.}
 
 \item{x}{An object with one of the pensieve S3 classes.}
@@ -231,19 +242,19 @@ Defaults to \code{FALSE}.}
 \item a (named) character vector.
 }}
 
-\item{inline}{\code{[logical(1)]} indicating whether knitr is called from \emph{inline} (\code{r 1+1}) or from a chunk.
+\item{inline}{\verb{[logical(1)]} indicating whether knitr is called from \emph{inline} (\verb{r 1+1}) or from a chunk.
 Defaults to \code{FALSE}.}
 
-\item{dir}{\code{[character(1)]}
+\item{dir}{\verb{[character(1)]}
 giving the directory where the exported objects are written to.
 Must be relative from the working directory.
 Defaults to the working directory root.}
 
-\item{overwrite}{\code{[logical(1)]}
+\item{overwrite}{\verb{[logical(1)]}
 indicating whether existing files should be overwritten.
 Defaults to \code{FALSE}, in which case the function throws an error if a file exists already.}
 
-\item{format}{\code{[character(1)]} giving the output format to render items in.
+\item{format}{\verb{[character(1)]} giving the output format to render items in.
 
 Must be one of:
 \itemize{
@@ -253,7 +264,7 @@ Must be one of:
 }}
 }
 \value{
-\code{[character()]} with class \code{\link{psItemContent}}.
+\verb{[character()]} with class \code{\link{psItemContent}}.
 }
 \description{
 Helper function to append and validate \code{\link{psItemContent}} class.
@@ -342,13 +353,18 @@ items_image <- psItemContent(
 )
 }
 \seealso{
-Other S3 classes from `pensieve`: \code{\link{correlate}},
-  \code{\link{extract}}, \code{\link{psClosedSorts}},
-  \code{\link{psGrid}}, \code{\link{psOpenSorts}},
-  \code{\link{psOpenSort}}, \code{\link{psPeople}},
-  \code{\link{score}}
+Other S3 classes from \code{pensieve}: 
+\code{\link{correlate}()},
+\code{\link{extract}()},
+\code{\link{psClosedSorts}()},
+\code{\link{psGrid}()},
+\code{\link{psOpenSorts}()},
+\code{\link{psOpenSort}()},
+\code{\link{psPeople}()},
+\code{\link{score}()}
 
-Other print functions: \code{\link{psGrid}}
+Other print functions: 
+\code{\link{psGrid}()}
 }
-\concept{S3 classes from `pensieve`}
+\concept{S3 classes from \code{pensieve}}
 \concept{print functions}

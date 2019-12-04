@@ -43,7 +43,8 @@ Random data for a free distribution are therefore drawn from an (on average over
 A more sophisticated parallel analysis may first infer some observed distribution parameters and then draw random data accordingly as per \href{https://github.com/maxheld83/pensieve/issues/146}{issue 146 on the development repo}.
 }
 \seealso{
-Other parallel-analysis: \code{\link{run_parallel}}
+Other parallel-analysis: 
+\code{\link{run_parallel}()}
 }
 \author{
 Maximilian Held

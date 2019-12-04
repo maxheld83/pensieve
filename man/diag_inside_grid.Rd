@@ -24,8 +24,10 @@ diag_inside_grid(sorts = sorts,
 
 }
 \seealso{
-Other distribution helpers: \code{\link{diag_distro_max}},
-  \code{\link{diag_distros}}, \code{\link{diag_same}}
+Other distribution helpers: 
+\code{\link{diag_distro_max}()},
+\code{\link{diag_distros}()},
+\code{\link{diag_same}()}
 }
 \concept{distribution helpers}
 \keyword{internal}
