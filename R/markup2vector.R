@@ -490,7 +490,7 @@ virtually <- function(fun) {
     }
 
     # cleanup, even if its just a temp folder
-    fs::file_delete(path = fs::dir_ls(path = ".", regexp = path_in, recursive = FALSE, all = TRUE, fail = FALSE))
+    fs::file_delete(path = fs::dir_ls(path = ".", regexp = path_in, recurse = FALSE, all = TRUE, fail = FALSE))
     res
   }
 }
