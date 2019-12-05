@@ -305,9 +305,7 @@ declare_pandoc_geometry <- function(paperwidth = NULL,
     opts <-  c(opts, hcentering = "hcentering")
   }
 
-  map_chr(.x = opts, .f = function(x) {
-    declare_pandoc_var(key = "geometry", value = x)
-  })
+  declare_pandoc_var(key = "geometry", value = paste(opts, collapse = ","))
 }
 units <- c(metric = "cm", imperial = "in")
 
