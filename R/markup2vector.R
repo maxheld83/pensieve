@@ -36,7 +36,7 @@ md2tex <- function(path,
     command = "pandoc",
     args = c(
       "--from=markdown",  # this is pandoc's extended markdown
-      "--to=latex",
+      "--to=latex+smart",
       "--verbose",
       "--standalone",
       "--fail-if-warnings",
