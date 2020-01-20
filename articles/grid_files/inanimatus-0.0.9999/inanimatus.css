@@ -1,0 +1,25 @@
+.ps-grid {
+  width: 100%;
+  /* width is in percent parent; all below sizes are expressed relative to this */
+  /* later js might overwrite this width, in case the whole thing gets too high for viewport */
+  table-layout: fixed;
+  /* this makes cells fixed width, not dependening on content */
+  display: table;
+  /* this overrides css from pkgdown*/
+}
+.ps-grid td {
+  /* having no width or height specified, these columns default to equal width */
+  position: relative;
+  /* necessary for below content pos absolute */
+  border: none;
+}
+.ps-grid td.allowed {
+  border: 1px solid black;
+  /* style for allowed cells */
+}
+.ps-grid thead th{
+  text-align: center;
+}
+.ps-grid tfoot th{
+  text-align: center;
+}
